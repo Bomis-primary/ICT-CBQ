@@ -1,1 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Computer - A Smart Machine</title>
 
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#dff6ff,#f8fbff,#fff7d6);
+overflow:hidden;
+height:100vh;
+color:#222;
+}
+
+.background{
+position:fixed;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:-1;
+}
+
+.star{
+position:absolute;
+width:6px;
+height:6px;
+background:#fff;
+border-radius:50%;
+animation:float 10s linear infinite;
+opacity:0.8;
+}
+
+@keyframes float{
+0%{
+transform:translateY(100vh) scale(0.5);
+opacity:0;
+}
+50%{
+opacity:1;
+}
+100%{
+transform:translateY(-10vh) scale(1);
+opacity:0;
+}
+}
+
+.screen{
+display:none;
+height:100vh;
+padding:20px;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.active{
+display:flex;
+flex-direction:column;
+}
+
+.logo-screen{
+background:white;
+}
+
+.logo-screen img{
+width:180px;
+max-width:80%;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+.card{
+background:rgba(255,255,255,0.95);
+padding:20px;
+border-radius:20px;
+max-width:750px;
+width:100%;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+position:relative;
+}
+
+h1{
+font-size:2rem;
+margin-bottom:10px;
+color:#1565c0;
+}
+
+h2{
+margin-bottom:10px;
+}
+
+.info{
+margin:10px 0;
+font-size:1rem;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:12px;
+background:#1565c0;
+color:white;
+font-size:1rem;
+cursor:pointer;
+margin-top:15px;
+transition:0.3s;
+}
+
+button:hover{
+background:#0d47a1;
+transform:scale(1.03);
+}
+
+.top-bar{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+font-weight:bold;
+font-size:1rem;
+}
+
+.question{
+font-size:1.2rem;
+margin-bottom:20px;
+line-height:1.5;
+}
+
+.options{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+}
+
+.option-btn{
+background:#f0f7ff;
+border:2px solid transparent;
+padding:14px;
+border-radius:12px;
+cursor:pointer;
+transition:0.3s;
+font-size:1rem;
+}
+
+.option-btn:hover{
+background:#dceeff;
+}
+
+.correct{
+background:#d4ffd4 !important;
+border-color:#1b8f1b !important;
+}
+
+.wrong{
+background:#ffd9d9 !important;
+border-color:#c62828 !important;
+}
+
+.feedback{
+margin-top:15px;
+font-size:1rem;
+font-weight:bold;
+min-height:30px;
+}
+
+.explanation{
+margin-top:10px;
+background:#eef7ff;
+padding:12px;
+border-radius:10px;
+font-size:0.95rem;
+}
+
+.final-badge{
+font-size:2rem;
+margin:15px 0;
+}
+
+.retry-note{
+color:#d84315;
+font-size:0.95rem;
+margin-top:10px;
+}
+
+.confetti{
+position:fixed;
+width:12px;
+height:12px;
+background:gold;
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+animation:fall 1.5s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(0) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(500px) rotate(360deg);
+opacity:0;
+}
+}
+
+.cross{
+position:fixed;
+font-size:40px;
+color:red;
+animation:fadeOut 1s forwards;
+z-index:999;
+}
+
+@keyframes fadeOut{
+0%{opacity:1; transform:scale(1);}
+100%{opacity:0; transform:scale(2);}
+}
+
+@media(max-width:600px){
+h1{
+font-size:1.5rem;
+}
+.question{
+font-size:1rem;
+}
+.option-btn{
+font-size:0.95rem;
+padding:12px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="background" id="background"></div>
+
+<!-- LOGO SCREEN -->
+<div class="screen active logo-screen" id="logoScreen">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<h2 style="margin-top:20px;">Innovine Interactive Learning</h2>
+</div>
+
+<!-- INTRO SCREEN -->
+<div class="screen" id="introScreen">
+<div class="card">
+<h1>Computer - A Smart Machine</h1>
+<p class="info"><strong>Grade:</strong> 1</p>
+<p class="info"><strong>Subject:</strong> ICT</p>
+<p class="info"><strong>Total Questions:</strong> 15</p>
+<p class="info">
+Learn how computers help us in daily life through fun competency-based questions!
+</p>
+<button onclick="startQuiz()">Start Challenge</button>
+</div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div class="screen" id="quizScreen">
+<div class="card">
+<div class="top-bar">
+<div id="scoreDisplay">Score: 0</div>
+<div id="timerDisplay">Time: 60</div>
+</div>
+
+<div class="question" id="questionText"></div>
+
+<div class="options" id="optionsContainer"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="explanation" id="explanation" style="display:none;"></div>
+</div>
+</div>
+
+<!-- FINAL CHALLENGE -->
+<div class="screen" id="finalChallengeScreen">
+<div class="card">
+<h1>Final Challenge</h1>
+<div class="final-badge">🌟</div>
+<p style="margin-bottom:15px;">
+You completed all the questions!
+Answer one final thinking challenge.
+</p>
+
+<div class="question">
+Why is a computer called a smart machine?
+</div>
+
+<div class="options">
+<button class="option-btn" onclick="finalAnswer(true)">
+Because it can do many tasks quickly
+</button>
+
+<button class="option-btn" onclick="finalAnswer(false)">
+Because it sleeps all day
+</button>
+
+<button class="option-btn" onclick="finalAnswer(false)">
+Because it eats food
+</button>
+
+<button class="option-btn" onclick="finalAnswer(false)">
+Because it gets tired fast
+</button>
+</div>
+</div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div class="screen" id="resultScreen">
+<div class="card">
+<h1>Great Job!</h1>
+
+<div class="final-badge" id="badge"></div>
+
+<h2 id="finalScore"></h2>
+
+<p id="resultMessage" style="margin-top:10px;"></p>
+
+<button onclick="restartQuiz()">Play Again</button>
+</div>
+</div>
+
+<!-- AUDIO -->
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+
+<script>
+const questions = [
+{
+question:"Riya wants to listen to music and watch cartoons on a computer. What does this show about a computer?",
+options:[
+"It can do many types of work",
+"It can only type",
+"It cannot play music",
+"It only draws pictures"
+],
+answer:0,
+explanation:"A computer can do many different kinds of work like playing music, watching videos, drawing and typing."
+},
+{
+question:"Aarav uses a computer to draw, type and play games. Which feature of the computer is shown here?",
+options:[
+"Speed",
+"Versatility",
+"Tiredness",
+"Sleeping"
+],
+answer:1,
+explanation:"Versatility means a computer can do many different tasks."
+},
+{
+question:"A computer in a hospital helps doctors keep records quickly. Why do hospitals use computers?",
+options:[
+"Computers become sick",
+"Computers work slowly",
+"Computers help store and manage information",
+"Computers only play games"
+],
+answer:2,
+explanation:"Computers help hospitals store patient records safely and quickly."
+},
+{
+question:"Meera entered the wrong information into the computer. What will the computer do?",
+options:[
+"Correct it automatically always",
+"Give wrong result",
+"Stop forever",
+"Break down"
+],
+answer:1,
+explanation:"If wrong information is entered, the computer may give the wrong result."
+},
+{
+question:"A student says computers never get tired even after working for many hours. Which quality is this?",
+options:[
+"Accuracy",
+"Diligence",
+"Noise",
+"Colouring"
+],
+answer:1,
+explanation:"Diligence means a computer can work for long hours without getting tired."
+},
+{
+question:"Rahul wants to calculate big sums very fast. Which machine can help him best?",
+options:[
+"Blackboard",
+"Computer",
+"Pencil box",
+"Chair"
+],
+answer:1,
+explanation:"Computers can calculate quickly and correctly."
+},
+{
+question:"Ritu uses a computer to attend online classes, draw pictures and solve sums. What can we conclude from this?",
+options:[
+"Computer does only one job",
+"Computer is a smart machine",
+"Computer cannot learn",
+"Computer works only in schools"
+],
+answer:1,
+explanation:"A computer is called a smart machine because it can do many useful tasks."
+},
+{
+question:"A shopkeeper uses a computer to make bills quickly every day. Which quality of computer is shown?",
+options:[
+"Laziness",
+"Speed",
+"Sleeping",
+"Dancing"
+],
+answer:1,
+explanation:"Computers work very fast and help finish work quickly."
+},
+{
+question:"School → Teaching | Hospital → Patient records | Bank → Money records. Where are computers used to keep money records?",
+options:[
+"School",
+"Bank",
+"Park",
+"Playground"
+],
+answer:1,
+explanation:"Banks use computers to store money records safely."
+},
+{
+question:"Which activity cannot be done by a computer?",
+options:[
+"Drawing",
+"Storing information",
+"Eating food",
+"Playing games"
+],
+answer:2,
+explanation:"Computers cannot eat food because they are machines."
+},
+{
+question:"A picture shows a child using a computer to type homework. What is the computer helping the child to do?",
+options:[
+"Cooking food",
+"Writing work neatly",
+"Sleeping",
+"Washing clothes"
+],
+answer:1,
+explanation:"Computers help children type and write neatly."
+},
+{
+question:"A picture shows computers in a railway station. Why are computers used there?",
+options:[
+"To fly aeroplanes",
+"To manage tickets and information",
+"To water plants",
+"To clean roads"
+],
+answer:1,
+explanation:"Railway stations use computers for tickets and passenger information."
+},
+{
+question:"Assertion: A computer is called a smart machine. Reason: It can do many tasks quickly.",
+options:[
+"Both are true and reason explains assertion",
+"Both are true but reason does not explain assertion",
+"Assertion is true but reason is false",
+"Both are false"
+],
+answer:0,
+explanation:"A computer is smart because it can perform many tasks quickly."
+},
+{
+question:"Assertion: Computers can make mistakes. Reason: Wrong input gives wrong output.",
+options:[
+"Both are true and reason explains assertion",
+"Both are true but reason does not explain assertion",
+"Assertion is true but reason is false",
+"Both are false"
+],
+answer:0,
+explanation:"Wrong information entered into a computer gives wrong results."
+},
+{
+question:"Find the incorrect statement.",
+options:[
+"Computers work fast",
+"Computers help store information",
+"Computers get tired like humans",
+"Computers are used in schools and hospitals"
+],
+answer:2,
+explanation:"Computers do not get tired like humans."
+}
+];
+
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 60;
+let retryUsed = false;
+
+const logoScreen = document.getElementById("logoScreen");
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const finalChallengeScreen = document.getElementById("finalChallengeScreen");
+const resultScreen = document.getElementById("resultScreen");
+
+const questionText = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const scoreDisplay = document.getElementById("scoreDisplay");
+const timerDisplay = document.getElementById("timerDisplay");
+const feedback = document.getElementById("feedback");
+const explanation = document.getElementById("explanation");
+
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+
+setTimeout(()=>{
+logoScreen.classList.remove("active");
+introScreen.classList.add("active");
+},5000);
+
+function startQuiz(){
+introScreen.classList.remove("active");
+quizScreen.classList.add("active");
+loadQuestion();
+}
+
+function loadQuestion(){
+
+clearInterval(timer);
+
+retryUsed = false;
+feedback.innerHTML = "";
+explanation.style.display = "none";
+
+const q = questions[currentQuestion];
+
+questionText.innerHTML =
+`Q${currentQuestion+1}. ${q.question}`;
+
+optionsContainer.innerHTML = "";
+
+q.options.forEach((option,index)=>{
+
+const btn = document.createElement("button");
+
+btn.classList.add("option-btn");
+
+btn.innerText = option;
+
+btn.onclick = ()=>checkAnswer(index,btn);
+
+optionsContainer.appendChild(btn);
+
+});
+
+scoreDisplay.innerHTML = `Score: ${score}`;
+
+timeLeft = 60;
+
+timerDisplay.innerHTML = `Time: ${timeLeft}`;
+
+timer = setInterval(()=>{
+timeLeft--;
+
+timerDisplay.innerHTML = `Time: ${timeLeft}`;
+
+if(timeLeft<=0){
+clearInterval(timer);
+showCorrectAnswer();
+}
+},1000);
+}
+
+function checkAnswer(selected,button){
+
+const q = questions[currentQuestion];
+
+const buttons = document.querySelectorAll(".option-btn");
+
+if(selected === q.answer){
+
+clearInterval(timer);
+
+button.classList.add("correct");
+
+feedback.innerHTML = "✅ Correct!";
+feedback.style.color = "green";
+
+correctSound.play();
+
+score++;
+
+createConfetti();
+
+setTimeout(()=>{
+nextQuestion();
+},1500);
+
+}else{
+
+button.classList.add("wrong");
+
+wrongSound.play();
+
+showCross();
+
+if(!retryUsed){
+
+retryUsed = true;
+
+feedback.innerHTML =
+"❌ Try again! You have one more chance.";
+
+feedback.style.color = "#c62828";
+
+}else{
+
+clearInterval(timer);
+
+showCorrectAnswer();
+}
+}
+
+buttons.forEach(btn=>{
+btn.disabled = true;
+});
+
+if(retryUsed){
+buttons.forEach(btn=>{
+btn.disabled = false;
+});
+
+button.disabled = true;
+}
+}
+
+function showCorrectAnswer(){
+
+const q = questions[currentQuestion];
+
+const buttons = document.querySelectorAll(".option-btn");
+
+buttons.forEach((btn,index)=>{
+
+btn.disabled = true;
+
+if(index === q.answer){
+btn.classList.add("correct");
+}
+});
+
+feedback.innerHTML = "Correct Answer Shown";
+feedback.style.color = "#1565c0";
+
+explanation.style.display = "block";
+explanation.innerHTML =
+`💡 ${q.explanation}`;
+
+setTimeout(()=>{
+nextQuestion();
+},4000);
+}
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion < questions.length){
+
+loadQuestion();
+
+}else{
+
+quizScreen.classList.remove("active");
+finalChallengeScreen.classList.add("active");
+}
+}
+
+function finalAnswer(correct){
+
+finalChallengeScreen.classList.remove("active");
+
+resultScreen.classList.add("active");
+
+if(correct){
+
+score++;
+
+createConfetti();
+
+document.getElementById("badge").innerHTML = "🏆";
+
+}else{
+
+document.getElementById("badge").innerHTML = "⭐";
+}
+
+document.getElementById("finalScore").innerHTML =
+`Your Score: ${score} / 16`;
+
+let message = "";
+
+if(score >= 14){
+message = "Excellent work! You are a Computer Champion!";
+}else if(score >= 10){
+message = "Very good! Keep learning and exploring!";
+}else{
+message = "Good try! Practice more and play again!";
+}
+
+document.getElementById("resultMessage").innerHTML =
+message;
+}
+
+function restartQuiz(){
+
+currentQuestion = 0;
+score = 0;
+
+resultScreen.classList.remove("active");
+
+introScreen.classList.add("active");
+}
+
+function createConfetti(){
+
+for(let i=0;i<20;i++){
+
+const confetti = document.createElement("div");
+
+confetti.classList.add("confetti");
+
+confetti.style.left = Math.random()*window.innerWidth + "px";
+
+confetti.style.top = Math.random()*200 + "px";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+confetti.remove();
+},1500);
+}
+}
+
+function showCross(){
+
+const cross = document.createElement("div");
+
+cross.classList.add("cross");
+
+cross.innerHTML = "✖";
+
+cross.style.left = Math.random()*window.innerWidth + "px";
+
+cross.style.top = Math.random()*window.innerHeight + "px";
+
+document.body.appendChild(cross);
+
+setTimeout(()=>{
+cross.remove();
+},1000);
+}
+
+function createBackgroundStars(){
+
+const bg = document.getElementById("background");
+
+for(let i=0;i<40;i++){
+
+const star = document.createElement("div");
+
+star.classList.add("star");
+
+star.style.left = Math.random()*100 + "%";
+
+star.style.animationDuration =
+(5 + Math.random()*8) + "s";
+
+star.style.animationDelay =
+Math.random()*5 + "s";
+
+bg.appendChild(star);
+}
+}
+
+createBackgroundStars();
+
+</script>
+
+</body>
+</html>
