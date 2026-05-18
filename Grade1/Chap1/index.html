@@ -24,10 +24,13 @@ color:#222;
 
 .background{
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
 overflow:hidden;
-z-index:-1;
+z-index:0;
+pointer-events:none;
 }
 
 .star{
@@ -56,6 +59,8 @@ opacity:0;
 
 .screen{
 display:none;
+position:relative;
+z-index:2;
 min-height:100vh;
 justify-content:center;
 align-items:center;
@@ -730,8 +735,8 @@ loadQuestion();
 
 }else{
 
-quizScreen.classList.remove("active");
-challengeScreen.classList.add("active");
+quizScreen.style.display = "none";
+challengeScreen.style.display = "flex";
 
 }
 
@@ -739,7 +744,12 @@ challengeScreen.classList.add("active");
 
 function finishGame(correct){
 
-challengeScreen.classList.remove("active");
+clearInterval(timer);
+
+challengeScreen.style.display = "none";
+
+resultScreen.style.display = "flex";
+
 resultScreen.classList.add("active");
 
 if(correct){
@@ -777,7 +787,10 @@ msg = "Good effort! Practice and play again.";
 
 document.getElementById("message").innerHTML = msg;
 
-window.scrollTo(0,0);
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 }
 
@@ -786,8 +799,8 @@ function restartQuiz(){
 currentQuestion = 0;
 score = 0;
 
-resultScreen.classList.remove("active");
-introScreen.classList.add("active");
+resultScreen.style.display = "none";
+introScreen.style.display = "flex";
 
 }
 
