@@ -571,8 +571,8 @@ introScreen.classList.add("active");
 
 function startQuiz(){
 
-introScreen.classList.remove("active");
-quizScreen.classList.add("active");
+introScreen.style.display = "none";
+quizScreen.style.display = "flex";
 
 loadQuestion();
 
@@ -749,8 +749,6 @@ clearInterval(timer);
 challengeScreen.style.display = "none";
 
 resultScreen.style.display = "flex";
-
-resultScreen.classList.add("active");
 
 if(correct){
 
