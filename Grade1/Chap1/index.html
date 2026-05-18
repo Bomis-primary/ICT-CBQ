@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Computer: A Smart Machine</title>
+<title>Computer: A Smart Machine - Grade 1 ICT</title>
 
 <style>
 
@@ -15,8 +15,9 @@ box-sizing:border-box;
 
 body{
 font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#dff6ff,#fff8d9,#f4eaff);
+background:linear-gradient(135deg,#dff6ff,#fff7cc,#f3e8ff);
 overflow-x:hidden;
+overflow-y:auto;
 min-height:100vh;
 color:#222;
 }
@@ -38,7 +39,7 @@ width:5px;
 height:5px;
 background:white;
 border-radius:50%;
-opacity:0.7;
+opacity:0.8;
 animation:floatStars linear infinite;
 }
 
@@ -74,9 +75,9 @@ flex-direction:column;
 
 .card{
 background:#ffffff;
-padding:22px;
-border-radius:20px;
-max-width:850px;
+padding:24px;
+border-radius:22px;
+max-width:820px;
 width:100%;
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 border:2px solid #dbe9ff;
@@ -87,14 +88,14 @@ background:white;
 }
 
 .logo-screen img{
-width:180px;
-max-width:80%;
+width:190px;
+max-width:85%;
 animation:pulse 2s infinite;
 }
 
 @keyframes pulse{
 0%{transform:scale(1);}
-50%{transform:scale(1.05);}
+50%{transform:scale(1.06);}
 100%{transform:scale(1);}
 }
 
@@ -111,11 +112,10 @@ font-size:1rem;
 .topbar{
 display:flex;
 justify-content:space-between;
-margin-bottom:15px;
+margin-bottom:18px;
 font-weight:bold;
 font-size:1rem;
 gap:10px;
-flex-wrap:wrap;
 }
 
 .question{
@@ -134,7 +134,7 @@ gap:12px;
 .option-btn{
 padding:14px;
 border:none;
-border-radius:12px;
+border-radius:14px;
 background:#eef6ff;
 cursor:pointer;
 font-size:1rem;
@@ -224,7 +224,7 @@ opacity:0;
 
 .cross{
 position:fixed;
-font-size:40px;
+font-size:42px;
 color:red;
 animation:fade 1s forwards;
 z-index:999;
@@ -241,11 +241,9 @@ transform:scale(2);
 }
 }
 
-.result-score{
-font-size:2rem;
+.badge{
+font-size:2.2rem;
 margin:15px 0;
-color:#1565c0;
-font-weight:bold;
 }
 
 @media(max-width:600px){
@@ -260,11 +258,12 @@ padding:12px;
 }
 
 h1{
-font-size:1.6rem;
+font-size:1.5rem;
 }
 
 .topbar{
 font-size:0.9rem;
+flex-direction:column;
 }
 
 }
@@ -305,7 +304,7 @@ Innovine Interactive Learning
 <p class="info"><strong>Total Questions:</strong> 15</p>
 
 <p style="margin-top:15px;">
-Answer the competency-based questions and learn how computers help us in daily life.
+Answer the questions and learn how computers help us in daily life.
 </p>
 
 <button class="main-btn" onclick="startQuiz()">
@@ -323,8 +322,6 @@ Start Quiz
 <div class="card">
 
 <div class="topbar">
-
-<div id="progressText">Question 1 / 15</div>
 
 <div id="scoreText">Score: 0</div>
 
@@ -352,7 +349,9 @@ Start Quiz
 
 <h1>Quiz Completed!</h1>
 
-<div class="result-score" id="finalScore"></div>
+<div class="badge">🏆</div>
+
+<h2 id="finalScore"></h2>
 
 <p id="message"></p>
 
@@ -371,189 +370,209 @@ Play Again
 
 <script>
 
-const questions = [
+// QUESTIONS
+
+let questions = [
 
 {
-question:"Riya wants to listen to music and watch cartoons on a computer. What does this show about a computer?",
+question:"Riya uses a computer to draw pictures. What does this show?",
 options:[
-"It can do many types of work",
-"It can only type",
-"It cannot play music",
-"It only draws pictures"
+"Computer helps in drawing",
+"Computer cooks food",
+"Computer washes clothes",
+"Computer drives buses"
 ],
 answer:0,
-explanation:"A computer can perform many different tasks."
+explanation:"Computers can be used for drawing and coloring."
 },
 
 {
-question:"Aarav uses a computer to draw, type and play games. Which feature of the computer is shown here?",
+question:"Aarav watches cartoons on a computer. What can we learn from this?",
 options:[
-"Speed",
-"Versatility",
-"Tiredness",
-"Sleeping"
+"Computers can show videos",
+"Computers can fly",
+"Computers can swim",
+"Computers can plant trees"
 ],
-answer:1,
-explanation:"Versatility means a computer can do different kinds of work."
+answer:0,
+explanation:"Computers help us watch videos and cartoons."
 },
 
 {
-question:"A computer in a hospital helps doctors keep records quickly. Why do hospitals use computers?",
+question:"A teacher uses a computer to show lessons in class. Why is the computer useful?",
 options:[
-"Computers become sick",
-"Computers work slowly",
-"Computers help store and manage information",
-"Computers only play games"
+"It helps students learn",
+"It cleans the classroom",
+"It rings the school bell",
+"It packs school bags"
 ],
-answer:2,
-explanation:"Computers help store and manage important records."
+answer:0,
+explanation:"Computers are useful for learning and teaching."
 },
 
 {
-question:"Meera entered the wrong information into the computer. What will the computer do?",
+question:"Meera listens to songs on a computer. Which feature is being used?",
 options:[
-"Correct it automatically always",
-"Give wrong result",
-"Stop forever",
-"Break down"
+"Sound",
+"Smell",
+"Taste",
+"Touch"
 ],
-answer:1,
-explanation:"Wrong input gives wrong output."
+answer:0,
+explanation:"Computers can play sound and music."
 },
 
 {
-question:"A student says computers never get tired even after working for many hours. Which quality is this?",
+question:"A computer helps a doctor keep patient records. What does this show?",
 options:[
-"Accuracy",
-"Diligence",
-"Noise",
-"Colouring"
+"Computers store information",
+"Computers cook food",
+"Computers grow plants",
+"Computers stitch clothes"
 ],
-answer:1,
-explanation:"Diligence means computers can work continuously without getting tired."
+answer:0,
+explanation:"Computers can store large amounts of information."
 },
 
 {
-question:"Rahul wants to calculate big sums very fast. Which machine can help him best?",
+question:"Which machine is called a smart machine?",
 options:[
-"Blackboard",
 "Computer",
-"Pencil box",
-"Chair"
+"Fan",
+"Table",
+"Bottle"
 ],
-answer:1,
-explanation:"Computers solve calculations very quickly."
+answer:0,
+explanation:"A computer is called a smart machine."
 },
 
 {
-question:"Ritu uses a computer to attend online classes, draw pictures and solve sums. What can we conclude from this?",
+question:"A child uses a computer to play games and learn numbers. What does this show?",
 options:[
-"Computer does only one job",
-"Computer is a smart machine",
-"Computer cannot learn",
-"Computer works only in schools"
+"Computers help in learning and fun",
+"Computers make rain",
+"Computers wash cars",
+"Computers paint houses"
 ],
-answer:1,
-explanation:"A computer is called smart because it performs many tasks."
+answer:0,
+explanation:"Computers can be used for both learning and entertainment."
 },
 
 {
-question:"A shopkeeper uses a computer to make bills quickly every day. Which quality of computer is shown?",
+question:"Assertion: Computers can work very fast. Reason: Computers take many hours to solve simple sums.",
 options:[
-"Laziness",
-"Speed",
-"Sleeping",
-"Dancing"
+"Assertion is true and reason is false",
+"Assertion is false and reason is true",
+"Both are true",
+"Both are false"
 ],
-answer:1,
-explanation:"Computers work very fast."
+answer:0,
+explanation:"Computers work very fast and solve sums quickly."
 },
 
 {
-question:"School → Teaching, Hospital → Patient records, Bank → Money records. Where are computers used to keep money records?",
+question:"Assertion: Computers can store information. Reason: Computers forget everything quickly.",
 options:[
-"School",
-"Bank",
-"Park",
-"Playground"
+"Assertion is true and reason is false",
+"Assertion is false and reason is true",
+"Both are true",
+"Both are false"
 ],
-answer:1,
-explanation:"Banks use computers to manage money records."
+answer:0,
+explanation:"Computers can store information safely."
 },
 
 {
-question:"Computer can draw pictures, play games and store information. Which activity cannot be done by a computer?",
+question:"A student wants to type homework neatly. Which machine can help?",
 options:[
-"Drawing",
-"Storing information",
-"Eating food",
-"Playing games"
+"Computer",
+"Chair",
+"Bottle",
+"Clock"
 ],
-answer:2,
-explanation:"Computers cannot eat food."
+answer:0,
+explanation:"Computers help in typing neatly."
 },
 
 {
-question:"A picture shows a child using a computer to type homework. What is the computer helping the child to do?",
+question:"A shopkeeper uses a computer to make bills. Why?",
 options:[
+"Computers work quickly",
+"Computers can dance",
+"Computers can jump",
+"Computers can sing loudly"
+],
+answer:0,
+explanation:"Computers help in fast calculations and billing."
+},
+
+{
+question:"Which activity can be done on a computer?",
+options:[
+"Drawing pictures",
 "Cooking food",
-"Writing work neatly",
+"Washing clothes",
+"Growing trees"
+],
+answer:0,
+explanation:"Computers can be used for drawing and creative work."
+},
+
+{
+question:"A computer helps us learn ABC and numbers through games. What is this called?",
+options:[
+"Learning",
 "Sleeping",
-"Washing clothes"
+"Cooking",
+"Cleaning"
 ],
-answer:1,
-explanation:"Computers help children type and write neatly."
+answer:0,
+explanation:"Computers are useful learning tools."
 },
 
 {
-question:"A picture shows computers in a railway station. Why are computers used there?",
+question:"Assertion: Computers can play music. Reason: Computers have no sound feature.",
 options:[
-"To fly aeroplanes",
-"To manage tickets and information",
-"To water plants",
-"To clean roads"
-],
-answer:1,
-explanation:"Railway stations use computers to manage ticket information."
-},
-
-{
-question:"Assertion: A computer is called a smart machine. Reason: It can do many tasks quickly.",
-options:[
-"Both are true and reason explains assertion",
-"Both are true but reason does not explain assertion",
-"Assertion is true but reason is false",
+"Assertion is true and reason is false",
+"Assertion is false and reason is true",
+"Both are true",
 "Both are false"
 ],
 answer:0,
-explanation:"Computers are called smart because they can do many tasks quickly."
+explanation:"Computers can play songs and sounds."
 },
 
 {
-question:"Assertion: Computers can make mistakes. Reason: Wrong input gives wrong output.",
+question:"Why do people call a computer a smart machine?",
 options:[
-"Both are true and reason explains assertion",
-"Both are true but reason does not explain assertion",
-"Assertion is true but reason is false",
-"Both are false"
+"It works fast and helps in many tasks",
+"It can eat food",
+"It can sleep",
+"It can swim"
 ],
 answer:0,
-explanation:"Computers give wrong results when wrong data is entered."
-},
-
-{
-question:"Find the incorrect statement.",
-options:[
-"Computers work fast",
-"Computers help store information",
-"Computers get tired like humans",
-"Computers are used in schools and hospitals"
-],
-answer:2,
-explanation:"Computers do not get tired like humans."
+explanation:"Computers are smart because they help us do many tasks quickly."
 }
 
 ];
+
+// FISHER-YATES SHUFFLE
+// Randomizes question order every time
+// :contentReference[oaicite:0]{index=0}
+
+function shuffleQuestions(array){
+
+for(let i = array.length - 1; i > 0; i--){
+
+const j = Math.floor(Math.random() * (i + 1));
+
+[array[i], array[j]] = [array[j], array[i]];
+
+}
+
+return array;
+
+}
 
 let currentQuestion = 0;
 let score = 0;
@@ -570,21 +589,27 @@ const questionText = document.getElementById("questionText");
 const optionsContainer = document.getElementById("optionsContainer");
 const scoreText = document.getElementById("scoreText");
 const timerText = document.getElementById("timerText");
-const progressText = document.getElementById("progressText");
 const feedback = document.getElementById("feedback");
 const explanation = document.getElementById("explanation");
 
 const correctSound = document.getElementById("correctSound");
 const wrongSound = document.getElementById("wrongSound");
 
+// SHOW LOGO FOR 5 SECONDS
+
 setTimeout(()=>{
 
 logoScreen.classList.remove("active");
+
 introScreen.classList.add("active");
 
 },5000);
 
+// START QUIZ
+
 function startQuiz(){
+
+questions = shuffleQuestions(questions);
 
 introScreen.classList.remove("active");
 introScreen.style.display = "none";
@@ -592,9 +617,14 @@ introScreen.style.display = "none";
 quizScreen.classList.add("active");
 quizScreen.style.display = "flex";
 
+currentQuestion = 0;
+score = 0;
+
 loadQuestion();
 
 }
+
+// LOAD QUESTION
 
 function loadQuestion(){
 
@@ -603,15 +633,13 @@ clearInterval(timer);
 retryUsed = false;
 
 feedback.innerHTML = "";
+
 explanation.style.display = "none";
 
 const q = questions[currentQuestion];
 
-progressText.innerHTML =
-`Question ${currentQuestion+1} / ${questions.length}`;
-
 questionText.innerHTML =
-q.question;
+`Q${currentQuestion+1}. ${q.question}`;
 
 optionsContainer.innerHTML = "";
 
@@ -644,6 +672,7 @@ timerText.innerHTML = `Time: ${timeLeft}`;
 if(timeLeft<=0){
 
 clearInterval(timer);
+
 showCorrectAnswer();
 
 }
@@ -651,6 +680,8 @@ showCorrectAnswer();
 },1000);
 
 }
+
+// CHECK ANSWER
 
 function checkAnswer(selected,button){
 
@@ -665,6 +696,7 @@ clearInterval(timer);
 button.classList.add("correct");
 
 feedback.innerHTML = "✅ Correct!";
+
 feedback.style.color = "green";
 
 correctSound.play();
@@ -676,7 +708,9 @@ createConfetti();
 buttons.forEach(btn=>btn.disabled=true);
 
 setTimeout(()=>{
+
 nextQuestion();
+
 },1500);
 
 }else{
@@ -705,6 +739,7 @@ button.disabled = true;
 }else{
 
 clearInterval(timer);
+
 showCorrectAnswer();
 
 }
@@ -712,6 +747,8 @@ showCorrectAnswer();
 }
 
 }
+
+// SHOW CORRECT ANSWER
 
 function showCorrectAnswer(){
 
@@ -733,6 +770,7 @@ btn.classList.add("correct");
 });
 
 feedback.innerHTML = "Correct answer shown";
+
 feedback.style.color = "#1565c0";
 
 explanation.style.display = "block";
@@ -741,10 +779,14 @@ explanation.innerHTML =
 `💡 ${q.explanation}`;
 
 setTimeout(()=>{
+
 nextQuestion();
+
 },4000);
 
 }
+
+// NEXT QUESTION
 
 function nextQuestion(){
 
@@ -762,49 +804,67 @@ showResult();
 
 }
 
+// SHOW RESULT
+
 function showResult(){
 
 quizScreen.classList.remove("active");
+
 quizScreen.style.display = "none";
 
 resultScreen.classList.add("active");
+
 resultScreen.style.display = "flex";
 
 document.getElementById("finalScore").innerHTML =
-`${score} / ${questions.length}`;
+`Your Score: ${score} / ${questions.length}`;
 
 let msg = "";
 
 if(score >= 13){
 
-msg = "Excellent! You know computers very well.";
+msg = "Excellent Work!";
 
 }else if(score >= 9){
 
-msg = "Very Good! Keep learning more.";
+msg = "Very Good Job!";
 
 }else{
 
-msg = "Good effort! Practice and play again.";
+msg = "Good Try! Keep Practicing.";
 
 }
 
 document.getElementById("message").innerHTML = msg;
 
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
 }
+
+// RESTART QUIZ
 
 function restartQuiz(){
 
+questions = shuffleQuestions(questions);
+
 currentQuestion = 0;
+
 score = 0;
 
 resultScreen.classList.remove("active");
+
 resultScreen.style.display = "none";
 
 introScreen.classList.add("active");
+
 introScreen.style.display = "flex";
 
 }
+
+// CONFETTI
 
 function createConfetti(){
 
@@ -823,12 +883,16 @@ Math.random()*200 + "px";
 document.body.appendChild(confetti);
 
 setTimeout(()=>{
+
 confetti.remove();
+
 },1500);
 
 }
 
 }
+
+// WRONG CROSS
 
 function showCross(){
 
@@ -847,10 +911,14 @@ Math.random()*window.innerHeight + "px";
 document.body.appendChild(cross);
 
 setTimeout(()=>{
+
 cross.remove();
+
 },1000);
 
 }
+
+// BACKGROUND ANIMATION
 
 function createBackground(){
 
