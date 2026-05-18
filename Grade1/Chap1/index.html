@@ -340,48 +340,6 @@ Start Quiz
 
 </div>
 
-<!-- FINAL CHALLENGE -->
-
-<div class="screen" id="challengeScreen">
-
-<div class="card">
-
-<h1>Final Challenge</h1>
-
-<div class="badge">🌟</div>
-
-<p style="margin-bottom:15px;">
-Choose the correct answer to finish the challenge.
-</p>
-
-<div class="question">
-Which computer part helps us type letters and numbers?
-</div>
-
-<div class="options">
-
-<button type="button" class="option-btn" onclick="finishGame(true)">
-Keyboard
-</button>
-
-<button type="button" class="option-btn" onclick="finishGame(false)">
-Speaker
-</button>
-
-<button type="button" class="option-btn" onclick="finishGame(false)">
-Monitor
-</button>
-
-<button type="button" class="option-btn" onclick="finishGame(false)">
-Mouse
-</button>
-
-</div>
-
-</div>
-
-</div>
-
 <!-- RESULT SCREEN -->
 
 <div class="screen" id="resultScreen">
@@ -390,7 +348,7 @@ Mouse
 
 <h1>Quiz Completed!</h1>
 
-<div class="badge" id="badge"></div>
+<div class="badge" id="badge">🏆</div>
 
 <h2 id="finalScore"></h2>
 
@@ -549,7 +507,6 @@ let retryUsed = false;
 const logoScreen = document.getElementById("logoScreen");
 const introScreen = document.getElementById("introScreen");
 const quizScreen = document.getElementById("quizScreen");
-const challengeScreen = document.getElementById("challengeScreen");
 const resultScreen = document.getElementById("resultScreen");
 
 const questionText = document.getElementById("questionText");
@@ -735,45 +692,28 @@ loadQuestion();
 
 }else{
 
+showResult();
+
+}
+
+}
+
+function showResult(){
+
 quizScreen.style.display = "none";
-challengeScreen.style.display = "flex";
-
-}
-
-}
-
-function finishGame(correct){
-
-clearInterval(timer);
-
-challengeScreen.style.display = "none";
 
 resultScreen.style.display = "flex";
 
-if(correct){
-
-score++;
-
-createConfetti();
-
-document.getElementById("badge").innerHTML = "🏆";
-
-}else{
-
-document.getElementById("badge").innerHTML = "⭐";
-
-}
-
 document.getElementById("finalScore").innerHTML =
-`Your Score: ${score} / 16`;
+`Your Score: ${score} / ${questions.length}`;
 
 let msg = "";
 
-if(score >= 14){
+if(score >= 13){
 
 msg = "Excellent! You know computer parts very well.";
 
-}else if(score >= 10){
+}else if(score >= 9){
 
 msg = "Very Good! Keep learning more.";
 
