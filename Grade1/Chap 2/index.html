@@ -1,1 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parts of Computer - Grade 1 ICT</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:url('assets/bg.png') no-repeat center center fixed;
+background-size:cover;
+overflow-x:hidden;
+overflow-y:auto;
+min-height:100vh;
+color:#222;
+position:relative;
+}
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,255,255,0.75);
+z-index:-1;
+}
+
+.background{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:0;
+pointer-events:none;
+}
+
+.star{
+position:absolute;
+width:5px;
+height:5px;
+background:white;
+border-radius:50%;
+opacity:0.8;
+animation:floatStars linear infinite;
+}
+
+@keyframes floatStars{
+0%{
+transform:translateY(100vh);
+opacity:0;
+}
+50%{
+opacity:1;
+}
+100%{
+transform:translateY(-10vh);
+opacity:0;
+}
+}
+
+.screen{
+display:none;
+position:relative;
+z-index:2;
+min-height:100vh;
+justify-content:center;
+align-items:center;
+padding:20px;
+text-align:center;
+}
+
+.active{
+display:flex;
+flex-direction:column;
+}
+
+.card{
+background:#ffffffee;
+backdrop-filter:blur(4px);
+padding:24px;
+border-radius:22px;
+max-width:850px;
+width:100%;
+box-shadow:0 10px 25px rgba(0,0,0,0.18);
+border:2px solid #dbe9ff;
+}
+
+.logo-screen{
+background:white;
+}
+
+.logo-screen img{
+width:190px;
+max-width:85%;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.06);}
+100%{transform:scale(1);}
+}
+
+h1{
+color:#1565c0;
+margin-bottom:10px;
+}
+
+.info{
+margin:8px 0;
+font-size:1rem;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+margin-bottom:18px;
+font-weight:bold;
+font-size:1rem;
+gap:10px;
+}
+
+.question{
+font-size:1.15rem;
+line-height:1.6;
+font-weight:600;
+color:#1b1b1b;
+margin-bottom:20px;
+}
+
+.options{
+display:grid;
+gap:12px;
+}
+
+.option-btn{
+padding:14px;
+border:none;
+border-radius:14px;
+background:#eef6ff;
+cursor:pointer;
+font-size:1rem;
+transition:0.3s;
+color:#111;
+font-weight:500;
+}
+
+.option-btn:hover{
+background:#d8ecff;
+transform:scale(1.02);
+}
+
+.correct{
+background:#d4ffd4 !important;
+border:2px solid #2e7d32;
+}
+
+.wrong{
+background:#ffd9d9 !important;
+border:2px solid #c62828;
+}
+
+.feedback{
+margin-top:15px;
+font-weight:bold;
+min-height:28px;
+}
+
+.explanation{
+margin-top:12px;
+background:#eef7ff;
+padding:12px;
+border-radius:12px;
+display:none;
+font-size:0.95rem;
+line-height:1.5;
+}
+
+.main-btn{
+padding:12px 24px;
+margin-top:18px;
+border:none;
+background:#1565c0;
+color:white;
+font-size:1rem;
+border-radius:12px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.main-btn:hover{
+background:#0d47a1;
+}
+
+.confetti{
+position:fixed;
+width:14px;
+height:14px;
+background:gold;
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+animation:fall 1.5s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(0) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(500px) rotate(360deg);
+opacity:0;
+}
+}
+
+.cross{
+position:fixed;
+font-size:42px;
+color:red;
+animation:fade 1s forwards;
+z-index:999;
+}
+
+@keyframes fade{
+0%{
+opacity:1;
+transform:scale(1);
+}
+100%{
+opacity:0;
+transform:scale(2);
+}
+}
+
+.badge{
+font-size:2.2rem;
+margin:15px 0;
+}
+
+@media(max-width:600px){
+
+.question{
+font-size:1rem;
+}
+
+.option-btn{
+font-size:0.95rem;
+padding:12px;
+}
+
+h1{
+font-size:1.5rem;
+}
+
+.topbar{
+font-size:0.9rem;
+flex-direction:column;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background" id="background"></div>
+
+<!-- LOGO SCREEN -->
+
+<div class="screen active logo-screen" id="logoScreen">
+
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+
+<h2 style="margin-top:20px;">
+Innovine Interactive Learning
+</h2>
+
+</div>
+
+<!-- INTRO SCREEN -->
+
+<div class="screen" id="introScreen">
+
+<div class="card">
+
+<h1>Parts of Computer</h1>
+
+<p class="info"><strong>Grade:</strong> 1</p>
+
+<p class="info"><strong>Subject:</strong> ICT</p>
+
+<p class="info"><strong>Topic:</strong> Parts of Computer</p>
+
+<p class="info"><strong>Total Questions:</strong> 20</p>
+
+<p style="margin-top:15px;">
+Learn different parts of a computer through fun interactive questions.
+</p>
+
+<button class="main-btn" onclick="startQuiz()">
+Start Quiz
+</button>
+
+</div>
+
+</div>
+
+<!-- QUIZ SCREEN -->
+
+<div class="screen" id="quizScreen">
+
+<div class="card">
+
+<div class="topbar">
+
+<div id="scoreText">Score: 0</div>
+
+<div id="timerText">Time: 60</div>
+
+</div>
+
+<div class="question" id="questionText"></div>
+
+<div class="options" id="optionsContainer"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="explanation" id="explanation"></div>
+
+</div>
+
+</div>
+
+<!-- RESULT SCREEN -->
+
+<div class="screen" id="resultScreen">
+
+<div class="card">
+
+<h1>Quiz Completed!</h1>
+
+<div class="badge">🏆</div>
+
+<h2 id="finalScore"></h2>
+
+<p id="message"></p>
+
+<button class="main-btn" onclick="restartQuiz()">
+Play Again
+</button>
+
+</div>
+
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+
+<script>
+
+let questions = [
+
+{
+question:"Riya wants to type her name on the computer. Which part should she use?",
+options:["Mouse","Keyboard","Monitor","Speaker"],
+answer:1,
+explanation:"Keyboard helps us type letters and numbers."
+},
+
+{
+question:"Aarav wants to hear music from the computer. Which part helps him?",
+options:["Monitor","CPU","Speaker","Keyboard"],
+answer:2,
+explanation:"Speakers help us hear sound from the computer."
+},
+
+{
+question:"Meera moves the mouse to click a picture on the screen. What does this show?",
+options:[
+"Mouse helps point and click",
+"Monitor types letters",
+"CPU plays music",
+"Keyboard shows pictures"
+],
+answer:0,
+explanation:"The mouse helps us point and click."
+},
+
+{
+question:"A student wants to see a cartoon on the computer screen. Which part is used?",
+options:["Speaker","Monitor","Mouse","CPU"],
+answer:1,
+explanation:"Monitor shows pictures and videos."
+},
+
+{
+question:"Rahul presses keys to write numbers and letters. Which part is being used?",
+options:["Keyboard","Monitor","Speaker","Printer"],
+answer:0,
+explanation:"Keyboard is used for typing."
+},
+
+{
+question:"A child hears no sound while watching a video. Which computer part may not be working properly?",
+options:["Keyboard","Speaker","Mouse","CPU"],
+answer:1,
+explanation:"Speakers help us hear sound."
+},
+
+{
+question:"A student clicks and drags objects on the screen. Which device helps in this action?",
+options:["Speaker","Mouse","Monitor","CPU"],
+answer:1,
+explanation:"Mouse helps us drag and click items."
+},
+
+{
+question:"Meera sees all pictures and text on one computer part. Which part is it?",
+options:["Monitor","Keyboard","Mouse","Speaker"],
+answer:0,
+explanation:"Monitor displays text and pictures."
+},
+
+{
+question:"Ritu types homework, listens to rhymes and watches videos on the computer. Which parts help her do all these tasks?",
+options:[
+"Keyboard, speaker and monitor",
+"Mouse and CPU only",
+"Monitor only",
+"Speaker only"
+],
+answer:0,
+explanation:"Keyboard types, speakers give sound and monitor shows videos."
+},
+
+{
+question:"A computer lab has monitors but no keyboards. What problem will students face?",
+options:[
+"They cannot hear sound",
+"They cannot type",
+"They cannot see pictures",
+"They cannot switch on computer"
+],
+answer:1,
+explanation:"Without keyboards students cannot type."
+},
+
+{
+question:"A child clicks the mouse but the pointer does not move. What may be the problem?",
+options:[
+"Mouse is not working properly",
+"Monitor is broken",
+"Keyboard is typing slowly",
+"Speaker is off"
+],
+answer:0,
+explanation:"If the pointer does not move, the mouse may not work properly."
+},
+
+{
+question:"Which part helps us hear sound?",
+options:["Keyboard","Speaker","Monitor","Mouse"],
+answer:1,
+explanation:"Speaker helps us hear sound."
+},
+
+{
+question:"Which part helps in typing words?",
+options:["Mouse","Monitor","Keyboard","Speaker"],
+answer:2,
+explanation:"Keyboard is used for typing."
+},
+
+{
+question:"Which part helps us to select items on the screen?",
+options:["Mouse","Speaker","Monitor","Keyboard"],
+answer:0,
+explanation:"Mouse helps us select items."
+},
+
+{
+question:"A picture shows a child typing using many small buttons. Which computer part is shown?",
+options:["Mouse","Keyboard","Monitor","Speaker"],
+answer:1,
+explanation:"Keyboard has many keys for typing."
+},
+
+{
+question:"A picture shows sound coming from two boxes connected to a computer. What are they?",
+options:["Monitor","CPU","Speakers","Mouse"],
+answer:2,
+explanation:"Speakers produce sound."
+},
+
+{
+question:"A picture shows a screen displaying text and cartoons. Which part is shown?",
+options:["Keyboard","Mouse","Monitor","Speaker"],
+answer:2,
+explanation:"Monitor displays text and pictures."
+},
+
+{
+question:"Assertion: A monitor is an output device. Reason: It shows text and pictures on the screen.",
+options:[
+"Both are true and reason explains assertion",
+"Both are true but reason does not explain assertion",
+"Assertion is true but reason is false",
+"Both are false"
+],
+answer:0,
+explanation:"Monitor is an output device because it shows output."
+},
+
+{
+question:"Assertion: A keyboard helps us type. Reason: It has many keys with letters and numbers.",
+options:[
+"Both are true and reason explains assertion",
+"Both are true but reason does not explain assertion",
+"Assertion is true but reason is false",
+"Both are false"
+],
+answer:0,
+explanation:"Keyboard helps in typing using keys."
+},
+
+{
+question:"Assertion: Speakers help us hear sound. Reason: They produce audio from the computer.",
+options:[
+"Both are true and reason explains assertion",
+"Both are true but reason does not explain assertion",
+"Assertion is true but reason is false",
+"Both are false"
+],
+answer:0,
+explanation:"Speakers produce audio output."
+}
+
+];
+
+// RANDOM QUESTION ORDER
+
+function shuffleQuestions(array){
+
+for(let i=array.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[array[i],array[j]]=[array[j],array[i]];
+
+}
+
+return array;
+
+}
+
+let currentQuestion=0;
+let score=0;
+let timer;
+let timeLeft=60;
+let retryUsed=false;
+
+const logoScreen=document.getElementById("logoScreen");
+const introScreen=document.getElementById("introScreen");
+const quizScreen=document.getElementById("quizScreen");
+const resultScreen=document.getElementById("resultScreen");
+
+const questionText=document.getElementById("questionText");
+const optionsContainer=document.getElementById("optionsContainer");
+const scoreText=document.getElementById("scoreText");
+const timerText=document.getElementById("timerText");
+const feedback=document.getElementById("feedback");
+const explanation=document.getElementById("explanation");
+
+const correctSound=document.getElementById("correctSound");
+const wrongSound=document.getElementById("wrongSound");
+
+setTimeout(()=>{
+
+logoScreen.classList.remove("active");
+
+introScreen.classList.add("active");
+
+},5000);
+
+function startQuiz(){
+
+questions=shuffleQuestions(questions);
+
+introScreen.classList.remove("active");
+
+introScreen.style.display="none";
+
+quizScreen.classList.add("active");
+
+quizScreen.style.display="flex";
+
+currentQuestion=0;
+
+score=0;
+
+loadQuestion();
+
+}
+
+function loadQuestion(){
+
+clearInterval(timer);
+
+retryUsed=false;
+
+feedback.innerHTML="";
+
+explanation.style.display="none";
+
+const q=questions[currentQuestion];
+
+questionText.innerHTML=
+`Q${currentQuestion+1}. ${q.question}`;
+
+optionsContainer.innerHTML="";
+
+q.options.forEach((option,index)=>{
+
+const btn=document.createElement("button");
+
+btn.classList.add("option-btn");
+
+btn.innerText=option;
+
+btn.onclick=()=>checkAnswer(index,btn);
+
+optionsContainer.appendChild(btn);
+
+});
+
+scoreText.innerHTML=`Score: ${score}`;
+
+timeLeft=60;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+if(timeLeft<=0){
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+},1000);
+
+}
+
+function checkAnswer(selected,button){
+
+const q=questions[currentQuestion];
+
+const buttons=document.querySelectorAll(".option-btn");
+
+if(selected===q.answer){
+
+clearInterval(timer);
+
+button.classList.add("correct");
+
+feedback.innerHTML="✅ Correct!";
+
+feedback.style.color="green";
+
+correctSound.play();
+
+score++;
+
+createConfetti();
+
+buttons.forEach(btn=>btn.disabled=true);
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},1500);
+
+}else{
+
+button.classList.add("wrong");
+
+wrongSound.play();
+
+showCross();
+
+if(!retryUsed){
+
+retryUsed=true;
+
+feedback.innerHTML=
+"❌ Try Again! One more chance.";
+
+feedback.style.color="#c62828";
+
+buttons.forEach(btn=>{
+btn.disabled=false;
+});
+
+button.disabled=true;
+
+}else{
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+}
+
+}
+
+function showCorrectAnswer(){
+
+const q=questions[currentQuestion];
+
+const buttons=
+document.querySelectorAll(".option-btn");
+
+buttons.forEach((btn,index)=>{
+
+btn.disabled=true;
+
+if(index===q.answer){
+
+btn.classList.add("correct");
+
+}
+
+});
+
+feedback.innerHTML="Correct answer shown";
+
+feedback.style.color="#1565c0";
+
+explanation.style.display="block";
+
+explanation.innerHTML=
+`💡 ${q.explanation}`;
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},4000);
+
+}
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+}
+
+function showResult(){
+
+quizScreen.classList.remove("active");
+
+quizScreen.style.display="none";
+
+resultScreen.classList.add("active");
+
+resultScreen.style.display="flex";
+
+document.getElementById("finalScore").innerHTML=
+`Your Score: ${score} / ${questions.length}`;
+
+let msg="";
+
+if(score>=17){
+
+msg="Excellent Work!";
+
+}else if(score>=11){
+
+msg="Very Good Job!";
+
+}else{
+
+msg="Good Try! Keep Practicing.";
+
+}
+
+document.getElementById("message").innerHTML=msg;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+function restartQuiz(){
+
+questions=shuffleQuestions(questions);
+
+currentQuestion=0;
+
+score=0;
+
+resultScreen.classList.remove("active");
+
+resultScreen.style.display="none";
+
+introScreen.classList.add("active");
+
+introScreen.style.display="flex";
+
+}
+
+function createConfetti(){
+
+for(let i=0;i<20;i++){
+
+const confetti=document.createElement("div");
+
+confetti.classList.add("confetti");
+
+confetti.style.left=
+Math.random()*window.innerWidth+"px";
+
+confetti.style.top=
+Math.random()*200+"px";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+
+confetti.remove();
+
+},1500);
+
+}
+
+}
+
+function showCross(){
+
+const cross=document.createElement("div");
+
+cross.classList.add("cross");
+
+cross.innerHTML="✖";
+
+cross.style.left=
+Math.random()*window.innerWidth+"px";
+
+cross.style.top=
+Math.random()*window.innerHeight+"px";
+
+document.body.appendChild(cross);
+
+setTimeout(()=>{
+
+cross.remove();
+
+},1000);
+
+}
+
+function createBackground(){
+
+const bg=document.getElementById("background");
+
+for(let i=0;i<40;i++){
+
+const star=document.createElement("div");
+
+star.classList.add("star");
+
+star.style.left=Math.random()*100+"%";
+
+star.style.animationDuration=
+(5+Math.random()*8)+"s";
+
+star.style.animationDelay=
+Math.random()*5+"s";
+
+bg.appendChild(star);
+
+}
+
+}
+
+createBackground();
+
+</script>
+
+</body>
+</html>
