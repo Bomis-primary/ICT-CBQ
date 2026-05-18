@@ -30,7 +30,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(255,255,255,0.78);
+background:rgba(255,255,255,0.80);
 z-index:-1;
 }
 
@@ -98,11 +98,14 @@ backdrop-filter:blur(5px);
 
 .logo-screen{
 background:white;
+z-index:99999;
 }
 
 .logo-screen img{
-width:190px;
-max-width:85%;
+width:220px;
+max-width:90%;
+display:block;
+margin:auto;
 animation:pulse 2s infinite;
 }
 
@@ -152,8 +155,6 @@ cursor:pointer;
 font-size:1rem;
 transition:0.3s;
 font-weight:500;
-position:relative;
-z-index:10;
 }
 
 .option-btn:hover{
@@ -259,16 +260,6 @@ font-size:2.2rem;
 margin:15px 0;
 }
 
-#challengeScreen{
-z-index:9999;
-position:relative;
-}
-
-#challengeScreen .option-btn{
-pointer-events:auto;
-z-index:10000;
-}
-
 @media(max-width:600px){
 
 .question{
@@ -285,6 +276,10 @@ flex-direction:column;
 font-size:0.9rem;
 }
 
+.logo-screen img{
+width:180px;
+}
+
 }
 
 </style>
@@ -294,11 +289,11 @@ font-size:0.9rem;
 
 <div class="background" id="background"></div>
 
-<!-- LOGO -->
+<!-- LOGO SCREEN -->
 
 <div class="screen active logo-screen" id="logoScreen">
 
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
+<img src="./assets/innovine-logo.png" alt="Innovine Logo">
 
 <h2 style="margin-top:20px;">
 Innovine Interactive Learning
@@ -316,7 +311,7 @@ Innovine Interactive Learning
 
 <p class="info"><strong>Grade:</strong> 2</p>
 <p class="info"><strong>Subject:</strong> ICT</p>
-<p class="info"><strong>Total Questions:</strong> 15 + Final Challenge</p>
+<p class="info"><strong>Total Questions:</strong> 15</p>
 
 <p style="margin-top:15px;">
 Learn Input, Process and Output through fun interactive questions.
@@ -356,45 +351,6 @@ Start Quiz
 
 </div>
 
-<!-- FINAL CHALLENGE -->
-
-<div class="screen" id="challengeScreen">
-
-<div class="card">
-
-<h1>Final Challenge</h1>
-
-<div class="badge">🌟</div>
-
-<div class="question">
-A child types, computer checks spelling, then shows corrected words.
-Which step is checking spelling?
-</div>
-
-<div class="options">
-
-<button class="option-btn" onclick="finishGame(false)">
-Input
-</button>
-
-<button class="option-btn" onclick="finishGame(true)">
-Process
-</button>
-
-<button class="option-btn" onclick="finishGame(false)">
-Output
-</button>
-
-<button class="option-btn" onclick="finishGame(false)">
-Typing
-</button>
-
-</div>
-
-</div>
-
-</div>
-
 <!-- RESULT -->
 
 <div class="screen" id="resultScreen">
@@ -417,8 +373,8 @@ Play Again
 
 </div>
 
-<audio id="correctSound" src="assets/correct.mp3"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="correctSound" src="./assets/correct.mp3"></audio>
+<audio id="wrongSound" src="./assets/wrong.mp3"></audio>
 
 <script>
 
@@ -579,7 +535,6 @@ let retryUsed=false;
 const logoScreen=document.getElementById("logoScreen");
 const introScreen=document.getElementById("introScreen");
 const quizScreen=document.getElementById("quizScreen");
-const challengeScreen=document.getElementById("challengeScreen");
 const resultScreen=document.getElementById("resultScreen");
 
 const questionText=document.getElementById("questionText");
@@ -592,21 +547,30 @@ const explanation=document.getElementById("explanation");
 const correctSound=document.getElementById("correctSound");
 const wrongSound=document.getElementById("wrongSound");
 
+window.onload=function(){
+
+logoScreen.style.display="flex";
+
 setTimeout(()=>{
 
-logoScreen.classList.remove("active");
-introScreen.classList.add("active");
+logoScreen.style.display="none";
+
+introScreen.style.display="flex";
 
 },5000);
+
+};
 
 function startQuiz(){
 
 questions=shuffleQuestions(questions);
 
 introScreen.style.display="none";
+
 quizScreen.style.display="flex";
 
 currentQuestion=0;
+
 score=0;
 
 loadQuestion();
@@ -620,6 +584,7 @@ clearInterval(timer);
 retryUsed=false;
 
 feedback.innerHTML="";
+
 explanation.style.display="none";
 
 const q=questions[currentQuestion];
@@ -658,6 +623,7 @@ timerText.innerHTML=`Time: ${timeLeft}`;
 if(timeLeft<=0){
 
 clearInterval(timer);
+
 showCorrectAnswer();
 
 }
@@ -763,7 +729,7 @@ setTimeout(()=>{
 
 nextQuestion();
 
-},4000);
+},3500);
 
 }
 
@@ -777,52 +743,28 @@ loadQuestion();
 
 }else{
 
+showResult();
+
+}
+
+}
+
+function showResult(){
+
 quizScreen.style.display="none";
-
-challengeScreen.style.display="flex";
-
-}
-
-}
-
-function finishGame(correct){
-
-if(correct){
-
-score++;
-
-createConfetti();
-
-correctSound.play();
-
-}else{
-
-wrongSound.play();
-
-showCross();
-
-}
-
-setTimeout(()=>{
-
-challengeScreen.classList.remove("active");
-
-challengeScreen.style.display="none";
-
-resultScreen.classList.add("active");
 
 resultScreen.style.display="flex";
 
 document.getElementById("finalScore").innerHTML=
-`Your Score: ${score} / 16`;
+`Your Score: ${score} / ${questions.length}`;
 
 let msg="";
 
-if(score>=14){
+if(score>=13){
 
 msg="Excellent Work!";
 
-}else if(score>=10){
+}else if(score>=9){
 
 msg="Very Good Job!";
 
@@ -834,13 +776,6 @@ msg="Good Try! Keep Practicing.";
 
 document.getElementById("message").innerHTML=msg;
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-},800);
-
 }
 
 function restartQuiz(){
@@ -848,9 +783,11 @@ function restartQuiz(){
 questions=shuffleQuestions(questions);
 
 currentQuestion=0;
+
 score=0;
 
 resultScreen.style.display="none";
+
 introScreen.style.display="flex";
 
 }
