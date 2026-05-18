@@ -60,6 +60,7 @@ justify-content:center;
 align-items:center;
 padding:20px;
 text-align:center;
+overflow-y:auto;
 }
 
 .active{
@@ -343,19 +344,19 @@ Which computer part helps us type letters and numbers?
 
 <div class="options">
 
-<button class="option-btn" onclick="finishGame(true)">
+<button type="button" class="option-btn" onclick="finishGame(true)">
 Keyboard
 </button>
 
-<button class="option-btn" onclick="finishGame(false)">
+<button type="button" class="option-btn" onclick="finishGame(false)">
 Speaker
 </button>
 
-<button class="option-btn" onclick="finishGame(false)">
+<button type="button" class="option-btn" onclick="finishGame(false)">
 Monitor
 </button>
 
-<button class="option-btn" onclick="finishGame(false)">
+<button type="button" class="option-btn" onclick="finishGame(false)">
 Mouse
 </button>
 
@@ -549,7 +550,6 @@ const wrongSound = document.getElementById("wrongSound");
 setTimeout(()=>{
 
 logoScreen.classList.remove("active");
-
 introScreen.classList.add("active");
 
 },5000);
@@ -557,7 +557,6 @@ introScreen.classList.add("active");
 function startQuiz(){
 
 introScreen.classList.remove("active");
-
 quizScreen.classList.add("active");
 
 loadQuestion();
@@ -571,7 +570,6 @@ clearInterval(timer);
 retryUsed = false;
 
 feedback.innerHTML = "";
-
 explanation.style.display = "none";
 
 const q = questions[currentQuestion];
@@ -644,9 +642,7 @@ createConfetti();
 buttons.forEach(btn=>btn.disabled=true);
 
 setTimeout(()=>{
-
 nextQuestion();
-
 },1500);
 
 }else{
@@ -667,9 +663,7 @@ feedback.innerHTML =
 feedback.style.color = "#c62828";
 
 buttons.forEach(btn=>{
-
 btn.disabled = false;
-
 });
 
 button.disabled = true;
@@ -715,9 +709,7 @@ explanation.innerHTML =
 `💡 ${q.explanation}`;
 
 setTimeout(()=>{
-
 nextQuestion();
-
 },4000);
 
 }
@@ -733,7 +725,6 @@ loadQuestion();
 }else{
 
 quizScreen.classList.remove("active");
-
 challengeScreen.classList.add("active");
 
 }
@@ -743,7 +734,6 @@ challengeScreen.classList.add("active");
 function finishGame(correct){
 
 challengeScreen.classList.remove("active");
-
 resultScreen.classList.add("active");
 
 if(correct){
@@ -781,16 +771,18 @@ msg = "Good effort! Practice and play again.";
 
 document.getElementById("message").innerHTML = msg;
 
+setTimeout(() => {
+window.scrollTo(0,0);
+},100);
+
 }
 
 function restartQuiz(){
 
 currentQuestion = 0;
-
 score = 0;
 
 resultScreen.classList.remove("active");
-
 introScreen.classList.add("active");
 
 }
@@ -812,9 +804,7 @@ Math.random()*200 + "px";
 document.body.appendChild(confetti);
 
 setTimeout(()=>{
-
 confetti.remove();
-
 },1500);
 
 }
@@ -838,9 +828,7 @@ Math.random()*window.innerHeight + "px";
 document.body.appendChild(cross);
 
 setTimeout(()=>{
-
 cross.remove();
-
 },1000);
 
 }
