@@ -152,6 +152,8 @@ cursor:pointer;
 font-size:1rem;
 transition:0.3s;
 font-weight:500;
+position:relative;
+z-index:10;
 }
 
 .option-btn:hover{
@@ -255,6 +257,16 @@ transform:scale(2);
 .badge{
 font-size:2.2rem;
 margin:15px 0;
+}
+
+#challengeScreen{
+z-index:9999;
+position:relative;
+}
+
+#challengeScreen .option-btn{
+pointer-events:auto;
+z-index:10000;
 }
 
 @media(max-width:600px){
@@ -405,10 +417,7 @@ Play Again
 
 </div>
 
-<!-- AUDIO -->
-
 <audio id="correctSound" src="assets/correct.mp3"></audio>
-
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 
 <script>
@@ -547,8 +556,6 @@ explanation:"Computer follows Input → Process → Output."
 
 ];
 
-// RANDOM QUESTIONS
-
 function shuffleQuestions(array){
 
 for(let i=array.length-1;i>0;i--){
@@ -588,7 +595,6 @@ const wrongSound=document.getElementById("wrongSound");
 setTimeout(()=>{
 
 logoScreen.classList.remove("active");
-
 introScreen.classList.add("active");
 
 },5000);
@@ -598,8 +604,10 @@ function startQuiz(){
 questions=shuffleQuestions(questions);
 
 introScreen.style.display="none";
-
 quizScreen.style.display="flex";
+
+currentQuestion=0;
+score=0;
 
 loadQuestion();
 
@@ -612,7 +620,6 @@ clearInterval(timer);
 retryUsed=false;
 
 feedback.innerHTML="";
-
 explanation.style.display="none";
 
 const q=questions[currentQuestion];
@@ -651,7 +658,6 @@ timerText.innerHTML=`Time: ${timeLeft}`;
 if(timeLeft<=0){
 
 clearInterval(timer);
-
 showCorrectAnswer();
 
 }
@@ -781,17 +787,31 @@ challengeScreen.style.display="flex";
 
 function finishGame(correct){
 
-challengeScreen.style.display="none";
-
-resultScreen.style.display="flex";
-
 if(correct){
 
 score++;
 
 createConfetti();
 
+correctSound.play();
+
+}else{
+
+wrongSound.play();
+
+showCross();
+
 }
+
+setTimeout(()=>{
+
+challengeScreen.classList.remove("active");
+
+challengeScreen.style.display="none";
+
+resultScreen.classList.add("active");
+
+resultScreen.style.display="flex";
 
 document.getElementById("finalScore").innerHTML=
 `Your Score: ${score} / 16`;
@@ -814,6 +834,13 @@ msg="Good Try! Keep Practicing.";
 
 document.getElementById("message").innerHTML=msg;
 
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+},800);
+
 }
 
 function restartQuiz(){
@@ -821,11 +848,9 @@ function restartQuiz(){
 questions=shuffleQuestions(questions);
 
 currentQuestion=0;
-
 score=0;
 
 resultScreen.style.display="none";
-
 introScreen.style.display="flex";
 
 }
