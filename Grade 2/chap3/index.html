@@ -1,1 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fun with MS Paint - 2</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:url('assets/bg.png') no-repeat center center fixed;
+background-size:cover;
+overflow-x:hidden;
+min-height:100vh;
+position:relative;
+color:#222;
+}
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,255,255,0.80);
+z-index:-1;
+}
+
+.background{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:0;
+pointer-events:none;
+}
+
+.star{
+position:absolute;
+width:5px;
+height:5px;
+background:white;
+border-radius:50%;
+opacity:0.8;
+animation:floatStars linear infinite;
+}
+
+@keyframes floatStars{
+0%{
+transform:translateY(100vh);
+opacity:0;
+}
+50%{
+opacity:1;
+}
+100%{
+transform:translateY(-10vh);
+opacity:0;
+}
+}
+
+.screen{
+display:none;
+position:relative;
+z-index:2;
+min-height:100vh;
+justify-content:center;
+align-items:center;
+padding:20px;
+text-align:center;
+}
+
+.active{
+display:flex;
+flex-direction:column;
+}
+
+.card{
+background:#ffffffee;
+padding:24px;
+border-radius:24px;
+max-width:850px;
+width:100%;
+box-shadow:0 10px 25px rgba(0,0,0,0.18);
+border:2px solid #dbe9ff;
+backdrop-filter:blur(5px);
+}
+
+.logo-screen{
+background:white;
+z-index:99999;
+}
+
+.logo-screen img{
+width:220px;
+max-width:90%;
+display:block;
+margin:auto;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+h1{
+color:#1565c0;
+margin-bottom:10px;
+}
+
+.info{
+margin:8px 0;
+font-size:1rem;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+margin-bottom:18px;
+font-weight:bold;
+font-size:1rem;
+gap:10px;
+}
+
+.question{
+font-size:1.15rem;
+line-height:1.6;
+font-weight:600;
+margin-bottom:20px;
+}
+
+.options{
+display:grid;
+gap:12px;
+}
+
+.option-btn{
+padding:14px;
+border:none;
+border-radius:14px;
+background:#eef6ff;
+cursor:pointer;
+font-size:1rem;
+transition:0.3s;
+font-weight:500;
+}
+
+.option-btn:hover{
+background:#d8ecff;
+transform:scale(1.02);
+}
+
+.correct{
+background:#d4ffd4 !important;
+border:2px solid #2e7d32;
+}
+
+.wrong{
+background:#ffd9d9 !important;
+border:2px solid #c62828;
+}
+
+.feedback{
+margin-top:15px;
+font-weight:bold;
+min-height:28px;
+}
+
+.explanation{
+margin-top:12px;
+background:#eef7ff;
+padding:12px;
+border-radius:12px;
+display:none;
+font-size:0.95rem;
+line-height:1.5;
+}
+
+.main-btn{
+padding:12px 24px;
+margin-top:18px;
+border:none;
+background:#1565c0;
+color:white;
+font-size:1rem;
+border-radius:12px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.main-btn:hover{
+background:#0d47a1;
+}
+
+.confetti{
+position:fixed;
+width:14px;
+height:14px;
+background:gold;
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+animation:fall 1.5s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(0) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(500px) rotate(360deg);
+opacity:0;
+}
+}
+
+.cross{
+position:fixed;
+font-size:42px;
+color:red;
+animation:fade 1s forwards;
+z-index:999;
+}
+
+@keyframes fade{
+0%{
+opacity:1;
+transform:scale(1);
+}
+100%{
+opacity:0;
+transform:scale(2);
+}
+}
+
+.badge{
+font-size:2.2rem;
+margin:15px 0;
+}
+
+@media(max-width:600px){
+
+.question{
+font-size:1rem;
+}
+
+.option-btn{
+font-size:0.95rem;
+padding:12px;
+}
+
+.topbar{
+flex-direction:column;
+font-size:0.9rem;
+}
+
+.logo-screen img{
+width:180px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background" id="background"></div>
+
+<!-- LOGO SCREEN -->
+
+<div class="screen active logo-screen" id="logoScreen">
+
+<img src="./assets/innovine-logo.png" alt="Innovine Logo">
+
+<h2 style="margin-top:20px;">
+Innovine Interactive Learning
+</h2>
+
+</div>
+
+<!-- INTRO -->
+
+<div class="screen" id="introScreen">
+
+<div class="card">
+
+<h1>Fun with MS Paint - 2</h1>
+
+<p class="info"><strong>Grade:</strong> 2</p>
+<p class="info"><strong>Subject:</strong> ICT</p>
+<p class="info"><strong>Total Questions:</strong> 15</p>
+
+<p style="margin-top:15px;">
+Learn advanced MS Paint concepts through fun competency-based questions.
+</p>
+
+<button class="main-btn" onclick="startQuiz()">
+Start Quiz
+</button>
+
+</div>
+
+</div>
+
+<!-- QUIZ -->
+
+<div class="screen" id="quizScreen">
+
+<div class="card">
+
+<div class="topbar">
+
+<div id="scoreText">Score: 0</div>
+
+<div id="timerText">Time: 60</div>
+
+</div>
+
+<div class="question" id="questionText"></div>
+
+<div class="options" id="optionsContainer"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="explanation" id="explanation"></div>
+
+</div>
+
+</div>
+
+<!-- RESULT -->
+
+<div class="screen" id="resultScreen">
+
+<div class="card">
+
+<h1>Quiz Completed!</h1>
+
+<div class="badge">🏆</div>
+
+<h2 id="finalScore"></h2>
+
+<p id="message"></p>
+
+<button class="main-btn" onclick="restartQuiz()">
+Play Again
+</button>
+
+</div>
+
+</div>
+
+<audio id="correctSound" src="./assets/correct.mp3"></audio>
+<audio id="wrongSound" src="./assets/wrong.mp3"></audio>
+
+<script>
+
+let questions=[
+
+{
+question:"A student wants to copy a drawing in Paint. Which tool should be used?",
+options:["Copy","Brush","Eraser","Fill"],
+answer:0,
+explanation:"Copy tool helps duplicate drawings."
+},
+
+{
+question:"Riya wants to paste a copied picture into Paint. Which option should she use?",
+options:["Cut","Paste","Erase","Draw"],
+answer:1,
+explanation:"Paste places copied content."
+},
+
+{
+question:"A child wants to select only one part of a picture. Which tool helps?",
+options:["Select tool","Brush","Line","Fill"],
+answer:0,
+explanation:"Select tool chooses a specific area."
+},
+
+{
+question:"Aarav cuts a shape from one place and moves it elsewhere. Which option is used?",
+options:["Paste","Cut","Brush","Fill"],
+answer:1,
+explanation:"Cut removes and allows moving the object."
+},
+
+{
+question:"A student uses zoom tool in Paint. Why is it useful?",
+options:[
+"To color shapes",
+"To see drawing closely",
+"To erase pictures",
+"To save files"
+],
+answer:1,
+explanation:"Zoom helps view pictures closely."
+},
+
+{
+question:"Look at this order: Select → Copy → Paste. What happens finally?",
+options:[
+"Picture gets erased",
+"Picture gets duplicated",
+"Picture changes color",
+"Picture gets saved"
+],
+answer:1,
+explanation:"Copy and paste duplicates pictures."
+},
+
+{
+question:"A student selects part of a picture and presses delete. What will happen?",
+options:[
+"Picture gets colored",
+"Selected part gets removed",
+"Picture gets copied",
+"Picture gets zoomed"
+],
+answer:1,
+explanation:"Delete removes selected area."
+},
+
+{
+question:"Assertion: Zoom tool helps us enlarge a picture. Reason: It makes viewing easier.",
+options:[
+"Both correct and reason explains",
+"Both correct but not related",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+answer:0,
+explanation:"Zoom enlarges picture view."
+},
+
+{
+question:"Which does NOT belong?",
+options:["Copy","Paste","Brush","Keyboard"],
+answer:3,
+explanation:"Keyboard is not an MS Paint editing option."
+},
+
+{
+question:"A student clicks undo after making a mistake. What happens?",
+options:[
+"Mistake gets removed",
+"Drawing gets colored",
+"Picture gets zoomed",
+"Text gets added"
+],
+answer:0,
+explanation:"Undo removes the last action."
+},
+
+{
+question:"Case: Sia copies a flower and pastes it three times. What is she doing?",
+options:[
+"Deleting",
+"Duplicating",
+"Coloring",
+"Zooming"
+],
+answer:1,
+explanation:"Copy-paste duplicates objects."
+},
+
+{
+question:"Error: A student says paste removes the picture. What is the mistake?",
+options:[
+"Paste adds copied content",
+"Paste deletes pictures",
+"Paste zooms picture",
+"Paste colors shapes"
+],
+answer:0,
+explanation:"Paste inserts copied items."
+},
+
+{
+question:"A child zooms a picture before coloring tiny parts. Why?",
+options:[
+"To see details clearly",
+"To erase picture",
+"To close Paint",
+"To save file"
+],
+answer:0,
+explanation:"Zoom helps see small details."
+},
+
+{
+question:"A student wants to move part of a picture. Which steps are correct?",
+options:[
+"Select → Cut → Paste",
+"Brush → Fill → Save",
+"Zoom → Erase → Draw",
+"Paste → Select → Delete"
+],
+answer:0,
+explanation:"Select, cut and paste help move objects."
+},
+
+{
+question:"A student presses undo many times. What happens?",
+options:[
+"Previous actions reverse",
+"Picture gets copied",
+"Shapes get colored",
+"Paint closes"
+],
+answer:0,
+explanation:"Undo reverses previous actions."
+}
+
+];
+
+function shuffleQuestions(array){
+
+for(let i=array.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[array[i],array[j]]=[array[j],array[i]];
+
+}
+
+return array;
+
+}
+
+let currentQuestion=0;
+let score=0;
+let timer;
+let timeLeft=60;
+let retryUsed=false;
+
+const logoScreen=document.getElementById("logoScreen");
+const introScreen=document.getElementById("introScreen");
+const quizScreen=document.getElementById("quizScreen");
+const resultScreen=document.getElementById("resultScreen");
+
+const questionText=document.getElementById("questionText");
+const optionsContainer=document.getElementById("optionsContainer");
+const scoreText=document.getElementById("scoreText");
+const timerText=document.getElementById("timerText");
+const feedback=document.getElementById("feedback");
+const explanation=document.getElementById("explanation");
+
+const correctSound=document.getElementById("correctSound");
+const wrongSound=document.getElementById("wrongSound");
+
+window.onload=function(){
+
+logoScreen.style.display="flex";
+
+setTimeout(()=>{
+
+logoScreen.style.display="none";
+
+introScreen.style.display="flex";
+
+},5000);
+
+};
+
+function startQuiz(){
+
+questions=shuffleQuestions(questions);
+
+introScreen.style.display="none";
+
+quizScreen.style.display="flex";
+
+currentQuestion=0;
+
+score=0;
+
+loadQuestion();
+
+}
+
+function loadQuestion(){
+
+clearInterval(timer);
+
+retryUsed=false;
+
+feedback.innerHTML="";
+
+explanation.style.display="none";
+
+const q=questions[currentQuestion];
+
+questionText.innerHTML=
+`Q${currentQuestion+1}. ${q.question}`;
+
+optionsContainer.innerHTML="";
+
+q.options.forEach((option,index)=>{
+
+const btn=document.createElement("button");
+
+btn.classList.add("option-btn");
+
+btn.innerText=option;
+
+btn.onclick=()=>checkAnswer(index,btn);
+
+optionsContainer.appendChild(btn);
+
+});
+
+scoreText.innerHTML=`Score: ${score}`;
+
+timeLeft=60;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+if(timeLeft<=0){
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+},1000);
+
+}
+
+function checkAnswer(selected,button){
+
+const q=questions[currentQuestion];
+
+const buttons=document.querySelectorAll(".option-btn");
+
+if(selected===q.answer){
+
+clearInterval(timer);
+
+button.classList.add("correct");
+
+feedback.innerHTML="✅ Correct!";
+
+feedback.style.color="green";
+
+correctSound.play();
+
+score++;
+
+createConfetti();
+
+buttons.forEach(btn=>btn.disabled=true);
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},1500);
+
+}else{
+
+button.classList.add("wrong");
+
+wrongSound.play();
+
+showCross();
+
+if(!retryUsed){
+
+retryUsed=true;
+
+feedback.innerHTML=
+"❌ Try Again! One more chance.";
+
+feedback.style.color="#c62828";
+
+buttons.forEach(btn=>{
+btn.disabled=false;
+});
+
+button.disabled=true;
+
+}else{
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+}
+
+}
+
+function showCorrectAnswer(){
+
+const q=questions[currentQuestion];
+
+const buttons=
+document.querySelectorAll(".option-btn");
+
+buttons.forEach((btn,index)=>{
+
+btn.disabled=true;
+
+if(index===q.answer){
+
+btn.classList.add("correct");
+
+}
+
+});
+
+feedback.innerHTML="Correct answer shown";
+
+feedback.style.color="#1565c0";
+
+explanation.style.display="block";
+
+explanation.innerHTML=
+`💡 ${q.explanation}`;
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},3500);
+
+}
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+}
+
+function showResult(){
+
+quizScreen.style.display="none";
+
+resultScreen.style.display="flex";
+
+document.getElementById("finalScore").innerHTML=
+`Your Score: ${score} / ${questions.length}`;
+
+let msg="";
+
+if(score>=13){
+
+msg="Excellent Work!";
+
+}else if(score>=9){
+
+msg="Very Good Job!";
+
+}else{
+
+msg="Good Try! Keep Practicing.";
+
+}
+
+document.getElementById("message").innerHTML=msg;
+
+}
+
+function restartQuiz(){
+
+questions=shuffleQuestions(questions);
+
+currentQuestion=0;
+
+score=0;
+
+resultScreen.style.display="none";
+
+introScreen.style.display="flex";
+
+}
+
+function createConfetti(){
+
+for(let i=0;i<20;i++){
+
+const confetti=document.createElement("div");
+
+confetti.classList.add("confetti");
+
+confetti.style.left=
+Math.random()*window.innerWidth+"px";
+
+confetti.style.top=
+Math.random()*200+"px";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+
+confetti.remove();
+
+},1500);
+
+}
+
+}
+
+function showCross(){
+
+const cross=document.createElement("div");
+
+cross.classList.add("cross");
+
+cross.innerHTML="✖";
+
+cross.style.left=
+Math.random()*window.innerWidth+"px";
+
+cross.style.top=
+Math.random()*window.innerHeight+"px";
+
+document.body.appendChild(cross);
+
+setTimeout(()=>{
+
+cross.remove();
+
+},1000);
+
+}
+
+function createBackground(){
+
+const bg=document.getElementById("background");
+
+for(let i=0;i<40;i++){
+
+const star=document.createElement("div");
+
+star.classList.add("star");
+
+star.style.left=Math.random()*100+"%";
+
+star.style.animationDuration=
+(5+Math.random()*8)+"s";
+
+star.style.animationDelay=
+Math.random()*5+"s";
+
+bg.appendChild(star);
+
+}
+
+}
+
+createBackground();
+
+</script>
+
+</body>
+</html>
