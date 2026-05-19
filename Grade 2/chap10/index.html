@@ -1,1 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MS Logo - Interactive CBQ</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+overflow-x:hidden;
+min-height:100vh;
+background:linear-gradient(135deg,#dff6ff,#fff5cc,#f3e7ff,#e8ffe7);
+position:relative;
+color:#222;
+}
+
+/* Animated Background */
+
+.bg-icons{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:-2;
+}
+
+.icon{
+position:absolute;
+font-size:34px;
+opacity:0.15;
+animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+0%{
+transform:translateY(100vh) rotate(0deg);
+opacity:0;
+}
+30%{
+opacity:0.15;
+}
+100%{
+transform:translateY(-120vh) rotate(360deg);
+opacity:0;
+}
+}
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at top left,#ffffffaa,transparent),
+radial-gradient(circle at bottom right,#ffffff88,transparent);
+z-index:-1;
+}
+
+/* Screens */
+
+.screen{
+display:none;
+min-height:100vh;
+justify-content:center;
+align-items:center;
+padding:20px;
+text-align:center;
+}
+
+.active{
+display:flex;
+flex-direction:column;
+}
+
+/* Logo */
+
+.logo-screen{
+background:white;
+z-index:99999;
+}
+
+.logo-screen img{
+width:260px;
+max-width:80vw;
+max-height:40vh;
+object-fit:contain;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+/* Card */
+
+.card{
+background:rgba(255,255,255,0.92);
+padding:24px;
+border-radius:28px;
+max-width:950px;
+width:100%;
+box-shadow:0 12px 30px rgba(0,0,0,0.18);
+backdrop-filter:blur(8px);
+border:2px solid rgba(255,255,255,0.5);
+animation:slideIn 0.5s ease;
+}
+
+@keyframes slideIn{
+from{
+transform:translateY(25px);
+opacity:0;
+}
+to{
+transform:translateY(0);
+opacity:1;
+}
+}
+
+h1{
+color:#1565c0;
+margin-bottom:12px;
+}
+
+.info{
+margin:8px 0;
+font-size:1rem;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+gap:10px;
+margin-bottom:20px;
+font-weight:bold;
+flex-wrap:wrap;
+}
+
+.progress{
+width:100%;
+height:12px;
+background:#dbe9ff;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#42a5f5,#ab47bc,#26a69a);
+transition:0.4s;
+}
+
+.question{
+font-size:1.18rem;
+line-height:1.6;
+font-weight:600;
+margin-bottom:20px;
+}
+
+.options{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.option-btn{
+padding:15px;
+border:none;
+border-radius:18px;
+background:linear-gradient(135deg,#eef6ff,#f8ebff);
+cursor:pointer;
+font-size:1rem;
+transition:0.3s;
+font-weight:600;
+color:#333;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.option-btn:hover{
+transform:translateY(-3px) scale(1.02);
+background:linear-gradient(135deg,#d8ecff,#ecdfff);
+}
+
+.correct{
+background:#c8ffd1 !important;
+border:2px solid #2e7d32;
+}
+
+.wrong{
+background:#ffd6d6 !important;
+border:2px solid #c62828;
+animation:shake 0.4s;
+}
+
+@keyframes shake{
+0%,100%{transform:translateX(0);}
+25%{transform:translateX(-5px);}
+75%{transform:translateX(5px);}
+}
+
+.feedback{
+margin-top:16px;
+font-weight:bold;
+min-height:28px;
+}
+
+.explanation{
+display:none;
+margin-top:14px;
+padding:14px;
+border-radius:16px;
+background:#eef7ff;
+font-size:0.96rem;
+line-height:1.5;
+}
+
+.main-btn{
+padding:14px 28px;
+border:none;
+border-radius:18px;
+background:linear-gradient(135deg,#1565c0,#8e24aa);
+color:white;
+font-size:1rem;
+cursor:pointer;
+margin-top:20px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.main-btn:hover{
+transform:scale(1.04);
+}
+
+/* Confetti */
+
+.confetti{
+position:fixed;
+width:14px;
+height:14px;
+background:gold;
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+animation:fall 1.5s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(0) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(500px) rotate(360deg);
+opacity:0;
+}
+}
+
+.cross{
+position:fixed;
+font-size:42px;
+color:red;
+animation:fade 1s forwards;
+z-index:999;
+}
+
+@keyframes fade{
+0%{
+opacity:1;
+transform:scale(1);
+}
+100%{
+opacity:0;
+transform:scale(2);
+}
+}
+
+.badge{
+font-size:2.8rem;
+margin:15px 0;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.options{
+grid-template-columns:1fr;
+}
+
+.question{
+font-size:1rem;
+}
+
+.option-btn{
+font-size:0.95rem;
+padding:14px;
+}
+
+.logo-screen img{
+width:200px;
+}
+
+.topbar{
+flex-direction:column;
+font-size:0.9rem;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg-icons" id="bgIcons"></div>
+
+<!-- Logo -->
+
+<div class="screen active logo-screen" id="logoScreen">
+
+<img src="./assets/innovine-logo.png" alt="Innovine Logo">
+
+<h2 style="margin-top:20px;">
+Innovine Interactive Learning
+</h2>
+
+</div>
+
+<!-- Intro -->
+
+<div class="screen" id="introScreen">
+
+<div class="card">
+
+<h1>MS Logo</h1>
+
+<p class="info"><strong>Grade:</strong> 2</p>
+<p class="info"><strong>Subject:</strong> ICT</p>
+<p class="info"><strong>Total Questions:</strong> 15</p>
+
+<p style="margin-top:16px;">
+Learn turtle commands and stepwise drawing through interactive CBQ challenges.
+</p>
+
+<button class="main-btn" onclick="startQuiz()">
+Start Quiz
+</button>
+
+</div>
+
+</div>
+
+<!-- Quiz -->
+
+<div class="screen" id="quizScreen">
+
+<div class="card">
+
+<div class="topbar">
+
+<div id="scoreText">Score: 0</div>
+
+<div id="timerText">Time: 60</div>
+
+<div id="questionCount">Question 1 / 15</div>
+
+</div>
+
+<div class="progress">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+
+<div class="question" id="questionText"></div>
+
+<div class="options" id="optionsContainer"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="explanation" id="explanation"></div>
+
+</div>
+
+</div>
+
+<!-- Result -->
+
+<div class="screen" id="resultScreen">
+
+<div class="card">
+
+<h1>Quiz Completed!</h1>
+
+<div class="badge">🐢🏆🎉</div>
+
+<h2 id="finalScore"></h2>
+
+<p id="message"></p>
+
+<button class="main-btn" onclick="restartQuiz()">
+Play Again
+</button>
+
+</div>
+
+</div>
+
+<audio id="correctSound" src="./assets/correct-1.mp3"></audio>
+<audio id="wrongSound" src="./assets/wrong.mp3"></audio>
+
+<script>
+
+/* QUESTIONS */
+
+const originalQuestions=[
+
+{
+question:"A student wants the turtle to move forward on the screen. Which command should be used?",
+options:["RT","FD","LT","BK"],
+answer:1,
+explanation:"FD command moves turtle forward."
+},
+
+{
+question:"Riya gives a wrong command and the turtle moves in the wrong direction. What should she do next?",
+options:["Continue","Correct the command","Close program","Print"],
+answer:1,
+explanation:"Wrong commands should be corrected."
+},
+
+{
+question:"Aarav wants the turtle to turn right. Which command should he use?",
+options:["LT","FD","RT","BK"],
+answer:2,
+explanation:"RT means Right Turn."
+},
+
+{
+question:"A student enters commands step by step and gets a perfect shape. What skill is used?",
+options:["Guessing","Stepwise thinking","Drawing randomly","Coloring"],
+answer:1,
+explanation:"Commands must follow steps properly."
+},
+
+{
+question:"Meera forgets one command while drawing a square. What may happen?",
+options:["Perfect square","Incomplete shape","Bigger shape","No drawing"],
+answer:1,
+explanation:"Missing steps create incomplete shapes."
+},
+
+{
+question:"A child gives commands in the wrong order. What will be the result?",
+options:["Correct drawing","Wrong drawing","Faster drawing","No change"],
+answer:1,
+explanation:"Wrong sequence gives wrong drawing."
+},
+
+{
+question:"Sia gives commands: FD → RT → FD → RT. What is she trying to draw?",
+options:["Circle","Square pattern","Line","Dot"],
+answer:1,
+explanation:"Repeated turns and moves form square patterns."
+},
+
+{
+question:"A student uses correct commands but wrong sequence. What will happen?",
+options:["Correct shape","Wrong shape","No movement","Faster result"],
+answer:1,
+explanation:"Commands must follow proper order."
+},
+
+{
+question:"FD → Forward\nBK → Backward\nRT → Right turn\nWhich command moves turtle backward?",
+options:["FD","BK","RT","LT"],
+answer:1,
+explanation:"BK moves turtle backward."
+},
+
+{
+question:"Correct order → Proper shape\nWrong order → Wrong shape\nMissing step → Incomplete\nWhich leads to incomplete drawing?",
+options:["Correct order","Missing step","Right turn","Forward"],
+answer:1,
+explanation:"Missing steps cause incomplete drawing."
+},
+
+{
+question:"A screen shows a square drawn using turtle commands. What made this possible?",
+options:["Random clicks","Stepwise commands","Coloring","Printing"],
+answer:1,
+explanation:"Stepwise commands create shapes."
+},
+
+{
+question:"A picture shows turtle moving in wrong direction. What is the reason?",
+options:["Correct command","Wrong command","Good sequence","Save option"],
+answer:1,
+explanation:"Wrong commands change direction incorrectly."
+},
+
+{
+question:"Assertion: MS Logo uses commands to draw.\nReason: The turtle follows instructions step by step.",
+options:[
+"Both correct and reason explains",
+"Both correct but not related",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+answer:0,
+explanation:"The turtle follows commands step by step."
+},
+
+{
+question:"Assertion: Correct sequence is important in Logo.\nReason: Commands must be followed in order.",
+options:[
+"Both correct and reason explains",
+"Both correct but not related",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+answer:0,
+explanation:"Correct order is important for proper drawing."
+},
+
+{
+question:"Which statement is incorrect?",
+options:[
+"FD moves forward",
+"RT turns right",
+"BK turns left",
+"LT turns left"
+],
+answer:2,
+explanation:"BK means Backward, not left."
+}
+
+];
+
+/* VARIABLES */
+
+let questions=[];
+let firstPlay=true;
+let currentQuestion=0;
+let score=0;
+let timer;
+let timeLeft=60;
+let retryUsed=false;
+
+const logoScreen=document.getElementById("logoScreen");
+const introScreen=document.getElementById("introScreen");
+const quizScreen=document.getElementById("quizScreen");
+const resultScreen=document.getElementById("resultScreen");
+
+const questionText=document.getElementById("questionText");
+const optionsContainer=document.getElementById("optionsContainer");
+const scoreText=document.getElementById("scoreText");
+const timerText=document.getElementById("timerText");
+const feedback=document.getElementById("feedback");
+const explanation=document.getElementById("explanation");
+const progressFill=document.getElementById("progressFill");
+
+const correctSound=document.getElementById("correctSound");
+const wrongSound=document.getElementById("wrongSound");
+
+/* SHUFFLE */
+
+function shuffleArray(array){
+
+for(let i=array.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[array[i],array[j]]=[array[j],array[i]];
+
+}
+
+return array;
+
+}
+
+function shuffleOptions(){
+
+questions.forEach(q=>{
+
+const correct=q.options[q.answer];
+
+q.options=shuffleArray([...q.options]);
+
+q.answer=q.options.indexOf(correct);
+
+});
+
+}
+
+/* LOGO */
+
+window.onload=function(){
+
+logoScreen.style.display="flex";
+
+setTimeout(()=>{
+
+logoScreen.style.display="none";
+
+introScreen.style.display="flex";
+
+},5000);
+
+};
+
+/* START QUIZ */
+
+function startQuiz(){
+
+questions=[...originalQuestions];
+
+if(!firstPlay){
+
+questions=shuffleArray(questions);
+
+}
+
+shuffleOptions();
+
+introScreen.style.display="none";
+quizScreen.style.display="flex";
+
+currentQuestion=0;
+score=0;
+
+loadQuestion();
+
+}
+
+/* LOAD QUESTION */
+
+function loadQuestion(){
+
+clearInterval(timer);
+
+retryUsed=false;
+
+feedback.innerHTML="";
+explanation.style.display="none";
+
+const q=questions[currentQuestion];
+
+questionText.innerHTML=
+`Q${currentQuestion+1}. ${q.question}`;
+
+document.getElementById("questionCount").innerHTML=
+`Question ${currentQuestion+1} / ${questions.length}`;
+
+progressFill.style.width=
+`${((currentQuestion)/questions.length)*100}%`;
+
+optionsContainer.innerHTML="";
+
+q.options.forEach((option,index)=>{
+
+const btn=document.createElement("button");
+
+btn.classList.add("option-btn");
+
+btn.innerHTML=option;
+
+btn.onclick=()=>checkAnswer(index,btn);
+
+optionsContainer.appendChild(btn);
+
+});
+
+scoreText.innerHTML=`Score: ${score}`;
+
+timeLeft=60;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+if(timeLeft<=0){
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+},1000);
+
+}
+
+/* CHECK */
+
+function checkAnswer(selected,button){
+
+const q=questions[currentQuestion];
+
+const buttons=document.querySelectorAll(".option-btn");
+
+if(selected===q.answer){
+
+clearInterval(timer);
+
+button.classList.add("correct");
+
+feedback.innerHTML="✅ Correct!";
+
+feedback.style.color="green";
+
+correctSound.play();
+
+score++;
+
+createConfetti();
+
+buttons.forEach(btn=>btn.disabled=true);
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},1500);
+
+}else{
+
+button.classList.add("wrong");
+
+wrongSound.play();
+
+showCross();
+
+if(!retryUsed){
+
+retryUsed=true;
+
+feedback.innerHTML=
+"❌ Try Again! One more chance.";
+
+feedback.style.color="#c62828";
+
+button.disabled=true;
+
+}else{
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+}
+
+}
+
+/* SHOW ANSWER */
+
+function showCorrectAnswer(){
+
+const q=questions[currentQuestion];
+
+const buttons=
+document.querySelectorAll(".option-btn");
+
+buttons.forEach((btn,index)=>{
+
+btn.disabled=true;
+
+if(index===q.answer){
+
+btn.classList.add("correct");
+
+}
+
+});
+
+feedback.innerHTML="Correct answer shown";
+
+feedback.style.color="#1565c0";
+
+explanation.style.display="block";
+
+explanation.innerHTML=
+`💡 ${q.explanation}`;
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},3500);
+
+}
+
+/* NEXT */
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+}
+
+/* RESULT */
+
+function showResult(){
+
+quizScreen.style.display="none";
+
+resultScreen.style.display="flex";
+
+document.getElementById("finalScore").innerHTML=
+`Your Score: ${score} / ${questions.length}`;
+
+let msg="";
+
+if(score>=13){
+
+msg="🌟 Excellent MS Logo Champion!";
+
+}else if(score>=9){
+
+msg="👍 Very Good Work!";
+
+}else{
+
+msg="😊 Keep Practicing Logo Commands!";
+
+}
+
+document.getElementById("message").innerHTML=msg;
+
+firstPlay=false;
+
+}
+
+/* RESTART */
+
+function restartQuiz(){
+
+currentQuestion=0;
+score=0;
+
+resultScreen.style.display="none";
+
+introScreen.style.display="flex";
+
+}
+
+/* CONFETTI */
+
+function createConfetti(){
+
+for(let i=0;i<24;i++){
+
+const confetti=document.createElement("div");
+
+confetti.classList.add("confetti");
+
+confetti.style.left=
+Math.random()*window.innerWidth+"px";
+
+confetti.style.top=
+Math.random()*150+"px";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+
+confetti.remove();
+
+},1500);
+
+}
+
+}
+
+/* WRONG EFFECT */
+
+function showCross(){
+
+const cross=document.createElement("div");
+
+cross.classList.add("cross");
+
+cross.innerHTML="✖";
+
+cross.style.left=
+Math.random()*window.innerWidth+"px";
+
+cross.style.top=
+Math.random()*window.innerHeight+"px";
+
+document.body.appendChild(cross);
+
+setTimeout(()=>{
+
+cross.remove();
+
+},1000);
+
+}
+
+/* BACKGROUND ICONS */
+
+function createIcons(){
+
+const bg=document.getElementById("bgIcons");
+
+const icons=["🐢","➡️","⬅️","🔺","🧠","💻","📘","🟦"];
+
+for(let i=0;i<35;i++){
+
+const icon=document.createElement("div");
+
+icon.classList.add("icon");
+
+icon.innerHTML=
+icons[Math.floor(Math.random()*icons.length)];
+
+icon.style.left=Math.random()*100+"%";
+
+icon.style.animationDuration=
+(8+Math.random()*10)+"s";
+
+icon.style.animationDelay=
+Math.random()*5+"s";
+
+icon.style.fontSize=
+(24+Math.random()*25)+"px";
+
+bg.appendChild(icon);
+
+}
+
+}
+
+createIcons();
+
+</script>
+
+</body>
+</html>
