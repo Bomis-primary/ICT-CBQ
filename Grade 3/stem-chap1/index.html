@@ -22,7 +22,7 @@ position:relative;
 color:#222;
 }
 
-/* BACKGROUND */
+/* Animated Background */
 
 .bg-icons{
 position:fixed;
@@ -68,7 +68,7 @@ radial-gradient(circle at bottom right,#ffffff88,transparent);
 z-index:-1;
 }
 
-/* SCREENS */
+/* Screens */
 
 .screen{
 display:none;
@@ -84,7 +84,7 @@ display:flex;
 flex-direction:column;
 }
 
-/* LOGO */
+/* Logo */
 
 .logo-screen{
 background:white;
@@ -105,7 +105,7 @@ animation:pulse 2s infinite;
 100%{transform:scale(1);}
 }
 
-/* CARD */
+/* Card */
 
 .card{
 background:rgba(255,255,255,0.94);
@@ -170,6 +170,15 @@ font-size:1.18rem;
 line-height:1.6;
 font-weight:600;
 margin-bottom:20px;
+}
+
+.question-image{
+width:100%;
+max-width:340px;
+margin:0 auto 18px;
+border-radius:18px;
+display:none;
+box-shadow:0 6px 12px rgba(0,0,0,0.15);
 }
 
 .options{
@@ -246,7 +255,7 @@ transition:0.3s;
 transform:scale(1.04);
 }
 
-/* CONFETTI */
+/* Confetti */
 
 .confetti{
 position:fixed;
@@ -304,7 +313,7 @@ font-size:2.8rem;
 margin:15px 0;
 }
 
-/* MOBILE */
+/* Mobile */
 
 @media(max-width:768px){
 
@@ -339,7 +348,7 @@ font-size:0.9rem;
 
 <div class="bg-icons" id="bgIcons"></div>
 
-<!-- LOGO SCREEN -->
+<!-- Logo -->
 
 <div class="screen active logo-screen" id="logoScreen">
 
@@ -351,7 +360,7 @@ Innovine Interactive Learning
 
 </div>
 
-<!-- INTRO -->
+<!-- Intro -->
 
 <div class="screen" id="introScreen">
 
@@ -364,7 +373,7 @@ Innovine Interactive Learning
 <p class="info"><strong>Total Questions:</strong> 15</p>
 
 <p style="margin-top:16px;">
-Learn about batteries, bulbs, wires and electric circuits through interactive CBQ challenges.
+Learn about electric circuits, switches, bulbs and batteries through fun CBQ challenges.
 </p>
 
 <button class="main-btn" onclick="startQuiz()">
@@ -375,7 +384,7 @@ Start Quiz
 
 </div>
 
-<!-- QUIZ -->
+<!-- Quiz -->
 
 <div class="screen" id="quizScreen">
 
@@ -395,6 +404,8 @@ Start Quiz
 <div class="progress-fill" id="progressFill"></div>
 </div>
 
+<img id="questionImage" class="question-image" src="" alt="Question Image">
+
 <div class="question" id="questionText"></div>
 
 <div class="options" id="optionsContainer"></div>
@@ -407,7 +418,7 @@ Start Quiz
 
 </div>
 
-<!-- RESULT -->
+<!-- Result -->
 
 <div class="screen" id="resultScreen">
 
@@ -442,7 +453,7 @@ const originalQuestions=[
 question:"Riya connects a bulb and battery but it does not glow. What should she check?",
 options:["Decoration","Circuit connection","Paint","Folder"],
 answer:1,
-explanation:"A proper circuit connection is needed for the bulb to glow."
+explanation:"A proper circuit connection is needed."
 },
 
 {
@@ -456,7 +467,7 @@ explanation:"Correct connection forms a working circuit."
 question:"A student leaves a gap in the wire connection. What kind of circuit is this?",
 options:["Closed circuit","Open circuit","Full circuit","Active circuit"],
 answer:1,
-explanation:"A broken path is called an open circuit."
+explanation:"A broken path creates an open circuit."
 },
 
 {
@@ -470,7 +481,7 @@ explanation:"A complete path forms a closed circuit."
 question:"Aarav uses a switch to turn bulb ON/OFF. What does switch do?",
 options:["Decorates","Controls flow","Deletes","Saves"],
 answer:1,
-explanation:"A switch controls the flow of electricity."
+explanation:"Switch controls electric flow."
 },
 
 {
@@ -484,21 +495,21 @@ explanation:"Wire is needed to complete the circuit."
 question:"Riya’s bulb is not glowing even after connecting parts. What should she check?",
 options:["Loose connection","Colour of wire","Table size","Font"],
 answer:0,
-explanation:"Loose connections stop electricity flow."
+explanation:"Loose connection stops electricity flow."
 },
 
 {
 question:"Aarav wants to make bulb glow. What should he ensure?",
 options:["Open circuit","Closed circuit","Broken wire","No battery"],
 answer:1,
-explanation:"A closed circuit allows current to flow."
+explanation:"Closed circuit allows current flow."
 },
 
 {
 question:"Circuit → Result\nOpen → No glow\nClosed → Glow\nWhich will glow?",
 options:["Open","Closed","Both","None"],
 answer:1,
-explanation:"Closed circuits allow electricity flow."
+explanation:"Closed circuit glows."
 },
 
 {
@@ -510,28 +521,31 @@ explanation:"Battery supplies power."
 
 {
 question:"(Picture-Based) Identify closed circuit.",
+image:"./assets/Q11.PNG",
 options:["Broken path","Complete path","No battery","Loose wire"],
 answer:1,
-explanation:"A complete path is a closed circuit."
+explanation:"Complete path is a closed circuit."
 },
 
 {
 question:"(Picture-Based) Identify switch.",
+image:"./assets/Q12.PNG",
 options:["Battery","Control device","Wire","Bulb"],
 answer:1,
 explanation:"Switch controls current flow."
 },
 
 {
-question:"Assertion: Closed circuit allows current to flow.\nReason: Path is complete.",
+question:"Which circuit allows current to flow?",
+image:"./assets/Q13.PNG",
 options:[
-"Both correct and reason explains",
-"Both correct but unrelated",
-"Assertion correct, reason wrong",
-"Both wrong"
+"Closed circuit",
+"Open circuit",
+"Broken circuit",
+"Loose circuit"
 ],
 answer:0,
-explanation:"A complete path allows current to flow."
+explanation:"Closed circuit allows current flow."
 },
 
 {
@@ -543,7 +557,7 @@ options:[
 "Both wrong"
 ],
 answer:0,
-explanation:"Broken paths stop electricity flow."
+explanation:"Broken path stops electricity."
 },
 
 {
@@ -582,6 +596,7 @@ const timerText=document.getElementById("timerText");
 const feedback=document.getElementById("feedback");
 const explanation=document.getElementById("explanation");
 const progressFill=document.getElementById("progressFill");
+const questionImage=document.getElementById("questionImage");
 
 const correctSound=document.getElementById("correctSound");
 const wrongSound=document.getElementById("wrongSound");
@@ -677,6 +692,17 @@ document.getElementById("questionCount").innerHTML=
 
 progressFill.style.width=
 `${((currentQuestion)/questions.length)*100}%`;
+
+if(q.image){
+
+questionImage.src=q.image;
+questionImage.style.display="block";
+
+}else{
+
+questionImage.style.display="none";
+
+}
 
 optionsContainer.innerHTML="";
 
@@ -937,13 +963,13 @@ cross.remove();
 
 }
 
-/* BACKGROUND ICONS */
+/* BACKGROUND */
 
 function createIcons(){
 
 const bg=document.getElementById("bgIcons");
 
-const icons=["💡","🔋","⚡","🔌","🧲","💻","🔧","🪫"];
+const icons=["💡","🔋","⚡","🔌","🧲","🔧","🪫","💻"];
 
 for(let i=0;i<35;i++){
 
