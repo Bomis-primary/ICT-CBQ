@@ -1,1 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fun with Kid Pix - 1</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#dff6ff,#fff4d6);
+overflow-x:hidden;
+min-height:100vh;
+position:relative;
+color:#222;
+}
+
+.background{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:0;
+pointer-events:none;
+}
+
+.star{
+position:absolute;
+width:5px;
+height:5px;
+background:white;
+border-radius:50%;
+opacity:0.8;
+animation:floatStars linear infinite;
+}
+
+@keyframes floatStars{
+0%{
+transform:translateY(100vh);
+opacity:0;
+}
+50%{
+opacity:1;
+}
+100%{
+transform:translateY(-10vh);
+opacity:0;
+}
+}
+
+.screen{
+display:none;
+position:relative;
+z-index:2;
+min-height:100vh;
+justify-content:center;
+align-items:center;
+padding:20px;
+text-align:center;
+}
+
+.active{
+display:flex;
+flex-direction:column;
+}
+
+.card{
+background:#ffffffee;
+padding:24px;
+border-radius:24px;
+max-width:850px;
+width:100%;
+box-shadow:0 10px 25px rgba(0,0,0,0.18);
+border:2px solid #dbe9ff;
+backdrop-filter:blur(5px);
+}
+
+.logo-screen{
+background:white;
+z-index:99999;
+}
+
+.logo-screen img{
+width:260px;
+max-width:85vw;
+max-height:45vh;
+display:block;
+margin:auto;
+object-fit:contain;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+h1{
+color:#1565c0;
+margin-bottom:10px;
+}
+
+.info{
+margin:8px 0;
+font-size:1rem;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+margin-bottom:18px;
+font-weight:bold;
+font-size:1rem;
+gap:10px;
+}
+
+.question{
+font-size:1.15rem;
+line-height:1.6;
+font-weight:600;
+margin-bottom:20px;
+}
+
+.options{
+display:grid;
+gap:12px;
+}
+
+.option-btn{
+padding:14px;
+border:none;
+border-radius:14px;
+background:#eef6ff;
+cursor:pointer;
+font-size:1rem;
+transition:0.3s;
+font-weight:500;
+}
+
+.option-btn:hover{
+background:#d8ecff;
+transform:scale(1.02);
+}
+
+.correct{
+background:#d4ffd4 !important;
+border:2px solid #2e7d32;
+}
+
+.wrong{
+background:#ffd9d9 !important;
+border:2px solid #c62828;
+}
+
+.feedback{
+margin-top:15px;
+font-weight:bold;
+min-height:28px;
+}
+
+.explanation{
+margin-top:12px;
+background:#eef7ff;
+padding:12px;
+border-radius:12px;
+display:none;
+font-size:0.95rem;
+line-height:1.5;
+}
+
+.main-btn{
+padding:12px 24px;
+margin-top:18px;
+border:none;
+background:#1565c0;
+color:white;
+font-size:1rem;
+border-radius:12px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.main-btn:hover{
+background:#0d47a1;
+}
+
+.confetti{
+position:fixed;
+width:14px;
+height:14px;
+background:gold;
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+animation:fall 1.5s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(0) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(500px) rotate(360deg);
+opacity:0;
+}
+}
+
+.cross{
+position:fixed;
+font-size:42px;
+color:red;
+animation:fade 1s forwards;
+z-index:999;
+}
+
+@keyframes fade{
+0%{
+opacity:1;
+transform:scale(1);
+}
+100%{
+opacity:0;
+transform:scale(2);
+}
+}
+
+.badge{
+font-size:2.2rem;
+margin:15px 0;
+}
+
+@media(max-width:768px){
+
+.logo-screen img{
+width:220px;
+max-width:80vw;
+max-height:40vh;
+}
+
+.card{
+padding:18px;
+}
+
+.question{
+font-size:1rem;
+}
+
+.option-btn{
+font-size:0.95rem;
+padding:12px;
+}
+
+.topbar{
+flex-direction:column;
+font-size:0.9rem;
+}
+
+}
+
+@media(max-width:480px){
+
+.logo-screen img{
+width:180px;
+max-width:75vw;
+max-height:35vh;
+}
+
+h1{
+font-size:1.5rem;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background" id="background"></div>
+
+<!-- LOGO SCREEN -->
+
+<div class="screen active logo-screen" id="logoScreen">
+
+<img src="./assets/innovine-logo.png" alt="Innovine Logo">
+
+<h2 style="margin-top:20px;">
+Innovine Interactive Learning
+</h2>
+
+</div>
+
+<!-- INTRO -->
+
+<div class="screen" id="introScreen">
+
+<div class="card">
+
+<h1>Fun with Kid Pix - 1</h1>
+
+<p class="info"><strong>Grade:</strong> 2</p>
+<p class="info"><strong>Subject:</strong> ICT</p>
+<p class="info"><strong>Total Questions:</strong> 15</p>
+
+<p style="margin-top:15px;">
+Learn Kid Pix tools through fun competency-based questions.
+</p>
+
+<button class="main-btn" onclick="startQuiz()">
+Start Quiz
+</button>
+
+</div>
+
+</div>
+
+<!-- QUIZ -->
+
+<div class="screen" id="quizScreen">
+
+<div class="card">
+
+<div class="topbar">
+
+<div id="scoreText">Score: 0</div>
+
+<div id="timerText">Time: 60</div>
+
+</div>
+
+<div class="question" id="questionText"></div>
+
+<div class="options" id="optionsContainer"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="explanation" id="explanation"></div>
+
+</div>
+
+</div>
+
+<!-- RESULT -->
+
+<div class="screen" id="resultScreen">
+
+<div class="card">
+
+<h1>Quiz Completed!</h1>
+
+<div class="badge">🏆</div>
+
+<h2 id="finalScore"></h2>
+
+<p id="message"></p>
+
+<button class="main-btn" onclick="restartQuiz()">
+Play Again
+</button>
+
+</div>
+
+</div>
+
+<audio id="correctSound" src="./assets/correct.mp3"></audio>
+<audio id="wrongSound" src="./assets/wrong.mp3"></audio>
+
+<script>
+
+let questions=[
+
+{
+question:"A child is making a birthday card and wants to quickly add balloons without drawing them. Which tool should be used?",
+options:["Brush","Stamp tool","Eraser","Line"],
+answer:1,
+explanation:"Stamp tool adds ready-made pictures quickly."
+},
+
+{
+question:"Riya draws a flower and wants to color all petals at once without coloring each part. Which tool should she choose?",
+options:["Brush","Fill tool","Stamp","Line"],
+answer:1,
+explanation:"Fill tool colors an area quickly."
+},
+
+{
+question:"Aarav accidentally draws extra lines on his picture. What is the best way to fix only the mistake?",
+options:["Use Brush","Use Eraser","Use Stamp","Close file"],
+answer:1,
+explanation:"Eraser removes mistakes."
+},
+
+{
+question:"A student wants to create a sky by freely moving the mouse to draw clouds. Which tool helps in free drawing?",
+options:["Stamp","Brush tool","Fill tool","Select tool"],
+answer:1,
+explanation:"Brush tool helps free drawing."
+},
+
+{
+question:"Meera wants to decorate her drawing with stars and smileys quickly. Which tool will save her time?",
+options:["Brush","Stamp","Eraser","Line"],
+answer:1,
+explanation:"Stamp tool adds ready-made designs."
+},
+
+{
+question:"A child chooses blue color before drawing a river. What will happen if the color is not selected first?",
+options:[
+"Drawing will not appear",
+"Default color will be used",
+"Drawing will be deleted",
+"Tool will stop working"
+],
+answer:1,
+explanation:"Default color gets used if color is not selected."
+},
+
+{
+question:"Sia draws a house, adds trees using stamps, and colors them. Why did she use stamps?",
+options:[
+"To save time using ready shapes",
+"To erase drawing",
+"To type text",
+"To move objects"
+],
+answer:0,
+explanation:"Stamps save time by adding ready pictures."
+},
+
+{
+question:"A student first draws a shape and then uses fill tool. What happens if the shape is not closed?",
+options:[
+"Color fills correctly",
+"Color may spill outside",
+"Shape gets deleted",
+"Nothing happens"
+],
+answer:1,
+explanation:"Fill tool spreads outside open shapes."
+},
+
+{
+question:"Which tool is best when speed is important?",
+options:["Brush","Stamp","Fill","Eraser"],
+answer:1,
+explanation:"Stamp tool quickly adds ready images."
+},
+
+{
+question:"Which action changes the look quickly without drawing?",
+options:["Erase","Fill","Stamp","Brush"],
+answer:2,
+explanation:"Stamp tool changes design quickly."
+},
+
+{
+question:"A screen shows many ready cartoon shapes being placed again and again in a drawing. Which tool is used?",
+options:["Brush","Stamp","Fill","Line"],
+answer:1,
+explanation:"Stamp tool adds repeated ready pictures."
+},
+
+{
+question:"A picture shows color spreading outside a shape boundary. What mistake is likely made?",
+options:[
+"Wrong tool selected",
+"Shape not closed",
+"Color too dark",
+"Brush used"
+],
+answer:1,
+explanation:"Open shapes allow color to spill."
+},
+
+{
+question:"Assertion: Stamp tool helps create designs faster. Reason: It provides ready-made pictures.",
+options:[
+"Both correct and reason explains",
+"Both correct but not related",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+answer:0,
+explanation:"Stamp tool provides ready images for quick design."
+},
+
+{
+question:"Assertion: Fill tool works best on closed shapes. Reason: It fills color inside boundaries.",
+options:[
+"Both correct and reason explains",
+"Both correct but not related",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+answer:0,
+explanation:"Closed boundaries stop color from spilling."
+},
+
+{
+question:"Which statement is incorrect?",
+options:[
+"Stamp tool adds ready images",
+"Brush tool is used for free drawing",
+"Fill tool deletes drawings",
+"Eraser removes parts of drawing"
+],
+answer:2,
+explanation:"Fill tool colors areas. It does not delete drawings."
+}
+
+];
+
+function shuffleQuestions(array){
+
+for(let i=array.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[array[i],array[j]]=[array[j],array[i]];
+
+}
+
+return array;
+
+}
+
+let currentQuestion=0;
+let score=0;
+let timer;
+let timeLeft=60;
+let retryUsed=false;
+
+const logoScreen=document.getElementById("logoScreen");
+const introScreen=document.getElementById("introScreen");
+const quizScreen=document.getElementById("quizScreen");
+const resultScreen=document.getElementById("resultScreen");
+
+const questionText=document.getElementById("questionText");
+const optionsContainer=document.getElementById("optionsContainer");
+const scoreText=document.getElementById("scoreText");
+const timerText=document.getElementById("timerText");
+const feedback=document.getElementById("feedback");
+const explanation=document.getElementById("explanation");
+
+const correctSound=document.getElementById("correctSound");
+const wrongSound=document.getElementById("wrongSound");
+
+window.onload=function(){
+
+logoScreen.style.display="flex";
+
+setTimeout(()=>{
+
+logoScreen.style.display="none";
+
+introScreen.style.display="flex";
+
+},5000);
+
+};
+
+function startQuiz(){
+
+questions=shuffleQuestions(questions);
+
+introScreen.style.display="none";
+
+quizScreen.style.display="flex";
+
+currentQuestion=0;
+
+score=0;
+
+loadQuestion();
+
+}
+
+function loadQuestion(){
+
+clearInterval(timer);
+
+retryUsed=false;
+
+feedback.innerHTML="";
+
+explanation.style.display="none";
+
+const q=questions[currentQuestion];
+
+questionText.innerHTML=
+`Q${currentQuestion+1}. ${q.question}`;
+
+optionsContainer.innerHTML="";
+
+q.options.forEach((option,index)=>{
+
+const btn=document.createElement("button");
+
+btn.classList.add("option-btn");
+
+btn.innerText=option;
+
+btn.onclick=()=>checkAnswer(index,btn);
+
+optionsContainer.appendChild(btn);
+
+});
+
+scoreText.innerHTML=`Score: ${score}`;
+
+timeLeft=60;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+if(timeLeft<=0){
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+},1000);
+
+}
+
+function checkAnswer(selected,button){
+
+const q=questions[currentQuestion];
+
+const buttons=document.querySelectorAll(".option-btn");
+
+if(selected===q.answer){
+
+clearInterval(timer);
+
+button.classList.add("correct");
+
+feedback.innerHTML="✅ Correct!";
+
+feedback.style.color="green";
+
+correctSound.play();
+
+score++;
+
+createConfetti();
+
+buttons.forEach(btn=>btn.disabled=true);
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},1500);
+
+}else{
+
+button.classList.add("wrong");
+
+wrongSound.play();
+
+showCross();
+
+if(!retryUsed){
+
+retryUsed=true;
+
+feedback.innerHTML=
+"❌ Try Again! One more chance.";
+
+feedback.style.color="#c62828";
+
+buttons.forEach(btn=>{
+btn.disabled=false;
+});
+
+button.disabled=true;
+
+}else{
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+}
+
+}
+
+function showCorrectAnswer(){
+
+const q=questions[currentQuestion];
+
+const buttons=
+document.querySelectorAll(".option-btn");
+
+buttons.forEach((btn,index)=>{
+
+btn.disabled=true;
+
+if(index===q.answer){
+
+btn.classList.add("correct");
+
+}
+
+});
+
+feedback.innerHTML="Correct answer shown";
+
+feedback.style.color="#1565c0";
+
+explanation.style.display="block";
+
+explanation.innerHTML=
+`💡 ${q.explanation}`;
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},3500);
+
+}
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+}
+
+function showResult(){
+
+quizScreen.style.display="none";
+
+resultScreen.style.display="flex";
+
+document.getElementById("finalScore").innerHTML=
+`Your Score: ${score} / ${questions.length}`;
+
+let msg="";
+
+if(score>=13){
+
+msg="Excellent Work!";
+
+}else if(score>=9){
+
+msg="Very Good Job!";
+
+}else{
+
+msg="Good Try! Keep Practicing.";
+
+}
+
+document.getElementById("message").innerHTML=msg;
+
+}
+
+function restartQuiz(){
+
+questions=shuffleQuestions(questions);
+
+currentQuestion=0;
+
+score=0;
+
+resultScreen.style.display="none";
+
+introScreen.style.display="flex";
+
+}
+
+function createConfetti(){
+
+for(let i=0;i<20;i++){
+
+const confetti=document.createElement("div");
+
+confetti.classList.add("confetti");
+
+confetti.style.left=
+Math.random()*window.innerWidth+"px";
+
+confetti.style.top=
+Math.random()*200+"px";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+
+confetti.remove();
+
+},1500);
+
+}
+
+}
+
+function showCross(){
+
+const cross=document.createElement("div");
+
+cross.classList.add("cross");
+
+cross.innerHTML="✖";
+
+cross.style.left=
+Math.random()*window.innerWidth+"px";
+
+cross.style.top=
+Math.random()*window.innerHeight+"px";
+
+document.body.appendChild(cross);
+
+setTimeout(()=>{
+
+cross.remove();
+
+},1000);
+
+}
+
+function createBackground(){
+
+const bg=document.getElementById("background");
+
+for(let i=0;i<40;i++){
+
+const star=document.createElement("div");
+
+star.classList.add("star");
+
+star.style.left=Math.random()*100+"%";
+
+star.style.animationDuration=
+(5+Math.random()*8)+"s";
+
+star.style.animationDelay=
+Math.random()*5+"s";
+
+bg.appendChild(star);
+
+}
+
+}
+
+createBackground();
+
+</script>
+
+</body>
+</html>
