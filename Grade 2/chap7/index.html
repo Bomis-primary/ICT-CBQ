@@ -17,26 +17,26 @@ body{
 font-family:Arial,sans-serif;
 overflow-x:hidden;
 min-height:100vh;
-background:linear-gradient(135deg,#dff6ff,#fff6cc,#e7ffe7,#ffe4f2);
+background:linear-gradient(135deg,#dff6ff,#fff5cc,#e7ffe7,#ffe3f3);
 position:relative;
 color:#222;
 }
 
-/* Animated Background */
+/* BACKGROUND */
 
 .bg-icons{
 position:fixed;
-width:100%;
-height:100%;
 top:0;
 left:0;
+width:100%;
+height:100%;
 overflow:hidden;
 z-index:-2;
 }
 
 .icon{
 position:absolute;
-font-size:34px;
+font-size:35px;
 opacity:0.15;
 animation:floatUp linear infinite;
 }
@@ -58,17 +58,17 @@ opacity:0;
 body::before{
 content:"";
 position:fixed;
-width:100%;
-height:100%;
 top:0;
 left:0;
+width:100%;
+height:100%;
 background:
-radial-gradient(circle at top left,#ffffff88,transparent),
-radial-gradient(circle at bottom right,#ffffff55,transparent);
+radial-gradient(circle at top left,#ffffffaa,transparent),
+radial-gradient(circle at bottom right,#ffffff88,transparent);
 z-index:-1;
 }
 
-/* Screens */
+/* SCREEN */
 
 .screen{
 display:none;
@@ -84,11 +84,11 @@ display:flex;
 flex-direction:column;
 }
 
-/* Logo */
+/* LOGO */
 
 .logo-screen{
 background:white;
-z-index:99999;
+z-index:9999;
 }
 
 .logo-screen img{
@@ -101,27 +101,27 @@ animation:pulse 2s infinite;
 
 @keyframes pulse{
 0%{transform:scale(1);}
-50%{transform:scale(1.06);}
+50%{transform:scale(1.05);}
 100%{transform:scale(1);}
 }
 
-/* Card */
+/* CARD */
 
 .card{
 background:rgba(255,255,255,0.92);
 padding:24px;
 border-radius:28px;
-max-width:920px;
+max-width:950px;
 width:100%;
-box-shadow:0 12px 30px rgba(0,0,0,0.18);
+box-shadow:0 12px 28px rgba(0,0,0,0.18);
 backdrop-filter:blur(8px);
-border:2px solid rgba(255,255,255,0.6);
+border:2px solid rgba(255,255,255,0.5);
 animation:slideIn 0.5s ease;
 }
 
 @keyframes slideIn{
 from{
-transform:translateY(30px);
+transform:translateY(25px);
 opacity:0;
 }
 to{
@@ -132,8 +132,7 @@ opacity:1;
 
 h1{
 color:#1565c0;
-margin-bottom:12px;
-font-size:2rem;
+margin-bottom:10px;
 }
 
 .info{
@@ -147,7 +146,6 @@ justify-content:space-between;
 gap:10px;
 margin-bottom:20px;
 font-weight:bold;
-font-size:1rem;
 flex-wrap:wrap;
 }
 
@@ -168,11 +166,19 @@ transition:0.4s;
 }
 
 .question{
-font-size:1.2rem;
-font-weight:600;
+font-size:1.15rem;
 line-height:1.6;
-margin-bottom:22px;
-color:#1b1b1b;
+font-weight:600;
+margin-bottom:18px;
+}
+
+.question-image{
+width:100%;
+max-width:350px;
+margin:0 auto 18px;
+border-radius:20px;
+box-shadow:0 5px 12px rgba(0,0,0,0.12);
+display:none;
 }
 
 .options{
@@ -182,23 +188,21 @@ gap:14px;
 }
 
 .option-btn{
-padding:16px;
+padding:15px;
 border:none;
-border-radius:20px;
-background:linear-gradient(135deg,#eef6ff,#f7f3ff);
+border-radius:18px;
+background:linear-gradient(135deg,#eef6ff,#f6ecff);
 cursor:pointer;
 font-size:1rem;
 transition:0.3s;
 font-weight:600;
-position:relative;
-overflow:hidden;
 color:#333;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
 .option-btn:hover{
-transform:translateY(-4px) scale(1.02);
-background:linear-gradient(135deg,#d7ebff,#ece2ff);
+transform:translateY(-3px) scale(1.02);
+background:linear-gradient(135deg,#d8ecff,#ecdfff);
 }
 
 .correct{
@@ -222,7 +226,6 @@ animation:shake 0.4s;
 margin-top:16px;
 font-weight:bold;
 min-height:28px;
-font-size:1rem;
 }
 
 .explanation{
@@ -239,20 +242,20 @@ line-height:1.5;
 padding:14px 28px;
 border:none;
 border-radius:18px;
-background:linear-gradient(135deg,#1565c0,#7b1fa2);
+background:linear-gradient(135deg,#1565c0,#8e24aa);
 color:white;
 font-size:1rem;
 cursor:pointer;
 margin-top:20px;
-transition:0.3s;
 font-weight:bold;
+transition:0.3s;
 }
 
 .main-btn:hover{
 transform:scale(1.04);
 }
 
-/* Confetti */
+/* CONFETTI */
 
 .confetti{
 position:fixed;
@@ -307,19 +310,15 @@ transform:scale(2);
 
 .badge{
 font-size:2.8rem;
-margin:16px 0;
+margin:15px 0;
 }
 
-/* Responsive */
+/* MOBILE */
 
 @media(max-width:768px){
 
 .options{
 grid-template-columns:1fr;
-}
-
-.logo-screen img{
-width:210px;
 }
 
 .question{
@@ -329,6 +328,10 @@ font-size:1rem;
 .option-btn{
 font-size:0.95rem;
 padding:14px;
+}
+
+.logo-screen img{
+width:200px;
 }
 
 .topbar{
@@ -367,10 +370,10 @@ Innovine Interactive Learning
 
 <p class="info"><strong>Grade:</strong> 2</p>
 <p class="info"><strong>Subject:</strong> ICT</p>
-<p class="info"><strong>Total Questions:</strong> 15</p>
+<p class="info"><strong>Total Questions:</strong> 20</p>
 
 <p style="margin-top:16px;">
-Learn typing, editing, saving and formatting text through fun interactive CBQ questions.
+Learn typing, formatting and editing in OpenOffice Writer through fun image-based CBQ questions.
 </p>
 
 <button class="main-btn" onclick="startQuiz()">
@@ -393,13 +396,15 @@ Start Quiz
 
 <div id="timerText">Time: 60</div>
 
-<div id="questionCount">Question 1 / 15</div>
+<div id="questionCount">Question 1 / 20</div>
 
 </div>
 
 <div class="progress">
 <div class="progress-fill" id="progressFill"></div>
 </div>
+
+<img id="questionImage" class="question-image" src="" alt="Question Image">
 
 <div class="question" id="questionText"></div>
 
@@ -439,6 +444,8 @@ Play Again
 <audio id="wrongSound" src="./assets/wrong.mp3"></audio>
 
 <script>
+
+/* QUESTIONS */
 
 let questions=[
 
@@ -485,28 +492,54 @@ explanation:"Unsaved work can be lost."
 },
 
 {
-question:"Sia types a paragraph and saves it. Later she opens it again. Why is saving important?",
-options:["To delete text","To use later","To print quickly","To color text"],
+question:"Why is the heading easy to read?",
+image:"https://dummyimage.com/400x180/4285f4/ffffff&text=BIG+HEADING",
+options:["Small font","Bigger font size","Wrong alignment","Deleted text"],
 answer:1,
-explanation:"Saving helps us use the file later."
+explanation:"Large font size makes heading easy to read."
 },
 
 {
-question:"A student types text but does not check mistakes. What may happen?",
-options:["Text is correct","Errors remain","File deletes","Font changes"],
-answer:1,
-explanation:"Mistakes remain if not edited."
+question:"Which formatting tool can make important words stand out?",
+image:"https://dummyimage.com/400x180/ab47bc/ffffff&text=BOLD+TEXT",
+options:["Bold","Save","Print","Close"],
+answer:0,
+explanation:"Bold makes text darker and important."
 },
 
 {
-question:"Which action is used to correct mistakes?",
+question:"Which alignment is used for the title?",
+image:"https://dummyimage.com/400x180/26a69a/ffffff&text=CENTER+TITLE",
+options:["Left","Right","Center","None"],
+answer:2,
+explanation:"Centered text stays in middle."
+},
+
+{
+question:"Which formatting style is shown in the picture?",
+image:"https://dummyimage.com/400x180/ff7043/ffffff&text=UNDERLINE",
+options:["Bold","Italics","Underline","Alignment"],
+answer:2,
+explanation:"Underline draws line below text."
+},
+
+{
+question:"What type of alignment is shown?",
+image:"https://dummyimage.com/400x180/5c6bc0/ffffff&text=LEFT+ALIGNMENT",
+options:["Left Alignment","Center Alignment","Right Alignment","Bold"],
+answer:0,
+explanation:"Text aligned to left side."
+},
+
+{
+question:"Action → Purpose\nTyping → Write text\nSave → Store file\nEdit → Correct text\nWhich action is used to correct mistakes?",
 options:["Typing","Save","Edit","Print"],
 answer:2,
-explanation:"Editing corrects mistakes."
+explanation:"Edit helps correct mistakes."
 },
 
 {
-question:"Which tool makes text bigger?",
+question:"Tool → Function\nFont size → Change size\nBold → Make text dark\nSave → Store file\nWhich tool makes text bigger?",
 options:["Bold","Font size","Save","Edit"],
 answer:1,
 explanation:"Font size increases text size."
@@ -523,11 +556,11 @@ explanation:"Blinking cursor means typing can begin."
 question:"A screen shows text becoming bigger after selecting an option. What action is this?",
 options:["Deleting","Formatting","Printing","Closing"],
 answer:1,
-explanation:"Formatting changes text appearance."
+explanation:"Formatting changes appearance of text."
 },
 
 {
-question:"Assertion: Saving a document is important. Reason: It helps keep the work for future use.",
+question:"Assertion: Saving a document is important.\nReason: It helps keep the work for future use.",
 options:[
 "Both correct and reason explains",
 "Both correct but not related",
@@ -539,7 +572,7 @@ explanation:"Saving keeps work safe for later."
 },
 
 {
-question:"Assertion: Editing helps improve text. Reason: It allows correcting mistakes.",
+question:"Assertion: Editing helps improve text.\nReason: It allows correcting mistakes.",
 options:[
 "Both correct and reason explains",
 "Both correct but not related",
@@ -547,7 +580,7 @@ options:[
 "Both wrong"
 ],
 answer:0,
-explanation:"Editing improves text by fixing mistakes."
+explanation:"Editing improves text."
 },
 
 {
@@ -564,7 +597,7 @@ explanation:"Closing without saving may lose work."
 
 ];
 
-/* Shuffle */
+/* SHUFFLE */
 
 function shuffleArray(array){
 
@@ -594,7 +627,7 @@ q.answer=q.options.indexOf(correct);
 
 }
 
-/* Variables */
+/* VARIABLES */
 
 let currentQuestion=0;
 let score=0;
@@ -614,11 +647,12 @@ const timerText=document.getElementById("timerText");
 const feedback=document.getElementById("feedback");
 const explanation=document.getElementById("explanation");
 const progressFill=document.getElementById("progressFill");
+const questionImage=document.getElementById("questionImage");
 
 const correctSound=document.getElementById("correctSound");
 const wrongSound=document.getElementById("wrongSound");
 
-/* Logo */
+/* LOGO */
 
 window.onload=function(){
 
@@ -634,7 +668,7 @@ introScreen.style.display="flex";
 
 };
 
-/* Start */
+/* START */
 
 function startQuiz(){
 
@@ -653,7 +687,7 @@ loadQuestion();
 
 }
 
-/* Load */
+/* LOAD */
 
 function loadQuestion(){
 
@@ -674,6 +708,17 @@ document.getElementById("questionCount").innerHTML=
 
 progressFill.style.width=
 `${((currentQuestion)/questions.length)*100}%`;
+
+if(q.image){
+
+questionImage.src=q.image;
+questionImage.style.display="block";
+
+}else{
+
+questionImage.style.display="none";
+
+}
 
 optionsContainer.innerHTML="";
 
@@ -715,7 +760,7 @@ showCorrectAnswer();
 
 }
 
-/* Check */
+/* CHECK */
 
 function checkAnswer(selected,button){
 
@@ -778,7 +823,7 @@ showCorrectAnswer();
 
 }
 
-/* Correct Answer */
+/* CORRECT ANSWER */
 
 function showCorrectAnswer(){
 
@@ -816,7 +861,7 @@ nextQuestion();
 
 }
 
-/* Next */
+/* NEXT */
 
 function nextQuestion(){
 
@@ -834,7 +879,7 @@ showResult();
 
 }
 
-/* Result */
+/* RESULT */
 
 function showResult(){
 
@@ -847,17 +892,17 @@ document.getElementById("finalScore").innerHTML=
 
 let msg="";
 
-if(score>=13){
+if(score>=16){
 
-msg="🌟 Excellent Work Writer Champion!";
+msg="🌟 Excellent Writer Champion!";
 
-}else if(score>=9){
+}else if(score>=10){
 
-msg="👍 Very Good Job!";
+msg="👍 Very Good Work!";
 
 }else{
 
-msg="😊 Keep Practicing Typing and Editing!";
+msg="😊 Keep Practicing Writer Skills!";
 
 }
 
@@ -865,7 +910,7 @@ document.getElementById("message").innerHTML=msg;
 
 }
 
-/* Restart */
+/* RESTART */
 
 function restartQuiz(){
 
@@ -882,7 +927,7 @@ introScreen.style.display="flex";
 
 }
 
-/* Confetti */
+/* CONFETTI */
 
 function createConfetti(){
 
@@ -910,7 +955,7 @@ confetti.remove();
 
 }
 
-/* Wrong Cross */
+/* CROSS */
 
 function showCross(){
 
@@ -936,7 +981,7 @@ cross.remove();
 
 }
 
-/* Background */
+/* BACKGROUND */
 
 function createIcons(){
 
