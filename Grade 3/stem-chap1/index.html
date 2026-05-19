@@ -22,7 +22,7 @@ position:relative;
 color:#222;
 }
 
-/* Animated Background */
+/* BACKGROUND */
 
 .bg-icons{
 position:fixed;
@@ -68,7 +68,7 @@ radial-gradient(circle at bottom right,#ffffff88,transparent);
 z-index:-1;
 }
 
-/* Screens */
+/* SCREEN */
 
 .screen{
 display:none;
@@ -84,7 +84,7 @@ display:flex;
 flex-direction:column;
 }
 
-/* Logo */
+/* LOGO */
 
 .logo-screen{
 background:white;
@@ -105,7 +105,7 @@ animation:pulse 2s infinite;
 100%{transform:scale(1);}
 }
 
-/* Card */
+/* CARD */
 
 .card{
 background:rgba(255,255,255,0.94);
@@ -174,11 +174,12 @@ margin-bottom:20px;
 
 .question-image{
 width:100%;
-max-width:340px;
-margin:0 auto 18px;
+max-width:350px;
+margin:0 auto 20px;
 border-radius:18px;
 display:none;
-box-shadow:0 6px 12px rgba(0,0,0,0.15);
+box-shadow:0 6px 14px rgba(0,0,0,0.18);
+border:4px solid #ffffff;
 }
 
 .options{
@@ -255,7 +256,7 @@ transition:0.3s;
 transform:scale(1.04);
 }
 
-/* Confetti */
+/* CONFETTI */
 
 .confetti{
 position:fixed;
@@ -313,7 +314,7 @@ font-size:2.8rem;
 margin:15px 0;
 }
 
-/* Mobile */
+/* MOBILE */
 
 @media(max-width:768px){
 
@@ -348,11 +349,11 @@ font-size:0.9rem;
 
 <div class="bg-icons" id="bgIcons"></div>
 
-<!-- Logo -->
+<!-- LOGO -->
 
 <div class="screen active logo-screen" id="logoScreen">
 
-<img src="./assets/innovine-logo.png" alt="Innovine Logo">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
 
 <h2 style="margin-top:20px;">
 Innovine Interactive Learning
@@ -360,7 +361,7 @@ Innovine Interactive Learning
 
 </div>
 
-<!-- Intro -->
+<!-- INTRO -->
 
 <div class="screen" id="introScreen">
 
@@ -373,7 +374,7 @@ Innovine Interactive Learning
 <p class="info"><strong>Total Questions:</strong> 15</p>
 
 <p style="margin-top:16px;">
-Learn about electric circuits, switches, bulbs and batteries through fun CBQ challenges.
+Learn about batteries, switches, bulbs and electric circuits through interactive CBQ challenges.
 </p>
 
 <button class="main-btn" onclick="startQuiz()">
@@ -384,7 +385,7 @@ Start Quiz
 
 </div>
 
-<!-- Quiz -->
+<!-- QUIZ -->
 
 <div class="screen" id="quizScreen">
 
@@ -418,7 +419,7 @@ Start Quiz
 
 </div>
 
-<!-- Result -->
+<!-- RESULT -->
 
 <div class="screen" id="resultScreen">
 
@@ -440,8 +441,8 @@ Play Again
 
 </div>
 
-<audio id="correctSound" src="./assets/correct-1.mp3"></audio>
-<audio id="wrongSound" src="./assets/wrong.mp3"></audio>
+<audio id="correctSound" src="assets/correct-1.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
 
 <script>
 
@@ -521,7 +522,7 @@ explanation:"Battery supplies power."
 
 {
 question:"(Picture-Based) Identify closed circuit.",
-image:"./assets/Q11.PNG",
+image:"assets/Q11.PNG",
 options:["Broken path","Complete path","No battery","Loose wire"],
 answer:1,
 explanation:"Complete path is a closed circuit."
@@ -529,7 +530,7 @@ explanation:"Complete path is a closed circuit."
 
 {
 question:"(Picture-Based) Identify switch.",
-image:"./assets/Q12.PNG",
+image:"assets/Q12.PNG",
 options:["Battery","Control device","Wire","Bulb"],
 answer:1,
 explanation:"Switch controls current flow."
@@ -537,7 +538,7 @@ explanation:"Switch controls current flow."
 
 {
 question:"Which circuit allows current to flow?",
-image:"./assets/Q13.PNG",
+image:"assets/Q13.PNG",
 options:[
 "Closed circuit",
 "Open circuit",
@@ -647,7 +648,7 @@ introScreen.style.display="flex";
 
 };
 
-/* START */
+/* START QUIZ */
 
 function startQuiz(){
 
@@ -671,7 +672,7 @@ loadQuestion();
 
 }
 
-/* LOAD */
+/* LOAD QUESTION */
 
 function loadQuestion(){
 
@@ -693,16 +694,29 @@ document.getElementById("questionCount").innerHTML=
 progressFill.style.width=
 `${((currentQuestion)/questions.length)*100}%`;
 
+/* IMAGE FIX */
+
 if(q.image){
 
-questionImage.src=q.image;
-questionImage.style.display="block";
+questionImage.src = q.image;
+
+questionImage.style.display = "block";
+
+questionImage.onerror = function(){
+
+console.log("Image failed:", q.image);
+
+questionImage.style.display = "none";
+
+};
 
 }else{
 
-questionImage.style.display="none";
+questionImage.style.display = "none";
 
 }
+
+/* OPTIONS */
 
 optionsContainer.innerHTML="";
 
@@ -744,7 +758,7 @@ showCorrectAnswer();
 
 }
 
-/* CHECK */
+/* CHECK ANSWER */
 
 function checkAnswer(selected,button){
 
