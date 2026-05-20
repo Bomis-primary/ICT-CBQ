@@ -76,7 +76,7 @@ display:flex;
 flex-direction:column;
 }
 
-/* Logo Screen */
+/* Logo */
 
 .logo-screen{
 background:white;
@@ -144,7 +144,7 @@ margin:8px 0;
 font-size:1rem;
 }
 
-/* Top Bar */
+/* Topbar */
 
 .topbar{
 display:flex;
@@ -188,7 +188,7 @@ font-weight:600;
 margin-bottom:20px;
 }
 
-/* Image */
+/* Main Question Image */
 
 .question-image{
 width:100%;
@@ -209,7 +209,7 @@ gap:14px;
 }
 
 .option-btn{
-padding:15px;
+padding:14px;
 border:none;
 border-radius:18px;
 background:
@@ -224,16 +224,24 @@ transition:0.3s;
 font-weight:600;
 color:#333;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
+min-height:90px;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
 }
 
 .option-btn:hover{
 transform:translateY(-3px) scale(1.02);
-background:
-linear-gradient(
-135deg,
-#d8ecff,
-#ecdfff
-);
+}
+
+.option-btn img{
+width:100%;
+max-width:140px;
+height:auto;
+border-radius:12px;
+object-fit:contain;
+pointer-events:none;
 }
 
 /* Answer Effects */
@@ -406,7 +414,7 @@ font-size:0.9rem;
 
 <div class="bg-icons" id="bgIcons"></div>
 
-<!-- Logo -->
+<!-- Logo Screen -->
 
 <div class="screen active logo-screen" id="logoScreen">
 
@@ -623,15 +631,15 @@ explanation:"Folders store files, not the other way around."
 },
 
 {
-question:"(Picture-Based) Look at the image of files and folders. Which shows a folder?",
-image:"assets/Q15.png",
+question:"(Picture-Based) Which image shows a folder?",
 options:[
-"Image icon",
-"Folder icon",
-"File icon",
-"Screen"
+"assets/Q15-1.png",
+"assets/Q15-2.png",
+"assets/Q15-3.png",
+"assets/Q15-4.png"
 ],
 answer:1,
+isImageOptions:true,
 explanation:"Folder icon represents a folder."
 }
 
@@ -752,19 +760,7 @@ document.getElementById("questionCount").innerHTML=
 progressFill.style.width=
 `${((currentQuestion)/questions.length)*100}%`;
 
-/* IMAGE */
-
-if(q.image){
-
-questionImage.src=q.image;
-
-questionImage.style.display="block";
-
-}else{
-
 questionImage.style.display="none";
-
-}
 
 /* OPTIONS */
 
@@ -776,7 +772,22 @@ const btn=document.createElement("button");
 
 btn.classList.add("option-btn");
 
+/* IMAGE OPTIONS */
+
+if(q.isImageOptions){
+
+btn.innerHTML=`
+<img 
+src="${option}" 
+alt="Option Image"
+>
+`;
+
+}else{
+
 btn.innerHTML=option;
+
+}
 
 btn.onclick=()=>checkAnswer(index,btn);
 
@@ -1022,7 +1033,7 @@ cross.remove();
 
 }
 
-/* BACKGROUND ICONS */
+/* BACKGROUND */
 
 function createIcons(){
 
