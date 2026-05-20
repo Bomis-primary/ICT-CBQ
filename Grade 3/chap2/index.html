@@ -93,17 +93,9 @@ animation:pulse 2s infinite;
 
 @keyframes pulse{
 
-0%{
-transform:scale(1);
-}
-
-50%{
-transform:scale(1.05);
-}
-
-100%{
-transform:scale(1);
-}
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
 
 }
 
@@ -188,7 +180,7 @@ font-weight:600;
 margin-bottom:20px;
 }
 
-/* Main Question Image */
+/* Question Image */
 
 .question-image{
 width:100%;
@@ -289,7 +281,7 @@ font-size:0.96rem;
 line-height:1.5;
 }
 
-/* Buttons */
+/* Button */
 
 .main-btn{
 padding:14px 28px;
@@ -435,9 +427,7 @@ Innovine Interactive Learning
 <h1>Files and Folders</h1>
 
 <p class="info"><strong>Grade:</strong> 3</p>
-
 <p class="info"><strong>Subject:</strong> ICT</p>
-
 <p class="info"><strong>Total Questions:</strong> 15</p>
 
 <p style="margin-top:16px;">
@@ -722,7 +712,7 @@ introScreen.style.display="flex";
 
 };
 
-/* START */
+/* START QUIZ */
 
 function startQuiz(){
 
@@ -777,10 +767,7 @@ btn.classList.add("option-btn");
 if(q.isImageOptions){
 
 btn.innerHTML=`
-<img 
-src="${option}" 
-alt="Option Image"
->
+<img src="${option}" alt="Option Image">
 `;
 
 }else{
@@ -819,7 +806,7 @@ showCorrectAnswer();
 
 }
 
-/* CHECK */
+/* CHECK ANSWER */
 
 function checkAnswer(selected,button){
 
@@ -1033,7 +1020,7 @@ cross.remove();
 
 }
 
-/* BACKGROUND */
+/* BACKGROUND ICONS */
 
 function createIcons(){
 
