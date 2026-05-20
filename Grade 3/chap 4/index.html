@@ -1,1 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editing in MS Word - Interactive CBQ</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+overflow-x:hidden;
+min-height:100vh;
+background:linear-gradient(135deg,#e8f4ff,#fff4e8,#f3e8ff,#e8fff3);
+position:relative;
+color:#222;
+}
+
+/* BACKGROUND */
+
+.bg-icons{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:-1;
+pointer-events:none;
+}
+
+.icon{
+position:absolute;
+font-size:34px;
+opacity:0.12;
+animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+
+0%{
+transform:translateY(100vh) rotate(0deg);
+opacity:0;
+}
+
+30%{
+opacity:0.12;
+}
+
+100%{
+transform:translateY(-120vh) rotate(360deg);
+opacity:0;
+}
+
+}
+
+/* SCREEN */
+
+.screen{
+display:none;
+min-height:100vh;
+justify-content:center;
+align-items:center;
+padding:20px;
+text-align:center;
+}
+
+.active{
+display:flex;
+flex-direction:column;
+}
+
+/* LOGO */
+
+.logo-screen{
+background:white;
+z-index:99999;
+}
+
+.logo-screen img{
+width:260px;
+max-width:80vw;
+max-height:40vh;
+object-fit:contain;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+
+}
+
+/* CARD */
+
+.card{
+background:rgba(255,255,255,0.95);
+padding:24px;
+border-radius:28px;
+max-width:1000px;
+width:100%;
+box-shadow:0 12px 30px rgba(0,0,0,0.18);
+backdrop-filter:blur(8px);
+animation:slideIn 0.5s ease;
+}
+
+@keyframes slideIn{
+
+from{
+transform:translateY(25px);
+opacity:0;
+}
+
+to{
+transform:translateY(0);
+opacity:1;
+}
+
+}
+
+h1{
+color:#1565c0;
+margin-bottom:12px;
+}
+
+.info{
+margin:8px 0;
+font-size:1rem;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+gap:10px;
+margin-bottom:20px;
+font-weight:bold;
+flex-wrap:wrap;
+}
+
+/* PROGRESS */
+
+.progress{
+width:100%;
+height:12px;
+background:#dbe9ff;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background:
+linear-gradient(
+90deg,
+#42a5f5,
+#ab47bc,
+#26a69a
+);
+transition:0.4s;
+}
+
+/* QUESTION */
+
+.question{
+font-size:1.15rem;
+line-height:1.6;
+font-weight:600;
+margin-bottom:20px;
+}
+
+/* OPTIONS */
+
+.options{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.option-btn{
+padding:14px;
+border:none;
+border-radius:18px;
+background:
+linear-gradient(
+135deg,
+#eef6ff,
+#f8ebff
+);
+cursor:pointer;
+font-size:1rem;
+transition:0.3s;
+font-weight:600;
+color:#333;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+min-height:90px;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+.option-btn:hover{
+transform:translateY(-3px) scale(1.02);
+}
+
+.option-btn img{
+width:100%;
+max-width:150px;
+height:auto;
+border-radius:12px;
+object-fit:contain;
+pointer-events:none;
+}
+
+/* EFFECTS */
+
+.correct{
+background:#c8ffd1 !important;
+border:2px solid #2e7d32;
+}
+
+.wrong{
+background:#ffd6d6 !important;
+border:2px solid #c62828;
+animation:shake 0.4s;
+}
+
+@keyframes shake{
+
+0%,100%{
+transform:translateX(0);
+}
+
+25%{
+transform:translateX(-5px);
+}
+
+75%{
+transform:translateX(5px);
+}
+
+}
+
+.feedback{
+margin-top:16px;
+font-weight:bold;
+min-height:28px;
+}
+
+.explanation{
+display:none;
+margin-top:14px;
+padding:14px;
+border-radius:16px;
+background:#eef7ff;
+font-size:0.96rem;
+line-height:1.5;
+}
+
+/* BUTTON */
+
+.main-btn{
+padding:14px 28px;
+border:none;
+border-radius:18px;
+background:
+linear-gradient(
+135deg,
+#1565c0,
+#8e24aa
+);
+color:white;
+font-size:1rem;
+cursor:pointer;
+margin-top:20px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.main-btn:hover{
+transform:scale(1.04);
+}
+
+/* CONFETTI */
+
+.confetti{
+position:fixed;
+width:14px;
+height:14px;
+background:gold;
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+animation:fall 1.5s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+
+0%{
+transform:translateY(0) rotate(0deg);
+opacity:1;
+}
+
+100%{
+transform:translateY(500px) rotate(360deg);
+opacity:0;
+}
+
+}
+
+/* WRONG CROSS */
+
+.cross{
+position:fixed;
+font-size:42px;
+color:red;
+animation:fade 1s forwards;
+z-index:999;
+}
+
+@keyframes fade{
+
+0%{
+opacity:1;
+transform:scale(1);
+}
+
+100%{
+opacity:0;
+transform:scale(2);
+}
+
+}
+
+.badge{
+font-size:2.8rem;
+margin:15px 0;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.options{
+grid-template-columns:1fr;
+}
+
+.question{
+font-size:1rem;
+}
+
+.option-btn{
+font-size:0.95rem;
+padding:14px;
+}
+
+.logo-screen img{
+width:200px;
+}
+
+.topbar{
+flex-direction:column;
+font-size:0.9rem;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg-icons" id="bgIcons"></div>
+
+<!-- LOGO SCREEN -->
+
+<div class="screen active logo-screen" id="logoScreen">
+
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+
+<h2 style="margin-top:20px;">
+Innovine Interactive Learning
+</h2>
+
+</div>
+
+<!-- INTRO -->
+
+<div class="screen" id="introScreen">
+
+<div class="card">
+
+<h1>Editing in MS Word</h1>
+
+<p class="info"><strong>Grade:</strong> 3</p>
+<p class="info"><strong>Subject:</strong> ICT</p>
+<p class="info"><strong>Total Questions:</strong> 16</p>
+
+<p style="margin-top:16px;">
+Learn editing tools in MS Word through interactive CBQ challenges.
+</p>
+
+<button class="main-btn" onclick="startQuiz()">
+Start Quiz
+</button>
+
+</div>
+
+</div>
+
+<!-- QUIZ -->
+
+<div class="screen" id="quizScreen">
+
+<div class="card">
+
+<div class="topbar">
+
+<div id="scoreText">Score: 0</div>
+
+<div id="timerText">Time: 60</div>
+
+<div id="questionCount">Question 1 / 16</div>
+
+</div>
+
+<div class="progress">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+
+<div class="question" id="questionText"></div>
+
+<div class="options" id="optionsContainer"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="explanation" id="explanation"></div>
+
+</div>
+
+</div>
+
+<!-- RESULT -->
+
+<div class="screen" id="resultScreen">
+
+<div class="card">
+
+<h1>Quiz Completed!</h1>
+
+<div class="badge">📝🏆✂️</div>
+
+<h2 id="finalScore"></h2>
+
+<p id="message"></p>
+
+<button class="main-btn" onclick="restartQuiz()">
+Play Again
+</button>
+
+</div>
+
+</div>
+
+<audio id="correctSound" src="assets/correct-1.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+
+<script>
+
+/* QUESTIONS */
+
+const questions=[
+
+{
+question:"Aarav wants to move a sentence. What should he use?",
+options:["Copy","Paste","Cut","Save"],
+answer:2,
+explanation:"Cut is used to move text."
+},
+
+{
+question:"Riya wants to copy text. What should she use?",
+options:["Cut","Copy","Delete","Replace"],
+answer:1,
+explanation:"Copy duplicates text."
+},
+
+{
+question:"Aarav presses Ctrl+V. What happens?",
+options:["Copy","Paste","Cut","Save"],
+answer:1,
+explanation:"Ctrl+V is used to paste."
+},
+
+{
+question:"Riya wants a wide page. Which orientation?",
+options:["Portrait","Landscape","Vertical","Square"],
+answer:1,
+explanation:"Landscape orientation is wide."
+},
+
+{
+question:"Aarav searches a word. What should he use?",
+options:["Replace","Find","Copy","Paste"],
+answer:1,
+explanation:"Find is used to search text."
+},
+
+{
+question:"Riya pastes text. What happens?",
+options:["Deletes","Appears new place","Closes file","Nothing"],
+answer:1,
+explanation:"Paste places text in a new place."
+},
+
+{
+question:"Aarav copied text but forgot to paste. What happens?",
+options:["Moves","Same place","Deletes","Prints"],
+answer:1,
+explanation:"Copy keeps text in same place until pasted."
+},
+
+{
+question:"Riya wants to change all 'cat' to 'dog'. What should she use?",
+options:["Copy","Paste","Find & Replace","Delete"],
+answer:2,
+explanation:"Find & Replace changes words."
+},
+
+{
+question:"Action → Function\nCut → Move\nCopy → Duplicate\nPaste → Place\nWhich places text?",
+options:["Cut","Copy","Paste","Delete"],
+answer:2,
+explanation:"Paste places copied text."
+},
+
+{
+question:"Feature → Work\nFind → Search\nReplace → Change\nMargins → Space\nWhich changes words?",
+options:["Find","Replace","Margins","Copy"],
+answer:1,
+explanation:"Replace changes words."
+},
+
+/* Q11 IMAGE */
+
+{
+question:"(Picture-Based) Identify the Cut icon.",
+options:[
+"assets/clipboard.PNG",
+"assets/print.PNG",
+"assets/save.PNG",
+"assets/scissor.PNG"
+],
+answer:3,
+isImageOptions:true,
+explanation:"Scissor icon represents Cut."
+},
+
+/* Q12 IMAGE */
+
+{
+question:"(Picture-Based) Identify landscape orientation.",
+options:[
+"assets/portrait1.PNG",
+"assets/portrait2.PNG",
+"assets/landscape.PNG",
+"assets/square.PNG"
+],
+answer:2,
+isImageOptions:true,
+explanation:"Landscape orientation is wide."
+},
+
+{
+question:"Assertion: Paste is used after copy.\nReason: It places text.",
+options:[
+"Both correct and reason explains",
+"Both correct but unrelated",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+answer:0,
+explanation:"Paste places copied text."
+},
+
+{
+question:"Assertion: Landscape orientation is wider.\nReason: It gives more horizontal space.",
+options:[
+"Both correct and reason explains",
+"Both correct but unrelated",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+answer:0,
+explanation:"Landscape gives more width."
+},
+
+{
+question:"Which is incorrect?",
+options:[
+"Ctrl+C copy",
+"Ctrl+V paste",
+"Ctrl+X save",
+"Cut removes"
+],
+answer:2,
+explanation:"Ctrl+X is Cut, not Save."
+},
+
+{
+question:"Which is wrongly matched?",
+options:[
+"Cut – Move text",
+"Copy – Duplicate text",
+"Paste – Delete text",
+"Find – Search text"
+],
+answer:2,
+explanation:"Paste places text, not delete."
+}
+
+];
+
+/* VARIABLES */
+
+let currentQuestion=0;
+let score=0;
+let timer;
+let timeLeft=60;
+let retryUsed=false;
+
+/* ELEMENTS */
+
+const logoScreen=document.getElementById("logoScreen");
+const introScreen=document.getElementById("introScreen");
+const quizScreen=document.getElementById("quizScreen");
+const resultScreen=document.getElementById("resultScreen");
+
+const questionText=document.getElementById("questionText");
+const optionsContainer=document.getElementById("optionsContainer");
+const scoreText=document.getElementById("scoreText");
+const timerText=document.getElementById("timerText");
+const feedback=document.getElementById("feedback");
+const explanation=document.getElementById("explanation");
+const progressFill=document.getElementById("progressFill");
+
+const correctSound=document.getElementById("correctSound");
+const wrongSound=document.getElementById("wrongSound");
+
+/* SHUFFLE */
+
+function shuffleArray(array){
+
+for(let i=array.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[array[i],array[j]]=[array[j],array[i]];
+
+}
+
+return array;
+
+}
+
+/* RANDOMIZE */
+
+function randomizeQuestions(){
+
+shuffleArray(questions);
+
+questions.forEach(q=>{
+
+const correctAnswer=q.options[q.answer];
+
+q.options=shuffleArray([...q.options]);
+
+q.answer=q.options.indexOf(correctAnswer);
+
+});
+
+}
+
+/* LOGO */
+
+window.onload=function(){
+
+logoScreen.style.display="flex";
+
+setTimeout(()=>{
+
+logoScreen.style.display="none";
+
+introScreen.style.display="flex";
+
+},5000);
+
+};
+
+/* START */
+
+function startQuiz(){
+
+randomizeQuestions();
+
+introScreen.style.display="none";
+quizScreen.style.display="flex";
+
+currentQuestion=0;
+score=0;
+
+loadQuestion();
+
+}
+
+/* LOAD QUESTION */
+
+function loadQuestion(){
+
+clearInterval(timer);
+
+retryUsed=false;
+
+feedback.innerHTML="";
+explanation.style.display="none";
+
+const q=questions[currentQuestion];
+
+questionText.innerHTML=
+`Q${currentQuestion+1}. ${q.question}`;
+
+document.getElementById("questionCount").innerHTML=
+`Question ${currentQuestion+1} / ${questions.length}`;
+
+progressFill.style.width=
+`${((currentQuestion)/questions.length)*100}%`;
+
+optionsContainer.innerHTML="";
+
+/* OPTIONS */
+
+q.options.forEach((option,index)=>{
+
+const btn=document.createElement("button");
+
+btn.classList.add("option-btn");
+
+/* IMAGE OPTIONS */
+
+if(q.isImageOptions){
+
+btn.innerHTML=`
+<img src="${option}" alt="Option Image">
+`;
+
+}else{
+
+btn.innerHTML=option;
+
+}
+
+btn.onclick=()=>checkAnswer(index,btn);
+
+optionsContainer.appendChild(btn);
+
+});
+
+scoreText.innerHTML=`Score: ${score}`;
+
+timeLeft=60;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+if(timeLeft<=0){
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+},1000);
+
+}
+
+/* CHECK */
+
+function checkAnswer(selected,button){
+
+const q=questions[currentQuestion];
+
+const buttons=document.querySelectorAll(".option-btn");
+
+if(selected===q.answer){
+
+clearInterval(timer);
+
+button.classList.add("correct");
+
+feedback.innerHTML="✅ Correct!";
+
+feedback.style.color="green";
+
+correctSound.play();
+
+score++;
+
+createConfetti();
+
+buttons.forEach(btn=>btn.disabled=true);
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},1500);
+
+}else{
+
+button.classList.add("wrong");
+
+wrongSound.play();
+
+showCross();
+
+if(!retryUsed){
+
+retryUsed=true;
+
+feedback.innerHTML=
+"❌ Try Again! One more chance.";
+
+feedback.style.color="#c62828";
+
+button.disabled=true;
+
+}else{
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+}
+
+}
+
+/* SHOW ANSWER */
+
+function showCorrectAnswer(){
+
+const q=questions[currentQuestion];
+
+const buttons=
+document.querySelectorAll(".option-btn");
+
+buttons.forEach((btn,index)=>{
+
+btn.disabled=true;
+
+if(index===q.answer){
+
+btn.classList.add("correct");
+
+}
+
+});
+
+feedback.innerHTML="Correct answer shown";
+
+feedback.style.color="#1565c0";
+
+explanation.style.display="block";
+
+explanation.innerHTML=
+`💡 ${q.explanation}`;
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},3500);
+
+}
+
+/* NEXT */
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+}
+
+/* RESULT */
+
+function showResult(){
+
+quizScreen.style.display="none";
+
+resultScreen.style.display="flex";
+
+document.getElementById("finalScore").innerHTML=
+`Your Score: ${score} / ${questions.length}`;
+
+let msg="";
+
+if(score>=14){
+
+msg="🌟 Excellent MS Word Expert!";
+
+}else if(score>=10){
+
+msg="👍 Very Good Work!";
+
+}else{
+
+msg="😊 Keep Practicing MS Word Tools!";
+
+}
+
+document.getElementById("message").innerHTML=msg;
+
+}
+
+/* RESTART */
+
+function restartQuiz(){
+
+resultScreen.style.display="none";
+
+introScreen.style.display="flex";
+
+}
+
+/* CONFETTI */
+
+function createConfetti(){
+
+for(let i=0;i<24;i++){
+
+const confetti=document.createElement("div");
+
+confetti.classList.add("confetti");
+
+confetti.style.left=
+Math.random()*window.innerWidth+"px";
+
+confetti.style.top=
+Math.random()*150+"px";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+
+confetti.remove();
+
+},1500);
+
+}
+
+}
+
+/* WRONG CROSS */
+
+function showCross(){
+
+const cross=document.createElement("div");
+
+cross.classList.add("cross");
+
+cross.innerHTML="✖";
+
+cross.style.left=
+Math.random()*window.innerWidth+"px";
+
+cross.style.top=
+Math.random()*window.innerHeight+"px";
+
+document.body.appendChild(cross);
+
+setTimeout(()=>{
+
+cross.remove();
+
+},1000);
+
+}
+
+/* BACKGROUND ICONS */
+
+function createIcons(){
+
+const bg=document.getElementById("bgIcons");
+
+const icons=[
+"📝",
+"📄",
+"✂️",
+"📋",
+"💾",
+"🖨️",
+"📑",
+"📘"
+];
+
+for(let i=0;i<35;i++){
+
+const icon=document.createElement("div");
+
+icon.classList.add("icon");
+
+icon.innerHTML=
+icons[Math.floor(Math.random()*icons.length)];
+
+icon.style.left=Math.random()*100+"%";
+
+icon.style.animationDuration=
+(8+Math.random()*10)+"s";
+
+icon.style.animationDelay=
+Math.random()*5+"s";
+
+icon.style.fontSize=
+(24+Math.random()*25)+"px";
+
+bg.appendChild(icon);
+
+}
+
+}
+
+createIcons();
+
+</script>
+
+</body>
+</html>
