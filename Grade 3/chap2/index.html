@@ -1,1 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Files and Folders - Interactive CBQ</title>
 
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+overflow-x:hidden;
+min-height:100vh;
+background:linear-gradient(135deg,#e8f4ff,#fff4e8,#f3e8ff,#e8fff3);
+position:relative;
+color:#222;
+}
+
+/* Animated Background */
+
+.bg-icons{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:-1;
+pointer-events:none;
+}
+
+.icon{
+position:absolute;
+font-size:34px;
+opacity:0.12;
+animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+
+0%{
+transform:translateY(100vh) rotate(0deg);
+opacity:0;
+}
+
+30%{
+opacity:0.12;
+}
+
+100%{
+transform:translateY(-120vh) rotate(360deg);
+opacity:0;
+}
+
+}
+
+/* Screens */
+
+.screen{
+display:none;
+min-height:100vh;
+justify-content:center;
+align-items:center;
+padding:20px;
+text-align:center;
+}
+
+.active{
+display:flex;
+flex-direction:column;
+}
+
+/* Logo Screen */
+
+.logo-screen{
+background:white;
+z-index:99999;
+}
+
+.logo-screen img{
+width:260px;
+max-width:80vw;
+max-height:40vh;
+object-fit:contain;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.05);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+/* Card */
+
+.card{
+background:rgba(255,255,255,0.95);
+padding:24px;
+border-radius:28px;
+max-width:1000px;
+width:100%;
+box-shadow:0 12px 30px rgba(0,0,0,0.18);
+backdrop-filter:blur(8px);
+animation:slideIn 0.5s ease;
+}
+
+@keyframes slideIn{
+
+from{
+transform:translateY(25px);
+opacity:0;
+}
+
+to{
+transform:translateY(0);
+opacity:1;
+}
+
+}
+
+h1{
+color:#1565c0;
+margin-bottom:12px;
+}
+
+.info{
+margin:8px 0;
+font-size:1rem;
+}
+
+/* Top Bar */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+gap:10px;
+margin-bottom:20px;
+font-weight:bold;
+flex-wrap:wrap;
+}
+
+/* Progress */
+
+.progress{
+width:100%;
+height:12px;
+background:#dbe9ff;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background:
+linear-gradient(
+90deg,
+#42a5f5,
+#ab47bc,
+#26a69a
+);
+transition:0.4s;
+}
+
+/* Question */
+
+.question{
+font-size:1.15rem;
+line-height:1.6;
+font-weight:600;
+margin-bottom:20px;
+}
+
+/* Image */
+
+.question-image{
+width:100%;
+max-width:350px;
+margin:0 auto 20px;
+border-radius:18px;
+display:none;
+box-shadow:0 6px 14px rgba(0,0,0,0.18);
+border:4px solid #fff;
+}
+
+/* Options */
+
+.options{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.option-btn{
+padding:15px;
+border:none;
+border-radius:18px;
+background:
+linear-gradient(
+135deg,
+#eef6ff,
+#f8ebff
+);
+cursor:pointer;
+font-size:1rem;
+transition:0.3s;
+font-weight:600;
+color:#333;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.option-btn:hover{
+transform:translateY(-3px) scale(1.02);
+background:
+linear-gradient(
+135deg,
+#d8ecff,
+#ecdfff
+);
+}
+
+/* Answer Effects */
+
+.correct{
+background:#c8ffd1 !important;
+border:2px solid #2e7d32;
+}
+
+.wrong{
+background:#ffd6d6 !important;
+border:2px solid #c62828;
+animation:shake 0.4s;
+}
+
+@keyframes shake{
+
+0%,100%{
+transform:translateX(0);
+}
+
+25%{
+transform:translateX(-5px);
+}
+
+75%{
+transform:translateX(5px);
+}
+
+}
+
+.feedback{
+margin-top:16px;
+font-weight:bold;
+min-height:28px;
+}
+
+.explanation{
+display:none;
+margin-top:14px;
+padding:14px;
+border-radius:16px;
+background:#eef7ff;
+font-size:0.96rem;
+line-height:1.5;
+}
+
+/* Buttons */
+
+.main-btn{
+padding:14px 28px;
+border:none;
+border-radius:18px;
+background:
+linear-gradient(
+135deg,
+#1565c0,
+#8e24aa
+);
+color:white;
+font-size:1rem;
+cursor:pointer;
+margin-top:20px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.main-btn:hover{
+transform:scale(1.04);
+}
+
+/* Confetti */
+
+.confetti{
+position:fixed;
+width:14px;
+height:14px;
+background:gold;
+clip-path:polygon(
+50% 0%,
+61% 35%,
+98% 35%,
+68% 57%,
+79% 91%,
+50% 70%,
+21% 91%,
+32% 57%,
+2% 35%,
+39% 35%
+);
+animation:fall 1.5s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+
+0%{
+transform:translateY(0) rotate(0deg);
+opacity:1;
+}
+
+100%{
+transform:translateY(500px) rotate(360deg);
+opacity:0;
+}
+
+}
+
+/* Wrong Cross */
+
+.cross{
+position:fixed;
+font-size:42px;
+color:red;
+animation:fade 1s forwards;
+z-index:999;
+}
+
+@keyframes fade{
+
+0%{
+opacity:1;
+transform:scale(1);
+}
+
+100%{
+opacity:0;
+transform:scale(2);
+}
+
+}
+
+.badge{
+font-size:2.8rem;
+margin:15px 0;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.options{
+grid-template-columns:1fr;
+}
+
+.question{
+font-size:1rem;
+}
+
+.option-btn{
+font-size:0.95rem;
+padding:14px;
+}
+
+.logo-screen img{
+width:200px;
+}
+
+.topbar{
+flex-direction:column;
+font-size:0.9rem;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg-icons" id="bgIcons"></div>
+
+<!-- Logo -->
+
+<div class="screen active logo-screen" id="logoScreen">
+
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+
+<h2 style="margin-top:20px;">
+Innovine Interactive Learning
+</h2>
+
+</div>
+
+<!-- Intro -->
+
+<div class="screen" id="introScreen">
+
+<div class="card">
+
+<h1>Files and Folders</h1>
+
+<p class="info"><strong>Grade:</strong> 3</p>
+
+<p class="info"><strong>Subject:</strong> ICT</p>
+
+<p class="info"><strong>Total Questions:</strong> 15</p>
+
+<p style="margin-top:16px;">
+Learn how files and folders help organize information on a computer.
+</p>
+
+<button class="main-btn" onclick="startQuiz()">
+Start Quiz
+</button>
+
+</div>
+
+</div>
+
+<!-- Quiz -->
+
+<div class="screen" id="quizScreen">
+
+<div class="card">
+
+<div class="topbar">
+
+<div id="scoreText">Score: 0</div>
+
+<div id="timerText">Time: 60</div>
+
+<div id="questionCount">Question 1 / 15</div>
+
+</div>
+
+<div class="progress">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+
+<img id="questionImage" class="question-image" src="" alt="Question Image">
+
+<div class="question" id="questionText"></div>
+
+<div class="options" id="optionsContainer"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="explanation" id="explanation"></div>
+
+</div>
+
+</div>
+
+<!-- Result -->
+
+<div class="screen" id="resultScreen">
+
+<div class="card">
+
+<h1>Quiz Completed!</h1>
+
+<div class="badge">📁🏆💻</div>
+
+<h2 id="finalScore"></h2>
+
+<p id="message"></p>
+
+<button class="main-btn" onclick="restartQuiz()">
+Play Again
+</button>
+
+</div>
+
+</div>
+
+<audio id="correctSound" src="assets/correct-1.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+
+<script>
+
+/* QUESTIONS */
+
+const questions=[
+
+{
+question:"Riya saves her homework as a file. Where is it stored?",
+options:["Folder","Screen","Mouse","CPU"],
+answer:0,
+explanation:"Files are stored inside folders."
+},
+
+{
+question:"Aarav opens a folder to find his drawing. What is a folder used for?",
+options:["Typing","Storing files","Printing","Clicking"],
+answer:1,
+explanation:"Folders help store and organize files."
+},
+
+{
+question:"A student double-clicks a file to open it. What happens?",
+options:["File deletes","File opens","File moves","File prints"],
+answer:1,
+explanation:"Double-clicking opens the file."
+},
+
+{
+question:"A student creates a new file to save work. What is being created?",
+options:["Folder","File","Icon","Device"],
+answer:1,
+explanation:"A new file is created to save work."
+},
+
+{
+question:"A student deletes a file. Where does it go first?",
+options:["Folder","Desktop","Recycle Bin","CPU"],
+answer:2,
+explanation:"Deleted files first go to Recycle Bin."
+},
+
+{
+question:"A student restores a deleted file. What happens?",
+options:["File is removed forever","File comes back","File prints","File moves to CPU"],
+answer:1,
+explanation:"Restoring brings the deleted file back."
+},
+
+{
+question:"Riya saves all her drawings in one place to keep them organised. What should she create?",
+options:["File","Folder","Screen","Icon"],
+answer:1,
+explanation:"Folders help organize files together."
+},
+
+{
+question:"Aarav cannot find his homework because it is saved in many places. What should he do?",
+options:["Delete files","Organise in folders","Print files","Close computer"],
+answer:1,
+explanation:"Folders help keep files organized."
+},
+
+{
+question:"A student deletes an important file by mistake. What should be done?",
+options:["Ignore","Check Recycle Bin","Turn off computer","Create new file"],
+answer:1,
+explanation:"Deleted files can be restored from Recycle Bin."
+},
+
+{
+question:"Action → Result\nSave → File stored\nDelete → File removed\nRestore → File comes back\nWhich action brings back file?",
+options:["Save","Delete","Restore","Close"],
+answer:2,
+explanation:"Restore brings back deleted files."
+},
+
+{
+question:"Item → Type\nHomework.doc → File\nPictures → Folder\nMusic.mp3 → File\nWhich is a folder?",
+options:["Homework.doc","Pictures","Music.mp3","All"],
+answer:1,
+explanation:"Pictures is a folder."
+},
+
+{
+question:"Assertion: Files store data.\nReason: They keep information saved.",
+options:[
+"Both correct and reason explains",
+"Both correct but unrelated",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+answer:0,
+explanation:"Files are used to store information."
+},
+
+{
+question:"Assertion: Folders help organise files.\nReason: They group similar files together.",
+options:[
+"Both correct and reason explains",
+"Both correct but unrelated",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+answer:0,
+explanation:"Folders organize similar files together."
+},
+
+{
+question:"Which statement is incorrect?",
+options:[
+"File stores data",
+"Folder stores files",
+"File stores folders",
+"Recycle Bin stores deleted files"
+],
+answer:2,
+explanation:"Folders store files, not the other way around."
+},
+
+{
+question:"(Picture-Based) Look at the image of files and folders. Which shows a folder?",
+image:"assets/Q15.png",
+options:[
+"Image icon",
+"Folder icon",
+"File icon",
+"Screen"
+],
+answer:1,
+explanation:"Folder icon represents a folder."
+}
+
+];
+
+/* VARIABLES */
+
+let currentQuestion=0;
+let score=0;
+let timer;
+let timeLeft=60;
+let retryUsed=false;
+
+/* ELEMENTS */
+
+const logoScreen=document.getElementById("logoScreen");
+const introScreen=document.getElementById("introScreen");
+const quizScreen=document.getElementById("quizScreen");
+const resultScreen=document.getElementById("resultScreen");
+
+const questionText=document.getElementById("questionText");
+const optionsContainer=document.getElementById("optionsContainer");
+const scoreText=document.getElementById("scoreText");
+const timerText=document.getElementById("timerText");
+const feedback=document.getElementById("feedback");
+const explanation=document.getElementById("explanation");
+const progressFill=document.getElementById("progressFill");
+const questionImage=document.getElementById("questionImage");
+
+const correctSound=document.getElementById("correctSound");
+const wrongSound=document.getElementById("wrongSound");
+
+/* SHUFFLE */
+
+function shuffleArray(array){
+
+for(let i=array.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[array[i],array[j]]=[array[j],array[i]];
+
+}
+
+return array;
+
+}
+
+/* RANDOMIZE */
+
+function randomizeQuestions(){
+
+shuffleArray(questions);
+
+questions.forEach(q=>{
+
+const correctAnswer=q.options[q.answer];
+
+q.options=shuffleArray([...q.options]);
+
+q.answer=q.options.indexOf(correctAnswer);
+
+});
+
+}
+
+/* LOGO */
+
+window.onload=function(){
+
+logoScreen.style.display="flex";
+
+setTimeout(()=>{
+
+logoScreen.style.display="none";
+
+introScreen.style.display="flex";
+
+},5000);
+
+};
+
+/* START */
+
+function startQuiz(){
+
+randomizeQuestions();
+
+introScreen.style.display="none";
+quizScreen.style.display="flex";
+
+currentQuestion=0;
+score=0;
+
+loadQuestion();
+
+}
+
+/* LOAD QUESTION */
+
+function loadQuestion(){
+
+clearInterval(timer);
+
+retryUsed=false;
+
+feedback.innerHTML="";
+explanation.style.display="none";
+
+const q=questions[currentQuestion];
+
+questionText.innerHTML=
+`Q${currentQuestion+1}. ${q.question}`;
+
+document.getElementById("questionCount").innerHTML=
+`Question ${currentQuestion+1} / ${questions.length}`;
+
+progressFill.style.width=
+`${((currentQuestion)/questions.length)*100}%`;
+
+/* IMAGE */
+
+if(q.image){
+
+questionImage.src=q.image;
+
+questionImage.style.display="block";
+
+}else{
+
+questionImage.style.display="none";
+
+}
+
+/* OPTIONS */
+
+optionsContainer.innerHTML="";
+
+q.options.forEach((option,index)=>{
+
+const btn=document.createElement("button");
+
+btn.classList.add("option-btn");
+
+btn.innerHTML=option;
+
+btn.onclick=()=>checkAnswer(index,btn);
+
+optionsContainer.appendChild(btn);
+
+});
+
+scoreText.innerHTML=`Score: ${score}`;
+
+timeLeft=60;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+timerText.innerHTML=`Time: ${timeLeft}`;
+
+if(timeLeft<=0){
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+},1000);
+
+}
+
+/* CHECK */
+
+function checkAnswer(selected,button){
+
+const q=questions[currentQuestion];
+
+const buttons=document.querySelectorAll(".option-btn");
+
+if(selected===q.answer){
+
+clearInterval(timer);
+
+button.classList.add("correct");
+
+feedback.innerHTML="✅ Correct!";
+
+feedback.style.color="green";
+
+correctSound.play();
+
+score++;
+
+createConfetti();
+
+buttons.forEach(btn=>btn.disabled=true);
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},1500);
+
+}else{
+
+button.classList.add("wrong");
+
+wrongSound.play();
+
+showCross();
+
+if(!retryUsed){
+
+retryUsed=true;
+
+feedback.innerHTML=
+"❌ Try Again! One more chance.";
+
+feedback.style.color="#c62828";
+
+button.disabled=true;
+
+}else{
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+}
+
+}
+
+/* SHOW ANSWER */
+
+function showCorrectAnswer(){
+
+const q=questions[currentQuestion];
+
+const buttons=
+document.querySelectorAll(".option-btn");
+
+buttons.forEach((btn,index)=>{
+
+btn.disabled=true;
+
+if(index===q.answer){
+
+btn.classList.add("correct");
+
+}
+
+});
+
+feedback.innerHTML="Correct answer shown";
+
+feedback.style.color="#1565c0";
+
+explanation.style.display="block";
+
+explanation.innerHTML=
+`💡 ${q.explanation}`;
+
+setTimeout(()=>{
+
+nextQuestion();
+
+},3500);
+
+}
+
+/* NEXT */
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion<questions.length){
+
+loadQuestion();
+
+}else{
+
+showResult();
+
+}
+
+}
+
+/* RESULT */
+
+function showResult(){
+
+quizScreen.style.display="none";
+
+resultScreen.style.display="flex";
+
+document.getElementById("finalScore").innerHTML=
+`Your Score: ${score} / ${questions.length}`;
+
+let msg="";
+
+if(score>=13){
+
+msg="🌟 Excellent File Master!";
+
+}else if(score>=9){
+
+msg="👍 Very Good Work!";
+
+}else{
+
+msg="😊 Keep Practicing Files and Folders!";
+
+}
+
+document.getElementById("message").innerHTML=msg;
+
+}
+
+/* RESTART */
+
+function restartQuiz(){
+
+resultScreen.style.display="none";
+
+introScreen.style.display="flex";
+
+}
+
+/* CONFETTI */
+
+function createConfetti(){
+
+for(let i=0;i<24;i++){
+
+const confetti=document.createElement("div");
+
+confetti.classList.add("confetti");
+
+confetti.style.left=
+Math.random()*window.innerWidth+"px";
+
+confetti.style.top=
+Math.random()*150+"px";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+
+confetti.remove();
+
+},1500);
+
+}
+
+}
+
+/* WRONG CROSS */
+
+function showCross(){
+
+const cross=document.createElement("div");
+
+cross.classList.add("cross");
+
+cross.innerHTML="✖";
+
+cross.style.left=
+Math.random()*window.innerWidth+"px";
+
+cross.style.top=
+Math.random()*window.innerHeight+"px";
+
+document.body.appendChild(cross);
+
+setTimeout(()=>{
+
+cross.remove();
+
+},1000);
+
+}
+
+/* BACKGROUND ICONS */
+
+function createIcons(){
+
+const bg=document.getElementById("bgIcons");
+
+const icons=[
+"📁",
+"📂",
+"🗂️",
+"🗑️",
+"💾",
+"📄",
+"🖥️",
+"📥"
+];
+
+for(let i=0;i<35;i++){
+
+const icon=document.createElement("div");
+
+icon.classList.add("icon");
+
+icon.innerHTML=
+icons[Math.floor(Math.random()*icons.length)];
+
+icon.style.left=Math.random()*100+"%";
+
+icon.style.animationDuration=
+(8+Math.random()*10)+"s";
+
+icon.style.animationDelay=
+Math.random()*5+"s";
+
+icon.style.fontSize=
+(24+Math.random()*25)+"px";
+
+bg.appendChild(icon);
+
+}
+
+}
+
+createIcons();
+
+</script>
+
+</body>
+</html>
