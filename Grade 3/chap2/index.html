@@ -22,7 +22,7 @@ position:relative;
 color:#222;
 }
 
-/* Animated Background */
+/* BACKGROUND */
 
 .bg-icons{
 position:fixed;
@@ -60,7 +60,7 @@ opacity:0;
 
 }
 
-/* Screens */
+/* SCREEN */
 
 .screen{
 display:none;
@@ -76,7 +76,7 @@ display:flex;
 flex-direction:column;
 }
 
-/* Logo */
+/* LOGO */
 
 .logo-screen{
 background:white;
@@ -99,7 +99,7 @@ animation:pulse 2s infinite;
 
 }
 
-/* Card */
+/* CARD */
 
 .card{
 background:rgba(255,255,255,0.95);
@@ -136,7 +136,7 @@ margin:8px 0;
 font-size:1rem;
 }
 
-/* Topbar */
+/* TOPBAR */
 
 .topbar{
 display:flex;
@@ -147,7 +147,7 @@ font-weight:bold;
 flex-wrap:wrap;
 }
 
-/* Progress */
+/* PROGRESS */
 
 .progress{
 width:100%;
@@ -171,7 +171,7 @@ linear-gradient(
 transition:0.4s;
 }
 
-/* Question */
+/* QUESTION */
 
 .question{
 font-size:1.15rem;
@@ -180,19 +180,7 @@ font-weight:600;
 margin-bottom:20px;
 }
 
-/* Question Image */
-
-.question-image{
-width:100%;
-max-width:350px;
-margin:0 auto 20px;
-border-radius:18px;
-display:none;
-box-shadow:0 6px 14px rgba(0,0,0,0.18);
-border:4px solid #fff;
-}
-
-/* Options */
+/* OPTIONS */
 
 .options{
 display:grid;
@@ -236,7 +224,7 @@ object-fit:contain;
 pointer-events:none;
 }
 
-/* Answer Effects */
+/* EFFECTS */
 
 .correct{
 background:#c8ffd1 !important;
@@ -281,7 +269,7 @@ font-size:0.96rem;
 line-height:1.5;
 }
 
-/* Button */
+/* BUTTON */
 
 .main-btn{
 padding:14px 28px;
@@ -305,7 +293,7 @@ transition:0.3s;
 transform:scale(1.04);
 }
 
-/* Confetti */
+/* CONFETTI */
 
 .confetti{
 position:fixed;
@@ -342,7 +330,7 @@ opacity:0;
 
 }
 
-/* Wrong Cross */
+/* WRONG CROSS */
 
 .cross{
 position:fixed;
@@ -371,7 +359,7 @@ font-size:2.8rem;
 margin:15px 0;
 }
 
-/* Mobile */
+/* MOBILE */
 
 @media(max-width:768px){
 
@@ -406,7 +394,7 @@ font-size:0.9rem;
 
 <div class="bg-icons" id="bgIcons"></div>
 
-<!-- Logo Screen -->
+<!-- LOGO SCREEN -->
 
 <div class="screen active logo-screen" id="logoScreen">
 
@@ -418,7 +406,7 @@ Innovine Interactive Learning
 
 </div>
 
-<!-- Intro -->
+<!-- INTRO -->
 
 <div class="screen" id="introScreen">
 
@@ -442,7 +430,7 @@ Start Quiz
 
 </div>
 
-<!-- Quiz -->
+<!-- QUIZ -->
 
 <div class="screen" id="quizScreen">
 
@@ -462,8 +450,6 @@ Start Quiz
 <div class="progress-fill" id="progressFill"></div>
 </div>
 
-<img id="questionImage" class="question-image" src="" alt="Question Image">
-
 <div class="question" id="questionText"></div>
 
 <div class="options" id="optionsContainer"></div>
@@ -476,7 +462,7 @@ Start Quiz
 
 </div>
 
-<!-- Result -->
+<!-- RESULT -->
 
 <div class="screen" id="resultScreen">
 
@@ -621,16 +607,22 @@ explanation:"Folders store files, not the other way around."
 },
 
 {
-question:"Which image shows a folder?",
+question:"(Picture-Based) Which image shows a folder?",
 options:[
 "assets/Q15-1.png",
 "assets/Q15-2.png",
 "assets/Q15-3.png",
 "assets/Q15-4.png"
 ],
+
+/* CORRECT ANSWER = Q15-4 */
+
 answer:3,
+
 isImageOptions:true,
-explanation:"Folder icon represents a folder."
+
+explanation:"The folder icon is the correct answer."
+
 }
 
 ];
@@ -657,7 +649,6 @@ const timerText=document.getElementById("timerText");
 const feedback=document.getElementById("feedback");
 const explanation=document.getElementById("explanation");
 const progressFill=document.getElementById("progressFill");
-const questionImage=document.getElementById("questionImage");
 
 const correctSound=document.getElementById("correctSound");
 const wrongSound=document.getElementById("wrongSound");
@@ -712,7 +703,7 @@ introScreen.style.display="flex";
 
 };
 
-/* START QUIZ */
+/* START */
 
 function startQuiz(){
 
@@ -749,8 +740,6 @@ document.getElementById("questionCount").innerHTML=
 
 progressFill.style.width=
 `${((currentQuestion)/questions.length)*100}%`;
-
-questionImage.style.display="none";
 
 /* OPTIONS */
 
