@@ -6,27 +6,27 @@
 <title>Interactive Challenge</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:linear-gradient(135deg,#4facfe,#6a5acd);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:15px;color:#222}
-.screen{display:none}.active{display:flex}
-#splash{position:fixed;inset:0;background:#fff;justify-content:center;align-items:center;z-index:9999}
-#splash img{width:220px;animation:pulse 2s infinite}
+body{background:url('assets/bg.jpg') center/cover fixed;min-height:100vh}
+body:before{content:'';position:fixed;inset:0;background:rgba(255,255,255,.82);z-index:0}
+.screen{display:none;position:relative;z-index:2;min-height:100vh;justify-content:center;align-items:center;padding:20px}
+.active{display:flex}
+.card{background:#fff;width:100%;max-width:900px;padding:25px;border-radius:22px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+#splash{position:fixed;inset:0;background:#fff;z-index:9999}
+#splash img{width:240px;animation:pulse 2s infinite}
 @keyframes pulse{50%{transform:scale(1.05)}}
-.card{background:#ffffffee;width:100%;max-width:850px;border-radius:24px;padding:25px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
-h1{text-align:center;color:#3b4cca;margin-bottom:15px}
+h1{text-align:center;color:#1565c0;margin-bottom:15px}
 ol{margin-left:25px;line-height:2}
-button{padding:12px 22px;border:none;border-radius:12px;background:#3b4cca;color:#fff;cursor:pointer;margin-top:20px}
-.top{display:flex;justify-content:space-between;margin-bottom:15px;flex-wrap:wrap;gap:10px}
-.option{padding:12px;margin:10px 0;background:#eef5ff;border-radius:12px;cursor:pointer}
-.correct{background:#c8f7c5}.wrong{background:#ffd1d1}
+.top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:15px}
+.option{padding:12px;background:#eef6ff;margin:8px 0;border-radius:12px;cursor:pointer}
+.correct{background:#c8f7c5!important}.wrong{background:#ffd6d6!important}
+.btn{padding:12px 20px;border:none;border-radius:10px;background:#1565c0;color:#fff;cursor:pointer}
+.feedback{margin-top:10px;font-weight:bold}
+.expl{margin-top:10px;background:#eef6ff;padding:10px;border-radius:10px;display:none}
 #result{text-align:center}
-.scoreCircle{width:150px;height:150px;border-radius:50%;background:#3b4cca;color:#fff;display:flex;align-items:center;justify-content:center;margin:20px auto;font-size:32px;font-weight:bold}
 </style>
 </head>
 <body>
-
-<div id="splash" class="screen active">
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
-</div>
+<div id="splash" class="screen active"><img src="assets/innovine-logo.png"></div>
 
 <div id="intro" class="screen">
 <div class="card">
@@ -34,109 +34,99 @@ button{padding:12px 22px;border:none;border-radius:12px;background:#3b4cca;color
 <ol>
 <li>Read each question carefully.</li>
 <li>Select the best answer.</li>
-<li>You get only two chances per question.</li>
+<li>You get two chances per question.</li>
 <li>After two incorrect attempts, the correct answer is shown.</li>
-<li>Complete all questions to unlock the celebration screen.</li>
+<li>Complete all questions and the final challenge.</li>
 </ol>
-<center><button onclick="startQuiz()">Start Challenge</button></center>
-</div>
-</div>
+<center><button class="btn" onclick="startQuiz()">Start Challenge</button></center>
+</div></div>
 
 <div id="quiz" class="screen">
 <div class="card">
 <div class="top">
-<div>Score: <span id="score">0</span></div>
-<div>Question <span id="qno">1</span>/5</div>
+<div>⭐ Score: <span id="score">0</span></div>
+<div>📝 <span id="qnum"></span></div>
+<div>⏳ <span id="timer">60</span>s</div>
 </div>
 <h3 id="question"></h3>
 <div id="options"></div>
-<div id="feedback" style="margin-top:10px;font-weight:bold"></div>
-<button id="nextBtn" onclick="nextQuestion()" style="display:none">Next</button>
-</div>
-</div>
+<div id="feedback" class="feedback"></div>
+<div id="expl" class="expl"></div>
+<button class="btn" id="nextBtn" style="display:none" onclick="nextQ()">Next</button>
+</div></div>
 
 <div id="resultScreen" class="screen">
 <div class="card" id="result">
 <h1>🎉 Congratulations! 🎉</h1>
-<div class="scoreCircle" id="finalScore"></div>
+<h2 id="final"></h2>
 <p>You have successfully completed the challenge.</p>
-<button onclick="location.reload()">Play Again</button>
-</div>
-</div>
+<button class="btn" onclick="location.reload()">Play Again</button>
+</div></div>
+
+<audio id="correct" src="assets/correct.mp3"></audio>
+<audio id="wrong" src="assets/wrong.mp3"></audio>
 
 <script>
 const questions=[
-{q:"Typing on a keyboard is an example of?",o:["Output","Input","Storage","Process"],a:1},
-{q:"A monitor is an?",o:["Input","Output","Storage","Process"],a:1},
-{q:"Computer calculations are called?",o:["Input","Process","Output","Typing"],a:1},
-{q:"Microphone is a?",o:["Output","Input","Storage","Printer"],a:1},
-{q:"Printer gives?",o:["Input","Output","Process","Memory"],a:1}
+{q:"Riya types her name using a keyboard. What step is this?",o:["Output","Input","Process","Storage"],a:1,e:"Typing with a keyboard is an input action."},
+{q:"Aarav clicks the mouse to open a game. What is this action?",o:["Output","Input","Process","Display"],a:1,e:"Mouse gives instructions to the computer."},
+{q:"The computer adds two numbers and finds the answer. What step is this?",o:["Input","Output","Process","Typing"],a:2,e:"The computer is processing the data."},
+{q:"A printer gives a paper with your drawing. What step is this?",o:["Input","Process","Output","Saving"],a:2,e:"Printer gives output on paper."},
+{q:"Meera speaks into a microphone. What step is happening?",o:["Output","Input","Process","Show"],a:1,e:"Microphone is an input device."},
+{q:"The computer shows a picture on the screen after clicking. What step is this?",o:["Input","Process","Output","Typing"],a:2,e:"Showing on screen is output."},
+{q:"Look at the steps: Click → Computer works → Picture appears. What is the correct order?",o:["Output → Input → Process","Input → Process → Output","Process → Input → Output","Input → Output → Process"],a:1,e:"Computers work in Input → Process → Output order."},
+{q:"Assertion: Mouse is an input device. Reason: It helps us give instructions to the computer.",o:["Both correct and reason explains","Both correct but not related","Assertion correct, reason wrong","Both wrong"],a:0,e:"Mouse helps us input instructions."},
+{q:"Which does NOT belong?",o:["Keyboard","Mouse","Monitor","Microphone"],a:2,e:"Monitor is an output device."},
+{q:"Rohan types numbers and gets an answer on screen. Which step is typing?",o:["Input","Process","Output","Result"],a:0,e:"Typing is input."},
+{q:"Sia clicks a photo, computer changes colours, then shows it. What is the processing step?",o:["Clicking photo","Changing colours","Showing photo","Saving photo"],a:1,e:"Changing colours is processing."},
+{q:"A student says monitor is an input device. What is the mistake?",o:["Monitor shows output","Monitor takes input","Monitor stores data","Monitor calculates"],a:0,e:"Monitor is an output device."},
+{q:"A child presses keys to write a sentence. What type of step is this?",o:["Output","Input","Process","Print"],a:1,e:"Keyboard gives input."},
+{q:"A computer plays music after you click play. Which step is playing music?",o:["Input","Process","Output","Click"],a:2,e:"Music heard from the computer is output."},
+{q:"A student clicks print, computer prepares file, then paper comes out. What is the correct order?",o:["Input → Output → Process","Input → Process → Output","Output → Process → Input","Process → Input → Output"],a:1,e:"Computer follows IPO cycle."},
+{q:"Final Challenge: A child types, computer checks spelling, then shows corrected words. Which step is checking spelling?",o:["Input","Process","Output","Typing"],a:1,e:"Checking spelling is processing."},
+{q:"A student records voice, computer changes it, and plays it. Which step is playing sound?",o:["Input","Process","Output","Recording"],a:2,e:"Playing sound is output."}
 ];
 
-let current=0,score=0,attempts=0;
+let current=0,score=0,attempts=0,time=60,timer;
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.style.display='none');document.getElementById(id).style.display='flex';}
+setTimeout(()=>show('intro'),5000);
 
-setTimeout(()=>{
-document.getElementById('splash').style.display='none';
-show('intro');
-},5000);
-
-function show(id){
-document.querySelectorAll('.screen').forEach(s=>s.style.display='none');
-document.getElementById(id).style.display='flex';
-}
-
-function startQuiz(){show('quiz');loadQuestion();}
-
-function loadQuestion(){
-attempts=0;
+function startQuiz(){show('quiz');loadQ();}
+function loadQ(){
+attempts=0;time=60;
 let q=questions[current];
-document.getElementById('qno').textContent=current+1;
-document.getElementById('question').textContent=q.q;
-document.getElementById('feedback').innerHTML='';
-document.getElementById('nextBtn').style.display='none';
-let box=document.getElementById('options'); box.innerHTML='';
-q.o.forEach((op,i)=>{
-let d=document.createElement('div');
-d.className='option'; d.textContent=op;
-d.onclick=()=>checkAnswer(d,i);
-box.appendChild(d);
-});
+qnum.textContent=`Question ${current+1} of ${questions.length}`;
+question.textContent=q.q;
+options.innerHTML='';feedback.innerHTML='';expl.style.display='none';nextBtn.style.display='none';
+q.o.forEach((op,i)=>{let d=document.createElement('div');d.className='option';d.textContent=op;d.onclick=()=>check(d,i);options.appendChild(d);});
+clearInterval(timer);
+timer=setInterval(()=>{timerEl.textContent=--time;if(time<=0){clearInterval(timer);showAns();}},1000);
 }
-
-function checkAnswer(el,i){
+function check(el,i){
 let q=questions[current];
 if(i===q.a){
-el.classList.add('correct');
-score++;
-document.getElementById('score').textContent=score;
-document.getElementById('feedback').innerHTML='✅ Correct!';
-disable();
-document.getElementById('nextBtn').style.display='inline-block';
+el.classList.add('correct');score++;scoreSpan.textContent=score;
+document.getElementById('correct').play();
+disable();nextBtn.style.display='inline-block';feedback.innerHTML='✅ Correct!';
+clearInterval(timer);
 }else{
-attempts++;
-el.classList.add('wrong');
-el.style.pointerEvents='none';
-if(attempts<2){
-document.getElementById('feedback').innerHTML='❌ One chance remaining.';
-}else{
+attempts++;el.classList.add('wrong');el.style.pointerEvents='none';
+document.getElementById('wrong').play();
+if(attempts<2){feedback.innerHTML='❌ One chance remaining';}
+else{showAns();}
+}
+}
+function showAns(){
+disable();clearInterval(timer);
+let q=questions[current];
 document.querySelectorAll('.option')[q.a].classList.add('correct');
-document.getElementById('feedback').innerHTML='Correct answer shown.';
-disable();
-document.getElementById('nextBtn').style.display='inline-block';
+feedback.innerHTML='Correct answer shown';
+expl.innerHTML='💡 '+q.e;expl.style.display='block';
+nextBtn.style.display='inline-block';
 }
-}
-}
-
 function disable(){document.querySelectorAll('.option').forEach(o=>o.style.pointerEvents='none');}
-
-function nextQuestion(){
-current++;
-if(current<questions.length) loadQuestion();
-else{
-show('resultScreen');
-document.getElementById('finalScore').textContent=score+'/'+questions.length;
-}
-}
+function nextQ(){current++; if(current<questions.length) loadQ(); else {show('resultScreen'); final.textContent=`Score: ${score}/${questions.length}`;}}
+const scoreSpan=document.getElementById('score');
+const timerEl=document.getElementById('timer');
 </script>
-</body>
-</html>
+</body></html>
