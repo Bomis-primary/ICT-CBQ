@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STEM - Electricity Challenge</title>
+<title>Grade 2 STEM - Electricity Challenge</title>
 
 <style>
 :root{
@@ -199,9 +199,9 @@ text-align:left;
 
 .question-image{
 width:100%;
-max-width:350px;
+max-width:450px;
 margin: 0 auto 20px;
-border-radius:20px;
+border-radius:14px;
 box-shadow:0 5px 15px rgba(0,0,0,0.12);
 display:none;
 }
@@ -409,81 +409,81 @@ document.getElementById("app").classList.remove("hidden");
 /* STEM Electricity - Question Pool (Precisely 15 Items Mapping Document Parameters) */
 const questions=[
 {
-q:"Riya connects a battery, bulb and wires. The bulb glows. Why?",
+q:"Riya connects a battery, bulb and wires. The bulb glows. Why? [cite: 2]",
 o:["Electricity flows through a complete circuit","Bulb is colourful","Wire is long","Battery is heavy"],
 a:0,
-e:"An electric path must form an unbroken loop (complete circuit) for current to leave the power terminal and light up the bulb indicator."
+e:"An electric path must form an unbroken loop (complete circuit) for current to leave the power terminal and light up the bulb indicator[cite: 3]."
 },
 {
-q:"Tarun wants to touch an electric switch after washing his hands. What should he do first?",
+q:"Tarun wants to touch an electric switch after washing his hands. What should he do first? [cite: 7]",
 o:["Switch on immediately","Dry his hands","Pour more water","Use metal objects"],
 a:1,
-e:"Water is an active conductor of power; drying your hands completely isolates moisture channels to prevent safety shocks."
+e:"Water is an active conductor of power; drying your hands completely isolates moisture channels to prevent safety shocks[cite: 9, 67]."
 },
 {
-q:"A toy car stops moving when its battery is removed. What does this show?",
+q:"A toy car stops moving when its battery is removed. What does this show? [cite: 12]",
 o:["Electricity helps devices work","Batteries are toys","Wires make sound","Bulbs store power"],
 a:0,
-e:"Batteries house stored chemical energy that converts into operational electricity to power motorized equipment engines."
+e:"Batteries house stored chemical energy that converts into operational electricity to power motorized equipment engines[cite: 13]."
 },
 {
-q:"Meera chooses copper wire for a circuit. Why?",
+q:"Meera chooses copper wire for a circuit. Why? [cite: 17]",
 o:["Copper is a conductor","Copper is an insulator","Copper is soft","Copper is transparent"],
 a:0,
-e:"Copper molecules feature low structural resistance variables, letting electricity cross through it easily."
+e:"Copper molecules feature low structural resistance variables, letting electricity cross through it easily[cite: 18, 62]."
 },
 {
-q:"A child wears rubber slippers near electrical equipment. Why?",
+q:"A child wears rubber slippers near electrical equipment. Why? [cite: 22]",
 o:["Rubber is colourful","Rubber is an insulator","Rubber stores electricity","Rubber glows"],
 a:1,
-e:"Rubber operates as an insulator, blocking current paths completely to keep electricity from reaching your body."
+e:"Rubber operates as an insulator, blocking current paths completely to keep electricity from safely reaching your body[cite: 24, 72]."
 },
 {
-q:"An LED glows when connected properly. What does this indicate?",
+q:"An LED glows when connected properly. What does this indicate? [cite: 27]",
 o:["Circuit is complete","Battery is empty","Wire is broken","Switch is damaged"],
 a:0,
-e:"Visual light emission from an active diode directly displays that a solid closed-loop connection path is live."
+e:"Visual light emission from an active diode directly displays that a solid closed-loop connection path is live[cite: 28]."
 },
 {
-q:"Aman notices a damaged electric cord at home. What should be done?",
+q:"Aman notices a damaged electric cord at home. What should be done? [cite: 32]",
 o:["Continue using it","Replace it safely","Put it in water","Ignore it"],
 a:1,
-e:"Damaged wiring insulation exposes live structural elements, meaning it must be repaired or replaced to preserve home safety rules."
+e:"Damaged wiring insulation exposes live structural elements, meaning it must be repaired or replaced to preserve home safety rules[cite: 34]."
 },
 {
-q:"Sara finds a complex electrical fault at home. What is the safest action?",
+q:"Sara finds a complex electrical fault at home. What is the safest action? [cite: 37]",
 o:["Repair it alone","Ignore it","Call an electrician","Touch the wires"],
 a:2,
-e:"Complex infrastructure overloads require specialized diagnostic tool handling from a professional electrician."
+e:"Complex infrastructure overloads require specialized diagnostic tool handling from a professional electrician[cite: 40]."
 },
 {
-q:"Table Data Context:\n• Copper - Conductor\n• Plastic - Insulator\n• Steel - Conductor\n\nWhich material is an insulator?",
+q:"Table Data Context:\n• Copper - Conductor\n• Plastic - Insulator\n• Steel - Conductor\n\nWhich material is an insulator? [cite: 42]",
 o:["Copper","Plastic","Steel","Aluminium"],
 a:1,
-e:"As classified by the material matrix, plastic does not allow electricity to pass through and serves as insulator layering."
+e:"As classified by the material matrix data table, plastic does not allow electricity to pass through and serves as insulator layering[cite: 42, 44]."
 },
 {
-q:"Table Data Context:\n• Bulb - Needs Electricity\n• Computer - Needs Electricity\n• Notebook - Does Not Need Electricity\n\nWhich item does not need electricity?",
+q:"Table Data Context:\n• Bulb - Needs Electricity\n• Computer - Needs Electricity\n• Notebook - Does Not Need Electricity\n\nWhich item does not need electricity? [cite: 47]",
 o:["Bulb","Computer","Notebook","LED"],
 a:2,
-e:"Notebook items are composed of physical non-electronic components and do not require current flows to operate."
+e:"Notebook items are composed of physical non-electronic components and do not require current flows to operate[cite: 47, 50]."
 },
 {
-q:"What type of setup is shown in this diagram where a battery lights up a bulb with wires?",
+q:"A picture shows a battery connected to a bulb with wires and the bulb is glowing. What is shown? [cite: 52]",
 image:"assets/Q11.png",
 o:["Open circuit","Electric circuit","Water cycle","Network"],
 a:1,
-e:"This closed operational loop linking an energy node source to an active consumer element forms a functional electric circuit."
+e:"This closed operational loop linking an energy node source to an active consumer element forms a functional electric circuit[cite: 54]."
 },
 {
-q:"Why is this person wearing thick rubber gloves while handling active electrical equipment?",
+q:"A picture shows a person wearing rubber gloves while handling electrical equipment. Why? [cite: 57]",
 image:"assets/Q12.png",
 o:["Decoration","Safety from electricity","Fashion","To increase power"],
 a:1,
-e:"Insulated rubber glove barriers resist shock transfers, protecting skin surfaces from direct current contact."
+e:"Insulated rubber glove barriers resist shock transfers, protecting skin surfaces from direct current contact[cite: 59]."
 },
 {
-q:"Assertion: Conductors allow electricity to pass through them.\nReason: Copper and aluminium are conductors.",
+q:"Assertion: Conductors allow electricity to pass through them.\nReason: Copper and aluminium are conductors. [cite: 62]",
 o:[
 "Both true and reason explains",
 "Both true but not explanation",
@@ -491,10 +491,10 @@ o:[
 "Both false"
 ],
 a:0,
-e:"Conductors readily permit energy currents, and copper or aluminium materials serve as exact prime examples of this physical property."
+e:"Conductors readily permit energy currents, and copper or aluminium materials serve as exact prime examples of this physical property[cite: 62, 63]."
 },
 {
-q:"Assertion: Water should be kept away from electrical devices.\nReason: Water can cause electric shock.",
+q:"Assertion: Water should be kept away from electrical devices.\nReason: Water can cause electric shock. [cite: 67]",
 o:[
 "Both true and reason explains",
 "Both true but not explanation",
@@ -502,10 +502,10 @@ o:[
 "Both false"
 ],
 a:0,
-e:"Moisture channels can divert electricity out of insulated wires, creating severe personal hazards."
+e:"Moisture channels can divert electricity out of insulated wires, creating severe personal hazards[cite: 67, 68]."
 },
 {
-q:"Assertion: Rubber is used in electrical safety equipment.\nReason: Rubber is an insulator and does not allow electricity to pass through easily.",
+q:"Assertion: Rubber is used in electrical safety equipment.\nReason: Rubber is an insulator and does not allow electricity to pass through easily. [cite: 72]",
 o:[
 "Both true and reason explains",
 "Both true but not explanation",
@@ -513,7 +513,7 @@ o:[
 "Both false"
 ],
 a:0,
-e:"Rubber's mechanical resistance block prevents electric paths from shorting or extending onto operators."
+e:"Rubber's mechanical resistance block prevents electric paths from shorting or extending onto operators[cite: 72, 73]."
 }
 ];
 
