@@ -6,893 +6,673 @@
 <title>Fun with MS Paint - 2</title>
 
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body{
-font-family:Arial,sans-serif;
-background:url('assets/bg.png') no-repeat center center fixed;
-background-size:cover;
-overflow-x:hidden;
-min-height:100vh;
-position:relative;
-color:#222;
-}
-
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(255,255,255,0.80);
-z-index:-1;
-}
-
-.background{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-overflow:hidden;
-z-index:0;
-pointer-events:none;
-}
-
-.star{
-position:absolute;
-width:5px;
-height:5px;
-background:white;
-border-radius:50%;
-opacity:0.8;
-animation:floatStars linear infinite;
-}
-
-@keyframes floatStars{
-0%{
-transform:translateY(100vh);
-opacity:0;
-}
-50%{
-opacity:1;
-}
-100%{
-transform:translateY(-10vh);
-opacity:0;
-}
+  font-family:Arial, sans-serif;
+  min-height:100vh;
+  overflow:hidden;
+  background:linear-gradient(135deg,#dff3ff,#fff1d6,#e8ffd9);
+  color:#222;
 }
 
 .screen{
-display:none;
-position:relative;
-z-index:2;
-min-height:100vh;
-justify-content:center;
-align-items:center;
-padding:20px;
-text-align:center;
+  display:none;
+  width:100%;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:18px;
 }
 
 .active{
-display:flex;
-flex-direction:column;
+  display:flex;
+  flex-direction:column;
 }
 
-.card{
-background:#ffffffee;
-padding:24px;
-border-radius:24px;
-max-width:850px;
-width:100%;
-box-shadow:0 10px 25px rgba(0,0,0,0.18);
-border:2px solid #dbe9ff;
-backdrop-filter:blur(5px);
+/* LOGO */
+#logoScreen{
+  background:white;
+  z-index:999;
 }
 
-.logo-screen{
-background:white;
-z-index:99999;
-}
-
-.logo-screen img{
-width:220px;
-max-width:90%;
-display:block;
-margin:auto;
-animation:pulse 2s infinite;
+#logoScreen img{
+  width:260px;
+  max-width:85%;
+  animation:pulse 2s infinite;
 }
 
 @keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.05);}
-100%{transform:scale(1);}
+  0%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+  100%{transform:scale(1);}
+}
+
+/* THEME */
+.paint-bg{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+}
+
+.blob{
+  position:absolute;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  opacity:0.35;
+  animation:float 7s infinite ease-in-out;
+}
+
+.blob:nth-child(1){background:#ff6b6b;left:5%;top:15%;}
+.blob:nth-child(2){background:#4dabf7;right:8%;top:20%;animation-delay:1s;}
+.blob:nth-child(3){background:#ffd43b;left:15%;bottom:12%;animation-delay:2s;}
+.blob:nth-child(4){background:#69db7c;right:18%;bottom:8%;animation-delay:3s;}
+
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-25px);}
+}
+
+.card{
+  width:100%;
+  max-width:900px;
+  background:#fffaf0;
+  border:4px solid #7cc7ff;
+  border-radius:28px;
+  padding:24px;
+  box-shadow:0 12px 25px rgba(0,0,0,0.18);
 }
 
 h1{
-color:#1565c0;
-margin-bottom:10px;
+  color:#145da0;
+  margin-bottom:12px;
 }
 
 .info{
-margin:8px 0;
-font-size:1rem;
+  font-size:1.05rem;
+  margin:8px 0;
 }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-margin-bottom:18px;
-font-weight:bold;
-font-size:1rem;
-gap:10px;
-}
-
-.question{
-font-size:1.15rem;
-line-height:1.6;
-font-weight:600;
-margin-bottom:20px;
-}
-
-.options{
-display:grid;
-gap:12px;
-}
-
-.option-btn{
-padding:14px;
-border:none;
-border-radius:14px;
-background:#eef6ff;
-cursor:pointer;
-font-size:1rem;
-transition:0.3s;
-font-weight:500;
-}
-
-.option-btn:hover{
-background:#d8ecff;
-transform:scale(1.02);
-}
-
-.correct{
-background:#d4ffd4 !important;
-border:2px solid #2e7d32;
-}
-
-.wrong{
-background:#ffd9d9 !important;
-border:2px solid #c62828;
-}
-
-.feedback{
-margin-top:15px;
-font-weight:bold;
-min-height:28px;
-}
-
-.explanation{
-margin-top:12px;
-background:#eef7ff;
-padding:12px;
-border-radius:12px;
-display:none;
-font-size:0.95rem;
-line-height:1.5;
+.instructions{
+  line-height:1.7;
+  font-size:1.05rem;
+  margin-top:14px;
 }
 
 .main-btn{
-padding:12px 24px;
-margin-top:18px;
-border:none;
-background:#1565c0;
-color:white;
-font-size:1rem;
-border-radius:12px;
-cursor:pointer;
-transition:0.3s;
+  margin-top:18px;
+  padding:14px 28px;
+  border:none;
+  border-radius:18px;
+  background:#145da0;
+  color:white;
+  font-size:1.05rem;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 .main-btn:hover{
-background:#0d47a1;
-}
-
-.confetti{
-position:fixed;
-width:14px;
-height:14px;
-background:gold;
-clip-path:polygon(
-50% 0%,
-61% 35%,
-98% 35%,
-68% 57%,
-79% 91%,
-50% 70%,
-21% 91%,
-32% 57%,
-2% 35%,
-39% 35%
-);
-animation:fall 1.5s linear forwards;
-z-index:999;
-}
-
-@keyframes fall{
-0%{
-transform:translateY(0) rotate(0deg);
-opacity:1;
-}
-100%{
-transform:translateY(500px) rotate(360deg);
-opacity:0;
-}
-}
-
-.cross{
-position:fixed;
-font-size:42px;
-color:red;
-animation:fade 1s forwards;
-z-index:999;
-}
-
-@keyframes fade{
-0%{
-opacity:1;
-transform:scale(1);
-}
-100%{
-opacity:0;
-transform:scale(2);
-}
-}
-
-.badge{
-font-size:2.2rem;
-margin:15px 0;
-}
-
-@media(max-width:600px){
-
-.question{
-font-size:1rem;
-}
-
-.option-btn{
-font-size:0.95rem;
-padding:12px;
+  background:#0b3d73;
 }
 
 .topbar{
-flex-direction:column;
-font-size:0.9rem;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+  font-weight:bold;
+  color:#0b3d73;
 }
 
-.logo-screen img{
-width:180px;
+.pill{
+  background:#e3f4ff;
+  padding:10px 14px;
+  border-radius:16px;
+  border:2px solid #9dd7ff;
 }
 
+.question{
+  background:#fff3c4;
+  border:3px dashed #f59f00;
+  padding:16px;
+  border-radius:18px;
+  font-size:1.18rem;
+  font-weight:bold;
+  line-height:1.5;
+  margin-bottom:18px;
 }
 
+.options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.option-btn{
+  min-height:58px;
+  padding:14px;
+  border:none;
+  border-radius:18px;
+  background:#dff4ff;
+  border-bottom:5px solid #74c0fc;
+  font-size:1rem;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.option-btn:hover{
+  transform:scale(1.03);
+}
+
+.correct{
+  background:#c8ffd0 !important;
+  border:3px solid #2f9e44 !important;
+  animation:pop 0.4s;
+}
+
+.wrong{
+  background:#ffd6d6 !important;
+  border:3px solid #c92a2a !important;
+  animation:shake 0.35s;
+}
+
+@keyframes pop{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.12);}
+  100%{transform:scale(1);}
+}
+
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  25%{transform:translateX(-8px);}
+  75%{transform:translateX(8px);}
+}
+
+.feedback{
+  margin-top:15px;
+  min-height:28px;
+  font-weight:bold;
+  font-size:1.05rem;
+}
+
+.explanation{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  background:#e7f5ff;
+  border-radius:16px;
+  line-height:1.5;
+  border:2px solid #a5d8ff;
+}
+
+.confetti{
+  position:fixed;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  top:-20px;
+  animation:fall 1.8s linear forwards;
+  z-index:9999;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(720deg);
+    opacity:0;
+  }
+}
+
+.cross{
+  position:fixed;
+  font-size:50px;
+  color:#d00000;
+  z-index:9999;
+  animation:fadeCross 0.9s forwards;
+}
+
+@keyframes fadeCross{
+  to{
+    opacity:0;
+    transform:scale(2);
+  }
+}
+
+.badge{
+  font-size:3rem;
+  margin:12px;
+}
+
+@media(max-width:650px){
+  .card{
+    padding:18px;
+    border-radius:22px;
+  }
+
+  .topbar{
+    flex-direction:column;
+    font-size:0.95rem;
+  }
+
+  .question{
+    font-size:1rem;
+  }
+
+  .options{
+    grid-template-columns:1fr;
+  }
+
+  .option-btn{
+    font-size:0.95rem;
+    min-height:52px;
+  }
+
+  #logoScreen img{
+    width:210px;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<div class="background" id="background"></div>
+<div class="paint-bg">
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+</div>
 
 <!-- LOGO SCREEN -->
-
-<div class="screen active logo-screen" id="logoScreen">
-
-<img src="./assets/innovine-logo.png" alt="Innovine Logo">
-
-<h2 style="margin-top:20px;">
-Innovine Interactive Learning
-</h2>
-
+<div class="screen active" id="logoScreen">
+  <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
-<!-- INTRO -->
-
+<!-- INSTRUCTION SCREEN -->
 <div class="screen" id="introScreen">
+  <div class="card">
+    <h1>🎨 Fun with MS Paint - 2</h1>
 
-<div class="card">
+    <p class="info"><strong>Grade:</strong> 2</p>
+    <p class="info"><strong>Subject:</strong> ICT</p>
+    <p class="info"><strong>Chapter / Concept:</strong> Fun with MS Paint - 2</p>
+    <p class="info"><strong>Topic:</strong> Select, Cut, Copy, Paste, Undo, Delete and Zoom</p>
 
-<h1>Fun with MS Paint - 2</h1>
+    <div class="instructions">
+      Read each situation carefully.<br>
+      Tap the correct answer.<br>
+      You will get <strong>2 attempts</strong> for each question.<br>
+      Try to score full marks!
+    </div>
 
-<p class="info"><strong>Grade:</strong> 2</p>
-<p class="info"><strong>Subject:</strong> ICT</p>
-<p class="info"><strong>Total Questions:</strong> 15</p>
-
-<p style="margin-top:15px;">
-Learn advanced MS Paint concepts through fun competency-based questions.
-</p>
-
-<button class="main-btn" onclick="startQuiz()">
-Start Quiz
-</button>
-
+    <button class="main-btn" onclick="startQuiz()">Start Quiz</button>
+  </div>
 </div>
 
-</div>
-
-<!-- QUIZ -->
-
+<!-- QUIZ SCREEN -->
 <div class="screen" id="quizScreen">
+  <div class="card">
+    <div class="topbar">
+      <div class="pill" id="questionCounter">Question: 1 / 15</div>
+      <div class="pill" id="scoreText">Score: 0</div>
+      <div class="pill" id="timerText">Time: 60</div>
+    </div>
 
-<div class="card">
-
-<div class="topbar">
-
-<div id="scoreText">Score: 0</div>
-
-<div id="timerText">Time: 60</div>
-
+    <div class="question" id="questionText"></div>
+    <div class="options" id="optionsContainer"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="explanation" id="explanation"></div>
+  </div>
 </div>
 
-<div class="question" id="questionText"></div>
-
-<div class="options" id="optionsContainer"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<div class="explanation" id="explanation"></div>
-
-</div>
-
-</div>
-
-<!-- RESULT -->
-
+<!-- RESULT SCREEN -->
 <div class="screen" id="resultScreen">
-
-<div class="card">
-
-<h1>Quiz Completed!</h1>
-
-<div class="badge">🏆</div>
-
-<h2 id="finalScore"></h2>
-
-<p id="message"></p>
-
-<button class="main-btn" onclick="restartQuiz()">
-Play Again
-</button>
-
+  <div class="card">
+    <h1>Good Job!</h1>
+    <div class="badge">🏆</div>
+    <h2 id="finalScore"></h2>
+    <p id="message"></p>
+    <button class="main-btn" onclick="restartQuiz()">Play Again</button>
+  </div>
 </div>
 
-</div>
-
-<audio id="correctSound" src="./assets/correct.mp3"></audio>
-<audio id="wrongSound" src="./assets/wrong.mp3"></audio>
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/freesound_community-claps-44774.mp3"></audio>
 
 <script>
-
-let questions=[
-
-{
-question:"A student wants to copy a drawing in Paint. Which tool should be used?",
-options:["Copy","Brush","Eraser","Fill"],
-answer:0,
-explanation:"Copy tool helps duplicate drawings."
-},
-
-{
-question:"Riya wants to paste a copied picture into Paint. Which option should she use?",
-options:["Cut","Paste","Erase","Draw"],
-answer:1,
-explanation:"Paste places copied content."
-},
-
-{
-question:"A child wants to select only one part of a picture. Which tool helps?",
-options:["Select tool","Brush","Line","Fill"],
-answer:0,
-explanation:"Select tool chooses a specific area."
-},
-
-{
-question:"Aarav cuts a shape from one place and moves it elsewhere. Which option is used?",
-options:["Paste","Cut","Brush","Fill"],
-answer:1,
-explanation:"Cut removes and allows moving the object."
-},
-
-{
-question:"A student uses zoom tool in Paint. Why is it useful?",
-options:[
-"To color shapes",
-"To see drawing closely",
-"To erase pictures",
-"To save files"
-],
-answer:1,
-explanation:"Zoom helps view pictures closely."
-},
-
-{
-question:"Look at this order: Select → Copy → Paste. What happens finally?",
-options:[
-"Picture gets erased",
-"Picture gets duplicated",
-"Picture changes color",
-"Picture gets saved"
-],
-answer:1,
-explanation:"Copy and paste duplicates pictures."
-},
-
-{
-question:"A student selects part of a picture and presses delete. What will happen?",
-options:[
-"Picture gets colored",
-"Selected part gets removed",
-"Picture gets copied",
-"Picture gets zoomed"
-],
-answer:1,
-explanation:"Delete removes selected area."
-},
-
-{
-question:"Assertion: Zoom tool helps us enlarge a picture. Reason: It makes viewing easier.",
-options:[
-"Both correct and reason explains",
-"Both correct but not related",
-"Assertion correct, reason wrong",
-"Both wrong"
-],
-answer:0,
-explanation:"Zoom enlarges picture view."
-},
-
-{
-question:"Which does NOT belong?",
-options:["Copy","Paste","Brush","Keyboard"],
-answer:3,
-explanation:"Keyboard is not an MS Paint editing option."
-},
-
-{
-question:"A student clicks undo after making a mistake. What happens?",
-options:[
-"Mistake gets removed",
-"Drawing gets colored",
-"Picture gets zoomed",
-"Text gets added"
-],
-answer:0,
-explanation:"Undo removes the last action."
-},
-
-{
-question:"Case: Sia copies a flower and pastes it three times. What is she doing?",
-options:[
-"Deleting",
-"Duplicating",
-"Coloring",
-"Zooming"
-],
-answer:1,
-explanation:"Copy-paste duplicates objects."
-},
-
-{
-question:"Error: A student says paste removes the picture. What is the mistake?",
-options:[
-"Paste adds copied content",
-"Paste deletes pictures",
-"Paste zooms picture",
-"Paste colors shapes"
-],
-answer:0,
-explanation:"Paste inserts copied items."
-},
-
-{
-question:"A child zooms a picture before coloring tiny parts. Why?",
-options:[
-"To see details clearly",
-"To erase picture",
-"To close Paint",
-"To save file"
-],
-answer:0,
-explanation:"Zoom helps see small details."
-},
-
-{
-question:"A student wants to move part of a picture. Which steps are correct?",
-options:[
-"Select → Cut → Paste",
-"Brush → Fill → Save",
-"Zoom → Erase → Draw",
-"Paste → Select → Delete"
-],
-answer:0,
-explanation:"Select, cut and paste help move objects."
-},
-
-{
-question:"A student presses undo many times. What happens?",
-options:[
-"Previous actions reverse",
-"Picture gets copied",
-"Shapes get colored",
-"Paint closes"
-],
-answer:0,
-explanation:"Undo reverses previous actions."
-}
-
+let questions = [
+  {
+    question:"Riya drew a flower in MS Paint. She wants the same flower again without drawing it from the beginning. What should she use?",
+    options:["Copy and Paste","Eraser","Text tool","Zoom"],
+    answer:"Copy and Paste",
+    explanation:"Copy and Paste helps us make another copy of the same drawing."
+  },
+  {
+    question:"Aarav wants to move a small house from the left side of his picture to the right side. Which steps should he follow?",
+    options:["Select → Cut → Paste","Brush → Fill → Save","Zoom → Undo → Erase","Text → Line → Fill"],
+    answer:"Select → Cut → Paste",
+    explanation:"Select, Cut and Paste help us move a selected part of a picture."
+  },
+  {
+    question:"Meera coloured a tree by mistake. She wants to remove only her last action. Which option should she click?",
+    options:["Undo","Paste","Select","Zoom"],
+    answer:"Undo",
+    explanation:"Undo reverses the last action done in Paint."
+  },
+  {
+    question:"Kabir wants to work carefully on the tiny eyes of a cartoon face. Which tool will help him see the picture closely?",
+    options:["Zoom","Cut","Copy","Delete"],
+    answer:"Zoom",
+    explanation:"Zoom makes the picture look bigger on the screen so small parts can be seen clearly."
+  },
+  {
+    question:"A learner selected a star and pressed the Delete key. What will happen?",
+    options:["The selected star will be removed","The star will be copied","The star will become larger","The star will change colour"],
+    answer:"The selected star will be removed",
+    explanation:"Delete removes the selected part from the drawing."
+  },
+  {
+    question:"Sia wants to copy only the sun from a picture, not the whole picture. What should she do first?",
+    options:["Use the Select tool on the sun","Click Undo many times","Use the Eraser on the sun","Close Paint"],
+    answer:"Use the Select tool on the sun",
+    explanation:"The Select tool is used to choose a particular part of a picture."
+  },
+  {
+    question:"A student says, “Paste removes the picture from Paint.” What is the correct explanation?",
+    options:["Paste adds the copied or cut part","Paste closes the file","Paste only changes colour","Paste works like an eraser"],
+    answer:"Paste adds the copied or cut part",
+    explanation:"Paste places the copied or cut content into the drawing area."
+  },
+  {
+    question:"Naina made three butterflies by copying and pasting one butterfly. What did she do?",
+    options:["Duplicated the butterfly","Deleted the butterfly","Zoomed the butterfly","Erased the butterfly"],
+    answer:"Duplicated the butterfly",
+    explanation:"Duplicating means making more copies of the same object."
+  },
+  {
+    question:"Which option is most useful when you want to take away a selected part and place it somewhere else?",
+    options:["Cut","Brush","Fill with colour","Pencil"],
+    answer:"Cut",
+    explanation:"Cut removes the selected part so it can be pasted in another place."
+  },
+  {
+    question:"Tara pasted a copied cloud, but it came in the wrong place. What can she do immediately to remove that action?",
+    options:["Click Undo","Use Zoom","Use Text tool","Save the file"],
+    answer:"Click Undo",
+    explanation:"Undo helps correct the last mistake quickly."
+  },
+  {
+    question:"Which one does NOT belong to editing a selected picture part in MS Paint?",
+    options:["Keyboard","Cut","Copy","Paste"],
+    answer:"Keyboard",
+    explanation:"Cut, Copy and Paste are editing options. Keyboard is a device, not an editing option."
+  },
+  {
+    question:"A learner wants to copy a selected fish and place it in another part of the drawing. What should be done after Copy?",
+    options:["Click Paste","Click Eraser","Click Undo","Click Zoom out"],
+    answer:"Click Paste",
+    explanation:"After copying, Paste places the copied object in the drawing."
+  },
+  {
+    question:"Assertion: Zoom helps us colour tiny parts neatly. Reason: It lets us see the drawing more closely. Choose the correct option.",
+    options:["Both are correct and the reason explains the assertion","Both are correct but not related","Assertion is correct but reason is wrong","Both are wrong"],
+    answer:"Both are correct and the reason explains the assertion",
+    explanation:"Zoom helps us see small details clearly, so colouring tiny parts becomes easier."
+  },
+  {
+    question:"A child accidentally deleted a selected shape. Which option can bring back the deleted shape if used immediately?",
+    options:["Undo","Zoom","Brush","Fill"],
+    answer:"Undo",
+    explanation:"Undo can bring back the last removed or changed part if clicked immediately."
+  },
+  {
+    question:"Which sequence correctly shows how to make another copy of a selected object?",
+    options:["Select → Copy → Paste","Copy → Delete → Zoom","Paste → Erase → Select","Zoom → Fill → Cut"],
+    answer:"Select → Copy → Paste",
+    explanation:"First select the object, then copy it, and finally paste it."
+  }
 ];
 
-function shuffleQuestions(array){
-
-for(let i=array.length-1;i>0;i--){
-
-const j=Math.floor(Math.random()*(i+1));
-
-[array[i],array[j]]=[array[j],array[i]];
-
-}
-
-return array;
-
-}
-
-let currentQuestion=0;
-let score=0;
+let currentQuestion = 0;
+let score = 0;
+let attempts = 0;
+let timeLeft = 60;
 let timer;
-let timeLeft=60;
-let retryUsed=false;
+let quizQuestions = [];
 
-const logoScreen=document.getElementById("logoScreen");
-const introScreen=document.getElementById("introScreen");
-const quizScreen=document.getElementById("quizScreen");
-const resultScreen=document.getElementById("resultScreen");
+const logoScreen = document.getElementById("logoScreen");
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
 
-const questionText=document.getElementById("questionText");
-const optionsContainer=document.getElementById("optionsContainer");
-const scoreText=document.getElementById("scoreText");
-const timerText=document.getElementById("timerText");
-const feedback=document.getElementById("feedback");
-const explanation=document.getElementById("explanation");
+const questionText = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const feedback = document.getElementById("feedback");
+const explanation = document.getElementById("explanation");
+const scoreText = document.getElementById("scoreText");
+const timerText = document.getElementById("timerText");
+const questionCounter = document.getElementById("questionCounter");
 
-const correctSound=document.getElementById("correctSound");
-const wrongSound=document.getElementById("wrongSound");
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const clapSound = document.getElementById("clapSound");
 
-window.onload=function(){
-
-logoScreen.style.display="flex";
-
-setTimeout(()=>{
-
-logoScreen.style.display="none";
-
-introScreen.style.display="flex";
-
-},5000);
-
+window.onload = function(){
+  setTimeout(function(){
+    logoScreen.classList.remove("active");
+    introScreen.classList.add("active");
+  },5000);
 };
 
+function playSound(sound){
+  sound.currentTime = 0;
+  sound.play().catch(()=>{});
+}
+
+function shuffle(array){
+  for(let i=array.length-1;i>0;i--){
+    let j=Math.floor(Math.random()*(i+1));
+    [array[i],array[j]]=[array[j],array[i]];
+  }
+  return array;
+}
+
 function startQuiz(){
+  quizQuestions = shuffle([...questions]);
+  currentQuestion = 0;
+  score = 0;
 
-questions=shuffleQuestions(questions);
+  introScreen.classList.remove("active");
+  resultScreen.classList.remove("active");
+  quizScreen.classList.add("active");
 
-introScreen.style.display="none";
-
-quizScreen.style.display="flex";
-
-currentQuestion=0;
-
-score=0;
-
-loadQuestion();
-
+  loadQuestion();
 }
 
 function loadQuestion(){
+  clearInterval(timer);
+  attempts = 0;
+  timeLeft = 60;
 
-clearInterval(timer);
+  feedback.innerHTML = "";
+  explanation.style.display = "none";
+  explanation.innerHTML = "";
 
-retryUsed=false;
+  let q = quizQuestions[currentQuestion];
 
-feedback.innerHTML="";
+  questionCounter.innerHTML = `Question: ${currentQuestion + 1} / ${quizQuestions.length}`;
+  scoreText.innerHTML = `Score: ${score}`;
+  timerText.innerHTML = `Time: ${timeLeft}`;
 
-explanation.style.display="none";
+  questionText.innerHTML = `Q${currentQuestion + 1}. ${q.question}`;
 
-const q=questions[currentQuestion];
+  optionsContainer.innerHTML = "";
 
-questionText.innerHTML=
-`Q${currentQuestion+1}. ${q.question}`;
+  let mixedOptions = shuffle([...q.options]);
 
-optionsContainer.innerHTML="";
+  mixedOptions.forEach(option=>{
+    let btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.innerHTML = option;
+    btn.onclick = function(){
+      checkAnswer(option, btn);
+    };
+    optionsContainer.appendChild(btn);
+  });
 
-q.options.forEach((option,index)=>{
+  timer = setInterval(function(){
+    timeLeft--;
+    timerText.innerHTML = `Time: ${timeLeft}`;
 
-const btn=document.createElement("button");
-
-btn.classList.add("option-btn");
-
-btn.innerText=option;
-
-btn.onclick=()=>checkAnswer(index,btn);
-
-optionsContainer.appendChild(btn);
-
-});
-
-scoreText.innerHTML=`Score: ${score}`;
-
-timeLeft=60;
-
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
+    if(timeLeft <= 0){
+      clearInterval(timer);
+      revealAnswer("⏰ Time is up! Correct answer shown.");
+    }
+  },1000);
 }
 
-},1000);
+function checkAnswer(selected, button){
+  let q = quizQuestions[currentQuestion];
+  let buttons = document.querySelectorAll(".option-btn");
 
+  if(selected === q.answer){
+    clearInterval(timer);
+
+    button.classList.add("correct");
+    buttons.forEach(btn=>btn.disabled = true);
+
+    feedback.innerHTML = "✅ Correct!";
+    feedback.style.color = "green";
+
+    score++;
+    scoreText.innerHTML = `Score: ${score}`;
+
+    playSound(correctSound);
+
+    setTimeout(()=>{
+      playSound(clapSound);
+      createConfetti();
+    },300);
+
+    setTimeout(nextQuestion,1800);
+  }
+  else{
+    attempts++;
+    button.classList.add("wrong");
+    button.disabled = true;
+
+    playSound(wrongSound);
+    showCross();
+
+    if(attempts < 2){
+      feedback.innerHTML = "❌ Try again! One more chance.";
+      feedback.style.color = "#c92a2a";
+    }
+    else{
+      clearInterval(timer);
+      revealAnswer("Correct answer shown.");
+    }
+  }
 }
 
-function checkAnswer(selected,button){
+function revealAnswer(message){
+  let q = quizQuestions[currentQuestion];
+  let buttons = document.querySelectorAll(".option-btn");
 
-const q=questions[currentQuestion];
+  buttons.forEach(btn=>{
+    btn.disabled = true;
+    if(btn.innerHTML === q.answer){
+      btn.classList.add("correct");
+    }
+  });
 
-const buttons=document.querySelectorAll(".option-btn");
+  feedback.innerHTML = message;
+  feedback.style.color = "#145da0";
 
-if(selected===q.answer){
+  explanation.style.display = "block";
+  explanation.innerHTML = `💡 ${q.explanation}`;
 
-clearInterval(timer);
-
-button.classList.add("correct");
-
-feedback.innerHTML="✅ Correct!";
-
-feedback.style.color="green";
-
-correctSound.play();
-
-score++;
-
-createConfetti();
-
-buttons.forEach(btn=>btn.disabled=true);
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},1500);
-
-}else{
-
-button.classList.add("wrong");
-
-wrongSound.play();
-
-showCross();
-
-if(!retryUsed){
-
-retryUsed=true;
-
-feedback.innerHTML=
-"❌ Try Again! One more chance.";
-
-feedback.style.color="#c62828";
-
-buttons.forEach(btn=>{
-btn.disabled=false;
-});
-
-button.disabled=true;
-
-}else{
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
-}
-
-}
-
-}
-
-function showCorrectAnswer(){
-
-const q=questions[currentQuestion];
-
-const buttons=
-document.querySelectorAll(".option-btn");
-
-buttons.forEach((btn,index)=>{
-
-btn.disabled=true;
-
-if(index===q.answer){
-
-btn.classList.add("correct");
-
-}
-
-});
-
-feedback.innerHTML="Correct answer shown";
-
-feedback.style.color="#1565c0";
-
-explanation.style.display="block";
-
-explanation.innerHTML=
-`💡 ${q.explanation}`;
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},3500);
-
+  setTimeout(nextQuestion,3500);
 }
 
 function nextQuestion(){
+  currentQuestion++;
 
-currentQuestion++;
-
-if(currentQuestion<questions.length){
-
-loadQuestion();
-
-}else{
-
-showResult();
-
-}
-
+  if(currentQuestion < quizQuestions.length){
+    loadQuestion();
+  }
+  else{
+    showResult();
+  }
 }
 
 function showResult(){
+  clearInterval(timer);
 
-quizScreen.style.display="none";
+  quizScreen.classList.remove("active");
+  resultScreen.classList.add("active");
 
-resultScreen.style.display="flex";
+  document.getElementById("finalScore").innerHTML = `Your Score: ${score} / ${quizQuestions.length}`;
 
-document.getElementById("finalScore").innerHTML=
-`Your Score: ${score} / ${questions.length}`;
+  let msg = "";
 
-let msg="";
+  if(score >= 13){
+    msg = "Excellent work! You are an MS Paint Champion!";
+  }
+  else if(score >= 9){
+    msg = "Very good job! Keep practising MS Paint.";
+  }
+  else{
+    msg = "Good try! Practise again and you will improve.";
+  }
 
-if(score>=13){
-
-msg="Excellent Work!";
-
-}else if(score>=9){
-
-msg="Very Good Job!";
-
-}else{
-
-msg="Good Try! Keep Practicing.";
-
-}
-
-document.getElementById("message").innerHTML=msg;
-
+  document.getElementById("message").innerHTML = msg;
+  createConfetti();
+  playSound(clapSound);
 }
 
 function restartQuiz(){
-
-questions=shuffleQuestions(questions);
-
-currentQuestion=0;
-
-score=0;
-
-resultScreen.style.display="none";
-
-introScreen.style.display="flex";
-
+  resultScreen.classList.remove("active");
+  introScreen.classList.add("active");
 }
 
 function createConfetti(){
+  const colors = ["#ff6b6b","#ffd43b","#51cf66","#4dabf7","#cc5de8","#ff922b"];
 
-for(let i=0;i<20;i++){
+  for(let i=0;i<45;i++){
+    let piece = document.createElement("div");
+    piece.className = "confetti";
+    piece.style.left = Math.random() * 100 + "vw";
+    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+    piece.style.animationDelay = Math.random() * 0.5 + "s";
+    document.body.appendChild(piece);
 
-const confetti=document.createElement("div");
-
-confetti.classList.add("confetti");
-
-confetti.style.left=
-Math.random()*window.innerWidth+"px";
-
-confetti.style.top=
-Math.random()*200+"px";
-
-document.body.appendChild(confetti);
-
-setTimeout(()=>{
-
-confetti.remove();
-
-},1500);
-
-}
-
+    setTimeout(()=>{
+      piece.remove();
+    },2200);
+  }
 }
 
 function showCross(){
+  let cross = document.createElement("div");
+  cross.className = "cross";
+  cross.innerHTML = "✖";
+  cross.style.left = (20 + Math.random()*60) + "vw";
+  cross.style.top = (20 + Math.random()*50) + "vh";
+  document.body.appendChild(cross);
 
-const cross=document.createElement("div");
-
-cross.classList.add("cross");
-
-cross.innerHTML="✖";
-
-cross.style.left=
-Math.random()*window.innerWidth+"px";
-
-cross.style.top=
-Math.random()*window.innerHeight+"px";
-
-document.body.appendChild(cross);
-
-setTimeout(()=>{
-
-cross.remove();
-
-},1000);
-
+  setTimeout(()=>{
+    cross.remove();
+  },900);
 }
-
-function createBackground(){
-
-const bg=document.getElementById("background");
-
-for(let i=0;i<40;i++){
-
-const star=document.createElement("div");
-
-star.classList.add("star");
-
-star.style.left=Math.random()*100+"%";
-
-star.style.animationDuration=
-(5+Math.random()*8)+"s";
-
-star.style.animationDelay=
-Math.random()*5+"s";
-
-bg.appendChild(star);
-
-}
-
-}
-
-createBackground();
-
 </script>
 
 </body>
