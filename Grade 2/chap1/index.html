@@ -3,131 +3,1217 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive Challenge</title>
+
+<title> ICT Challenge</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:url('assets/bg.jpg') center/cover fixed;min-height:100vh}
-body:before{content:'';position:fixed;inset:0;background:rgba(255,255,255,.82);z-index:0}
-.screen{display:none;position:relative;z-index:2;min-height:100vh;justify-content:center;align-items:center;padding:20px}
-.active{display:flex}
-.card{background:#fff;width:100%;max-width:900px;padding:25px;border-radius:22px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
-#splash{position:fixed;inset:0;background:#fff;z-index:9999}
-#splash img{width:240px;animation:pulse 2s infinite}
-@keyframes pulse{50%{transform:scale(1.05)}}
-h1{text-align:center;color:#1565c0;margin-bottom:15px}
-ol{margin-left:25px;line-height:2}
-.top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:15px}
-.option{padding:12px;background:#eef6ff;margin:8px 0;border-radius:12px;cursor:pointer}
-.correct{background:#c8f7c5!important}.wrong{background:#ffd6d6!important}
-.btn{padding:12px 20px;border:none;border-radius:10px;background:#1565c0;color:#fff;cursor:pointer}
-.feedback{margin-top:10px;font-weight:bold}
-.expl{margin-top:10px;background:#eef6ff;padding:10px;border-radius:10px;display:none}
-#result{text-align:center}
+
+:root{
+--primary:#2563eb;
+--secondary:#7c3aed;
+--success:#10b981;
+--danger:#ef4444;
+--dark:#0f172a;
+--light:#ffffff;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0ea5e9,#2563eb,#7c3aed);
+overflow-x:hidden;
+position:relative;
+padding:15px;
+}
+
+/* Animated Background */
+
+.bg-stars{
+position:absolute;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:1;
+pointer-events:none;
+}
+
+.bg-star{
+position:absolute;
+width:16px;
+height:16px;
+background:rgba(255,255,255,0.2);
+clip-path:polygon(
+50% 0%,61% 35%,98% 35%,68% 57%,
+79% 91%,50% 70%,21% 91%,32% 57%,
+2% 35%,39% 35%);
+animation:floatStar linear infinite;
+}
+
+@keyframes floatStar{
+0%{
+transform:translateY(110vh) rotate(0deg);
+opacity:0;
+}
+10%{
+opacity:1;
+}
+100%{
+transform:translateY(-20vh) rotate(360deg);
+opacity:0;
+}
+}
+
+/* Splash */
+
+#splash{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+#splash img{
+width:240px;
+max-width:75%;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+/* Main Container */
+
+.container{
+width:100%;
+max-width:780px;
+background:rgba(255,255,255,0.92);
+backdrop-filter:blur(16px);
+border-radius:28px;
+padding:28px;
+position:relative;
+z-index:2;
+box-shadow:0 20px 50px rgba(0,0,0,0.25);
+}
+
+.hidden{
+display:none;
+}
+
+/* Intro */
+
+.intro{
+text-align:center;
+}
+
+.intro h1{
+font-size:2rem;
+color:var(--secondary);
+margin-bottom:10px;
+}
+
+.chapter{
+font-size:1.1rem;
+font-weight:bold;
+color:#334155;
+margin-bottom:10px;
+}
+
+.topic{
+font-size:1rem;
+color:#64748b;
+margin-bottom:20px;
+}
+
+.instructions{
+background:#f8fafc;
+padding:22px;
+border-radius:18px;
+line-height:1.9;
+color:#334155;
+font-size:1rem;
+text-align:left;
+}
+
+.instructions ol{
+margin-left:22px;
+}
+
+/* Button */
+
+button{
+padding:15px 30px;
+border:none;
+border-radius:16px;
+background:linear-gradient(
+135deg,
+var(--primary),
+var(--secondary)
+);
+color:white;
+font-size:1rem;
+font-weight:bold;
+cursor:pointer;
+margin-top:24px;
+transition:0.3s;
+}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+/* Quiz */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:20px;
+}
+
+.topbox{
+background:white;
+padding:12px 18px;
+border-radius:14px;
+font-weight:bold;
+color:#334155;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.progress{
+width:100%;
+height:12px;
+background:#e2e8f0;
+border-radius:999px;
+overflow:hidden;
+margin-bottom:24px;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background:
+linear-gradient(
+90deg,
+#10b981,
+#059669
+);
+transition:0.4s;
+}
+
+.question-number{
+color:#64748b;
+margin-bottom:10px;
+font-weight:bold;
+}
+
+.question{
+font-size:1.2rem;
+font-weight:bold;
+line-height:1.6;
+color:#0f172a;
+margin-bottom:20px;
+}
+
+.options{
+display:grid;
+gap:14px;
+}
+
+.option{
+background:white;
+padding:16px;
+border-radius:16px;
+border:2px solid #e2e8f0;
+cursor:pointer;
+font-size:1rem;
+font-weight:600;
+transition:0.25s;
+}
+
+.option:hover{
+transform:translateY(-2px);
+border-color:var(--primary);
+}
+
+.correct{
+background:#ecfdf5!important;
+border-color:#10b981!important;
+color:#065f46;
+}
+
+.wrong{
+background:#fef2f2!important;
+border-color:#ef4444!important;
+color:#991b1b;
+}
+
+.feedback{
+margin-top:20px;
+padding:18px;
+border-radius:16px;
+display:none;
+line-height:1.7;
+}
+
+.feedback.success{
+background:#ecfdf5;
+border-left:6px solid #10b981;
+}
+
+.feedback.error{
+background:#fef2f2;
+border-left:6px solid #ef4444;
+}
+
+/* Result */
+
+.result{
+text-align:center;
+}
+
+.result h1{
+font-size:2.2rem;
+color:var(--secondary);
+}
+
+.score-circle{
+width:180px;
+height:180px;
+border-radius:50%;
+margin:25px auto;
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#7c3aed
+);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:2.6rem;
+font-weight:bold;
+color:white;
+}
+
+.result-message{
+font-size:1.1rem;
+line-height:1.8;
+color:#334155;
+}
+
+/* Confetti */
+
+.star{
+position:fixed;
+font-size:22px;
+animation:fall 2.5s linear forwards;
+pointer-events:none;
+z-index:999;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(-30px) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(110vh) rotate(720deg);
+opacity:0;
+}
+}
+
+@media(max-width:600px){
+
+.container{
+padding:20px 15px;
+}
+
+.question{
+font-size:1.05rem;
+}
+
+.option{
+font-size:0.95rem;
+}
+
+button{
+width:100%;
+}
+
+}
+
 </style>
 </head>
-<body>
-<div id="splash" class="screen active"><img src="assets/innovine-logo.png"></div>
 
-<div id="intro" class="screen">
-<div class="card">
-<h1>Input-Process-Output</h1>
+<body>
+
+<div class="bg-stars" id="bgStars"></div>
+
+<!-- Splash -->
+
+<div id="splash">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="container hidden" id="app">
+
+<!-- INTRO SCREEN -->
+
+<div id="introScreen" class="intro">
+
+<h1>Grade 2 ICT</h1>
+
+<div class="chapter">
+Chapter 1
+</div>
+
+<div class="topic">
+Concept of Input, Process and Output
+</div>
+
+<div class="instructions">
+
 <ol>
 <li>Read each question carefully.</li>
-<li>Select the best answer.</li>
-<li>You get two chances per question.</li>
-<li>After two incorrect attempts, the correct answer is shown.</li>
-<li>Complete all questions and the final challenge.</li>
+<li>You get two chances for every question.</li>
+<li>After two incorrect attempts, the correct answer will be shown.</li>
+<li>You have 60 seconds for each question.</li>
+<li>Complete the challenge and unlock the celebration screen.</li>
 </ol>
-<center><button class="btn" onclick="startQuiz()">Start Challenge</button></center>
-</div></div>
 
-<div id="quiz" class="screen">
-<div class="card">
-<div class="top">
-<div>⭐ Score: <span id="score">0</span></div>
-<div>📝 <span id="qnum"></span></div>
-<div>⏳ <span id="timer">45</span>s</div>
 </div>
-<h3 id="question"></h3>
-<div id="options"></div>
-<div id="feedback" class="feedback"></div>
-<div id="expl" class="expl"></div>
-<button class="btn" id="nextBtn" style="display:none" onclick="nextQ()">Next</button>
-</div></div>
 
-<div id="resultScreen" class="screen">
-<div class="card" id="result">
-<h1>🎉 Congratulations! 🎉</h1>
-<h2 id="final"></h2>
-<p>You have successfully completed the challenge.</p>
-<button class="btn" onclick="location.reload()">Play Again</button>
-</div></div>
+<button onclick="startGame()">
+Start Challenge
+</button>
 
-<audio id="correct" src="assets/correct.mp3"></audio>
-<audio id="wrong" src="assets/wrong.mp3"></audio>
+</div>
 
+<!-- QUIZ SCREEN -->
+
+<div id="quizScreen" class="hidden">
+
+<div class="topbar">
+
+<div class="topbox">
+⭐ Score:
+<span id="score">0</span>
+</div>
+
+<div class="topbox">
+⏳ Time:
+<span id="timer">60</span>s
+</div>
+
+</div>
+
+<div class="progress">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+
+<div class="question-number" id="questionNumber"></div>
+
+<div class="question" id="questionText"></div>
+
+<div class="options" id="optionsBox"></div>
+
+<div class="feedback" id="feedbackBox"></div>
+
+<button
+id="nextBtn"
+class="hidden"
+onclick="nextQuestion()">
+Next Question
+</button>
+
+</div>
+
+<!-- RESULT -->
+
+<div id="resultScreen"
+class="hidden result">
+
+<h1>🎉 Challenge Completed 🎉</h1>
+
+<div class="score-circle">
+<span id="finalScore"></span>
+</div>
+
+<div
+class="result-message"
+id="resultMessage">
+</div>
+
+<button onclick="location.reload()">
+Play Again
+</button>
+
+</div>
+
+</div>
+
+<audio
+id="correctSound"
+src="assets/correct.mp3"></audio>
+
+<audio
+id="wrongSound"
+src="assets/wrong.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <script>
+
+/* Animated Background */
+
+const bg=document.getElementById("bgStars");
+
+for(let i=0;i<20;i++){
+
+let star=document.createElement("div");
+
+star.classList.add("bg-star");
+
+star.style.left=Math.random()*100+"%";
+
+star.style.animationDuration=
+(Math.random()*10+10)+"s";
+
+star.style.animationDelay=
+Math.random()*5+"s";
+
+star.style.width=
+(Math.random()*18+10)+"px";
+
+star.style.height=
+star.style.width;
+
+bg.appendChild(star);
+
+}
+
+/* Splash Screen */
+
+setTimeout(()=>{
+
+document.getElementById("splash").style.display="none";
+
+document.getElementById("app").classList.remove("hidden");
+
+},5000);
+
+/* Shuffle Questions */
+
+function shuffle(array){
+
+for(let i=array.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[array[i],array[j]]=[array[j],array[i]];
+
+}
+
+return array;
+
+}
+
+/* ICT Chapter 1 Questions */
+
 const questions=[
-{q:"Riya types her name using a keyboard. What step is this?",o:["Output","Input","Process","Storage"],a:1,e:"Typing with a keyboard is an input action."},
-{q:"Aarav clicks the mouse to open a game. What is this action?",o:["Output","Input","Process","Display"],a:1,e:"Mouse gives instructions to the computer."},
-{q:"The computer adds two numbers and finds the answer. What step is this?",o:["Input","Output","Process","Typing"],a:2,e:"The computer is processing the data."},
-{q:"A printer gives a paper with your drawing. What step is this?",o:["Input","Process","Output","Saving"],a:2,e:"Printer gives output on paper."},
-{q:"Meera speaks into a microphone. What step is happening?",o:["Output","Input","Process","Show"],a:1,e:"Microphone is an input device."},
-{q:"The computer shows a picture on the screen after clicking. What step is this?",o:["Input","Process","Output","Typing"],a:2,e:"Showing on screen is output."},
-{q:"Look at the steps: Click → Computer works → Picture appears. What is the correct order?",o:["Output → Input → Process","Input → Process → Output","Process → Input → Output","Input → Output → Process"],a:1,e:"Computers work in Input → Process → Output order."},
-{q:"Assertion: Mouse is an input device. Reason: It helps us give instructions to the computer.",o:["Both correct and reason explains","Both correct but not related","Assertion correct, reason wrong","Both wrong"],a:0,e:"Mouse helps us input instructions."},
-{q:"Which does NOT belong?",o:["Keyboard","Mouse","Monitor","Microphone"],a:2,e:"Monitor is an output device."},
-{q:"Rohan types numbers and gets an answer on screen. Which step is typing?",o:["Input","Process","Output","Result"],a:0,e:"Typing is input."},
-{q:"Sia clicks a photo, computer changes colours, then shows it. What is the processing step?",o:["Clicking photo","Changing colours","Showing photo","Saving photo"],a:1,e:"Changing colours is processing."},
-{q:"A student says monitor is an input device. What is the mistake?",o:["Monitor shows output","Monitor takes input","Monitor stores data","Monitor calculates"],a:0,e:"Monitor is an output device."},
-{q:"A child presses keys to write a sentence. What type of step is this?",o:["Output","Input","Process","Print"],a:1,e:"Keyboard gives input."},
-{q:"A computer plays music after you click play. Which step is playing music?",o:["Input","Process","Output","Click"],a:2,e:"Music heard from the computer is output."},
-{q:"A student clicks print, computer prepares file, then paper comes out. What is the correct order?",o:["Input → Output → Process","Input → Process → Output","Output → Process → Input","Process → Input → Output"],a:1,e:"Computer follows IPO cycle."},
-{q:"Final Challenge: A child types, computer checks spelling, then shows corrected words. Which step is checking spelling?",o:["Input","Process","Output","Typing"],a:1,e:"Checking spelling is processing."},
-{q:"A student records voice, computer changes it, and plays it. Which step is playing sound?",o:["Input","Process","Output","Recording"],a:2,e:"Playing sound is output."}
+
+{
+q:"Riya types her name using a keyboard. What step is this?",
+o:["Output","Input","Process","Storage"],
+a:1,
+e:"Typing with a keyboard is an input action."
+},
+
+{
+q:"Aarav clicks the mouse to open a game. What is this action?",
+o:["Output","Input","Process","Display"],
+a:1,
+e:"Mouse gives instructions to the computer."
+},
+
+{
+q:"The computer adds two numbers and finds the answer. What step is this?",
+o:["Input","Output","Process","Typing"],
+a:2,
+e:"The computer is processing the data."
+},
+
+{
+q:"A printer gives a paper with your drawing. What step is this?",
+o:["Input","Process","Output","Saving"],
+a:2,
+e:"Printer gives output on paper."
+},
+
+{
+q:"Meera speaks into a microphone. What step is happening?",
+o:["Output","Input","Process","Show"],
+a:1,
+e:"Microphone is an input device."
+},
+
+{
+q:"The computer shows a picture on the screen after clicking. What step is this?",
+o:["Input","Process","Output","Typing"],
+a:2,
+e:"Showing on screen is output."
+},
+
+{
+q:"Look at the steps: Click → Computer works → Picture appears. What is the correct order?",
+o:[
+"Output → Input → Process",
+"Input → Process → Output",
+"Process → Input → Output",
+"Input → Output → Process"
+],
+a:1,
+e:"A computer follows Input → Process → Output."
+},
+
+{
+q:"Assertion: Mouse is an input device. Reason: It helps us give instructions to the computer.",
+o:[
+"Both correct and reason explains",
+"Both correct but not related",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+a:0,
+e:"Mouse helps us give input to the computer."
+},
+
+{
+q:"Which does NOT belong?",
+o:[
+"Keyboard",
+"Mouse",
+"Monitor",
+"Microphone"
+],
+a:2,
+e:"Monitor is an output device."
+},
+
+{
+q:"Rohan types numbers and gets an answer on screen. Which step is typing?",
+o:[
+"Input",
+"Process",
+"Output",
+"Result"
+],
+a:0,
+e:"Typing numbers is input."
+},
+
+{
+q:"Sia clicks a photo, computer changes colours, then shows it. What is the processing step?",
+o:[
+"Clicking photo",
+"Changing colours",
+"Showing photo",
+"Saving photo"
+],
+a:1,
+e:"Changing colours is processing."
+},
+
+{
+q:"A student says monitor is an input device. What is the mistake?",
+o:[
+"Monitor shows output",
+"Monitor takes input",
+"Monitor stores data",
+"Monitor calculates"
+],
+a:0,
+e:"Monitor is an output device."
+},
+
+{
+q:"A child presses keys to write a sentence. What type of step is this?",
+o:[
+"Output",
+"Input",
+"Process",
+"Print"
+],
+a:1,
+e:"Keyboard is used for input."
+},
+
+{
+q:"A computer plays music after you click play. Which step is playing music?",
+o:[
+"Input",
+"Process",
+"Output",
+"Click"
+],
+a:2,
+e:"Music coming from the computer is output."
+},
+
+{
+q:"A student clicks print, computer prepares file, then paper comes out. What is the correct order?",
+o:[
+"Input → Output → Process",
+"Input → Process → Output",
+"Output → Process → Input",
+"Process → Input → Output"
+],
+a:1,
+e:"The computer follows Input → Process → Output."
+}
+
 ];
 
-let current=0,score=0,attempts=0,time=60,timer;
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.style.display='none');document.getElementById(id).style.display='flex';}
-setTimeout(()=>show('intro'),5000);
+/* Final Challenge */
 
-function startQuiz(){show('quiz');loadQ();}
-function loadQ(){
-attempts=0;time=60;
-let q=questions[current];
-qnum.textContent=`Question ${current+1} of ${questions.length}`;
-question.textContent=q.q;
-options.innerHTML='';feedback.innerHTML='';expl.style.display='none';nextBtn.style.display='none';
-q.o.forEach((op,i)=>{let d=document.createElement('div');d.className='option';d.textContent=op;d.onclick=()=>check(d,i);options.appendChild(d);});
-clearInterval(timer);
-timer=setInterval(()=>{timerEl.textContent=--time;if(time<=0){clearInterval(timer);showAns();}},1000);
+const finalChallenge=[
+
+{
+q:"A child types, computer checks spelling, then shows corrected words. Which step is checking spelling?",
+o:[
+"Input",
+"Process",
+"Output",
+"Typing"
+],
+a:1,
+e:"Checking spelling is processing."
+},
+
+{
+q:"A student records voice, computer changes it, and plays it. Which step is playing sound?",
+o:[
+"Input",
+"Process",
+"Output",
+"Recording"
+],
+a:2,
+e:"Playing sound is output."
 }
-function check(el,i){
-let q=questions[current];
-if(i===q.a){
-el.classList.add('correct');score++;scoreSpan.textContent=score;
-document.getElementById('correct').play();
-disable();nextBtn.style.display='inline-block';feedback.innerHTML='✅ Correct!';
+
+];
+
+/* Game Variables */
+
+let current=0;
+let score=0;
+let attempts=0;
+let timer;
+let timeLeft=60;
+
+/* Start Game */
+
+function startGame(){
+
+questions.sort(()=>Math.random()-0.5);
+
+document.getElementById("introScreen")
+.classList.add("hidden");
+
+document.getElementById("quizScreen")
+.classList.remove("hidden");
+
+loadQuestion();
+
+}
+
+/* Load Question */
+
+function loadQuestion(){
+
+attempts=0;
+
+timeLeft=60;
+
+startTimer();
+
+document.getElementById("progressFill").style.width=
+(current/questions.length)*100+"%";
+
+const q=questions[current];
+
+document.getElementById("questionNumber").innerHTML=
+`Question ${current+1} of ${questions.length}`;
+
+document.getElementById("questionText").innerHTML=
+q.q;
+
+const box=document.getElementById("optionsBox");
+
+box.innerHTML="";
+
+q.o.forEach((opt,index)=>{
+
+const div=document.createElement("div");
+
+div.classList.add("option");
+
+div.innerHTML=opt;
+
+div.onclick=()=>checkAnswer(div,index);
+
+box.appendChild(div);
+
+});
+
+document.getElementById("feedbackBox").style.display="none";
+
+document.getElementById("nextBtn")
+.classList.add("hidden");
+
+}
+
+/* Timer */
+
+function startTimer(){
+
 clearInterval(timer);
+
+document.getElementById("timer").innerText=timeLeft;
+
+timer=setInterval(()=>{
+
+timeLeft--;
+
+document.getElementById("timer").innerText=timeLeft;
+
+if(timeLeft<=0){
+
+clearInterval(timer);
+
+showCorrectAnswer();
+
+}
+
+},1000);
+
+}
+  /* Check Answer */
+
+function checkAnswer(element,index){
+
+const q=questions[current];
+
+if(index===q.a){
+
+element.classList.add("correct");
+
+document.getElementById("correctSound").play();
+
+createConfetti();
+
+score++;
+
+document.getElementById("score").innerText=score;
+
+showFeedback(
+true,
+"✅ Excellent!",
+q.e
+);
+
+disableOptions();
+
+clearInterval(timer);
+
+document.getElementById("nextBtn")
+.classList.remove("hidden");
+
 }else{
-attempts++;el.classList.add('wrong');el.style.pointerEvents='none';
-document.getElementById('wrong').play();
-if(attempts<2){feedback.innerHTML='❌ One chance remaining';}
-else{showAns();}
+
+attempts++;
+
+element.classList.add("wrong");
+
+document.getElementById("wrongSound").play();
+
+element.style.pointerEvents="none";
+
+if(attempts<2){
+
+showFeedback(
+false,
+"❌ Try Again!",
+"One chance remaining."
+);
+
+}else{
+
+showCorrectAnswer();
+
 }
+
 }
-function showAns(){
-disable();clearInterval(timer);
-let q=questions[current];
-document.querySelectorAll('.option')[q.a].classList.add('correct');
-feedback.innerHTML='Correct answer shown';
-expl.innerHTML='💡 '+q.e;expl.style.display='block';
-nextBtn.style.display='inline-block';
+
 }
-function disable(){document.querySelectorAll('.option').forEach(o=>o.style.pointerEvents='none');}
-function nextQ(){current++; if(current<questions.length) loadQ(); else {show('resultScreen'); final.textContent=`Score: ${score}/${questions.length}`;}}
-const scoreSpan=document.getElementById('score');
-const timerEl=document.getElementById('timer');
+
+/* Show Correct Answer */
+
+function showCorrectAnswer(){
+
+clearInterval(timer);
+
+disableOptions();
+
+const q=questions[current];
+
+document.querySelectorAll(".option")
+.forEach((opt,index)=>{
+
+if(index===q.a){
+
+opt.classList.add("correct");
+
+}
+
+});
+
+showFeedback(
+false,
+"📘 Correct Answer",
+q.e
+);
+
+document.getElementById("nextBtn")
+.classList.remove("hidden");
+
+}
+
+/* Disable Options */
+
+function disableOptions(){
+
+document.querySelectorAll(".option")
+.forEach(opt=>{
+
+opt.style.pointerEvents="none";
+
+});
+
+}
+
+/* Feedback */
+
+function showFeedback(success,title,text){
+
+const box=document.getElementById("feedbackBox");
+
+box.style.display="block";
+
+box.className=
+"feedback " +
+(success ? "success" : "error");
+
+box.innerHTML=
+`<strong style="font-size:1.1rem;">
+${title}
+</strong><br><br>${text}`;
+
+}
+
+/* Next Question */
+
+function nextQuestion(){
+
+current++;
+
+if(current<questions.length){
+
+loadQuestion();
+
+}else{
+
+showFinalChallenge();
+
+}
+
+}
+
+/* Final Challenge */
+
+function showFinalChallenge(){
+
+const challenge=finalChallenge[0];
+
+document.getElementById("questionNumber")
+.innerHTML="Final Challenge";
+
+document.getElementById("questionText")
+.innerHTML=challenge.q;
+
+const box=document.getElementById("optionsBox");
+
+box.innerHTML="";
+
+challenge.o.forEach((opt,index)=>{
+
+const div=document.createElement("div");
+
+div.classList.add("option");
+
+div.innerHTML=opt;
+
+div.onclick=()=>checkFinal1(div,index);
+
+box.appendChild(div);
+
+});
+
+document.getElementById("feedbackBox")
+.style.display="none";
+
+document.getElementById("nextBtn")
+.classList.add("hidden");
+
+clearInterval(timer);
+
+document.getElementById("timer")
+.innerText="--";
+
+}
+
+/* Final Challenge 1 */
+
+function checkFinal1(element,index){
+
+const q=finalChallenge[0];
+
+if(index===q.a){
+
+element.classList.add("correct");
+
+score++;
+
+createConfetti();
+
+document.getElementById("score")
+.innerText=score;
+
+showFeedback(
+true,
+"🌟 Great!",
+q.e
+);
+
+disableOptions();
+
+document.getElementById("nextBtn")
+.classList.remove("hidden");
+
+document.getElementById("nextBtn")
+.onclick=showFinalChallenge2;
+
+}else{
+
+element.classList.add("wrong");
+
+showFeedback(
+false,
+"❌ Incorrect",
+q.e
+);
+
+disableOptions();
+
+document.getElementById("nextBtn")
+.classList.remove("hidden");
+
+document.getElementById("nextBtn")
+.onclick=showFinalChallenge2;
+
+}
+
+}
+
+/* Final Challenge 2 */
+
+function showFinalChallenge2(){
+
+const challenge=finalChallenge[1];
+
+document.getElementById("questionNumber")
+.innerHTML="Final Challenge";
+
+document.getElementById("questionText")
+.innerHTML=challenge.q;
+
+const box=document.getElementById("optionsBox");
+
+box.innerHTML="";
+
+challenge.o.forEach((opt,index)=>{
+
+const div=document.createElement("div");
+
+div.classList.add("option");
+
+div.innerHTML=opt;
+
+div.onclick=()=>checkFinal2(div,index);
+
+box.appendChild(div);
+
+});
+
+document.getElementById("feedbackBox")
+.style.display="none";
+
+document.getElementById("nextBtn")
+.classList.add("hidden");
+
+}
+
+/* Final Challenge 2 Answer */
+
+function checkFinal2(element,index){
+
+const q=finalChallenge[1];
+
+if(index===q.a){
+
+element.classList.add("correct");
+
+score++;
+
+createConfetti();
+
+document.getElementById("score")
+.innerText=score;
+
+showFeedback(
+true,
+"🎉 Excellent!",
+q.e
+);
+
+}else{
+
+element.classList.add("wrong");
+
+showFeedback(
+false,
+"📘 Correct Answer",
+q.e
+);
+
+}
+
+disableOptions();
+
+document.getElementById("nextBtn")
+.classList.remove("hidden");
+
+document.getElementById("nextBtn")
+.innerHTML="View Result";
+
+document.getElementById("nextBtn")
+.onclick=showResult;
+
+}
+
+/* Result Screen */
+
+function showResult(){
+
+document.getElementById("quizScreen")
+.classList.add("hidden");
+
+document.getElementById("resultScreen")
+.classList.remove("hidden");
+
+document.getElementById("finalScore")
+.innerHTML=`${score}/17`;
+
+let message="";
+
+if(score>=15){
+
+message=
+"🏆 ICT Champion! Outstanding performance. You have mastered Input, Process and Output.";
+
+}else if(score>=12){
+
+message=
+"⭐ Excellent Work! You have a very good understanding of the topic.";
+
+}else if(score>=8){
+
+message=
+"👍 Good Job! Keep practising to improve even more.";
+
+}else{
+
+message=
+"🚀 Keep Practising! Review the chapter and try again.";
+
+}
+
+document.getElementById("resultMessage")
+.innerHTML=message;
+
+createConfetti();
+
+}
+
+/* Confetti */
+
+function createConfetti(){
+
+for(let i=0;i<35;i++){
+
+const star=document.createElement("div");
+
+star.classList.add("star");
+
+star.innerHTML="⭐";
+
+star.style.left=
+Math.random()*100+"vw";
+
+star.style.fontSize=
+(Math.random()*20+15)+"px";
+
+document.body.appendChild(star);
+
+setTimeout(()=>{
+
+star.remove();
+
+},2500);
+
+}
+
+}
+
 </script>
+
 </body>
 </html>
