@@ -3,301 +3,399 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MS Logo_ Interactive Quiz</title>
+<title>MS Logo - Chapter 10 Interactive Quiz</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+/* --- CORE STYLING & VARIABLES --- */
+:root {
+  --primary-color: #ff5722;
+  --primary-hover: #f4511e;
+  --secondary-color: #4caf50;
+  --bg-gradient: linear-gradient(135deg, #ffefe8 0%, #fffde6 50%, #e6f9ff 100%);
+  --card-bg: #ffffff;
+  --text-main: #2c3e50;
+  --text-muted: #5a738e;
+  --border-radius: 24px;
+  --accent-blue: #00bcd4;
+  --accent-purple: #9c27b0;
 }
 
-body{
-font-family:Arial,sans-serif;
-overflow-x:hidden;
-min-height:100vh;
-background:linear-gradient(135deg,#dff6ff,#fff5cc,#f3e7ff,#e8ffe7);
-position:relative;
-color:#222;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Animated Background Layer */
-.bg-icons{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-overflow:hidden;
-z-index:-2;
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  position: relative;
+  color: var(--text-main);
 }
 
-.icon{
-position:absolute;
-font-size:34px;
-opacity:0.15;
-animation:floatUp linear infinite;
+/* --- KIDS FLOATING LAYER BACKGROUND --- */
+.bg-icons {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -2;
+  pointer-events: none;
 }
 
-@keyframes floatUp{
-0%{
-transform:translateY(100vh) rotate(0deg);
-opacity:0;
-}
-30%{
-opacity:0.15;
-}
-100%{
-transform:translateY(-120vh) rotate(360deg);
-opacity:0;
-}
+.icon {
+  position: absolute;
+  font-size: 38px;
+  opacity: 0.12;
+  user-select: none;
+  animation: floatUp linear infinite;
 }
 
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at top left,#ffffffaa,transparent),
-radial-gradient(circle at bottom right,#ffffff88,transparent);
-z-index:-1;
+@keyframes floatUp {
+  0% {
+    transform: translateY(110vh) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.15;
+  }
+  90% {
+    opacity: 0.15;
+  }
+  100% {
+    transform: translateY(-20vh) rotate(360deg) scale(1.2);
+    opacity: 0;
+  }
 }
 
-/* Presentation Screen Managers */
-.screen{
-display:none;
-min-height:100vh;
-justify-content:center;
-align-items:center;
-padding:20px;
-text-align:center;
+/* --- BASE CARD FRAMEWORK --- */
+.screen {
+  display: none;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  text-align: center;
 }
 
-.active{
-display:flex;
-flex-direction:column;
+.screen.active {
+  display: flex;
+  flex-direction: column;
 }
 
-/* 5-Second Splash Screen */
-.logo-screen{
-background:white;
-z-index:99999;
+/* --- ISOLATED INITIAL SPLASH SYSTEM --- */
+.logo-screen {
+  background: #ffffff;
+  z-index: 99999;
 }
 
-.logo-screen img{
-width:260px;
-max-width:80vw;
-max-height:40vh;
-object-fit:contain;
-animation:pulse 2s infinite;
+.logo-screen img {
+  width: 280px;
+  max-width: 85vw;
+  max-height: 45vh;
+  object-fit: contain;
+  animation: bouncePulse 2s ease-in-out infinite;
 }
 
-@keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.05);}
-100%{transform:scale(1);}
+@keyframes bouncePulse {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.06) translateY(-10px); }
 }
 
-/* Main Container Card Framework */
-.card{
-background:rgba(255,255,255,0.92);
-padding:30px;
-border-radius:28px;
-max-width:950px;
-width:100%;
-box-shadow:0 12px 30px rgba(0,0,0,0.18);
-backdrop-filter:blur(8px);
-border:2px solid rgba(255,255,255,0.5);
-animation:slideIn 0.5s ease;
+.logo-screen h2 {
+  margin-top: 24px;
+  font-size: 1.6rem;
+  color: var(--text-main);
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-@keyframes slideIn{
-from{
-transform:translateY(25px);
-opacity:0;
-}
-to{
-transform:translateY(0);
-opacity:1;
-}
-}
-
-h1{
-color:#1565c0;
-margin-bottom:15px;
+/* --- CONTENT PANEL DISPLAY MODES --- */
+.card {
+  background: var(--card-bg);
+  padding: 40px;
+  border-radius: var(--border-radius);
+  max-width: 850px;
+  width: 100%;
+  box-shadow: 0 16px 40px rgba(255, 87, 34, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 4px solid #ffffff;
+  position: relative;
+  animation: cardPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
+@keyframes cardPop {
+  from { transform: translateY(40px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+h1 {
+  color: var(--primary-color);
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+/* --- ORDERED LIST DIRECTIONS --- */
 .instructions-list {
-text-align: left;
-margin: 20px auto;
-padding-left: 25px;
-max-width: 750px;
+  text-align: left;
+  margin: 28px auto;
+  padding-left: 32px;
+  max-width: 700px;
+  list-style-type: none;
+  counter-reset: kids-counter;
 }
 
 .instructions-list li {
-margin-bottom: 12px;
-font-size: 1.05rem;
-line-height: 1.6;
-color: #444;
+  position: relative;
+  margin-bottom: 16px;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-gap:10px;
-margin-bottom:20px;
-font-weight:bold;
-flex-wrap:wrap;
+.instructions-list li::before {
+  counter-increment: kids-counter;
+  content: counter(kids-counter);
+  position: absolute;
+  left: -40px;
+  top: 2px;
+  width: 28px;
+  height: 28px;
+  background: var(--accent-blue);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 800;
+  box-shadow: 0 4px 10px rgba(0, 188, 212, 0.3);
 }
 
-.progress{
-width:100%;
-height:12px;
-background:#dbe9ff;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:20px;
+.instructions-list li:nth-child(2n)::before {
+  background: var(--accent-purple);
+  box-shadow: 0 4px 10px rgba(156, 39, 176, 0.3);
 }
 
-.progress-fill{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#42a5f5,#ab47bc,#26a69a);
-transition:0.4s;
+.instructions-list li:nth-child(3n)::before {
+  background: var(--secondary-color);
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
 }
 
-.question{
-font-size:1.18rem;
-line-height:1.6;
-font-weight:600;
-margin-bottom:20px;
-text-align:left;
+/* --- PLAY CONTROL PANEL TOPBAR --- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
-.options{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
+.topbar-badge {
+  background: #fdf2ee;
+  color: var(--primary-color);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  border: 2px solid #ffe2d6;
+}
+
+.topbar-badge.timer-badge {
+  background: #e6f9ff;
+  color: #00838f;
+  border-color: #b3f0ff;
+}
+
+.topbar-badge.count-badge {
+  background: #edf7ed;
+  color: #2e7d32;
+  border-color: #c8e6c9;
+}
+
+/* --- METRIC TRACKING BAR --- */
+.progress {
+  width: 100%;
+  height: 16px;
+  background: #f0f0f0;
+  border-radius: 30px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  border: 3px solid #ffffff;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-purple), var(--accent-blue));
+  border-radius: 30px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- CORE EVALUATION STRUCTURING --- */
+.question {
+  font-size: 1.35rem;
+  line-height: 1.5;
+  font-weight: 700;
+  margin-bottom: 28px;
+  text-align: left;
+  color: var(--text-main);
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
 }
 
 .option-btn {
-padding:15px;
-border:none;
-border-radius:18px;
-background:linear-gradient(135deg,#eef6ff,#f8ebff);
-cursor:pointer;
-font-size:1rem;
-transition:0.3s;
-font-weight:600;
-color:#333;
-text-align:left;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  padding: 20px;
+  border: 3px solid #f0f0f0;
+  border-radius: 20px;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.25s ease;
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: left;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.03);
 }
 
-.option-btn:hover{
-transform:translateY(-3px) scale(1.02);
-background:linear-gradient(135deg,#d8ecff,#ecdfff);
+.option-btn:hover:not([disabled]) {
+  transform: translateY(-4px);
+  border-color: var(--primary-color);
+  background: #fdf2ee;
+  box-shadow: 0 10px 20px rgba(255, 87, 34, 0.15);
 }
 
-.correct{
-background:#c8ffd1 !important;
-border:2px solid #2e7d32;
-color:#1b5e20 !important;
+/* --- EVALUATION STATUS CONDITIONAL CLASSES --- */
+.correct {
+  background: #e8f5e9 !important;
+  border-color: var(--secondary-color) !important;
+  color: #2e7d32 !important;
+  box-shadow: 0 8px 16px rgba(76, 175, 80, 0.2) !important;
 }
 
-.wrong{
-background:#ffd6d6 !important;
-border:2px solid #c62828;
-color:#b71c1c !important;
-animation:shake 0.4s;
+.wrong {
+  background: #ffebee !important;
+  border-color: #ef5350 !important;
+  color: #c62828 !important;
+  box-shadow: 0 8px 16px rgba(239, 83, 80, 0.2) !important;
+  animation: shake 0.4s ease-in-out;
 }
 
-@keyframes shake{
-0%,100%{transform:translateX(0);}
-25%{transform:translateX(-5px);}
-75%{transform:translateX(5px);}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
 }
 
-.feedback{
-margin-top:16px;
-font-weight:bold;
-min-height:28px;
-text-align:left;
+/* --- INTERACTIVE FEEDBACK AND REVEAL SHEETS --- */
+.feedback {
+  margin-top: 20px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  min-height: 32px;
+  text-align: left;
 }
 
-.explanation{
-display:none;
-margin-top:14px;
-padding:14px;
-border-radius:16px;
-background:#eef7ff;
-font-size:0.96rem;
-line-height:1.5;
-text-align:left;
+.explanation {
+  display: none;
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 18px;
+  background: #e6f7ff;
+  border-left: 6px solid var(--accent-blue);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #006687;
+  text-align: left;
 }
 
-.main-btn{
-padding:14px 28px;
-border:none;
-border-radius:18px;
-background:linear-gradient(135deg,#1565c0,#8e24aa);
-color:white;
-font-size:1rem;
-cursor:pointer;
-margin-top:20px;
-font-weight:bold;
-transition:0.3s;
+/* --- BUTTON MATRIX CORE DESIGN --- */
+.main-btn {
+  padding: 16px 36px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #ff7043 100%);
+  color: white;
+  font-size: 1.15rem;
+  cursor: pointer;
+  margin-top: 24px;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(255, 87, 34, 0.3);
+  transition: all 0.25s ease;
 }
 
-.main-btn:hover{
-transform:scale(1.04);
+.main-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(255, 87, 34, 0.45);
 }
 
-/* Particle Systems */
-.confetti{
-position:fixed;
-width:14px;
-height:14px;
-background:gold;
-clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
-animation:fall 1.5s linear forwards;
-z-index:999;
+/* --- PARTICLE EMISSION NODES --- */
+.confetti {
+  position: fixed;
+  width: 16px;
+  height: 16px;
+  background: gold;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation: fall 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  z-index: 999;
 }
 
-@keyframes fall{
-0%{ transform:translateY(0) rotate(0deg); opacity:1; }
-100%{ transform:translateY(500px) rotate(360deg); opacity:0; }
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+  100% { transform: translateY(600px) rotate(720deg) scale(0.4); opacity: 0; }
 }
 
-.cross{
-position:fixed;
-font-size:42px;
-color:red;
-animation:fade 1s forwards;
-z-index:999;
+.cross {
+  position: fixed;
+  font-size: 48px;
+  color: #ef5350;
+  animation: fadeUpCross 0.8s ease-out forwards;
+  z-index: 999;
+  pointer-events: none;
 }
 
-@keyframes fade{
-0%{ opacity:1; transform:scale(1); }
-100%{ opacity:0; transform:scale(2); }
+@keyframes fadeUpCross {
+  0% { opacity: 1; transform: scale(0.6) translateY(0); }
+  100% { opacity: 0; transform: scale(1.8) translateY(-60px); }
 }
 
-.badge{
-font-size:2.8rem;
-margin:15px 0;
+.badge {
+  font-size: 4rem;
+  margin: 20px 0;
+  animation: popBadge 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-/* Mobile Responsiveness */
-@media(max-width:768px){
-.options{ grid-template-columns:1fr; }
-.question{ font-size:1rem; }
-.option-btn{ font-size:0.95rem; padding:14px; }
-.logo-screen img{ width:200px; }
-.topbar{ flex-direction:column; font-size:0.9rem; }
-.instructions-list { padding-left: 15px; }
+@keyframes popBadge {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+/* --- MOBILE TARGET LAYOUT MEDIA QUERY CONTEXT --- */
+@media(max-width: 768px) {
+  .options { grid-template-columns: 1fr; gap: 12px; }
+  .card { padding: 24px 16px; }
+  h1 { font-size: 1.7rem; }
+  .question { font-size: 1.15rem; }
+  .option-btn { font-size: 1rem; padding: 16px; }
+  .logo-screen img { width: 220px; }
+  .topbar { gap: 8px; }
+  .topbar-badge { font-size: 0.9rem; padding: 6px 12px; }
+  .instructions-list { padding-left: 24px; }
+  .instructions-list li { font-size: 1rem; }
+  .instructions-list li::before { width: 24px; height: 24px; font-size: 0.85rem; left: -32px; }
 }
 </style>
 </head>
@@ -306,52 +404,51 @@ margin:15px 0;
 <div class="bg-icons" id="bgIcons"></div>
 
 <div class="screen active logo-screen" id="logoScreen">
-<img src="./assets/innovine-logo.png" alt="Innovine Logo">
+  <img src="./assets/innovine-logo.png" alt="Innovine Logo">
+  <h2>Interactive Learning Platform</h2>
 </div>
 
 <div class="screen" id="introScreen">
-<div class="card">
-<h1>MS Logo Terminal Challenge</h1>
-
-<ol class="instructions-list">
-<li>Analyze each situational prompt or task dependency command carefully before clicking.</li>
-<li>You have <strong>60 seconds</strong> to solve each algorithmic task tracking environment.</li>
-<li>You are allowed up to <strong>two active attempts</strong> to match the correct operational value.</li>
-<li>Failing two consecutive options displays the correct syntax with an educational explanation.</li>
-<li>Successfully match your answers across all 15 operational problems to complete the master challenge.</li>
-</ol>
-
-<button class="main-btn" onclick="startQuiz()">Start Quiz</button>
-</div>
+  <div class="card">
+    <h1>MS Logo Terminal Challenge</h1>
+    <ol class="instructions-list">
+      <li>Analyze each situational prompt or task dependency command carefully before clicking.</li>
+      <li>You have <strong>60 seconds</strong> to solve each algorithmic task tracking environment.</li>
+      <li>You are allowed up to <strong>two active attempts</strong> to match the correct operational value.</li>
+      <li>Failing two consecutive options displays the correct syntax with an educational explanation.</li>
+      <li>Successfully match your answers across all 15 operational problems to complete the master challenge.</li>
+    </ol>
+    <button class="main-btn" onclick="startQuiz()">Start Quiz</button>
+  </div>
 </div>
 
 <div class="screen" id="quizScreen">
-<div class="card">
-<div class="topbar">
-<div id="scoreText">Score: 0</div>
-<div id="timerText">Time: 60</div>
-<div id="questionCount">Question 1 / 15</div>
-</div>
+  <div class="card">
+    <div class="topbar">
+      <div id="scoreText" class="topbar-badge">Score: 0</div>
+      <div id="timerText" class="topbar-badge timer-badge">Time: 60</div>
+      <div id="questionCount" class="topbar-badge count-badge">Question 1 / 15</div>
+    </div>
 
-<div class="progress">
-<div class="progress-fill" id="progressFill"></div>
-</div>
+    <div class="progress">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
 
-<div class="question" id="questionText"></div>
-<div class="options" id="optionsContainer"></div>
-<div class="feedback" id="feedback"></div>
-<div class="explanation" id="explanation"></div>
-</div>
+    <div class="question" id="questionText"></div>
+    <div class="options" id="optionsContainer"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="explanation" id="explanation"></div>
+  </div>
 </div>
 
 <div class="screen" id="resultScreen">
-<div class="card">
-<h1>Quiz Completed!</h1>
-<div class="badge">🐢🏆🎉</div>
-<h2 id="finalScore"></h2>
-<p id="message" style="margin: 15px 0; font-size:1.1rem; font-weight:600; color:#444;"></p>
-<button class="main-btn" onclick="restartQuiz()">Play Again</button>
-</div>
+  <div class="card">
+    <h1>Quiz Completed!</h1>
+    <div class="badge">🐢🏆🎉</div>
+    <h2 id="finalScore" style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 12px;"></h2>
+    <p id="message" style="margin: 15px 0; font-size: 1.2rem; font-weight: 600; color: var(--text-muted); line-height: 1.5;"></p>
+    <button class="main-btn" onclick="restartQuiz()">Play Again</button>
+  </div>
 </div>
 
 <audio id="correctSound" src="./assets/correct-1.mp3"></audio>
@@ -359,344 +456,349 @@ margin:15px 0;
 
 <script>
 /* 15 MULTIPLE-CHOICE APPLICATION CONTEXT TASKS */
-const originalQuestions=[
-{
-question:"A student wants to clear the screen drawing but keep the turtle exactly where it currently is. Which command should they execute?",
-options:["CLEARTEXT","CLEARSCREEN","HOME","HIDETURTLE"],
-answer:1,
-explanation:"CLEARSCREEN (CS) wipes out all line work drawn on the display board while leaving the turtle in its current position context."
-},
-{
-question:"Riya wants to clear all typed terminal text from the Command Input box area. What operational command should she type?",
-options:["CS","CLEARTEXT","BYE","PENUP"],
-answer:1,
-explanation:"CLEARTEXT (CT) purges the historical command stream panel text without altering your graphics screen contents."
-},
-{
-question:"Aarav wants the turtle to travel across the screen space without leaving any trail lines behind. What should he do first?",
-options:["PENDOWN","PENERASE","PENUP","HOME"],
-answer:2,
-explanation:"PENUP (PU) lifts the turtle's drafting instrument so that it moves to new coordinates without drawing paths."
-},
-{
-question:"A student uses the PENUP command and changes positions. Now they want to resume drawing. Which command resets the drawing state?",
-options:["PENUP","PENDOWN","PENERASE","HOME"],
-answer:1,
-explanation:"PENDOWN (PD) drops the canvas tool back into position, allowing movement commands to record visual trails once more."
-},
-{
-question:"Meera runs a sequence: PU → FD 50 → PD → FD 50. What will appear on her screen layout?",
-options:["One long solid line","A blank screen","A gap followed by a line segment","A line segment followed by a gap"],
-answer:2,
-explanation:"Lifting the pen creates a blank travel gap first, and lowering it down creates a trailing path segment afterward."
-},
-{
-question:"A child wants to erase a specific line segment directly by reversing the turtle over it. What command changes the pen to an eraser?",
-options:["PENERASE","PENUP","PENDOWN","CLEARTEXT"],
-answer:0,
-explanation:"PENERASE (PE) updates the tool profile from drawing ink to an eraser configuration, wiping pixels as the turtle moves."
-},
-{
-question:"Sia notices her screen layout is completely full of chaotic test lines. What is the fastest logical recovery setup to wipe the screen and send the turtle back to the center position?",
-options:["Type BYE","Run CS and type HOME","Close windows","Type CLEARTEXT"],
-answer:1,
-explanation:"Combining screen clearance functions with origin-return instructions updates the board and resets position tracking cleanly."
-},
-{
-question:"A student types 'FD50' without space separation and gets an error message. What problem happened here?",
-options:["Wrong color","Incorrect parameter syntax","Correct execution","Screen overflow"],
-answer:1,
-explanation:"Logo processing elements require spaces to isolate active command labels from numerical parameter inputs."
-},
-{
-question:"PU → Pen Up\nPD → Pen Down\nPE → Pen Erase\nWhich command is used to track line paths again after skipping spaces?",
-options:["PU","PE","PD","CS"],
-answer:2,
-explanation:"PENDOWN (PD) acts as the activation switch to restore trailing patterns behind moving target nodes."
-},
-{
-question:"CS → Clears Screen Graphics\nCT → Clears Command History\nBYE → Exits Logo Session\nWhich command shuts down the environment window entirely?",
-options:["CS","CT","BYE","HOME"],
-answer:2,
-explanation:"The BYE token terminates program execution states and safely closes out the active engine window."
-},
-{
-question:"A screen displays an empty graphical window with the turtle sitting perfectly upright in the absolute center space. What command caused this baseline reset state?",
-options:["CLEARTEXT","HOME","CLEARSCREEN","PENUP"],
-answer:2,
-explanation:"CLEARSCREEN resets the graphic display field completely while placing the active turtle back to its origin orientation."
-},
-{
-question:"A student wants to hide the turtle icon from the output so that only the pure drawn artwork remains visible. Which instruction works?",
-options:["SHOWTURTLE","HIDETURTLE","PENUP","CLEARTEXT"],
-answer:1,
-explanation:"HIDETURTLE (HT) renders the control marker completely invisible, providing an unblocked view of the final artwork."
-},
-{
-question:"Assertion: Executing the PENERASE command modifies the operational movement model.\nReason: It converts moving actions into a pixel clearance routine along the turtle path.",
-options:[
-"Both correct and reason explains",
-"Both correct but not related",
-"Assertion correct, reason wrong",
-"Both wrong"
-],
-answer:0,
-explanation:"PENERASE reconfigures active tracing actions into destructive eraser tracks along any matching coordinate paths."
-},
-{
-question:"Assertion: Spaces are mandatory between command tokens and numeric values.\nReason: The parser reads continuous string blocks as undefined individual operations.",
-options:[
-"Both correct and reason explains",
-"Both correct but not related",
-"Assertion correct, reason wrong",
-"Both wrong"
-],
-answer:0,
-explanation:"Strict syntax rules dictate explicit whitespace partitioning to break words from distance or rotation values."
-},
-{
-question:"Which instruction sequence is completely incorrect syntax?",
-options:[
-"FD 100",
-"RT 90",
-"BK50",
-"LT 45"
-],
-answer:2,
-explanation:"'BK50' lacks essential space isolation, forcing processing engine faults due to unrecognizable instruction names."
-}
+const originalQuestions = [
+  {
+    question: "A student wants to clear the screen drawing but keep the turtle exactly where it currently is. Which command should they execute?",
+    options: ["CLEARTEXT", "CLEARSCREEN", "HOME", "HIDETURTLE"],
+    answer: 1,
+    explanation: "CLEARSCREEN (CS) wipes out all line work drawn on the display board while leaving the turtle in its current position context."
+  },
+  {
+    question: "Riya wants to clear all typed terminal text from the Command Input box area. What operational command should she type?",
+    options: ["CS", "CLEARTEXT", "BYE", "PENUP"],
+    answer: 1,
+    explanation: "CLEARTEXT (CT) purges the historical command stream panel text without altering your graphics screen contents."
+  },
+  {
+    question: "Aarav wants the turtle to travel across the screen space without leaving any trail lines behind. What should he do first?",
+    options: ["PENDOWN", "PENERASE", "PENUP", "HOME"],
+    answer: 2,
+    explanation: "PENUP (PU) lifts the turtle's drafting instrument so that it moves to new coordinates without drawing paths."
+  },
+  {
+    question: "A student uses the PENUP command and changes positions. Now they want to resume drawing. Which command resets the drawing state?",
+    options: ["PENUP", "PENDOWN", "PENERASE", "HOME"],
+    answer: 1,
+    explanation: "PENDOWN (PD) drops the canvas tool back into position, allowing movement commands to record visual trails once more."
+  },
+  {
+    question: "Meera runs a sequence: PU → FD 50 → PD → FD 50. What will appear on her screen layout?",
+    options: ["One long solid line", "A blank screen", "A gap followed by a line segment", "A line segment followed by a gap"],
+    answer: 2,
+    explanation: "Lifting the pen creates a blank travel gap first, and lowering it down creates a trailing path segment afterward."
+  },
+  {
+    question: "A child wants to erase a specific line segment directly by reversing the turtle over it. What command changes the pen to an eraser?",
+    options: ["PENERASE", "PENUP", "PENDOWN", "CLEARTEXT"],
+    answer: 0,
+    explanation: "PENERASE (PE) updates the tool profile from drawing ink to an eraser configuration, wiping pixels as the turtle moves."
+  },
+  {
+    question: "Sia notices her screen layout is completely full of chaotic test lines. What is the fastest logical recovery setup to wipe the screen and send the turtle back to the center position?",
+    options: ["Type BYE", "Run CS and type HOME", "Close windows", "Type CLEARTEXT"],
+    answer: 1,
+    explanation: "Combining screen clearance functions with origin-return instructions updates the board and resets position tracking cleanly."
+  },
+  {
+    question: "A student types 'FD50' without space separation and gets an error message. What problem happened here?",
+    options: ["Wrong color", "Incorrect parameter syntax", "Correct execution", "Screen overflow"],
+    answer: 1,
+    explanation: "Logo processing elements require spaces to isolate active command labels from numerical parameter inputs."
+  },
+  {
+    question: "PU → Pen Up\nPD → Pen Down\nPE → Pen Erase\nWhich command is used to track line paths again after skipping spaces?",
+    options: ["PU", "PE", "PD", "CS"],
+    answer: 2,
+    explanation: "PENDOWN (PD) acts as the activation switch to restore trailing patterns behind moving target nodes."
+  },
+  {
+    question: "CS → Clears Screen Graphics\nCT → Clears Command History\nBYE → Exits Logo Session\nWhich command shuts down the environment window entirely?",
+    options: ["CS", "CT", "BYE", "HOME"],
+    answer: 2,
+    explanation: "The BYE token terminates program execution states and safely closes out the active engine window."
+  },
+  {
+    question: "A screen displays an empty graphical window with the turtle sitting perfectly upright in the absolute center space. What command caused this baseline reset state?",
+    options: ["CLEARTEXT", "HOME", "CLEARSCREEN", "PENUP"],
+    answer: 2,
+    explanation: "CLEARSCREEN resets the graphic display field completely while placing the active turtle back to its origin orientation."
+  },
+  {
+    question: "A student wants to hide the turtle icon from the output so that only the pure drawn artwork remains visible. Which instruction works?",
+    options: ["SHOWTURTLE", "HIDETURTLE", "PENUP", "CLEARTEXT"],
+    answer: 1,
+    explanation: "HIDETURTLE (HT) renders the control marker completely invisible, providing an unblocked view of the final artwork."
+  },
+  {
+    question: "Assertion: Executing the PENERASE command modifies the operational movement model.\nReason: It converts moving actions into a pixel clearance routine along the turtle path.",
+    options: [
+      "Both correct and reason explains",
+      "Both correct but not related",
+      "Assertion correct, reason wrong",
+      "Both wrong"
+    ],
+    answer: 0,
+    explanation: "PENERASE reconfigures active tracing actions into destructive eraser tracks along any matching coordinate paths."
+  },
+  {
+    question: "Assertion: Spaces are mandatory between command tokens and numeric values.\nReason: The parser reads continuous string blocks as undefined individual operations.",
+    options: [
+      "Both correct and reason explains",
+      "Both correct but not related",
+      "Assertion correct, reason wrong",
+      "Both wrong"
+    ],
+    answer: 0,
+    explanation: "Strict syntax rules dictate explicit whitespace partitioning to break words from distance or rotation values."
+  },
+  {
+    question: "Which instruction sequence is completely incorrect syntax?",
+    options: [
+      "FD 100",
+      "RT 90",
+      "BK50",
+      "LT 45"
+    ],
+    answer: 2,
+    explanation: "'BK50' lacks essential space isolation, forcing processing engine faults due to unrecognizable instruction names."
+  }
 ];
 
 /* ENGINE SYSTEM VARIABLES */
-let questions=[];
-let firstPlay=true;
-let currentQuestion=0;
-let score=0;
+let questions = [];
+let firstPlay = true;
+let currentQuestion = 0;
+let score = 0;
 let timer;
-let timeLeft=60;
-let retryUsed=false;
+let timeLeft = 60;
+let retryUsed = false;
 
-const logoScreen=document.getElementById("logoScreen");
-const introScreen=document.getElementById("introScreen");
-const quizScreen=document.getElementById("quizScreen");
-const resultScreen=document.getElementById("resultScreen");
+const logoScreen = document.getElementById("logoScreen");
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
 
-const questionText=document.getElementById("questionText");
-const optionsContainer=document.getElementById("optionsContainer");
-const scoreText=document.getElementById("scoreText");
-const timerText=document.getElementById("timerText");
-const feedback=document.getElementById("feedback");
-const explanation=document.getElementById("explanation");
-const progressFill=document.getElementById("progressFill");
+const questionText = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const scoreText = document.getElementById("scoreText");
+const timerText = document.getElementById("timerText");
+const feedback = document.getElementById("feedback");
+const explanation = document.getElementById("explanation");
+const progressFill = document.getElementById("progressFill");
 
-const correctSound=document.getElementById("correctSound");
-const wrongSound=document.getElementById("wrongSound");
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
 
-/* HOISTING LOGIC SHUFFLERS */
-function shuffleArray(array){
-for(let i=array.length-1;i>0;i--){
-const j=Math.floor(Math.random()*(i+1));
-[array[i],array[j]]=[array[j],array[i]];
-}
-return array;
-}
-
-function shuffleOptions(){
-questions.forEach(q=>{
-const correct=q.options[q.answer];
-q.options=shuffleArray([...q.options]);
-q.answer=q.options.indexOf(correct);
-});
+/* SHUFFLE CONFIGURATIONS */
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
-/* INITIAL STATE INITIALIZER - EXACTLY 5 SECONDS SPLASH SCREEN */
-window.onload=function(){
-logoScreen.style.display="flex";
-setTimeout(()=>{
-logoScreen.style.display="none";
-introScreen.style.display="flex";
-},5000);
+function shuffleOptions() {
+  questions.forEach(q => {
+    const correct = q.options[q.answer];
+    q.options = shuffleArray([...q.options]);
+    q.answer = q.options.indexOf(correct);
+  });
+}
+
+/* INITIAL COLD BOOT SPLASH CONTROLLER */
+window.onload = function() {
+  logoScreen.style.display = "flex";
+  setTimeout(() => {
+    logoScreen.style.display = "none";
+    introScreen.style.display = "flex";
+  }, 5000);
 };
 
-/* ACTIVATION MANAGEMENT ROUTINES */
-function startQuiz(){
-questions=[...originalQuestions];
-if(!firstPlay){
-questions=shuffleArray(questions);
-}
-shuffleOptions();
+/* GAME SETUP ROUTINES */
+function startQuiz() {
+  questions = [...originalQuestions];
+  if (!firstPlay) {
+    questions = shuffleArray(questions);
+  }
+  shuffleOptions();
 
-introScreen.style.display="none";
-quizScreen.style.display="flex";
+  introScreen.style.display = "none";
+  quizScreen.style.display = "flex";
 
-currentQuestion=0;
-score=0;
-loadQuestion();
-}
-
-/* DATA INJECTION & LAYOUT CONTROL ENGINE */
-function loadQuestion(){
-clearInterval(timer);
-retryUsed=false;
-
-feedback.innerHTML="";
-explanation.style.display="none";
-
-const q=questions[currentQuestion];
-questionText.innerHTML=`Q${currentQuestion+1}. ${q.question.replace(/\n/g, "<br>")}`;
-document.getElementById("questionCount").innerHTML=`Question ${currentQuestion+1} / ${questions.length}`;
-progressFill.style.width=`${((currentQuestion)/questions.length)*100}%`;
-
-optionsContainer.innerHTML="";
-q.options.forEach((option,index)=>{
-const btn=document.createElement("button");
-btn.classList.add("option-btn");
-btn.innerHTML=option;
-btn.onclick=()=>checkAnswer(index,btn);
-optionsContainer.appendChild(btn);
-});
-
-scoreText.innerHTML=`Score: ${score}`;
-timeLeft=60;
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-timer=setInterval(() => {
-timeLeft--;
-timerText.innerHTML=`Time: ${timeLeft}`;
-if(timeLeft<=0){
-clearInterval(timer);
-showCorrectAnswer();
-}
-},1000);
+  currentQuestion = 0;
+  score = 0;
+  loadQuestion();
 }
 
-/* INTERACTION SCORING LOGIC */
-function checkAnswer(selected,button){
-const q=questions[currentQuestion];
-const buttons=document.querySelectorAll(".option-btn");
+/* QUESTIONS DISCOVERY ROUTINES */
+function loadQuestion() {
+  clearInterval(timer);
+  retryUsed = false;
 
-if(selected===q.answer){
-clearInterval(timer);
-button.classList.add("correct");
-feedback.innerHTML="✅ Correct!";
-feedback.style.color="green";
-try { correctSound.play().catch(()=>{}); } catch(e){}
-score++;
-createConfetti();
+  feedback.innerHTML = "";
+  explanation.style.display = "none";
 
-buttons.forEach(btn=>btn.disabled=true);
-setTimeout(()=>{
-nextQuestion();
-},1500);
-}else{
-button.classList.add("wrong");
-try { wrongSound.play().catch(()=>{}); } catch(e){}
-showCross();
+  const q = questions[currentQuestion];
+  questionText.innerHTML = `Q${currentQuestion + 1}. ${q.question.replace(/\n/g, "<br>")}`;
+  document.getElementById("questionCount").innerHTML = `Question ${currentQuestion + 1} / ${questions.length}`;
+  progressFill.style.width = `${((currentQuestion) / questions.length) * 100}%`;
 
-if(!retryUsed){
-retryUsed=true;
-feedback.innerHTML="❌ Try Again! One more operational chance.";
-feedback.style.color="#c62828";
-button.disabled=true;
-}else{
-clearInterval(timer);
-showCorrectAnswer();
-}
-}
-}
+  optionsContainer.innerHTML = "";
+  q.options.forEach((option, index) => {
+    const btn = document.createElement("button");
+    btn.classList.add("option-btn");
+    btn.innerHTML = option;
+    btn.onclick = () => checkAnswer(index, btn);
+    optionsContainer.appendChild(btn);
+  });
 
-/* DATA REVEAL MODE WINDOW SETUP */
-function showCorrectAnswer(){
-const q=questions[currentQuestion];
-const buttons=document.querySelectorAll(".option-btn");
+  scoreText.innerHTML = `Score: ${score}`;
+  timeLeft = 60;
+  timerText.innerHTML = `Time: ${timeLeft}`;
 
-buttons.forEach((btn,index)=>{
-btn.disabled=true;
-if(index===q.answer){
-btn.classList.add("correct");
-}
-});
-
-feedback.innerHTML="Correct answer shown";
-feedback.style.color="#1565c0";
-explanation.style.display="block";
-explanation.innerHTML=`💡 ${q.explanation}`;
-
-setTimeout(()=>{
-nextQuestion();
-},3500);
+  timer = setInterval(() => {
+    timeLeft--;
+    timerText.innerHTML = `Time: ${timeLeft}`;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      showCorrectAnswer();
+    }
+  }, 1000);
 }
 
-function nextQuestion(){
-currentQuestion++;
-if(currentQuestion<questions.length){
-loadQuestion();
-}else{
-showResult();
-}
+/* VALIDATION LOGIC MODULES */
+function checkAnswer(selected, button) {
+  const q = questions[currentQuestion];
+  const buttons = document.querySelectorAll(".option-btn");
+
+  if (selected === q.answer) {
+    clearInterval(timer);
+    button.classList.add("correct");
+    feedback.innerHTML = "✨ Superb! Correct Answer! 🎉";
+    feedback.style.color = "var(--secondary-color)";
+    try { correctSound.play().catch(() => {}); } catch(e) {}
+    score++;
+    createConfetti();
+
+    buttons.forEach(btn => btn.disabled = true);
+    setTimeout(() => {
+      nextQuestion();
+    }, 2000);
+  } else {
+    button.classList.add("wrong");
+    try { wrongSound.play().catch(() => {}); } catch(e) {}
+    showCross(button);
+
+    if (!retryUsed) {
+      retryUsed = true;
+      feedback.innerHTML = "🎯 Close! Give it another try! 🤔";
+      feedback.style.color = "var(--primary-color)";
+      button.disabled = true;
+    } else {
+      clearInterval(timer);
+      showCorrectAnswer();
+    }
+  }
 }
 
-/* TERMINATION SCORING VIEWS */
-function showResult(){
-quizScreen.style.display="none";
-resultScreen.style.display="flex";
-document.getElementById("finalScore").innerHTML=`Your Score: ${score} / ${questions.length}`;
+/* REVEAL WRAPPER FUNCTIONS */
+function showCorrectAnswer() {
+  const q = questions[currentQuestion];
+  const buttons = document.querySelectorAll(".option-btn");
 
-let msg="";
-if(score >= 13){
-msg="🌟 Excellent Master! You completely understand advanced turtle pen controls, layout clearances, and terminal input formatting!";
-}else if(score >= 9){
-msg="👍 Very Good Work! Great command utilization and error logic checking path patterns.";
-}else{
-msg="😊 Keep Practicing! Refresh your understanding of Pen operations, syntax spacings, and run the diagnostic loops again.";
-}
-document.getElementById("message").innerHTML=msg;
-firstPlay=false;
-}
+  buttons.forEach((btn, index) => {
+    btn.disabled = true;
+    if (index === q.answer) {
+      btn.classList.add("correct");
+    }
+  });
 
-function restartQuiz(){
-currentQuestion=0;
-score=0;
-resultScreen.style.display="none";
-introScreen.style.display="flex";
+  feedback.innerHTML = "Let's review the correct solution:";
+  feedback.style.color = "var(--accent-blue)";
+  explanation.style.display = "block";
+  explanation.innerHTML = `💡 <strong>Explanation:</strong> ${q.explanation}`;
+
+  setTimeout(() => {
+    nextQuestion();
+  }, 4500);
 }
 
-/* VISUAL EFFECT RENDERING LAYERS */
-function createConfetti(){
-for(let i=0;i<24;i++){
-const confetti=document.createElement("div");
-confetti.classList.add("confetti");
-confetti.style.left=Math.random()*window.innerWidth+"px";
-confetti.style.top=Math.random()*150+"px";
-document.body.appendChild(confetti);
-setTimeout(()=>{ confetti.remove(); },1500);
-}
+function nextQuestion() {
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
 }
 
-function showCross(){
-const cross=document.createElement("div");
-cross.classList.add("cross");
-cross.innerHTML="✖";
-cross.style.left=Math.random()*window.innerWidth+"px";
-cross.style.top=Math.random()*window.innerHeight+"px";
-document.body.appendChild(cross);
-setTimeout(()=>{ cross.remove(); },1000);
+/* FINALIZE VISUAL SCORE CARDS */
+function showResult() {
+  quizScreen.style.display = "none";
+  resultScreen.style.display = "flex";
+  document.getElementById("finalScore").innerHTML = `Your Score: ${score} / ${questions.length}`;
+
+  let msg = "";
+  if (score >= 13) {
+    msg = "🌟 Astounding! You completely mastered advanced turtle pen controls, layout clearances, and terminal input tracking variables!";
+  } else if (score >= 9) {
+    msg = "👍 Wonderful Effort! Great performance identifying continuous string blocks and tracking operations.";
+  } else {
+    msg = "😊 Good try! Spend a few moments checking your pen commands, spacing configurations, and hit the board again.";
+  }
+  document.getElementById("message").innerHTML = msg;
+  firstPlay = false;
 }
 
-/* DYNAMIC BACKGROUND COMPONENT GENERATOR */
-function createIcons(){
-const bg=document.getElementById("bgIcons");
-const icons=["🐢","➡️","⬅️","🔺","🧠","💻","📘","🟦"];
-for(let i=0;i<35;i++){
-const icon=document.createElement("div");
-icon.classList.add("icon");
-icon.innerHTML=icons[Math.floor(Math.random()*icons.length)];
-icon.style.left=Math.random()*100+"%";
-icon.style.animationDuration=(8+Math.random()*10)+"s";
-icon.style.animationDelay=Math.random()*5+"s";
-icon.style.fontSize=(24+Math.random()*25)+"px";
-bg.appendChild(icon);
+function restartQuiz() {
+  currentQuestion = 0;
+  score = 0;
+  resultScreen.style.display = "none";
+  introScreen.style.display = "flex";
 }
+
+/* MICRO-ANIMATIONS & EMISSIONS */
+function createConfetti() {
+  for (let i = 0; i < 30; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * window.innerWidth + "px";
+    confetti.style.top = (window.scrollY + Math.random() * 200) + "px";
+    
+    const colors = ["#ff5722", "#4caf50", "#00bcd4", "#9c27b0", "#ffeb3b"];
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+    
+    document.body.appendChild(confetti);
+    setTimeout(() => { confetti.remove(); }, 1500);
+  }
+}
+
+function showCross(targetBtn) {
+  const rect = targetBtn.getBoundingClientRect();
+  const cross = document.createElement("div");
+  cross.classList.add("cross");
+  cross.innerHTML = "✖";
+  cross.style.left = (rect.left + rect.width / 2 - 24) + "px";
+  cross.style.top = (rect.top + window.scrollY + rect.height / 2 - 24) + "px";
+  document.body.appendChild(cross);
+  setTimeout(() => { cross.remove(); }, 800);
+}
+
+/* DECORATIVE BACKGROUND FLOATING MATRIX ELEMENTS */
+function createIcons() {
+  const bg = document.getElementById("bgIcons");
+  const icons = ["🐢", "➡️", "⬅️", "🔺", "💻", "📘", "✏️", "🎨"];
+  for (let i = 0; i < 30; i++) {
+    const icon = document.createElement("div");
+    icon.classList.add("icon");
+    icon.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+    icon.style.left = Math.random() * 100 + "%";
+    icon.style.animationDuration = (8 + Math.random() * 12) + "s";
+    icon.style.animationDelay = Math.random() * 6 + "s";
+    icon.style.fontSize = (24 + Math.random() * 22) + "px";
+    bg.appendChild(icon);
+  }
 }
 
 createIcons();
