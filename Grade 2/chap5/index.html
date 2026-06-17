@@ -2,169 +2,539 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title> ICT - Fun with Kid Pix 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health and Safety While Computing</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:url('./assets/bg.jpg') center/cover fixed;min-height:100vh}
-body:before{content:'';position:fixed;inset:0;background:rgba(255,255,255,.82);z-index:-1}
-.screen{display:none;min-height:100vh;justify-content:center;align-items:center;padding:20px}
-.active{display:flex;flex-direction:column}
-.card{background:#ffffffee;padding:24px;border-radius:20px;max-width:850px;width:100%;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.2)}
-.logo img{width:260px}
-h1{color:#1565c0;margin-bottom:10px}
-.btn{background:#1565c0;color:#fff;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;margin-top:15px}
-.top{display:flex;justify-content:space-between;margin-bottom:15px;font-weight:bold}
-.option{display:block;width:100%;margin:8px 0;padding:12px;border:none;border-radius:10px;background:#eef6ff;cursor:pointer}
-.correct{background:#c8f7c8!important}
-.wrong{background:#ffd2d2!important}
-#exp{display:none;margin-top:10px;background:#eef6ff;padding:10px;border-radius:10px}
-.confetti{position:fixed;width:10px;height:10px;background:gold;animation:fall 1.5s linear forwards}
-@keyframes fall{to{transform:translateY(500px) rotate(360deg);opacity:0}}
+:root{
+--primary:#2563eb;
+--secondary:#7c3aed;
+--success:#10b981;
+--danger:#ef4444;
+--dark:#0f172a;
+--light:#ffffff;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0ea5e9,#2563eb,#7c3aed);
+overflow-x:hidden;
+position:relative;
+padding:15px;
+}
+
+/* Animated Background Stars */
+.bg-stars{
+position:absolute;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:1;
+pointer-events:none;
+}
+
+.bg-star{
+position:absolute;
+width:16px;
+height:16px;
+background:rgba(255,255,255,0.2);
+clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+animation:floatStar linear infinite;
+}
+
+@keyframes floatStar{
+0%{ transform:translateY(110vh) rotate(0deg); opacity:0; }
+10% { opacity:1; }
+100%{ transform:translateY(-20vh) rotate(360deg); opacity:0; }
+}
+
+/* Splash Screen (Exactly 5 Seconds) */
+#splash{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+#splash img{
+width:240px;
+max-width:75%;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+/* App Container Card */
+.container{
+width:100%;
+max-width:780px;
+background:rgba(255,255,255,0.92);
+backdrop-filter:blur(16px);
+border-radius:28px;
+padding:28px;
+position:relative;
+z-index:2;
+box-shadow:0 20px 50px rgba(0,0,0,0.25);
+}
+
+.hidden{
+display:none;
+}
+
+/* Intro Interface */
+.intro{
+text-align:center;
+}
+
+.intro h1{
+font-size:2rem;
+color:var(--secondary);
+margin-bottom:15px;
+}
+
+.instructions{
+background:#f8fafc;
+padding:22px;
+border-radius:18px;
+line-height:1.9;
+color:#334155;
+font-size:1rem;
+text-align:left;
+margin-top:15px;
+}
+
+.instructions ol{
+margin-left:22px;
+}
+
+/* Actions Controls */
+button.main-action-btn{
+padding:15px 30px;
+border:none;
+border-radius:16px;
+background:linear-gradient(135deg, var(--primary), var(--secondary));
+color:white;
+font-size:1rem;
+font-weight:bold;
+cursor:pointer;
+margin-top:24px;
+transition:0.3s;
+display:inline-block;
+}
+
+button.main-action-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(124,58,237,0.4);
+}
+
+/* Quiz Controls Header */
+.topbar{
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:20px;
+}
+
+.topbox{
+background:white;
+padding:12px 18px;
+border-radius:14px;
+font-weight:bold;
+color:#334155;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.progress{
+width:100%;
+height:12px;
+background:#e2e8f0;
+border-radius:999px;
+overflow:hidden;
+margin-bottom:24px;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg, #10b981, #059669);
+transition:0.4s;
+}
+
+.question-number{
+color:#64748b;
+margin-bottom:10px;
+font-weight:bold;
+font-size:1rem;
+}
+
+.question{
+font-size:1.2rem;
+font-weight:bold;
+line-height:1.6;
+color:#0f172a;
+margin-bottom:20px;
+text-align:left;
+}
+
+.options{
+display:grid;
+gap:14px;
+}
+
+.option{
+background:white;
+padding:16px;
+border-radius:16px;
+border:2px solid #e2e8f0;
+cursor:pointer;
+font-size:1rem;
+font-weight:600;
+transition:0.25s;
+text-align:left;
+color: #334155;
+}
+
+.option:hover{
+transform:translateY(-2px);
+border-color:var(--primary);
+background-color: #fafafa;
+}
+
+.correct{
+background:#ecfdf5!important;
+border-color:#10b981!important;
+color:#065f46!important;
+}
+
+.wrong{
+background:#fef2f2!important;
+border-color:#ef4444!important;
+color:#991b1b!important;
+}
+
+.feedback{
+margin-top:20px;
+padding:18px;
+border-radius:16px;
+display:none;
+line-height:1.7;
+text-align: left;
+}
+
+.feedback.success{
+background:#ecfdf5;
+border-left:6px solid #10b981;
+color: #065f46;
+}
+
+.feedback.error{
+background:#fef2f2;
+border-left:6px solid #ef4444;
+color: #991b1b;
+}
+
+/* Evaluation Screen Elements */
+.result{
+text-align:center;
+}
+
+.result h1{
+font-size:2.2rem;
+color:var(--secondary);
+margin-bottom:10px;
+}
+
+.score-circle{
+width:180px;
+height:180px;
+border-radius:50%;
+margin:25px auto;
+background:linear-gradient(135deg, #2563eb, #7c3aed);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:2.4rem;
+font-weight:bold;
+color:white;
+box-shadow: 0 10px 25px rgba(37,99,235,0.3);
+}
+
+.result-message{
+font-size:1.1rem;
+line-height:1.8;
+color:#334155;
+font-weight: 600;
+margin-bottom:10px;
+}
+
+/* Fallback Celebration Star System */
+.celebration-star{
+position:fixed;
+font-size:24px;
+animation:fallStarAnimation 2.5s linear forwards;
+pointer-events:none;
+z-index:999;
+}
+
+@keyframes fallStarAnimation{
+0%{ transform:translateY(-30px) rotate(0deg); opacity:1; }
+100%{ transform:translateY(110vh) rotate(720deg); opacity:0; }
+}
+
+@media(max-width:600px){
+.container{ padding:20px 15px; }
+.question{ font-size:1.05rem; }
+.option{ font-size:0.95rem; }
+button.main-action-btn{ width:100%; }
+}
 </style>
 </head>
 <body>
 
-<div id="logo" class="screen active logo">
-<img src="./assets/innovine-logo.png">
+<div class="bg-stars" id="bgStars"></div>
+
+<div id="splash">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
-<div id="intro" class="screen">
-<div class="card">
-<h1>Fun with Kid Pix - 2</h1>
-<p> ICT</p><br>
-<p>Instructions:</p>
-<p>Read each situation carefully. You get 2 attempts. Questions and options randomize every game.</p>
-<button class="btn" onclick="startQuiz()">Start Quiz</button>
-</div>
+<div class="container hidden" id="app">
+
+<div id="introScreen" class="intro">
+<h1>Health and Safety While Computing</h1>
+
+<div class="instructions">
+<ol>
+<li>Read each real-world computer wellness scenario thoroughly.</li>
+<li>You are provided two attempts to select the accurate healthy habit.</li>
+<li>After two missed options, the system highlights the true correct answer.</li>
+<li>A countdown safety window of 60 seconds is active per question item.</li>
+<li>Complete all 15 challenge checkpoints cleanly to open the celebration metrics dashboard.</li>
+</ol>
 </div>
 
-<div id="quiz" class="screen">
-<div class="card">
-<div class="top">
-<span id="score">Score:0</span>
-<span id="counter"></span>
-<span id="timer">60</span>
-</div>
-<h3 id="q"></h3><br>
-<div id="opts"></div>
-<div id="msg"></div>
-<div id="exp"></div>
-</div>
+<button class="main-action-btn" onclick="startGame()">Start Challenge</button>
 </div>
 
-<div id="result" class="screen">
-<div class="card">
-<h1>Quiz Complete</h1>
-<h2 id="final"></h2>
-<h3 id="badge"></h3>
-<button class="btn" onclick="location.reload()">Play Again</button>
-</div>
+<div id="quizScreen" class="hidden">
+<div class="topbar">
+<div class="topbox">⭐ Score: <span id="score">0</span></div>
+<div class="topbox">⏳ Time: <span id="timer">60</span>s</div>
 </div>
 
-<audio id="correct" src="./assets/correct-1.mp3"></audio>
-<audio id="wrong" src="./assets/wrong.mp3"></audio>
+<div class="progress">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+
+<div class="question-number" id="questionNumber"></div>
+<div class="question" id="questionText"></div>
+<div class="options" id="optionsBox"></div>
+<div class="feedback" id="feedbackBox"></div>
+
+<button id="nextBtn" class="main-action-btn hidden" onclick="nextQuestion()">Next Question</button>
+</div>
+
+<div id="resultScreen" class="hidden result">
+<h1>🎉 Challenge Completed 🎉</h1>
+<div class="score-circle">
+<span id="finalScore"></span>
+</div>
+<div class="result-message" id="resultMessage"></div>
+<button class="main-action-btn" onclick="location.reload()">Play Again</button>
+</div>
+
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
 
 <script>
-let questions=[
-{q:"A child makes a mistake while drawing and wants to go back to the previous step.",o:["Redo","Undo","Save","Print"],a:"Undo",e:"Undo removes the last action."},
-{q:"Riya removes a drawing by mistake and wants it back again.",o:["Undo","Redo","Eraser","Fill"],a:"Redo",e:"Redo restores the removed step."},
-{q:"Aarav finishes a drawing and wants to keep it for later use.",o:["Close","Save File","Delete","Undo"],a:"Save File",e:"Saving keeps work safe."},
-{q:"A student clicks Undo many times and loses work.",o:["Save","Redo","Fill","Brush"],a:"Redo",e:"Redo brings back removed steps."},
-{q:"Meera wants to open a saved drawing again.",o:["New","Open","Save","Print"],a:"Open",e:"Open saved files."},
-{q:"A child keeps drawing but does not save.",o:["Stays forever","May be lost","Prints","Nothing"],a:"May be lost",e:"Unsaved work can be lost."},
-{q:"Why is saving important?",o:["Delete drawing","Use later","Colour faster","Print"],a:"Use later",e:"Saved files can be used later."},
-{q:"Why are Undo and Redo useful together?",o:["Draw faster","Correct and restore","Colour shapes","Add text"],a:"Correct and restore",e:"They help fix mistakes."},
-{q:"Which action restores the last removed step?",o:["Undo","Redo","Save","Open"],a:"Redo",e:"Redo restores."},
-{q:"Which tool helps view a saved drawing?",o:["Save","Open","Undo","Redo"],a:"Open",e:"Open shows saved files."},
-{q:"Backward arrow removing last step shows which tool?",o:["Redo","Undo","Save","Open"],a:"Undo",e:"Undo removes last action."},
-{q:"Forward arrow bringing back removed step shows?",o:["Undo","Redo","Save","Print"],a:"Redo",e:"Redo restores action."},
-{q:"Undo helps correct mistakes because...",o:["Removes last action","Prints file","Colours drawing","Opens file"],a:"Removes last action",e:"Undo removes last action."},
-{q:"Saving a file is important because...",o:["Deletes work","Keeps work safe","Prints work","Closes app"],a:"Keeps work safe",e:"Saving stores work."},
-{q:"Which statement is incorrect?",o:["Undo removes step","Redo restores step","Save deletes drawing","Open shows file"],a:"Save deletes drawing",e:"Save never deletes work."}
+/* Dynamic Layer Generation - Particles Backdrop */
+const bg = document.getElementById("bgStars");
+for(let i=0; i<20; i++){
+let star = document.createElement("div");
+star.classList.add("bg-star");
+star.style.left = Math.random()*100 + "%";
+star.style.animationDuration = (Math.random()*10+10) + "s";
+star.style.animationDelay = Math.random()*5 + "s";
+star.style.width = (Math.random()*18+10) + "px";
+star.style.height = star.style.width;
+bg.appendChild(star);
+}
+
+/* Single Point Timeline Controller (Splash Shield Removal) */
+setTimeout(()=>{
+document.getElementById("splash").style.display = "none";
+document.getElementById("app").classList.remove("hidden");
+}, 5000);
+
+/* Health and Safety Questionnaire Array Matrix */
+const questions = [
+{
+q:"A child sits very close to the computer screen for a long time. What should be done?",
+o:["Sit closer","Sit at proper distance","Turn off computer","Use keyboard"],
+a:1,
+e:"We should sit at a safe, ergonomic distance from the display monitor to secure optical health."
+},
+{
+q:"Riya uses computer continuously without break. What is the correct habit?",
+o:["Work more","Take short breaks","Sit still","Use mouse only"],
+a:1,
+e:"Taking short interval breaks frequently helps human eyes and muscle structure completely relax."
+},
+{
+q:"Aarav keeps food near the computer while working. What should he do?",
+o:["Eat near computer","Keep food away","Spill water","Use keyboard"],
+a:1,
+e:"Food matrices and sticky drink fluids must stay clear away from hardware components to stop system degradation."
+},
+{
+q:"A student sits with a bent back while using computer. What is the correct posture?",
+o:["Bend more","Sit straight","Stand","Lie down"],
+a:1,
+e:"Sitting naturally vertical and straight prevents long-term skeletal strain and maintains solid back alignment."
+},
+{
+q:"Meera touches wires with wet hands. What should she do?",
+o:["Continue","Dry hands first","Use mouse","Ignore"],
+a:1,
+e:"Wet skin surfaces directly lowering electrical resistance must be thoroughly dried before using components."
+},
+{
+q:"A child keeps computer volume very high. What is the safe action?",
+o:["Increase more","Keep moderate volume","Turn off","Use keyboard"],
+a:1,
+e:"Sustained audio waves should be maintained at safe, moderate ranges to cushion sensitive ears."
+},
+{
+q:"Sia uses computer daily but follows rules like sitting straight and taking breaks. Why is this important?",
+o:["To play more","To stay healthy","To delete files","To draw"],
+a:1,
+e:"Practicing optimal setup wellness protocols safeguards the physical body during daily workflow tasks."
+},
+{
+q:"A student ignores safety rules and feels tired. What is the reason?",
+o:["Good habits","Unsafe use of computer","Drawing too much","Saving files"],
+a:1,
+e:"Skipping vital workplace biological guidelines is a key trigger for immediate fatigue and muscle pain."
+},
+{
+q:"Which habit helps eyes relax?",
+o:["Sit straight","Take breaks","Keep distance","Type fast"],
+a:1,
+e:"Scheduled screen recovery breaks give active eye lenses a chance to decompress and reset focus."
+},
+{
+q:"Which action is safe?",
+o:["Touch wires","Dry hands","Eat near PC","Spill water"],
+a:1,
+e:"Insulated dry operations keep people safe from micro-shocks when manipulating technical gear."
+},
+{
+q:"A picture shows a child sitting straight in front of computer. What is this?",
+o:["Wrong habit","Good posture","Unsafe action","Playing"],
+a:1,
+e:"Keeping a linear back profiles a textbook gold-standard baseline for sitting posture."
+},
+{
+q:"A picture shows child too close to screen. What is wrong?",
+o:["Good posture","Unsafe distance","Safe habit","Typing"],
+a:1,
+e:"Cramping direct line-of-sight visual fields strains focus muscles rapidly."
+},
+{
+q:"Assertion: We should take breaks while using computer. Reason: It keeps eyes and body healthy.",
+o:[
+"Both correct and reason explains",
+"Both correct but not related",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+a:0,
+e:"Taking scheduled micro-pauses directly preserves metabolic wellness, verifying both statements."
+},
+{
+q:"Assertion: Wet hands should not be used near computer. Reason: It can cause danger.",
+o:[
+"Both correct and reason explains",
+"Both correct but not related",
+"Assertion correct, reason wrong",
+"Both wrong"
+],
+a:0,
+e:"Liquid elements interact poorly with active internal circuits, meaning the core claim and reason match."
+},
+{
+q:"Which statement is incorrect?",
+o:[
+"Sit straight while working",
+"Take breaks regularly",
+"Touch wires with wet hands",
+"Keep proper distance"
+],
+a:2,
+e:"Handling bare power lines or technical junctions with wet skin surfaces creates direct environmental hazards."
+}
 ];
 
-let idx=0,score=0,attempt=0,timerInt,time=60;
+/* App Logic Controllers */
+let current = 0;
+let score = 0;
+let attempts = 0;
+let timer;
+let timeLeft = 60;
 
-function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}}
-setTimeout(()=>{logo.style.display='none';intro.classList.add('active');},5000);
-
-function startQuiz(){
-shuffle(questions);
-intro.style.display='none';
-quiz.classList.add('active');
-loadQ();
+function startGame(){
+questions.sort(() => Math.random() - 0.5);
+document.getElementById("introScreen").classList.add("hidden");
+document.getElementById("quizScreen").classList.remove("hidden");
+loadQuestion();
 }
 
-function loadQ(){
-attempt=0;
-document.getElementById('msg').innerHTML='';
-document.getElementById('exp').style.display='none';
-let q=questions[idx];
-let opts=[...q.o]; shuffle(opts);
-document.getElementById('q').innerText=q.q;
-document.getElementById('counter').innerText=`Q ${idx+1}/${questions.length}`;
-let div=document.getElementById('opts'); div.innerHTML='';
-opts.forEach(v=>{
-let b=document.createElement('button');
-b.className='option'; b.innerText=v;
-b.onclick=()=>check(v,b);
-div.appendChild(b);
+function loadQuestion(){
+attempts = 0;
+timeLeft = 60;
+startTimer();
+
+document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+const q = questions[current];
+
+document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+document.getElementById("questionText").innerHTML = q.q;
+
+const box = document.getElementById("optionsBox");
+box.innerHTML = "";
+
+q.o.forEach((opt, index) => {
+const div = document.createElement("div");
+div.classList.add("option");
+div.innerHTML = opt;
+div.onclick = () => checkAnswer(div, index);
+box.appendChild(div);
 });
-time=60; document.getElementById('timer').innerText=time;
-clearInterval(timerInt);
-timerInt=setInterval(()=>{time--;timer.innerText=time;if(time<=0){clearInterval(timerInt);reveal();}},1000);
+
+document.getElementById("feedbackBox").style.display = "none";
+document.getElementById("nextBtn").classList.add("hidden");
 }
 
-function check(val,btn){
-let q=questions[idx];
-if(val===q.a){
-document.getElementById('correct').play();
-score++; scoreEl();
-btn.classList.add('correct');
-confetti();
-setTimeout(nextQ,1200);
-}else{
-document.getElementById('wrong').play();
-attempt++;
-btn.classList.add('wrong');
-if(attempt<2){msg.innerHTML='Try Again!';btn.disabled=true;}
-else reveal();
-}
-}
-
-function reveal(){
-clearInterval(timerInt);
-let q=questions[idx];
-document.getElementById('exp').style.display='block';
-document.getElementById('exp').innerHTML='Answer: <b>'+q.a+'</b><br>'+q.e;
-setTimeout(nextQ,2500);
-}
-
-function nextQ(){
-idx++;
-if(idx<questions.length) loadQ(); else finish();
-}
-
-function finish(){
-quiz.style.display='none';
-result.classList.add('active');
-final.innerText=`Score: ${score}/${questions.length}`;
-let p=(score/questions.length)*100;
-badge.innerText=p>=90?'🏆 Champion':p>=75?'🌟 Excellent':p>=50?'👍 Good Job':'📚 Keep Practising';
-}
-
-function scoreEl(){document.getElementById('score').innerText='Score:'+score;}
-
-function confetti(){
-for(let i=0;i<20;i++){
-let c=document.createElement('div');
-c.className='confetti';
-c.style.left=Math.random()*innerWidth+'px';
-document.body.appendChild(c);
-setTimeout(()=>c.remove(),1500);
-}
-}
-</script>
-</body>
-</html>
+function startTimer
