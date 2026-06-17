@@ -338,7 +338,7 @@ button.main-action-btn{ width:100%; }
 <li>You get two operational baseline attempts to answer each interactive question.</li>
 <li>After two incorrect tool responses, the system updates with the true correct choice.</li>
 <li>A countdown buffer window of 60 seconds is active per question entry.</li>
-<li>Score well across all 18 processing tasks to reveal the final champion review card.</li>
+<li>Score well across all 15 processing tasks to reveal the final champion review card.</li>
 </ol>
 </div>
 
@@ -398,7 +398,7 @@ document.getElementById("splash").style.display = "none";
 document.getElementById("app").classList.remove("hidden");
 }, 5000);
 
-/* OpenOffice Writer Question Pool */
+/* OpenOffice Writer Question Pool - Precisely 15 Items */
 const questions=[
 {
 q:"A student opens Writer and starts typing a story. What is this action called?",
@@ -494,39 +494,6 @@ q:"A screen shows text becoming bigger after selecting an option. What action is
 o:["Deleting","Formatting","Printing","Closing"],
 a:1,
 e:"Formatting controls the outward visual styling properties of layout text structures."
-},
-{
-q:"Assertion: Saving a document is important.\nReason: It helps keep the work for future use.",
-o:[
-"Both correct and reason explains",
-"Both correct but not related",
-"Assertion correct, reason wrong",
-"Both wrong"
-],
-a:0,
-e:"Saving copies operational volatile screen data directly onto hardware files, protecting it for future view sessions."
-},
-{
-q:"Assertion: Editing helps improve text.\nReason: It allows correcting mistakes.",
-o:[
-"Both correct and reason explains",
-"Both correct but not related",
-"Assertion correct, reason wrong",
-"Both wrong"
-],
-a:0,
-e:"Editing parameters systematically upgrade document quality by facilitating spelling and spacing fixups."
-},
-{
-q:"Which statement is incorrect?",
-o:[
-"Typing is used to write text",
-"Save stores document",
-"Closing saves automatically always",
-"Editing corrects text"
-],
-a:2,
-e:"Most common editor tools require structural confirmations before saving data modifications upon closing."
 }
 ];
 
@@ -661,9 +628,9 @@ document.getElementById("resultScreen").classList.remove("hidden");
 document.getElementById("finalScore").innerHTML = `${score}/${questions.length}`;
 
 let message = "";
-if(score >= 15){
+if(score >= 12){
 message = "🏆 Writer Champion! Outstanding performance. You have mastered editing, saving, and standard font text formatting features.";
-} else if(score >= 10){
+} else if(score >= 9){
 message = "⭐ Great Work! You have established a solid functional understanding of the basic OpenOffice text tools.";
 } else {
 message = "🚀 Keep Practicing! Refresh your layout navigation controls, text sizing rules, and try the processing suite again.";
