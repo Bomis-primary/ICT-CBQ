@@ -797,17 +797,111 @@ showCorrectAnswer();
 
 }
 
-/* Continue with same logic from your Chapter 1:
-   checkAnswer()
-   showCorrectAnswer()
-   nextQuestion()
-   loadFinalChallenge()
-   showResult()
-   restartQuiz()
-   createConfetti()
-   showCross()
-   createBackground()
-*/
+
+function checkAnswer(selected,button){
+const q=questions[currentQuestion];
+const buttons=document.querySelectorAll(".option-btn");
+
+if(selected===q.answer){
+clearInterval(timer);
+button.classList.add("correct");
+feedback.innerHTML="✅ Correct!";
+feedback.style.color="green";
+correctSound.play();
+score++;
+createConfetti();
+buttons.forEach(btn=>btn.disabled=true);
+nextBtn.style.display="inline-block";
+}else{
+button.classList.add("wrong");
+wrongSound.play();
+showCross();
+if(!retryUsed){
+retryUsed=true;
+feedback.innerHTML="❌ Try Again! One more chance.";
+feedback.style.color="#c62828";
+button.disabled=true;
+}else{
+clearInterval(timer);
+showCorrectAnswer();
+}
+}
+}
+
+function showCorrectAnswer(){
+const q=questions[currentQuestion];
+const buttons=document.querySelectorAll(".option-btn");
+buttons.forEach((btn,index)=>{
+btn.disabled=true;
+if(index===q.answer){ btn.classList.add("correct"); }
+});
+feedback.innerHTML="💡 Correct answer shown";
+feedback.style.color="#1565c0";
+explanation.style.display="block";
+explanation.innerHTML=q.explanation;
+nextBtn.style.display="inline-block";
+}
+
+function nextQuestion(){
+currentQuestion++;
+if(currentQuestion<questions.length){
+loadQuestion();
+}else{
+showResult();
+}
+}
+
+function showResult(){
+quizScreen.style.display="none";
+resultScreen.style.display="flex";
+document.getElementById("finalScore").innerHTML=score+" / "+questions.length;
+
+let msg="";
+if(score>=13){ msg="🏆 Excellent Work!"; }
+else if(score>=8){ msg="🌟 Very Good Job!"; }
+else{ msg="👍 Keep Practising!"; }
+
+document.getElementById("message").innerHTML=msg;
+}
+
+function restartQuiz(){
+location.reload();
+}
+
+function createConfetti(){
+for(let i=0;i<20;i++){
+const confetti=document.createElement("div");
+confetti.classList.add("confetti");
+confetti.style.left=Math.random()*window.innerWidth+"px";
+confetti.style.top=Math.random()*200+"px";
+document.body.appendChild(confetti);
+setTimeout(()=>confetti.remove(),1500);
+}
+}
+
+function showCross(){
+const cross=document.createElement("div");
+cross.classList.add("cross");
+cross.innerHTML="✖";
+cross.style.left=Math.random()*window.innerWidth+"px";
+cross.style.top=Math.random()*window.innerHeight+"px";
+document.body.appendChild(cross);
+setTimeout(()=>cross.remove(),1000);
+}
+
+function createBackground(){
+const bg=document.getElementById("background");
+for(let i=0;i<40;i++){
+const star=document.createElement("div");
+star.classList.add("star");
+star.style.left=Math.random()*100+"%";
+star.style.animationDuration=(5+Math.random()*8)+"s";
+star.style.animationDelay=Math.random()*5+"s";
+bg.appendChild(star);
+}
+}
+createBackground();
+
 
 </script>
 
