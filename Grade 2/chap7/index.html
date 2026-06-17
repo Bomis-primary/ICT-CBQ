@@ -6,96 +6,75 @@
 <title>Introduction to OpenOffice Writer - 1</title>
 
 <style>
+:root{
+--primary:#2563eb;
+--secondary:#7c3aed;
+--success:#10b981;
+--danger:#ef4444;
+--dark:#0f172a;
+--light:#ffffff;
+}
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
-font-family:Arial,sans-serif;
-overflow-x:hidden;
 min-height:100vh;
-background:linear-gradient(135deg,#dff6ff,#fff5cc,#e7ffe7,#ffe3f3);
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0ea5e9,#2563eb,#7c3aed);
+overflow-x:hidden;
 position:relative;
-color:#222;
+padding:15px;
 }
 
-/* BACKGROUND */
-
-.bg-icons{
-position:fixed;
-top:0;
-left:0;
+/* Animated Background Stars */
+.bg-stars{
+position:absolute;
 width:100%;
 height:100%;
 overflow:hidden;
-z-index:-2;
+z-index:1;
+pointer-events:none;
 }
 
-.icon{
+.bg-star{
 position:absolute;
-font-size:35px;
-opacity:0.15;
-animation:floatUp linear infinite;
+width:16px;
+height:16px;
+background:rgba(255,255,255,0.2);
+clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+animation:floatStar linear infinite;
 }
 
-@keyframes floatUp{
-0%{
-transform:translateY(100vh) rotate(0deg);
-opacity:0;
-}
-30%{
-opacity:0.15;
-}
-100%{
-transform:translateY(-120vh) rotate(360deg);
-opacity:0;
-}
+@keyframes floatStar{
+0%{ transform:translateY(110vh) rotate(0deg); opacity:0; }
+10% { opacity:1; }
+100%{ transform:translateY(-20vh) rotate(360deg); opacity:0; }
 }
 
-body::before{
-content:"";
+/* Splash Screen (Exactly 5 Seconds) */
+#splash{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:
-radial-gradient(circle at top left,#ffffffaa,transparent),
-radial-gradient(circle at bottom right,#ffffff88,transparent);
-z-index:-1;
-}
-
-/* SCREEN */
-
-.screen{
-display:none;
-min-height:100vh;
+background:white;
+display:flex;
 justify-content:center;
 align-items:center;
-padding:20px;
-text-align:center;
-}
-
-.active{
-display:flex;
-flex-direction:column;
-}
-
-/* LOGO */
-
-.logo-screen{
-background:white;
 z-index:9999;
 }
 
-.logo-screen img{
-width:260px;
-max-width:80vw;
-max-height:40vh;
-object-fit:contain;
+#splash img{
+width:240px;
+max-width:75%;
 animation:pulse 2s infinite;
 }
 
@@ -105,919 +84,607 @@ animation:pulse 2s infinite;
 100%{transform:scale(1);}
 }
 
-/* CARD */
-
-.card{
-background:rgba(255,255,255,0.92);
-padding:24px;
-border-radius:28px;
-max-width:950px;
+/* App Container Card */
+.container{
 width:100%;
-box-shadow:0 12px 28px rgba(0,0,0,0.18);
-backdrop-filter:blur(8px);
-border:2px solid rgba(255,255,255,0.5);
-animation:slideIn 0.5s ease;
+max-width:780px;
+background:rgba(255,255,255,0.92);
+backdrop-filter:blur(16px);
+border-radius:28px;
+padding:28px;
+position:relative;
+z-index:2;
+box-shadow:0 20px 50px rgba(0,0,0,0.25);
 }
 
-@keyframes slideIn{
-from{
-transform:translateY(25px);
-opacity:0;
-}
-to{
-transform:translateY(0);
-opacity:1;
-}
+.hidden{
+display:none;
 }
 
-h1{
-color:#1565c0;
-margin-bottom:10px;
+/* Intro Interface */
+.intro{
+text-align:center;
 }
 
-.info{
-margin:8px 0;
+.intro h1{
+font-size:2rem;
+color:var(--secondary);
+margin-bottom:15px;
+}
+
+.instructions{
+background:#f8fafc;
+padding:22px;
+border-radius:18px;
+line-height:1.9;
+color:#334155;
 font-size:1rem;
+text-align:left;
+margin-top:15px;
 }
 
+.instructions ol{
+margin-left:22px;
+}
+
+/* Actions Controls */
+button.main-action-btn{
+padding:15px 30px;
+border:none;
+border-radius:16px;
+background:linear-gradient(135deg, var(--primary), var(--secondary));
+color:white;
+font-size:1rem;
+font-weight:bold;
+cursor:pointer;
+margin-top:24px;
+transition:0.3s;
+display:inline-block;
+}
+
+button.main-action-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(124,58,237,0.4);
+}
+
+/* Quiz Controls Header */
 .topbar{
 display:flex;
 justify-content:space-between;
+flex-wrap:wrap;
 gap:10px;
 margin-bottom:20px;
+}
+
+.topbox{
+background:white;
+padding:12px 18px;
+border-radius:14px;
 font-weight:bold;
-flex-wrap:wrap;
+color:#334155;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
 .progress{
 width:100%;
 height:12px;
-background:#dbe9ff;
-border-radius:20px;
+background:#e2e8f0;
+border-radius:999px;
 overflow:hidden;
-margin-bottom:20px;
+margin-bottom:24px;
 }
 
 .progress-fill{
 height:100%;
 width:0%;
-background:linear-gradient(90deg,#42a5f5,#ab47bc,#26a69a);
+background:linear-gradient(90deg, #10b981, #059669);
 transition:0.4s;
 }
 
+.question-number{
+color:#64748b;
+margin-bottom:10px;
+font-weight:bold;
+font-size:1rem;
+}
+
 .question{
-font-size:1.15rem;
+font-size:1.2rem;
+font-weight:bold;
 line-height:1.6;
-font-weight:600;
-margin-bottom:18px;
+color:#0f172a;
+margin-bottom:20px;
+text-align:left;
 }
 
 .question-image{
 width:100%;
 max-width:350px;
-margin:0 auto 18px;
+margin: 0 auto 20px;
 border-radius:20px;
-box-shadow:0 5px 12px rgba(0,0,0,0.12);
+box-shadow:0 5px 15px rgba(0,0,0,0.12);
 display:none;
 }
 
 .options{
 display:grid;
-grid-template-columns:1fr 1fr;
 gap:14px;
 }
 
-.option-btn{
-padding:15px;
-border:none;
-border-radius:18px;
-background:linear-gradient(135deg,#eef6ff,#f6ecff);
+.option{
+background:white;
+padding:16px;
+border-radius:16px;
+border:2px solid #e2e8f0;
 cursor:pointer;
 font-size:1rem;
-transition:0.3s;
 font-weight:600;
-color:#333;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+transition:0.25s;
+text-align:left;
+color: #334155;
 }
 
-.option-btn:hover{
-transform:translateY(-3px) scale(1.02);
-background:linear-gradient(135deg,#d8ecff,#ecdfff);
+.option:hover{
+transform:translateY(-2px);
+border-color:var(--primary);
+background-color: #fafafa;
 }
 
 .correct{
-background:#c8ffd1 !important;
-border:2px solid #2e7d32;
+background:#ecfdf5!important;
+border-color:#10b981!important;
+color:#065f46!important;
 }
 
 .wrong{
-background:#ffd6d6 !important;
-border:2px solid #c62828;
-animation:shake 0.4s;
-}
-
-@keyframes shake{
-0%,100%{transform:translateX(0);}
-25%{transform:translateX(-5px);}
-75%{transform:translateX(5px);}
+background:#fef2f2!important;
+border-color:#ef4444!important;
+color:#991b1b!important;
 }
 
 .feedback{
-margin-top:16px;
-font-weight:bold;
-min-height:28px;
-}
-
-.explanation{
-display:none;
-margin-top:14px;
-padding:14px;
-border-radius:16px;
-background:#eef7ff;
-font-size:0.96rem;
-line-height:1.5;
-}
-
-.main-btn{
-padding:14px 28px;
-border:none;
-border-radius:18px;
-background:linear-gradient(135deg,#1565c0,#8e24aa);
-color:white;
-font-size:1rem;
-cursor:pointer;
 margin-top:20px;
+padding:18px;
+border-radius:16px;
+display:none;
+line-height:1.7;
+text-align: left;
+}
+
+.feedback.success{
+background:#ecfdf5;
+border-left:6px solid #10b981;
+color: #065f46;
+}
+
+.feedback.error{
+background:#fef2f2;
+border-left:6px solid #ef4444;
+color: #991b1b;
+}
+
+/* Evaluation Screen Elements */
+.result{
+text-align:center;
+}
+
+.result h1{
+font-size:2.2rem;
+color:var(--secondary);
+margin-bottom:10px;
+}
+
+.score-circle{
+width:180px;
+height:180px;
+border-radius:50%;
+margin:25px auto;
+background:linear-gradient(135deg, #2563eb, #7c3aed);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:2.4rem;
 font-weight:bold;
-transition:0.3s;
+color:white;
+box-shadow: 0 10px 25px rgba(37,99,235,0.3);
 }
 
-.main-btn:hover{
-transform:scale(1.04);
+.result-message{
+font-size:1.1rem;
+line-height:1.8;
+color:#334155;
+font-weight: 600;
+margin-bottom:10px;
 }
 
-/* CONFETTI */
-
-.confetti{
+/* Celebration Stars System */
+.celebration-star{
 position:fixed;
-width:14px;
-height:14px;
-background:gold;
-clip-path:polygon(
-50% 0%,
-61% 35%,
-98% 35%,
-68% 57%,
-79% 91%,
-50% 70%,
-21% 91%,
-32% 57%,
-2% 35%,
-39% 35%
-);
-animation:fall 1.5s linear forwards;
+font-size:24px;
+animation:fallStarAnimation 2.5s linear forwards;
+pointer-events:none;
 z-index:999;
 }
 
-@keyframes fall{
-0%{
-transform:translateY(0) rotate(0deg);
-opacity:1;
-}
-100%{
-transform:translateY(500px) rotate(360deg);
-opacity:0;
-}
+@keyframes fallStarAnimation{
+0%{ transform:translateY(-30px) rotate(0deg); opacity:1; }
+100%{ transform:translateY(110vh) rotate(720deg); opacity:0; }
 }
 
-.cross{
-position:fixed;
-font-size:42px;
-color:red;
-animation:fade 1s forwards;
-z-index:999;
+@media(max-width:600px){
+.container{ padding:20px 15px; }
+.question{ font-size:1.05rem; }
+.option{ font-size:0.95rem; }
+button.main-action-btn{ width:100%; }
 }
-
-@keyframes fade{
-0%{
-opacity:1;
-transform:scale(1);
-}
-100%{
-opacity:0;
-transform:scale(2);
-}
-}
-
-.badge{
-font-size:2.8rem;
-margin:15px 0;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-.options{
-grid-template-columns:1fr;
-}
-
-.question{
-font-size:1rem;
-}
-
-.option-btn{
-font-size:0.95rem;
-padding:14px;
-}
-
-.logo-screen img{
-width:200px;
-}
-
-.topbar{
-flex-direction:column;
-font-size:0.9rem;
-}
-
-}
-
 </style>
 </head>
-
 <body>
 
-<div class="bg-icons" id="bgIcons"></div>
+<div class="bg-stars" id="bgStars"></div>
 
-<!-- LOGO -->
-
-<div class="screen active logo-screen" id="logoScreen">
-
-<img src="./assets/innovine-logo.png" alt="Innovine Logo">
-
-<h2 style="margin-top:20px;">
-Innovine Interactive Learning
-</h2>
-
+<div id="splash">
+<img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
-<!-- INTRO -->
+<div class="container hidden" id="app">
 
-<div class="screen" id="introScreen">
-
-<div class="card">
-
+<div id="introScreen" class="intro">
 <h1>Introduction to OpenOffice Writer - 1</h1>
 
-<p class="info"><strong>Grade:</strong> 2</p>
-<p class="info"><strong>Subject:</strong> ICT</p>
-<p class="info"><strong>Total Questions:</strong> 20</p>
-
-<p style="margin-top:16px;">
-Learn typing, formatting and editing in OpenOffice Writer through fun image-based CBQ questions.
-</p>
-
-<button class="main-btn" onclick="startQuiz()">
-Start Quiz
-</button>
-
+<div class="instructions">
+<ol>
+<li>Read each digital typing and alignment question layout carefully.</li>
+<li>You get two operational baseline attempts to answer each interactive question.</li>
+<li>After two incorrect tool responses, the system updates with the true correct choice.</li>
+<li>A countdown buffer window of 60 seconds is active per question entry.</li>
+<li>Score well across all 18 processing tasks to reveal the final champion review card.</li>
+</ol>
 </div>
 
+<button class="main-action-btn" onclick="startGame()">Start Challenge</button>
 </div>
 
-<!-- QUIZ -->
-
-<div class="screen" id="quizScreen">
-
-<div class="card">
-
+<div id="quizScreen" class="hidden">
 <div class="topbar">
-
-<div id="scoreText">Score: 0</div>
-
-<div id="timerText">Time: 60</div>
-
-<div id="questionCount">Question 1 / 20</div>
-
+<div class="topbox">⭐ Score: <span id="score">0</span></div>
+<div class="topbox">⏳ Time: <span id="timer">60</span>s</div>
 </div>
 
 <div class="progress">
 <div class="progress-fill" id="progressFill"></div>
 </div>
 
-<img id="questionImage" class="question-image" src="" alt="Question Image">
-
+<div class="question-number" id="questionNumber"></div>
+<img id="questionImage" class="question-image" src="" alt="Question Task Reference">
 <div class="question" id="questionText"></div>
+<div class="options" id="optionsBox"></div>
+<div class="feedback" id="feedbackBox"></div>
 
-<div class="options" id="optionsContainer"></div>
+<button id="nextBtn" class="main-action-btn hidden" onclick="nextQuestion()">Next Question</button>
+</div>
 
-<div class="feedback" id="feedback"></div>
-
-<div class="explanation" id="explanation"></div>
-
+<div id="resultScreen" class="hidden result">
+<h1>🎉 Challenge Completed 🎉</h1>
+<div class="score-circle">
+<span id="finalScore"></span>
+</div>
+<div class="result-message" id="resultMessage"></div>
+<button class="main-action-btn" onclick="location.reload()">Play Again</button>
 </div>
 
 </div>
 
-<!-- RESULT -->
-
-<div class="screen" id="resultScreen">
-
-<div class="card">
-
-<h1>Quiz Completed!</h1>
-
-<div class="badge">🎉🏆🎉</div>
-
-<h2 id="finalScore"></h2>
-
-<p id="message"></p>
-
-<button class="main-btn" onclick="restartQuiz()">
-Play Again
-</button>
-
-</div>
-
-</div>
-
-<audio id="correctSound" src="./assets/correct-1.mp3"></audio>
-<audio id="wrongSound" src="./assets/wrong.mp3"></audio>
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
 
 <script>
+/* Dynamic Layer Generation - Particles Backdrop */
+const bg = document.getElementById("bgStars");
+for(let i=0; i<20; i++){
+let star = document.createElement("div");
+star.classList.add("bg-star");
+star.style.left = Math.random()*100 + "%";
+star.style.animationDuration = (Math.random()*10+10) + "s";
+star.style.animationDelay = Math.random()*5 + "s";
+star.style.width = (Math.random()*18+10) + "px";
+star.style.height = star.style.width;
+bg.appendChild(star);
+}
 
-/* QUESTIONS */
+/* Splash Shield Removal Setup */
+setTimeout(()=>{
+document.getElementById("splash").style.display = "none";
+document.getElementById("app").classList.remove("hidden");
+}, 5000);
 
-let questions=[
-
+/* OpenOffice Writer Question Pool */
+const questions=[
 {
-question:"A student opens Writer and starts typing a story. What is this action called?",
-options:["Drawing","Typing text","Coloring","Printing"],
-answer:1,
-explanation:"Typing text means writing using keyboard."
+q:"A student opens Writer and starts typing a story. What is this action called?",
+o:["Drawing","Typing text","Coloring","Printing"],
+a:1,
+e:"Typing text means writing and inputting content using a standard computer keyboard."
 },
-
 {
-question:"Riya types a sentence but makes a spelling mistake. What should she do?",
-options:["Ignore it","Edit and correct it","Close file","Print"],
-answer:1,
-explanation:"Editing helps correct mistakes."
+q:"Riya types a sentence but makes a spelling mistake. What should she do?",
+o:["Ignore it","Edit and correct it","Close file","Print"],
+a:1,
+e:"Editing parameters allow you to look back, change text, and correct simple mistakes."
 },
-
 {
-question:"Aarav wants to save his work so he can use it later. What should he do?",
-options:["Close file","Save document","Delete text","Undo"],
-answer:1,
-explanation:"Save stores the document safely."
+q:"Aarav wants to save his work so he can use it later. What should he do?",
+o:["Close file","Save document","Delete text","Undo"],
+a:1,
+e:"Executing a save command writes the document profile to memory for secure storage."
 },
-
 {
-question:"A student wants to start writing in a new document. What should be done?",
-options:["Open new document","Print file","Close Writer","Delete file"],
-answer:0,
-explanation:"A new document is needed to start fresh work."
+q:"A student wants to start writing in a new document. What should be done?",
+o:["Open new document","Print file","Close Writer","Delete file"],
+a:0,
+e:"Opening a completely new document creates a fresh workspace tab to start writing."
 },
-
 {
-question:"Meera wants to make her text bigger and clear. What should she change?",
-options:["Color only","Font size","Delete text","Save file"],
-answer:1,
-explanation:"Font size changes text size."
+q:"Meera wants to make her text bigger and clear. What should she change?",
+o:["Color only","Font size","Delete text","Save file"],
+a:1,
+e:"Adjusting the font size setting makes chosen alphabet characters look smaller or larger."
 },
-
 {
-question:"A child closes Writer without saving work. What will happen?",
-options:["Work is saved automatically","Work may be lost","Work is printed","Work is copied"],
-answer:1,
-explanation:"Unsaved work can be lost."
+q:"A child closes Writer without saving work. What will happen?",
+o:["Work is saved automatically","Work may be lost","Work is printed","Work is copied"],
+a:1,
+e:"Closing out application frames without saving causes permanent loss of text additions."
 },
-
 {
-question:"Why is the heading easy to read?",
+q:"Why is the heading easy to read?",
 image:"https://dummyimage.com/400x180/4285f4/ffffff&text=BIG+HEADING",
-options:["Small font","Bigger font size","Wrong alignment","Deleted text"],
-answer:1,
-explanation:"Large font size makes heading easy to read."
+o:["Small font","Bigger font size","Wrong alignment","Deleted text"],
+a:1,
+e:"Assigning a much larger font size separates title text headers from body blocks."
 },
-
 {
-question:"Which formatting tool can make important words stand out?",
+q:"Which formatting tool can make important words stand out?",
 image:"https://dummyimage.com/400x180/ab47bc/ffffff&text=BOLD+TEXT",
-options:["Bold","Save","Print","Close"],
-answer:0,
-explanation:"Bold makes text darker and important."
+o:["Bold","Save","Print","Close"],
+a:0,
+e:"The Bold property increases character stroke weight to make selective strings appear darker."
 },
-
 {
-question:"Which alignment is used for the title?",
+q:"Which alignment is used for the title?",
 image:"https://dummyimage.com/400x180/26a69a/ffffff&text=CENTER+TITLE",
-options:["Left","Right","Center","None"],
-answer:2,
-explanation:"Centered text stays in middle."
+o:["Left","Right","Center","None"],
+a:2,
+e:"Center text alignment positions word sets precisely in the middle line of the page margins."
 },
-
 {
-question:"Which formatting style is shown in the picture?",
+q:"Which formatting style is shown in the picture?",
 image:"https://dummyimage.com/400x180/ff7043/ffffff&text=UNDERLINE",
-options:["Bold","Italics","Underline","Alignment"],
-answer:2,
-explanation:"Underline draws line below text."
+o:["Bold","Italics","Underline","Alignment"],
+a:2,
+e:"The underline styling function applies a continuous straight decorative vector right beneath text lines."
 },
-
 {
-question:"What type of alignment is shown?",
+q:"What type of alignment is shown?",
 image:"https://dummyimage.com/400x180/5c6bc0/ffffff&text=LEFT+ALIGNMENT",
-options:["Left Alignment","Center Alignment","Right Alignment","Bold"],
-answer:0,
-explanation:"Text aligned to left side."
+o:["Left Alignment","Center Alignment","Right Alignment","Bold"],
+a:0,
+e:"Left alignment patterns line up sentence start roots cleanly against the left-hand rule margin."
 },
-
 {
-question:"Action → Purpose\nTyping → Write text\nSave → Store file\nEdit → Correct text\nWhich action is used to correct mistakes?",
-options:["Typing","Save","Edit","Print"],
-answer:2,
-explanation:"Edit helps correct mistakes."
+q:"Action → Purpose\nTyping → Write text\nSave → Store file\nEdit → Correct text\nWhich action is used to correct mistakes?",
+o:["Typing","Save","Edit","Print"],
+a:2,
+e:"Editing tools handle corrections, backspacing modifications, and letter updates."
 },
-
 {
-question:"Tool → Function\nFont size → Change size\nBold → Make text dark\nSave → Store file\nWhich tool makes text bigger?",
-options:["Bold","Font size","Save","Edit"],
-answer:1,
-explanation:"Font size increases text size."
+q:"Tool → Function\nFont size → Change size\nBold → Make text dark\nSave → Store file\nWhich tool makes text bigger?",
+o:["Bold","Font size","Save","Edit"],
+a:1,
+e:"The font size selector contains numeral values to safely scale letter dimensions."
 },
-
 {
-question:"A screen shows blinking cursor ready to type text. What is happening?",
-options:["Printing","Typing","Coloring","Saving"],
-answer:1,
-explanation:"Blinking cursor means typing can begin."
+q:"A screen shows blinking cursor ready to type text. What is happening?",
+o:["Printing","Typing","Coloring","Saving"],
+a:1,
+e:"A vertical blinking icon line represents the text insert insertion cursor point where typed keys will show up."
 },
-
 {
-question:"A screen shows text becoming bigger after selecting an option. What action is this?",
-options:["Deleting","Formatting","Printing","Closing"],
-answer:1,
-explanation:"Formatting changes appearance of text."
+q:"A screen shows text becoming bigger after selecting an option. What action is this?",
+o:["Deleting","Formatting","Printing","Closing"],
+a:1,
+e:"Formatting controls the outward visual styling properties of layout text structures."
 },
-
 {
-question:"Assertion: Saving a document is important.\nReason: It helps keep the work for future use.",
-options:[
+q:"Assertion: Saving a document is important.\nReason: It helps keep the work for future use.",
+o:[
 "Both correct and reason explains",
 "Both correct but not related",
 "Assertion correct, reason wrong",
 "Both wrong"
 ],
-answer:0,
-explanation:"Saving keeps work safe for later."
+a:0,
+e:"Saving copies operational volatile screen data directly onto hardware files, protecting it for future view sessions."
 },
-
 {
-question:"Assertion: Editing helps improve text.\nReason: It allows correcting mistakes.",
-options:[
+q:"Assertion: Editing helps improve text.\nReason: It allows correcting mistakes.",
+o:[
 "Both correct and reason explains",
 "Both correct but not related",
 "Assertion correct, reason wrong",
 "Both wrong"
 ],
-answer:0,
-explanation:"Editing improves text."
+a:0,
+e:"Editing parameters systematically upgrade document quality by facilitating spelling and spacing fixups."
 },
-
 {
-question:"Which statement is incorrect?",
-options:[
+q:"Which statement is incorrect?",
+o:[
 "Typing is used to write text",
 "Save stores document",
 "Closing saves automatically always",
 "Editing corrects text"
 ],
-answer:2,
-explanation:"Closing without saving may lose work."
+a:2,
+e:"Most common editor tools require structural confirmations before saving data modifications upon closing."
 }
-
 ];
 
-/* SHUFFLE */
-
-function shuffleArray(array){
-
-for(let i=array.length-1;i>0;i--){
-
-const j=Math.floor(Math.random()*(i+1));
-
-[array[i],array[j]]=[array[j],array[i]];
-
-}
-
-return array;
-
-}
-
-function shuffleOptions(){
-
-questions.forEach(q=>{
-
-const correct=q.options[q.answer];
-
-q.options=shuffleArray([...q.options]);
-
-q.answer=q.options.indexOf(correct);
-
-});
-
-}
-
-/* VARIABLES */
-
-let currentQuestion=0;
-let score=0;
+/* App Logic Controllers */
+let current = 0;
+let score = 0;
+let attempts = 0;
 let timer;
-let timeLeft=60;
-let retryUsed=false;
+let timeLeft = 60;
 
-const logoScreen=document.getElementById("logoScreen");
-const introScreen=document.getElementById("introScreen");
-const quizScreen=document.getElementById("quizScreen");
-const resultScreen=document.getElementById("resultScreen");
-
-const questionText=document.getElementById("questionText");
-const optionsContainer=document.getElementById("optionsContainer");
-const scoreText=document.getElementById("scoreText");
-const timerText=document.getElementById("timerText");
-const feedback=document.getElementById("feedback");
-const explanation=document.getElementById("explanation");
-const progressFill=document.getElementById("progressFill");
-const questionImage=document.getElementById("questionImage");
-
-const correctSound=document.getElementById("correctSound");
-const wrongSound=document.getElementById("wrongSound");
-
-/* LOGO */
-
-window.onload=function(){
-
-logoScreen.style.display="flex";
-
-setTimeout(()=>{
-
-logoScreen.style.display="none";
-
-introScreen.style.display="flex";
-
-},5000);
-
-};
-
-/* START */
-
-function startQuiz(){
-
-questions=shuffleArray(questions);
-
-shuffleOptions();
-
-introScreen.style.display="none";
-
-quizScreen.style.display="flex";
-
-currentQuestion=0;
-score=0;
-
+function startGame(){
+questions.sort(() => Math.random() - 0.5);
+document.getElementById("introScreen").classList.add("hidden");
+document.getElementById("quizScreen").classList.remove("hidden");
 loadQuestion();
-
 }
-
-/* LOAD */
 
 function loadQuestion(){
+attempts = 0;
+timeLeft = 60;
+startTimer();
 
-clearInterval(timer);
+document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+const q = questions[current];
 
-retryUsed=false;
+document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+document.getElementById("questionText").innerHTML = q.q.replace(/\n/g, "<br>");
 
-feedback.innerHTML="";
-explanation.style.display="none";
-
-const q=questions[currentQuestion];
-
-questionText.innerHTML=
-`Q${currentQuestion+1}. ${q.question}`;
-
-document.getElementById("questionCount").innerHTML=
-`Question ${currentQuestion+1} / ${questions.length}`;
-
-progressFill.style.width=
-`${((currentQuestion)/questions.length)*100}%`;
-
+const imgElement = document.getElementById("questionImage");
 if(q.image){
-
-questionImage.src=q.image;
-questionImage.style.display="block";
-
-}else{
-
-questionImage.style.display="none";
-
+imgElement.src = q.image;
+imgElement.style.display = "block";
+} else {
+imgElement.style.display = "none";
 }
 
-optionsContainer.innerHTML="";
+const box = document.getElementById("optionsBox");
+box.innerHTML = "";
 
-q.options.forEach((option,index)=>{
-
-const btn=document.createElement("button");
-
-btn.classList.add("option-btn");
-
-btn.innerHTML=option;
-
-btn.onclick=()=>checkAnswer(index,btn);
-
-optionsContainer.appendChild(btn);
-
+q.o.forEach((opt, index) => {
+const div = document.createElement("div");
+div.classList.add("option");
+div.innerHTML = opt;
+div.onclick = () => checkAnswer(div, index);
+box.appendChild(div);
 });
 
-scoreText.innerHTML=`Score: ${score}`;
+document.getElementById("feedbackBox").style.display = "none";
+document.getElementById("nextBtn").classList.add("hidden");
+}
 
-timeLeft=60;
-
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-timer=setInterval(()=>{
-
+function startTimer(){
+clearInterval(timer);
+document.getElementById("timer").innerText = timeLeft;
+timer = setInterval(() => {
 timeLeft--;
-
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-if(timeLeft<=0){
-
+document.getElementById("timer").innerText = timeLeft;
+if(timeLeft <= 0){
 clearInterval(timer);
-
 showCorrectAnswer();
-
+}
+}, 1000);
 }
 
-},1000);
+function checkAnswer(element, index){
+const q = questions[current];
 
-}
-
-/* CHECK */
-
-function checkAnswer(selected,button){
-
-const q=questions[currentQuestion];
-
-const buttons=document.querySelectorAll(".option-btn");
-
-if(selected===q.answer){
-
-clearInterval(timer);
-
-button.classList.add("correct");
-
-feedback.innerHTML="✅ Correct!";
-
-feedback.style.color="green";
-
-correctSound.play();
-
+if(index === q.a){
+element.classList.add("correct");
+try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
+createCelebrationStars();
 score++;
-
-createConfetti();
-
-buttons.forEach(btn=>btn.disabled=true);
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},1500);
-
-}else{
-
-button.classList.add("wrong");
-
-wrongSound.play();
-
-showCross();
-
-if(!retryUsed){
-
-retryUsed=true;
-
-feedback.innerHTML=
-"❌ Try Again! One more chance.";
-
-feedback.style.color="#c62828";
-
-button.disabled=true;
-
-}else{
-
+document.getElementById("score").innerText = score;
+showFeedback(true, "✅ Excellent!", q.e);
+disableOptions();
 clearInterval(timer);
+document.getElementById("nextBtn").classList.remove("hidden");
+} else {
+attempts++;
+element.classList.add("wrong");
+try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
+element.style.pointerEvents = "none";
 
+if(attempts < 2){
+showFeedback(false, "❌ Try Again!", "One operational safety chance remaining in your buffer.");
+} else {
 showCorrectAnswer();
-
 }
-
 }
-
 }
-
-/* CORRECT ANSWER */
 
 function showCorrectAnswer(){
+clearInterval(timer);
+disableOptions();
+const q = questions[current];
 
-const q=questions[currentQuestion];
-
-const buttons=
-document.querySelectorAll(".option-btn");
-
-buttons.forEach((btn,index)=>{
-
-btn.disabled=true;
-
-if(index===q.answer){
-
-btn.classList.add("correct");
-
+document.querySelectorAll(".option").forEach((opt, index) => {
+if(index === q.a){
+opt.classList.add("correct");
 }
-
 });
 
-feedback.innerHTML="Correct answer shown";
-
-feedback.style.color="#1565c0";
-
-explanation.style.display="block";
-
-explanation.innerHTML=
-`💡 ${q.explanation}`;
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},3500);
-
+showFeedback(false, "📘 Correct Answer Shown", q.e);
+document.getElementById("nextBtn").classList.remove("hidden");
 }
 
-/* NEXT */
+function disableOptions(){
+document.querySelectorAll(".option").forEach(opt => {
+opt.style.pointerEvents = "none";
+});
+}
+
+function showFeedback(success, title, text){
+const box = document.getElementById("feedbackBox");
+box.style.display = "block";
+box.className = "feedback " + (success ? "success" : "error");
+box.innerHTML = `<strong style="font-size:1.1rem;">${title}</strong><br><br>${text}`;
+}
 
 function nextQuestion(){
-
-currentQuestion++;
-
-if(currentQuestion<questions.length){
-
+current++;
+if(current < questions.length){
 loadQuestion();
-
-}else{
-
+} else {
 showResult();
-
 }
-
 }
-
-/* RESULT */
 
 function showResult(){
+document.getElementById("quizScreen").classList.add("hidden");
+document.getElementById("resultScreen").classList.remove("hidden");
+document.getElementById("finalScore").innerHTML = `${score}/${questions.length}`;
 
-quizScreen.style.display="none";
-
-resultScreen.style.display="flex";
-
-document.getElementById("finalScore").innerHTML=
-`Your Score: ${score} / ${questions.length}`;
-
-let msg="";
-
-if(score>=16){
-
-msg="🌟 Excellent Writer Champion!";
-
-}else if(score>=10){
-
-msg="👍 Very Good Work!";
-
-}else{
-
-msg="😊 Keep Practicing Writer Skills!";
-
+let message = "";
+if(score >= 15){
+message = "🏆 Writer Champion! Outstanding performance. You have mastered editing, saving, and standard font text formatting features.";
+} else if(score >= 10){
+message = "⭐ Great Work! You have established a solid functional understanding of the basic OpenOffice text tools.";
+} else {
+message = "🚀 Keep Practicing! Refresh your layout navigation controls, text sizing rules, and try the processing suite again.";
 }
 
-document.getElementById("message").innerHTML=msg;
-
+document.getElementById("resultMessage").innerHTML = message;
+createCelebrationStars();
 }
 
-/* RESTART */
-
-function restartQuiz(){
-
-questions=shuffleArray(questions);
-
-shuffleOptions();
-
-currentQuestion=0;
-score=0;
-
-resultScreen.style.display="none";
-
-introScreen.style.display="flex";
-
+function createCelebrationStars(){
+for(let i=0; i<35; i++){
+const star = document.createElement("div");
+star.classList.add("celebration-star");
+star.innerHTML = "⭐";
+star.style.left = Math.random() * 100 + "vw";
+star.style.top = "-30px";
+star.style.fontSize = (Math.random() * 20 + 15) + "px";
+document.body.appendChild(star);
+setTimeout(() => { star.remove(); }, 2500);
 }
-
-/* CONFETTI */
-
-function createConfetti(){
-
-for(let i=0;i<24;i++){
-
-const confetti=document.createElement("div");
-
-confetti.classList.add("confetti");
-
-confetti.style.left=
-Math.random()*window.innerWidth+"px";
-
-confetti.style.top=
-Math.random()*150+"px";
-
-document.body.appendChild(confetti);
-
-setTimeout(()=>{
-
-confetti.remove();
-
-},1500);
-
 }
-
-}
-
-/* CROSS */
-
-function showCross(){
-
-const cross=document.createElement("div");
-
-cross.classList.add("cross");
-
-cross.innerHTML="✖";
-
-cross.style.left=
-Math.random()*window.innerWidth+"px";
-
-cross.style.top=
-Math.random()*window.innerHeight+"px";
-
-document.body.appendChild(cross);
-
-setTimeout(()=>{
-
-cross.remove();
-
-},1000);
-
-}
-
-/* BACKGROUND */
-
-function createIcons(){
-
-const bg=document.getElementById("bgIcons");
-
-const icons=["⌨️","📝","📄","💻","✏️","📚","🖥️","🔤"];
-
-for(let i=0;i<35;i++){
-
-const icon=document.createElement("div");
-
-icon.classList.add("icon");
-
-icon.innerHTML=
-icons[Math.floor(Math.random()*icons.length)];
-
-icon.style.left=Math.random()*100+"%";
-
-icon.style.animationDuration=
-(8+Math.random()*10)+"s";
-
-icon.style.animationDelay=
-Math.random()*5+"s";
-
-icon.style.fontSize=
-(24+Math.random()*25)+"px";
-
-bg.appendChild(icon);
-
-}
-
-}
-
-createIcons();
-
 </script>
-
 </body>
 </html>
