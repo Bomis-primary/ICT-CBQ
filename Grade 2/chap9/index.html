@@ -211,7 +211,8 @@ display:grid;
 gap:14px;
 }
 
-.option(
+/* FIX: Changed parentheses to curly braces to fix UI selection bug */
+.option {
 background:white;
 padding:16px;
 border-radius:16px;
@@ -222,7 +223,7 @@ font-weight:600;
 transition:0.25s;
 text-align:left;
 color: #334155;
-)
+}
 
 .option:hover{
 transform:translateY(-2px);
