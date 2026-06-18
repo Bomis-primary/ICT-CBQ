@@ -3,944 +3,689 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Computer: A Smart Machine -  ICT</title>
+<title>ICT: Computer - A Smart Machine</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+:root {
+    --primary: #2563eb;
+    --secondary: #7c3aed;
+    --success: #10b981;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --light: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.94);
 }
 
-body{
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#dff6ff,#fff7cc,#f3e8ff);
-overflow-x:hidden;
-overflow-y:auto;
-min-height:100vh;
-color:#222;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.background{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-overflow:hidden;
-z-index:0;
-pointer-events:none;
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0ea5e9, #2563eb, #7c3aed);
+    overflow-x: hidden;
+    position: relative;
+    padding: 15px;
 }
 
-.star{
-position:absolute;
-width:5px;
-height:5px;
-background:white;
-border-radius:50%;
-opacity:0.8;
-animation:floatStars linear infinite;
+/* Cosmic Animated Background Stars */
+.bg-stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
 }
 
-@keyframes floatStars{
-0%{
-transform:translateY(100vh);
-opacity:0;
-}
-50%{
-opacity:1;
-}
-100%{
-transform:translateY(-10vh);
-opacity:0;
-}
+.bg-star {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.25);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatStar linear infinite;
 }
 
-.screen{
-display:none;
-position:relative;
-z-index:2;
-min-height:100vh;
-justify-content:center;
-align-items:center;
-padding:20px;
-text-align:center;
+@keyframes floatStar {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
 }
 
-.active{
-display:flex;
-flex-direction:column;
+/* Splash Shield (Exactly 5 Seconds) */
+#splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
-.card{
-background:#ffffff;
-padding:24px;
-border-radius:22px;
-max-width:820px;
-width:100%;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-border:2px solid #dbe9ff;
+#splash img {
+    width: 260px;
+    max-width: 80%;
+    animation: pulse 2s infinite ease-in-out;
 }
 
-.logo-screen{
-background:white;
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
-.logo-screen img{
-width:190px;
-max-width:85%;
-animation:pulse 2s infinite;
+/* Modern App Container Card */
+.container {
+    width: 100%;
+    max-width: 780px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 32px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease;
 }
 
-@keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.06);}
-100%{transform:scale(1);}
+.hidden {
+    display: none !important;
 }
 
-h1{
-color:#1565c0;
-margin-bottom:10px;
+/* Screen Layout Formats */
+.intro {
+    text-align: center;
 }
 
-.info{
-margin:8px 0;
-font-size:1rem;
+.intro h1 {
+    font-size: 2.2rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-margin-bottom:18px;
-font-weight:bold;
-font-size:1rem;
-gap:10px;
+.intro h1 span {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.question{
-font-size:1.15rem;
-line-height:1.6;
-font-weight:600;
-color:#1b1b1b;
-margin-bottom:20px;
+.instructions {
+    background: rgba(241, 245, 249, 0.8);
+    padding: 24px;
+    border-radius: 16px;
+    line-height: 1.8;
+    color: #334155;
+    font-size: 1rem;
+    text-align: left;
+    margin: 20px 0;
+    border: 1px solid #e2e8f0;
 }
 
-.options{
-display:grid;
-gap:12px;
+.instructions ul {
+    margin-left: 20px;
 }
 
-.option-btn{
-padding:14px;
-border:none;
-border-radius:14px;
-background:#eef6ff;
-cursor:pointer;
-font-size:1rem;
-transition:0.3s;
-color:#111;
-font-weight:500;
+.instructions li {
+    margin-bottom: 8px;
 }
 
-.option-btn:hover{
-background:#d8ecff;
-transform:scale(1.02);
+/* Control Buttons */
+button.main-action-btn {
+    padding: 16px 36px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
 }
 
-.correct{
-background:#d4ffd4 !important;
-border:2px solid #2e7d32;
+button.main-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.4);
 }
 
-.wrong{
-background:#ffd9d9 !important;
-border:2px solid #c62828;
+/* Top Stats Panel */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-.feedback{
-margin-top:15px;
-font-weight:bold;
-min-height:28px;
+.topbox {
+    background: #ffffff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.explanation{
-margin-top:12px;
-background:#eef7ff;
-padding:12px;
-border-radius:12px;
-display:none;
-font-size:0.95rem;
-line-height:1.5;
+/* Visual Micro Progress System */
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
 }
 
-.main-btn{
-padding:12px 24px;
-margin-top:18px;
-border:none;
-background:#1565c0;
-color:white;
-font-size:1rem;
-border-radius:12px;
-cursor:pointer;
-transition:0.3s;
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.main-btn:hover{
-background:#0d47a1;
+.question-number {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.confetti{
-position:fixed;
-width:14px;
-height:14px;
-background:gold;
-clip-path:polygon(
-50% 0%,
-61% 35%,
-98% 35%,
-68% 57%,
-79% 91%,
-50% 70%,
-21% 91%,
-32% 57%,
-2% 35%,
-39% 35%
-);
-animation:fall 1.5s linear forwards;
-z-index:999;
+.question {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--dark);
+    margin-bottom: 24px;
+    text-align: left;
 }
 
-@keyframes fall{
-0%{
-transform:translateY(0) rotate(0deg);
-opacity:1;
-}
-100%{
-transform:translateY(500px) rotate(360deg);
-opacity:0;
-}
+/* Grid Layout for Interactive Options */
+.options {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 20px;
 }
 
-.cross{
-position:fixed;
-font-size:42px;
-color:red;
-animation:fade 1s forwards;
-z-index:999;
+.option {
+    background: #ffffff;
+    padding: 18px 20px;
+    border-radius: 14px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    color: #334155;
+    display: flex;
+    align-items: center;
 }
 
-@keyframes fade{
-0%{
-opacity:1;
-transform:scale(1);
-}
-100%{
-opacity:0;
-transform:scale(2);
-}
+.option:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background-color: #f8fafc;
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.08);
 }
 
-.badge{
-font-size:2.2rem;
-margin:15px 0;
+.correct {
+    background: #ecfdf5 !important;
+    border-color: var(--success) !important;
+    color: #065f46 !important;
 }
 
-@media(max-width:600px){
-
-.question{
-font-size:1rem;
+.wrong {
+    background: #fef2f2 !important;
+    border-color: var(--danger) !important;
+    color: #991b1b !important;
+    animation: shake 0.4s ease-in-out;
 }
 
-.option-btn{
-font-size:0.95rem;
-padding:12px;
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
 }
 
-h1{
-font-size:1.5rem;
+/* Feedback Container Card */
+.feedback {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 14px;
+    display: none;
+    line-height: 1.7;
+    text-align: left;
+    font-size: 1rem;
+    animation: fadeIn 0.3s ease-in;
 }
 
-.topbar{
-font-size:0.9rem;
-flex-direction:column;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
+.feedback.success {
+    background: #ecfdf5;
+    border-left: 6px solid var(--success);
+    color: #065f46;
 }
 
+.feedback.error {
+    background: #fef2f2;
+    border-left: 6px solid var(--danger);
+    color: #991b1b;
+}
+
+/* Evaluation Screen Blocks */
+.result h1 {
+    font-size: 2.4rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+}
+
+.score-circle {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin: 24px auto;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
+}
+
+.result-message {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 0 10px;
+}
+
+/* Dynamic Particle System Elements */
+.celebration-star {
+    position: fixed;
+    font-size: 24px;
+    animation: fallStarAnimation 2.5s linear forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes fallStarAnimation {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@media(max-width:600px) {
+    .container { padding: 24px 16px; }
+    .question { font-size: 1.15rem; }
+    .option { font-size: 0.95rem; padding: 14px 16px; }
+    .intro h1 { font-size: 1.8rem; }
+    button.main-action-btn { width: 100%; }
+}
 </style>
 </head>
-
 <body>
 
-<div class="background" id="background"></div>
+<div class="bg-stars" id="bgStars"></div>
 
-<!-- LOGO SCREEN -->
-
-<div class="screen active logo-screen" id="logoScreen">
-
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
-
+<div id="splash">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
-<!-- INTRO SCREEN -->
+<div class="container hidden" id="app">
 
-<div class="screen" id="introScreen">
+    <div id="introScreen" class="intro">
+        <h1><span>Computer: A Smart Machine</span></h1>
+        <p style="margin-top: 6px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Grade 1 • Chapter 1 Quiz</p>
 
-<div class="card">
+        <div class="instructions">
+            <ol>
+                <li>Review each computational scenario and device operation challenge carefully.</li>
+                <li>You receive a limit of two operational baseline attempts for each task.</li>
+                <li>After two wrong choices, the platform highlights the true choice inline.</li>
+                <li>A countdown buffer interval of 60 seconds is initialized per screen load.</li>
+                <li>Complete all 15 operational problems to calculate your final certificate score.</li>
+            </ol>
+        </div>
 
-<h1>Computer: A Smart Machine</h1>
+        <button class="main-action-btn" onclick="startGame()">Start Quiz</button>
+    </div>
 
-<p class="info">ICT</p>
+    <div id="quizScreen" class="hidden">
+        <div class="topbar">
+            <div class="topbox">⭐ Score: <span id="score">0</span></div>
+            <div class="topbox">⏳ Time: <span id="timer">60</span>s</div>
+        </div>
 
-<p class="info"><strong>Topic:</strong> Computer: A Smart Machine</p>
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
 
-<p class="info"><strong>Total Questions:</strong> 15</p>
+        <div class="question-number" id="questionNumber"></div>
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsBox"></div>
+        <div class="feedback" id="feedbackBox"></div>
 
-<p style="margin-top:15px;">
-Answer the questions and learn how computers help us in daily life.
-</p>
+        <button id="nextBtn" class="main-action-btn hidden" style="margin-top: 20px;" onclick="nextQuestion()">Next Question</button>
+    </div>
 
-<button class="main-btn" onclick="startQuiz()">
-Start Quiz
-</button>
-
-</div>
-
-</div>
-
-<!-- QUIZ SCREEN -->
-
-<div class="screen" id="quizScreen">
-
-<div class="card">
-
-<div class="topbar">
-
-<div id="scoreText">Score: 0</div>
-
-<div id="timerText">Time: 60</div>
-
-</div>
-
-<div class="question" id="questionText"></div>
-
-<div class="options" id="optionsContainer"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<div class="explanation" id="explanation"></div>
+    <div id="resultScreen" class="hidden result">
+        <h1>🎉 Quiz Completed! 🎉</h1>
+        <div class="score-circle">
+            <span id="finalScore"></span>
+        </div>
+        <div class="result-message" id="resultMessage"></div>
+        <button class="main-action-btn" onclick="location.reload()">Play Again</button>
+    </div>
 
 </div>
-
-</div>
-
-<!-- RESULT SCREEN -->
-
-<div class="screen" id="resultScreen">
-
-<div class="card">
-
-<h1>Quiz Completed!</h1>
-
-<div class="badge">🏆</div>
-
-<h2 id="finalScore"></h2>
-
-<p id="message"></p>
-
-<button class="main-btn" onclick="restartQuiz()">
-Play Again
-</button>
-
-</div>
-
-</div>
-
-<!-- AUDIO -->
 
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 
 <script>
-
-// QUESTIONS
-
-let questions = [
-
-{
-question:"Riya uses a computer to draw pictures. What does this show?",
-options:[
-"Computer helps in drawing",
-"Computer cooks food",
-"Computer washes clothes",
-"Computer drives buses"
-],
-answer:0,
-explanation:"Computers can be used for drawing and coloring."
-},
-
-{
-question:"Aarav watches cartoons on a computer. What can we learn from this?",
-options:[
-"Computers can show videos",
-"Computers can fly",
-"Computers can swim",
-"Computers can plant trees"
-],
-answer:0,
-explanation:"Computers help us watch videos and cartoons."
-},
-
-{
-question:"A teacher uses a computer to show lessons in class. Why is the computer useful?",
-options:[
-"It helps students learn",
-"It cleans the classroom",
-"It rings the school bell",
-"It packs school bags"
-],
-answer:0,
-explanation:"Computers are useful for learning and teaching."
-},
-
-{
-question:"Meera listens to songs on a computer. Which feature is being used?",
-options:[
-"Sound",
-"Smell",
-"Taste",
-"Touch"
-],
-answer:0,
-explanation:"Computers can play sound and music."
-},
-
-{
-question:"A computer helps a doctor keep patient records. What does this show?",
-options:[
-"Computers store information",
-"Computers cook food",
-"Computers grow plants",
-"Computers stitch clothes"
-],
-answer:0,
-explanation:"Computers can store large amounts of information."
-},
-
-{
-question:"Which machine is called a smart machine?",
-options:[
-"Computer",
-"Fan",
-"Table",
-"Bottle"
-],
-answer:0,
-explanation:"A computer is called a smart machine."
-},
-
-{
-question:"A child uses a computer to play games and learn numbers. What does this show?",
-options:[
-"Computers help in learning and fun",
-"Computers make rain",
-"Computers wash cars",
-"Computers paint houses"
-],
-answer:0,
-explanation:"Computers can be used for both learning and entertainment."
-},
-
-{
-question:"Assertion: Computers can work very fast. Reason: Computers take many hours to solve simple sums.",
-options:[
-"Assertion is true and reason is false",
-"Assertion is false and reason is true",
-"Both are true",
-"Both are false"
-],
-answer:0,
-explanation:"Computers work very fast and solve sums quickly."
-},
-
-{
-question:"Assertion: Computers can store information. Reason: Computers forget everything quickly.",
-options:[
-"Assertion is true and reason is false",
-"Assertion is false and reason is true",
-"Both are true",
-"Both are false"
-],
-answer:0,
-explanation:"Computers can store information safely."
-},
-
-{
-question:"A student wants to type homework neatly. Which machine can help?",
-options:[
-"Computer",
-"Chair",
-"Bottle",
-"Clock"
-],
-answer:0,
-explanation:"Computers help in typing neatly."
-},
-
-{
-question:"A shopkeeper uses a computer to make bills. Why?",
-options:[
-"Computers work quickly",
-"Computers can dance",
-"Computers can jump",
-"Computers can sing loudly"
-],
-answer:0,
-explanation:"Computers help in fast calculations and billing."
-},
-
-{
-question:"Which activity can be done on a computer?",
-options:[
-"Drawing pictures",
-"Cooking food",
-"Washing clothes",
-"Growing trees"
-],
-answer:0,
-explanation:"Computers can be used for drawing and creative work."
-},
-
-{
-question:"A computer helps us learn ABC and numbers through games. What is this called?",
-options:[
-"Learning",
-"Sleeping",
-"Cooking",
-"Cleaning"
-],
-answer:0,
-explanation:"Computers are useful learning tools."
-},
-
-{
-question:"Assertion: Computers can play music. Reason: Computers have no sound feature.",
-options:[
-"Assertion is true and reason is false",
-"Assertion is false and reason is true",
-"Both are true",
-"Both are false"
-],
-answer:0,
-explanation:"Computers can play songs and sounds."
-},
-
-{
-question:"Why do people call a computer a smart machine?",
-options:[
-"It works fast and helps in many tasks",
-"It can eat food",
-"It can sleep",
-"It can swim"
-],
-answer:0,
-explanation:"Computers are smart because they help us do many tasks quickly."
+/* Particle Layer Matrix Initialization */
+const bg = document.getElementById("bgStars");
+for(let i=0; i<25; i++) {
+    let star = document.createElement("div");
+    star.classList.add("bg-star");
+    star.style.left = Math.random()*100 + "%";
+    star.style.animationDuration = (Math.random()*8+10) + "s";
+    star.style.animationDelay = Math.random()*6 + "s";
+    star.style.width = (Math.random()*16+8) + "px";
+    star.style.height = star.style.width;
+    bg.appendChild(star);
 }
 
+/* Remove Splash Canvas Container After 5 Seconds */
+setTimeout(() => {
+    document.getElementById("splash").style.setProperty("display", "none", "important");
+    document.getElementById("app").classList.remove("hidden");
+}, 5000);
+
+/* Structural Database Object Array (15 Tasks Mapping Content Exactly) */
+const questions = [
+    {
+        q: "Riya uses a computer to draw pictures. What does this show?",
+        o: ["Computer helps in drawing", "Computer cooks food", "Computer washes clothes", "Computer drives buses"],
+        a: 0,
+        e: "Computers can be used for drawing and coloring."
+    },
+    {
+        q: "Aarav watches cartoons on a computer. What can we learn from this?",
+        o: ["Computers can show videos", "Computers can fly", "Computers can swim", "Computers can plant trees"],
+        a: 0,
+        e: "Computers help us watch videos and cartoons."
+    },
+    {
+        q: "A teacher uses a computer to show lessons in class. Why is the computer useful?",
+        o: ["It helps students learn", "It cleans the classroom", "It rings the school bell", "It packs school bags"],
+        a: 0,
+        e: "Computers are useful for learning and teaching."
+    },
+    {
+        q: "Meera listens to songs on a computer. Which feature is being used?",
+        o: ["Sound", "Smell", "Taste", "Touch"],
+        a: 0,
+        e: "Computers can play sound and music."
+    },
+    {
+        q: "A computer helps a doctor keep patient records. What does this show?",
+        o: ["Computers store information", "Computers cook food", "Computers grow plants", "Computers stitch clothes"],
+        a: 0,
+        e: "Computers can store large amounts of information."
+    },
+    {
+        q: "Which machine is called a smart machine?",
+        o: ["Computer", "Fan", "Table", "Bottle"],
+        a: 0,
+        e: "A computer is called a smart machine."
+    },
+    {
+        q: "A child uses a computer to play games and learn numbers. What does this show?",
+        o: ["Computers help in learning and fun", "Computers make rain", "Computers wash cars", "Computers paint houses"],
+        a: 0,
+        e: "Computers can be used for both learning and entertainment."
+    },
+    {
+        q: "Assertion: Computers can work very fast.\nReason: Computers take many hours to solve simple sums.",
+        o: ["Assertion is true and reason is false", "Assertion is false and reason is true", "Both are true", "Both are false"],
+        a: 0,
+        e: "Computers work very fast and solve sums quickly."
+    },
+    {
+        q: "Assertion: Computers can store information.\nReason: Computers forget everything quickly.",
+        o: ["Assertion is true and reason is false", "Assertion is false and reason is true", "Both are true", "Both are false"],
+        a: 0,
+        e: "Computers can store information safely."
+    },
+    {
+        q: "A student wants to type homework neatly. Which machine can help?",
+        o: ["Computer", "Chair", "Bottle", "Clock"],
+        a: 0,
+        e: "Computers help in typing neatly."
+    },
+    {
+        q: "A shopkeeper uses a computer to make bills. Why?",
+        o: ["Computers work quickly", "Computers can dance", "Computers can jump", "Computers can sing loudly"],
+        a: 0,
+        e: "Computers help in fast calculations and billing."
+    },
+    {
+        q: "Which activity can be done on a computer?",
+        o: ["Drawing pictures", "Cooking food", "Washing clothes", "Growing trees"],
+        a: 0,
+        e: "Computers can be used for drawing and creative work."
+    },
+    {
+        q: "A computer helps us learn ABC and numbers through games. What is this called?",
+        o: ["Learning", "Sleeping", "Cooking", "Cleaning"],
+        a: 0,
+        e: "Computers are useful learning tools."
+    },
+    {
+        q: "Assertion: Computers can play music.\nReason: Computers have no sound feature.",
+        o: ["Assertion is true and reason is false", "Assertion is false and reason is true", "Both are true", "Both are false"],
+        a: 0,
+        e: "Computers can play songs and sounds."
+    },
+    {
+        q: "Why do people call a computer a smart machine?",
+        o: ["It works fast and helps in many tasks", "It can eat food", "It can sleep", "It can swim"],
+        a: 0,
+        e: "Computers are smart because they help us do many tasks quickly."
+    }
 ];
 
-// FISHER-YATES SHUFFLE
-// Randomizes question order every time
-// :contentReference[oaicite:0]{index=0}
-
-function shuffleQuestions(array){
-
-for(let i = array.length - 1; i > 0; i--){
-
-const j = Math.floor(Math.random() * (i + 1));
-
-[array[i], array[j]] = [array[j], array[i]];
-
-}
-
-return array;
-
-}
-
-let currentQuestion = 0;
+/* State Machine Variables */
+let current = 0;
 let score = 0;
+let attempts = 0;
 let timer;
 let timeLeft = 60;
-let retryUsed = false;
 
-const logoScreen = document.getElementById("logoScreen");
-const introScreen = document.getElementById("introScreen");
-const quizScreen = document.getElementById("quizScreen");
-const resultScreen = document.getElementById("resultScreen");
-
-const questionText = document.getElementById("questionText");
-const optionsContainer = document.getElementById("optionsContainer");
-const scoreText = document.getElementById("scoreText");
-const timerText = document.getElementById("timerText");
-const feedback = document.getElementById("feedback");
-const explanation = document.getElementById("explanation");
-
-const correctSound = document.getElementById("correctSound");
-const wrongSound = document.getElementById("wrongSound");
-
-// SHOW LOGO FOR 5 SECONDS
-
-setTimeout(()=>{
-
-logoScreen.classList.remove("active");
-
-introScreen.classList.add("active");
-
-},5000);
-
-// START QUIZ
-
-function startQuiz(){
-
-questions = shuffleQuestions(questions);
-
-introScreen.classList.remove("active");
-introScreen.style.display = "none";
-
-quizScreen.classList.add("active");
-quizScreen.style.display = "flex";
-
-currentQuestion = 0;
-score = 0;
-
-loadQuestion();
-
+function startGame() {
+    // Fisher-Yates shuffle implementation
+    for(let i = questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+    document.getElementById("introScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    loadQuestion();
 }
 
-// LOAD QUESTION
+function loadQuestion() {
+    attempts = 0;
+    timeLeft = 60;
+    startTimer();
 
-function loadQuestion(){
+    document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+    const q = questions[current];
 
-clearInterval(timer);
+    document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById("questionText").innerHTML = q.q.replace(/\n/g, "<br>");
 
-retryUsed = false;
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
 
-feedback.innerHTML = "";
+    q.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkAnswer(div, index);
+        box.appendChild(div);
+    });
 
-explanation.style.display = "none";
-
-const q = questions[currentQuestion];
-
-questionText.innerHTML =
-`Q${currentQuestion+1}. ${q.question}`;
-
-optionsContainer.innerHTML = "";
-
-q.options.forEach((option,index)=>{
-
-const btn = document.createElement("button");
-
-btn.classList.add("option-btn");
-
-btn.innerText = option;
-
-btn.onclick = ()=>checkAnswer(index,btn);
-
-optionsContainer.appendChild(btn);
-
-});
-
-scoreText.innerHTML = `Score: ${score}`;
-
-timeLeft = 60;
-
-timerText.innerHTML = `Time: ${timeLeft}`;
-
-timer = setInterval(()=>{
-
-timeLeft--;
-
-timerText.innerHTML = `Time: ${timeLeft}`;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
 }
 
-},1000);
-
+function startTimer() {
+    clearInterval(timer);
+    document.getElementById("timer").innerText = timeLeft;
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+        if(timeLeft <= 0) {
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }, 1000);
 }
 
-// CHECK ANSWER
+function checkAnswer(element, index) {
+    if(element.classList.contains("correct") || element.classList.contains("wrong")) return;
 
-function checkAnswer(selected,button){
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
 
-const q = questions[currentQuestion];
-
-const buttons = document.querySelectorAll(".option-btn");
-
-if(selected === q.answer){
-
-clearInterval(timer);
-
-button.classList.add("correct");
-
-feedback.innerHTML = "✅ Correct!";
-
-feedback.style.color = "green";
-
-correctSound.play();
-
-score++;
-
-createConfetti();
-
-buttons.forEach(btn=>btn.disabled=true);
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},1500);
-
-}else{
-
-button.classList.add("wrong");
-
-wrongSound.play();
-
-showCross();
-
-if(!retryUsed){
-
-retryUsed = true;
-
-feedback.innerHTML =
-"❌ Try Again! One more chance.";
-
-feedback.style.color = "#c62828";
-
-buttons.forEach(btn=>{
-btn.disabled = false;
-});
-
-button.disabled = true;
-
-}else{
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
+    if(index === q.a) {
+        clearInterval(timer);
+        element.classList.add("correct");
+        try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
+        score++;
+        document.getElementById("score").innerText = score;
+        feedback.className = "feedback success";
+        feedback.innerHTML = `<strong>✨ Correct!</strong><br>💡 ${q.e}`;
+        feedback.style.display = "block";
+        disableAllOptions();
+        createCelebrationStars();
+        document.getElementById("nextBtn").classList.remove("hidden");
+    } else {
+        element.classList.add("wrong");
+        try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
+        attempts++;
+        if(attempts >= 2) {
+            clearInterval(timer);
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Incorrect! Let's examine the target choice:</strong><br>💡 ${q.e}`;
+            feedback.style.display = "block";
+            showCorrectAnswerInline();
+            disableAllOptions();
+            document.getElementById("nextBtn").classList.remove("hidden");
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Try Again!</strong> This is not correct. You have one attempt remaining.`;
+            feedback.style.display = "block";
+        }
+    }
 }
 
+function showCorrectAnswerInline() {
+    const q = questions[current];
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        if(i === q.a) {
+            options[i].classList.add("correct");
+        }
+    }
 }
 
+function showCorrectAnswer() {
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+    feedback.className = "feedback error";
+    feedback.innerHTML = `<strong>⏳ Time's Up! Here is the correct explanation:</strong><br>💡 ${q.e}`;
+    feedback.style.display = "block";
+    showCorrectAnswerInline();
+    disableAllOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
 }
 
-// SHOW CORRECT ANSWER
-
-function showCorrectAnswer(){
-
-const q = questions[currentQuestion];
-
-const buttons =
-document.querySelectorAll(".option-btn");
-
-buttons.forEach((btn,index)=>{
-
-btn.disabled = true;
-
-if(index === q.answer){
-
-btn.classList.add("correct");
-
+function disableAllOptions() {
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        options[i].style.pointerEvents = "none";
+    }
 }
 
-});
-
-feedback.innerHTML = "Correct answer shown";
-
-feedback.style.color = "#1565c0";
-
-explanation.style.display = "block";
-
-explanation.innerHTML =
-`💡 ${q.explanation}`;
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},4000);
-
+function nextQuestion() {
+    current++;
+    if(current < questions.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
 }
 
-// NEXT QUESTION
+function showResults() {
+    clearInterval(timer);
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("finalScore").innerText = `${score} / ${questions.length}`;
 
-function nextQuestion(){
-
-currentQuestion++;
-
-if(currentQuestion < questions.length){
-
-loadQuestion();
-
-}else{
-
-showResult();
-
+    let msg = "";
+    if(score >= 13) {
+        msg = "🌟 Outstanding Work! You completely understand what makes a computer a smart machine and how it helps us!";
+    } else if(score >= 9) {
+        msg = "👍 Great Job! Good grasp of computer features and common smart technology functions.";
+    } else {
+        msg = "😊 Good effort! Keep practicing, review how machines make our work fast, and try again.";
+    }
+    document.getElementById("resultMessage").innerText = msg;
 }
 
+function createCelebrationStars() {
+    const emojis = ["⭐", "✨", "💻", "💡", "⚡"];
+    for(let i=0; i<25; i++) {
+        const star = document.createElement("div");
+        star.classList.add("celebration-star");
+        star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+        star.style.animationDelay = Math.random() * 0.2 + "s";
+        star.style.fontSize = Math.random() * 16 + 20 + "px";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2500);
+    }
 }
-
-// SHOW RESULT
-
-function showResult(){
-
-quizScreen.classList.remove("active");
-
-quizScreen.style.display = "none";
-
-resultScreen.classList.add("active");
-
-resultScreen.style.display = "flex";
-
-document.getElementById("finalScore").innerHTML =
-`Your Score: ${score} / ${questions.length}`;
-
-let msg = "";
-
-if(score >= 13){
-
-msg = "Excellent Work!";
-
-}else if(score >= 9){
-
-msg = "Very Good Job!";
-
-}else{
-
-msg = "Good Try! Keep Practicing.";
-
-}
-
-document.getElementById("message").innerHTML = msg;
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-// RESTART QUIZ
-
-function restartQuiz(){
-
-questions = shuffleQuestions(questions);
-
-currentQuestion = 0;
-
-score = 0;
-
-resultScreen.classList.remove("active");
-
-resultScreen.style.display = "none";
-
-introScreen.classList.add("active");
-
-introScreen.style.display = "flex";
-
-}
-
-// CONFETTI
-
-function createConfetti(){
-
-for(let i=0;i<20;i++){
-
-const confetti = document.createElement("div");
-
-confetti.classList.add("confetti");
-
-confetti.style.left =
-Math.random()*window.innerWidth + "px";
-
-confetti.style.top =
-Math.random()*200 + "px";
-
-document.body.appendChild(confetti);
-
-setTimeout(()=>{
-
-confetti.remove();
-
-},1500);
-
-}
-
-}
-
-// WRONG CROSS
-
-function showCross(){
-
-const cross = document.createElement("div");
-
-cross.classList.add("cross");
-
-cross.innerHTML = "✖";
-
-cross.style.left =
-Math.random()*window.innerWidth + "px";
-
-cross.style.top =
-Math.random()*window.innerHeight + "px";
-
-document.body.appendChild(cross);
-
-setTimeout(()=>{
-
-cross.remove();
-
-},1000);
-
-}
-
-// BACKGROUND ANIMATION
-
-function createBackground(){
-
-const bg = document.getElementById("background");
-
-for(let i=0;i<40;i++){
-
-const star = document.createElement("div");
-
-star.classList.add("star");
-
-star.style.left = Math.random()*100 + "%";
-
-star.style.animationDuration =
-(5 + Math.random()*8) + "s";
-
-star.style.animationDelay =
-Math.random()*5 + "s";
-
-bg.appendChild(star);
-
-}
-
-}
-
-createBackground();
-
 </script>
-
 </body>
 </html>
