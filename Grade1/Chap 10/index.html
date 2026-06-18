@@ -1,1 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT: Introduction to Tux Paint - 2</title>
 
+<style>
+:root {
+    --primary: #2563eb;
+    --secondary: #7c3aed;
+    --success: #10b981;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --light: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.94);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0ea5e9, #2563eb, #7c3aed);
+    overflow-x: hidden;
+    position: relative;
+    padding: 15px;
+}
+
+/* Cosmic Animated Background Stars */
+.bg-stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.bg-star {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.25);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatStar linear infinite;
+}
+
+@keyframes floatStar {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+/* Splash Shield (Exactly 5 Seconds) */
+#splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#splash img {
+    width: 260px;
+    max-width: 80%;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Modern App Container Card */
+.container {
+    width: 100%;
+    max-width: 780px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 32px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Screen Layout Formats */
+.intro {
+    text-align: center;
+}
+
+.intro h1 {
+    font-size: 2.2rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.intro h1 span {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.instructions {
+    background: rgba(241, 245, 249, 0.8);
+    padding: 24px;
+    border-radius: 16px;
+    line-height: 1.8;
+    color: #334155;
+    font-size: 1rem;
+    text-align: left;
+    margin: 20px 0;
+    border: 1px solid #e2e8f0;
+}
+
+.instructions ol {
+    margin-left: 20px;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+}
+
+/* Control Buttons */
+button.main-action-btn {
+    padding: 16px 36px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+}
+
+button.main-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.4);
+}
+
+/* Top Stats Panel */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.topbox {
+    background: #ffffff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Visual Micro Progress System */
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.question-number {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.question {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--dark);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Graphic Asset Wrapper styling */
+.question-image-box {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto 20px auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    display: none;
+}
+
+.question-image-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Grid Layout for Interactive Options */
+.options {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.option {
+    background: #ffffff;
+    padding: 18px 20px;
+    border-radius: 14px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    color: #334155;
+    display: flex;
+    align-items: center;
+}
+
+.option:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background-color: #f8fafc;
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.08);
+}
+
+.correct {
+    background: #ecfdf5 !important;
+    border-color: var(--success) !important;
+    color: #065f46 !important;
+}
+
+.wrong {
+    background: #fef2f2 !important;
+    border-color: var(--danger) !important;
+    color: #991b1b !important;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+/* Feedback Container Card */
+.feedback {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 14px;
+    display: none;
+    line-height: 1.7;
+    text-align: left;
+    font-size: 1rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.feedback.success {
+    background: #ecfdf5;
+    border-left: 6px solid var(--success);
+    color: #065f46;
+}
+
+.feedback.error {
+    background: #fef2f2;
+    border-left: 6px solid var(--danger);
+    color: #991b1b;
+}
+
+/* Evaluation Screen Blocks */
+.result h1 {
+    font-size: 2.4rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+}
+
+.score-circle {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin: 24px auto;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
+}
+
+.result-message {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 0 10px;
+}
+
+/* Dynamic Particle System Elements */
+.celebration-star {
+    position: fixed;
+    font-size: 24px;
+    animation: fallStarAnimation 2.5s linear forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes fallStarAnimation {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@media(max-width:600px) {
+    .container { padding: 24px 16px; }
+    .question { font-size: 1.15rem; }
+    .option { font-size: 0.95rem; padding: 14px 16px; }
+    .intro h1 { font-size: 1.8rem; }
+    button.main-action-btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-stars" id="bgStars"></div>
+
+<div id="splash">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="container hidden" id="app">
+
+    <div id="introScreen" class="intro">
+        <h1><span>Introduction to Tux Paint - 2</span></h1>
+        
+        <div class="instructions">
+            <ol>
+                <li>Review each special magic style effect, textual element tool, and workflow safety step carefully.</li>
+                <li>You receive a limit of two operational baseline attempts for each task.</li>
+                <li>After two wrong choices, the platform highlights the true choice inline.</li>
+                <li>A countdown buffer interval of 60 seconds is initialized per screen load.</li>
+                <li>Complete all 15 randomized sequential problems to calculate your evaluation matrix.</li>
+            </ol>
+        </div>
+
+        <button class="main-action-btn" onclick="startGame()">Start Quiz</button>
+    </div>
+
+    <div id="quizScreen" class="hidden">
+        <div class="topbar">
+            <div class="topbox">⭐ Score: <span id="score">0</span></div>
+            <div class="topbox">⏳ Time: <span id="timer">60</span>s</div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="question-number" id="questionNumber"></div>
+        <div class="question" id="questionText"></div>
+        
+        <div class="question-image-box" id="imageContainer">
+            <img id="questionImage" src="" alt="Magic Design Tool Asset">
+        </div>
+
+        <div class="options" id="optionsBox"></div>
+        <div class="feedback" id="feedbackBox"></div>
+
+        <button id="nextBtn" class="main-action-btn hidden" style="margin-top: 20px;" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div id="resultScreen" class="hidden result">
+        <h1>🎉 Quiz Completed! 🎉</h1>
+        <div class="score-circle">
+            <span id="finalScore"></span>
+        </div>
+        <div class="result-message" id="resultMessage"></div>
+        <button class="main-action-btn" onclick="startGameAgain()">Play Again</button>
+    </div>
+
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+
+<script>
+/* Particle Layer Matrix Initialization */
+const bg = document.getElementById("bgStars");
+for(let i=0; i<25; i++) {
+    let star = document.createElement("div");
+    star.classList.add("bg-star");
+    star.style.left = Math.random()*100 + "%";
+    star.style.animationDuration = (Math.random()*8+10) + "s";
+    star.style.animationDelay = Math.random()*6 + "s";
+    star.style.width = (Math.random()*16+8) + "px";
+    star.style.height = star.style.width;
+    bg.appendChild(star);
+}
+
+/* Remove Splash Canvas Container After Exactly 5 Seconds */
+setTimeout(() => {
+    document.getElementById("splash").style.setProperty("display", "none", "important");
+    document.getElementById("app").classList.remove("hidden");
+}, 5000);
+
+/* Master Database Object Pool for Chapter 10 - Formatted & Fixed to 15 Non-Repeated Items */
+const questions = [
+    {
+        q: "Prisha wants to add sparkling effects to her drawing in Tux Paint. Which feature should she use?",
+        o: ["Magic Tool", "Eraser Tool", "Save Tool", "New File"],
+        a: 0,
+        e: "The Magic Tool hosts sub-options like sparks, rainbow styles, or filters to enrich digital canvases.",
+        img: null
+    },
+    {
+        q: "Ayaan wants to type 'Happy Birthday' on his card in Tux Paint. Which tool will help him?",
+        o: ["Fill Tool", "Text Tool", "Stamp Tool", "Undo Tool"],
+        a: 1,
+        e: "The Text Tool allows users to enter letters, labels, and text characters using the keyboard.",
+        img: null
+    },
+    {
+        q: "Kavya used a magic effect that changed her plain picture into a rainbow-style design. What does this show?",
+        o: ["Magic tools add special effects", "The keyboard is broken", "The drawing is deleted", "The monitor changes color"],
+        a: 0,
+        e: "Magic sub-effects transform plain canvas strokes into custom artistic styles automatically.",
+        img: null
+    },
+    {
+        q: "Rishaan forgot to save his greeting card after editing it with Magic Tools. What may happen?",
+        o: ["Drawing may be lost", "Computer becomes faster", "Mouse stops working", "Wallpaper changes"],
+        a: 0,
+        e: "Failing to click Save means your latest creative decorations will not be saved if the software closes.",
+        img: null
+    },
+    {
+        q: "Anvi wants to decorate her scenery using different Tux Paint effects. What should she do?",
+        o: ["Use Magic Tools carefully", "Delete the scenery", "Remove all colors", "Close the program"],
+        a: 0,
+        e: "Using distinct effect sets intentionally helps build creative details without ruining your illustration layer.",
+        img: null
+    },
+    {
+        q: "Vihaan used the Text Tool to write labels under animals in his drawing. Why is the Text Tool useful?",
+        o: ["It helps add words to drawings", "It removes mistakes", "It rotates pictures", "It changes wallpapers"],
+        a: 0,
+        e: "The Text Tool expands functionality by letting you title, comment, or label features inside your graphic layout.",
+        img: null
+    },
+    {
+        q: "Myra keeps randomly using magic effects and the drawing becomes messy. What is the better habit?",
+        o: ["Use effects thoughtfully and neatly", "Press all buttons together", "Switch off the mouse", "Ignore the problem"],
+        a: 0,
+        e: "Good digital artists blend decorative effects neatly to ensure the design components look clean.",
+        img: null
+    },
+    {
+        q: "A child carefully types a short note using the keyboard inside Tux Paint. What correct step does this reveal?",
+        o: ["Using the Text Tool for messages", "Damaging the input keys", "Clearing your folder files", "Shutting off computer links"],
+        a: 0,
+        e: "Pairing manual keyboard inputs with the text placeholder engine shows proper card labeling skills.",
+        img: null
+    },
+    {
+        q: "Case Study: Kabir opens his save folder, adds text headings with the Text tool, paints backgrounds with a sparkling Magic brush effect, and hits Save. What task is he completing?",
+        o: ["Creating and styling an illustrated project template", "Formatting operational hardware drivers", "Erasing system core registry keys", "Shutting off electricity sources"],
+        a: 0,
+        e: "Combining text layers with advanced magic effects allows users to create complete graphic cards or posters.",
+        img: null
+    },
+    {
+        q: "Case Study: Diya finishes her cartoon scene, selects the Magic Tool selector tray, and scrolls down to click the 'Stars' feature. What will this do?",
+        o: ["It lets her draw glowing star shapes across her workspace", "It deletes her active file backup", "It triggers an automatic print command", "It increases her display resolution scale"],
+        a: 0,
+        e: "Selecting the star asset within the Magic tray lets you overlay glowing patterns by clicking or dragging on the canvas.",
+        img: null
+    },
+    {
+        q: "Case Study: Aarav writes a story on his digital canvas. He clicks the Text tool, selects a font block, types his paragraph, and clicks Save. Why did he use these steps?",
+        o: ["To neatly integrate custom readable text into his artwork", "To format his hard drive partitions", "To reset his keyboard layout configuration", "To clear his color palettes"],
+        a: 0,
+        e: "Activating text parameters with custom fonts lets you produce readable stories or presentation layouts inside the graphic window.",
+        img: null
+    },
+    {
+        q: "Data Based Lookup:\nTux Paint Sub-Tool → Feature Group\nSparkles → Magic Tool\nFont Selector → Text Tool\nRainbow Effects → Magic Tool\nWhich option adds decorative text fonts?",
+        o: ["Magic Tool", "Text Tool", "Pencil Tool", "Stamp Tool"],
+        a: 1,
+        e: "The reference parameters tie custom fonts and text properties strictly to the operation of the Text Tool.",
+        img: null
+    },
+    {
+        q: "A workspace shows colorful sparkling patterns overlaying a digital illustration. Which tool icon from the side selector was activated?",
+        o: ["Magic Tool", "Fill Tool", "Undo Tool", "Eraser Tool"],
+        a: 0,
+        e: "Applying specialized textures like sparkles or filters indicates active use of the Magic Tool drawer.",
+        img: "assets/Q.15.png"
+    },
+    {
+        q: "A beautiful template layout features typed greetings and alphabet letters placed exactly in the center. Which option was chosen?",
+        o: ["Stamp Tool", "Text Tool", "Fill Tool", "Pencil Tool"],
+        a: 1,
+        e: "Typing customized words or letters directly onto a digital workspace is performed using the Text Tool.",
+        img: "assets/Q.16.png"
+    },
+    {
+        q: "A glowing star effect styles stamped around a drawing to decorate it. Which feature created this effect?",
+        o: ["Magic Tool", "Scroll Tool", "Eraser Tool", "Resize Tool"],
+        a: 0,
+        e: "Creative overlays like glowing stars are added using specialized options found inside the Magic Tool library.",
+        img: null
+    }
+];
+
+/* State Machine Variables */
+let current = 0;
+let score = 0;
+let attempts = 0;
+let timer;
+let timeLeft = 60;
+
+function shuffleQuestions() {
+    for(let i = questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+}
+
+function startGame() {
+    shuffleQuestions();
+    document.getElementById("introScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    loadQuestion();
+}
+
+function startGameAgain() {
+    document.getElementById("resultScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    shuffleQuestions();
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    loadQuestion();
+}
+
+function loadQuestion() {
+    attempts = 0;
+    timeLeft = 60;
+    startTimer();
+
+    document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+    const q = questions[current];
+
+    document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById("questionText").innerHTML = q.q.replace(/\n/g, "<br>");
+
+    /* Structural Graphics Asset Handlers */
+    const imgContainer = document.getElementById("imageContainer");
+    const imgElem = document.getElementById("questionImage");
+    if(q.img) {
+        imgElem.src = q.img;
+        imgContainer.style.display = "block";
+    } else {
+        imgContainer.style.display = "none";
+        imgElem.src = "";
+    }
+
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
+
+    q.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkAnswer(div, index);
+        box.appendChild(div);
+    });
+
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
+}
+
+function startTimer() {
+    clearInterval(timer);
+    document.getElementById("timer").innerText = timeLeft;
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+        if(timeLeft <= 0) {
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }, 1000);
+}
+
+function checkAnswer(element, index) {
+    if(element.classList.contains("correct") || element.classList.contains("wrong")) return;
+
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+
+    if(index === q.a) {
+        clearInterval(timer);
+        element.classList.add("correct");
+        try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
+        score++;
+        document.getElementById("score").innerText = score;
+        feedback.className = "feedback success";
+        feedback.innerHTML = `<strong>✨ Correct!</strong><br>💡 ${q.e}`;
+        feedback.style.display = "block";
+        disableAllOptions();
+        createCelebrationStars();
+        document.getElementById("nextBtn").classList.remove("hidden");
+    } else {
+        element.classList.add("wrong");
+        try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
+        attempts++;
+        if(attempts >= 2) {
+            clearInterval(timer);
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Incorrect! Let's examine the target choice:</strong><br>💡 ${q.e}`;
+            feedback.style.display = "block";
+            showCorrectAnswerInline();
+            disableAllOptions();
+            document.getElementById("nextBtn").classList.remove("hidden");
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Try Again!</strong> That isn't quite right. You have one attempt remaining.`;
+            feedback.style.display = "block";
+        }
+    }
+}
+
+function showCorrectAnswerInline() {
+    const q = questions[current];
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        if(i === q.a) {
+            options[i].classList.add("correct");
+        }
+    }
+}
+
+function showCorrectAnswer() {
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+    feedback.className = "feedback error";
+    feedback.innerHTML = `<strong>⏳ Time's Up! Here is the correct instruction:</strong><br>💡 ${q.e}`;
+    feedback.style.display = "block";
+    showCorrectAnswerInline();
+    disableAllOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function disableAllOptions() {
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        options[i].style.pointerEvents = "none";
+    }
+}
+
+function nextQuestion() {
+    current++;
+    if(current < questions.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    clearInterval(timer);
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("finalScore").innerText = `${score} / ${questions.length}`;
+
+    let msg = "";
+    if(score >= 13) {
+        msg = "🌟 Outstanding! You have completely mastered using Magic effects, typing with the Text tool, and saving your design layouts!";
+    } else if(score >= 9) {
+        msg = "👍 Well done! Excellent visual recognition of text placement options, sparkles, and magic filter modifications.";
+    } else {
+        msg = "😊 Good effort! Keep reviewing your sub-tool libraries, font labels, and layout actions, then try playing again!";
+    }
+    document.getElementById("resultMessage").innerText = msg;
+}
+
+function createCelebrationStars() {
+    const emojis = ["⭐", "✨", "🪄", "🔤", "🎉", "🎨"];
+    for(let i=0; i<25; i++) {
+        const star = document.createElement("div");
+        star.classList.add("celebration-star");
+        star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+        star.style.animationDelay = Math.random() * 0.2 + "s";
+        star.style.fontSize = Math.random() * 16 + 20 + "px";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2500);
+    }
+}
+</script>
+</body>
+</html>
