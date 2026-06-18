@@ -1,1 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT: Types of Computer Mouse and Keyboard Keys</title>
 
+<style>
+:root {
+    --primary: #2563eb;
+    --secondary: #7c3aed;
+    --success: #10b981;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --light: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.94);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0ea5e9, #2563eb, #7c3aed);
+    overflow-x: hidden;
+    position: relative;
+    padding: 15px;
+}
+
+/* Cosmic Animated Background Stars */
+.bg-stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.bg-star {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.25);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatStar linear infinite;
+}
+
+@keyframes floatStar {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+/* Splash Shield (Exactly 5 Seconds) */
+#splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#splash img {
+    width: 260px;
+    max-width: 80%;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Modern App Container Card */
+.container {
+    width: 100%;
+    max-width: 780px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 32px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Screen Layout Formats */
+.intro {
+    text-align: center;
+}
+
+.intro h1 {
+    font-size: 2.2rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.intro h1 span {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.instructions {
+    background: rgba(241, 245, 249, 0.8);
+    padding: 24px;
+    border-radius: 16px;
+    line-height: 1.8;
+    color: #334155;
+    font-size: 1rem;
+    text-align: left;
+    margin: 20px 0;
+    border: 1px solid #e2e8f0;
+}
+
+.instructions ol {
+    margin-left: 20px;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+}
+
+/* Control Buttons */
+button.main-action-btn {
+    padding: 16px 36px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+}
+
+button.main-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.4);
+}
+
+/* Top Stats Panel */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.topbox {
+    background: #ffffff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Visual Micro Progress System */
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.question-number {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.question {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--dark);
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+/* Grid Layout for Interactive Options */
+.options {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.option {
+    background: #ffffff;
+    padding: 18px 20px;
+    border-radius: 14px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    color: #334155;
+    display: flex;
+    align-items: center;
+}
+
+.option:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background-color: #f8fafc;
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.08);
+}
+
+.correct {
+    background: #ecfdf5 !important;
+    border-color: var(--success) !important;
+    color: #065f46 !important;
+}
+
+.wrong {
+    background: #fef2f2 !important;
+    border-color: var(--danger) !important;
+    color: #991b1b !important;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+/* Feedback Container Card */
+.feedback {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 14px;
+    display: none;
+    line-height: 1.7;
+    text-align: left;
+    font-size: 1rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.feedback.success {
+    background: #ecfdf5;
+    border-left: 6px solid var(--success);
+    color: #065f46;
+}
+
+.feedback.error {
+    background: #fef2f2;
+    border-left: 6px solid var(--danger);
+    color: #991b1b;
+}
+
+/* Evaluation Screen Blocks */
+.result h1 {
+    font-size: 2.4rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+}
+
+.score-circle {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin: 24px auto;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
+}
+
+.result-message {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 0 10px;
+}
+
+/* Dynamic Particle System Elements */
+.celebration-star {
+    position: fixed;
+    font-size: 24px;
+    animation: fallStarAnimation 2.5s linear forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes fallStarAnimation {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@media(max-width:600px) {
+    .container { padding: 24px 16px; }
+    .question { font-size: 1.15rem; }
+    .option { font-size: 0.95rem; padding: 14px 16px; }
+    .intro h1 { font-size: 1.8rem; }
+    button.main-action-btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-stars" id="bgStars"></div>
+
+<div id="splash">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="container hidden" id="app">
+
+    <div id="introScreen" class="intro">
+        <h1><span>Mouse and Keyboard Keys</span></h1>
+        
+        <div class="instructions">
+            <ol>
+                <li>Review each peripheral classification and keyboard key interaction assignment carefully.</li>
+                <li>You receive a limit of two operational baseline attempts for each task.</li>
+                <li>After two wrong choices, the platform highlights the true choice inline.</li>
+                <li>A countdown buffer interval of 60 seconds is initialized per screen load.</li>
+                <li>Complete all 15 randomized sequential problems to calculate your evaluation matrix.</li>
+            </ol>
+        </div>
+
+        <button class="main-action-btn" onclick="startGame()">Start Quiz</button>
+    </div>
+
+    <div id="quizScreen" class="hidden">
+        <div class="topbar">
+            <div class="topbox">⭐ Score: <span id="score">0</span></div>
+            <div class="topbox">⏳ Time: <span id="timer">60</span>s</div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="question-number" id="questionNumber"></div>
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsBox"></div>
+        <div class="feedback" id="feedbackBox"></div>
+
+        <button id="nextBtn" class="main-action-btn hidden" style="margin-top: 20px;" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div id="resultScreen" class="hidden result">
+        <h1>🎉 Quiz Completed! 🎉</h1>
+        <div class="score-circle">
+            <span id="finalScore"></span>
+        </div>
+        <div class="result-message" id="resultMessage"></div>
+        <button class="main-action-btn" onclick="startGameAgain()">Play Again</button>
+    </div>
+
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+
+<script>
+/* Particle Layer Matrix Initialization */
+const bg = document.getElementById("bgStars");
+for(let i=0; i<25; i++) {
+    let star = document.createElement("div");
+    star.classList.add("bg-star");
+    star.style.left = Math.random()*100 + "%";
+    star.style.animationDuration = (Math.random()*8+10) + "s";
+    star.style.animationDelay = Math.random()*6 + "s";
+    star.style.width = (Math.random()*16+8) + "px";
+    star.style.height = star.style.width;
+    bg.appendChild(star);
+}
+
+/* Remove Splash Canvas Container After Exactly 5 Seconds */
+setTimeout(() => {
+    document.getElementById("splash").style.setProperty("display", "none", "important");
+    document.getElementById("app").classList.remove("hidden");
+}, 5000);
+
+/* Master Database Object Pool for Chapter 5 - 15 Non-Repeated Items From Document Source */
+const questions = [
+    {
+        q: "Riya wants to type her name in capital letters for a project title. Which key should she use?",
+        o: ["Enter Key", "Caps Lock Key", "Spacebar", "Arrow Key"],
+        a: 1,
+        e: "The Caps Lock key toggles the keyboard input layer between small letters and capital letters."
+    },
+    {
+        q: "Aarav presses the Backspace key while typing a word. What will happen?",
+        o: ["A new line will start", "The cursor will move down", "The letter before the cursor will be removed", "The computer will shut down"],
+        a: 2,
+        e: "The Backspace key deletes individual characters located directly to the left (before) the cursor position."
+    },
+    {
+        q: "Meera wants to leave space between two words while typing a sentence. Which key should she press?",
+        o: ["Shift Key", "Enter Key", "Spacebar", "Delete Key"],
+        a: 2,
+        e: "The Spacebar is the longest key on a computer keyboard and creates necessary blank intervals between terms."
+    },
+    {
+        q: "A student wants to move to the next line after finishing a sentence. Which key should be used?",
+        o: ["Enter Key", "Caps Lock Key", "Tab Key", "Arrow Key"],
+        a: 0,
+        e: "Pressing the Enter key commands the system to finalize the active text string and drop the cursor down to a new line."
+    },
+    {
+        q: "Rahul is using a wireless mouse in the classroom. What is the main advantage of this mouse?",
+        o: ["It needs no battery", "It works without a wire", "It types letters", "It prints papers"],
+        a: 1,
+        e: "Wireless pointing devices transmit spatial tracking parameters via radio or bluetooth waves, doing away with complex wires."
+    },
+    {
+        q: "A child keeps pressing keys very hard while typing. What is the correct keyboard habit?",
+        o: ["Hit keys loudly", "Press keys gently", "Use only one finger forcefully", "Pull keyboard wires"],
+        a: 1,
+        e: "Typing controls should always be tapped lightly and gently to ensure mechanical switches stay responsive."
+    },
+    {
+        q: "Sara wants to move the cursor left and right while typing. Which keys will help her?",
+        o: ["Number Keys", "Arrow Keys", "Function Keys", "Spacebar"],
+        a: 1,
+        e: "Arrow keys (also called cursor control keys) shift the terminal cursor positions along coordinate axes without altering text."
+    },
+    {
+        q: "Aman uses a trackball mouse and rolls the ball with his fingers. What is special about this mouse?",
+        o: ["The whole mouse must be moved", "The mouse stays steady while the ball moves", "It does not have any buttons", "It attaches to the monitor screen"],
+        a: 1,
+        e: "Unlike standard mice, a trackball shell remains stationary while your digits roll the exposed sphere to steer pointers."
+    },
+    {
+        q: "Case Study: Rohit types his paragraph using the Caps Lock key for large headings, and uses the Backspace key when mistakes happen. What does this reveal about his computer skills?",
+        o: ["He is following correct keyboard practices", "He is using the mouse incorrectly", "He does not know how to type", "He is trying to shut down the system"],
+        a: 0,
+        e: "Properly orchestrating capital text modifiers and text backspace error-reversals demonstrates accurate typing literacy."
+    },
+    {
+        q: "Case Study: Pooja needs to type numbers to write her birth date in a document. Which part of the keyboard should she focus on?",
+        o: ["Alphabet Keys", "Number Keys", "Spacebar", "Enter Key"],
+        a: 1,
+        e: "To type values like dates, addresses, or prices, users must engage the dedicated number keys line."
+    },
+    {
+        q: "Case Study: Dev uses an optical mouse that has a glowing red sensor light underneath instead of an older tracking ball. What type of mouse is Dev handling?",
+        o: ["Mechanical Mouse", "Trackball Mouse", "Optical Mouse", "Joystick Device"],
+        a: 2,
+        e: "Optical mice rely on downward-facing light emitting diodes and camera sensors to calculate movement vectors."
+    },
+    {
+        q: "Data Based Lookup:\nCaps Lock → Capital letters\nSpacebar → Space between words\nWhich key helps move the cursor?",
+        o: ["Arrow Keys", "Spacebar", "Enter Key", "Number Keys"],
+        a: 0,
+        e: "Based on structural navigation, the Arrow Keys allow users to drive cursor alignment around standard text fields."
+    },
+    {
+        q: "A diagram showcases a keyboard highlighting a long horizontal key situated below the lowest tier of character switches. What key is being singled out?",
+        o: ["Enter Key", "Shift Key", "Spacebar", "Caps Lock Key"],
+        a: 2,
+        e: "The wide button resting at the absolute bottom center represents the Spacebar."
+    },
+    {
+        q: "A picture shows a computer mouse shell containing no external connection cables trailing toward the main computer chassis. What layout format is this?",
+        o: ["Mechanical Mouse", "Wireless Mouse", "Optical Mouse", "Trackball Mouse"],
+        a: 1,
+        e: "A computer mouse operating through autonomous battery power cells and lacking lines is classified as a Wireless Mouse."
+    },
+    {
+        q: "Assertion: Caps Lock helps type capital letters.\nReason: It changes lowercase letters into uppercase letters.",
+        o: ["Both are true and reason explains assertion", "Both are true but reason does not explain assertion", "Assertion is true but reason is false", "Both are false"],
+        a: 0,
+        e: "Both statements are completely accurate; the primary purpose of Caps Lock is changing default text characters into uppercase equivalents."
+    }
+];
+
+/* State Machine Variables */
+let current = 0;
+let score = 0;
+let attempts = 0;
+let timer;
+let timeLeft = 60;
+
+function shuffleQuestions() {
+    for(let i = questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+}
+
+function startGame() {
+    shuffleQuestions();
+    document.getElementById("introScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    loadQuestion();
+}
+
+function startGameAgain() {
+    document.getElementById("resultScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    shuffleQuestions();
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    loadQuestion();
+}
+
+function loadQuestion() {
+    attempts = 0;
+    timeLeft = 60;
+    startTimer();
+
+    document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+    const q = questions[current];
+
+    document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById("questionText").innerHTML = q.q.replace(/\n/g, "<br>");
+
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
+
+    q.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkAnswer(div, index);
+        box.appendChild(div);
+    });
+
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
+}
+
+function startTimer() {
+    clearInterval(timer);
+    document.getElementById("timer").innerText = timeLeft;
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+        if(timeLeft <= 0) {
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }, 1000);
+}
+
+function checkAnswer(element, index) {
+    if(element.classList.contains("correct") || element.classList.contains("wrong")) return;
+
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+
+    if(index === q.a) {
+        clearInterval(timer);
+        element.classList.add("correct");
+        try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
+        score++;
+        document.getElementById("score").innerText = score;
+        feedback.className = "feedback success";
+        feedback.innerHTML = `<strong>✨ Correct!</strong><br>💡 ${q.e}`;
+        feedback.style.display = "block";
+        disableAllOptions();
+        createCelebrationStars();
+        document.getElementById("nextBtn").classList.remove("hidden");
+    } else {
+        element.classList.add("wrong");
+        try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
+        attempts++;
+        if(attempts >= 2) {
+            clearInterval(timer);
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Incorrect! Let's examine the target choice:</strong><br>💡 ${q.e}`;
+            feedback.style.display = "block";
+            showCorrectAnswerInline();
+            disableAllOptions();
+            document.getElementById("nextBtn").classList.remove("hidden");
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Try Again!</strong> That isn't quite right. You have one attempt remaining.`;
+            feedback.style.display = "block";
+        }
+    }
+}
+
+function showCorrectAnswerInline() {
+    const q = questions[current];
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        if(i === q.a) {
+            options[i].classList.add("correct");
+        }
+    }
+}
+
+function showCorrectAnswer() {
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+    feedback.className = "feedback error";
+    feedback.innerHTML = `<strong>⏳ Time's Up! Here is the correct instruction:</strong><br>💡 ${q.e}`;
+    feedback.style.display = "block";
+    showCorrectAnswerInline();
+    disableAllOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function disableAllOptions() {
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        options[i].style.pointerEvents = "none";
+    }
+}
+
+function nextQuestion() {
+    current++;
+    if(current < questions.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    clearInterval(timer);
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("finalScore").innerText = `${score} / ${questions.length}`;
+
+    let msg = "";
+    if(score >= 13) {
+        msg = "🌟 Brilliant job! You have mastered identifying specialized keyboard keys and different mouse types!";
+    } else if(score >= 9) {
+        msg = "👍 Well done! You show a great understanding of typing workflow actions and device mechanics.";
+    } else {
+        msg = "😊 Good effort! Keep practicing key mappings and mouse properties, then give it another try!";
+    }
+    document.getElementById("resultMessage").innerText = msg;
+}
+
+function createCelebrationStars() {
+    const emojis = ["⭐", "✨", "⌨️", "🖱️", "🔋", "💡"];
+    for(let i=0; i<25; i++) {
+        const star = document.createElement("div");
+        star.classList.add("celebration-star");
+        star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+        star.style.animationDelay = Math.random() * 0.2 + "s";
+        star.style.fontSize = Math.random() * 16 + 20 + "px";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2500);
+    }
+}
+</script>
+</body>
+</html>
