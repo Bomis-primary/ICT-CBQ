@@ -3,377 +3,406 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parts of Computer - Grade 1 ICT</title>
+<title>Grade 1 ICT: Parts of Computer</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+:root {
+    --primary: #2563eb;
+    --secondary: #7c3aed;
+    --success: #10b981;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --light: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.94);
 }
 
-body{
-font-family:Arial,sans-serif;
-background:url('assets/bg.png') no-repeat center center fixed;
-background-size:cover;
-overflow-x:hidden;
-overflow-y:auto;
-min-height:100vh;
-color:#222;
-position:relative;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(255,255,255,0.75);
-z-index:-1;
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0ea5e9, #2563eb, #7c3aed);
+    overflow-x: hidden;
+    position: relative;
+    padding: 15px;
 }
 
-.background{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-overflow:hidden;
-z-index:0;
-pointer-events:none;
+/* Cosmic Animated Background Stars */
+.bg-stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
 }
 
-.star{
-position:absolute;
-width:5px;
-height:5px;
-background:white;
-border-radius:50%;
-opacity:0.8;
-animation:floatStars linear infinite;
+.bg-star {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.25);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatStar linear infinite;
 }
 
-@keyframes floatStars{
-0%{
-transform:translateY(100vh);
-opacity:0;
-}
-50%{
-opacity:1;
-}
-100%{
-transform:translateY(-10vh);
-opacity:0;
-}
+@keyframes floatStar {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
 }
 
-.screen{
-display:none;
-position:relative;
-z-index:2;
-min-height:100vh;
-justify-content:center;
-align-items:center;
-padding:20px;
-text-align:center;
+/* Splash Shield (Exactly 5 Seconds) */
+#splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
-.active{
-display:flex;
-flex-direction:column;
+#splash img {
+    width: 260px;
+    max-width: 80%;
+    animation: pulse 2s infinite ease-in-out;
 }
 
-.card{
-background:#ffffffee;
-backdrop-filter:blur(4px);
-padding:24px;
-border-radius:22px;
-max-width:850px;
-width:100%;
-box-shadow:0 10px 25px rgba(0,0,0,0.18);
-border:2px solid #dbe9ff;
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
-.logo-screen{
-background:white;
+/* Modern App Container Card */
+.container {
+    width: 100%;
+    max-width: 780px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 32px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease;
 }
 
-.logo-screen img{
-width:190px;
-max-width:85%;
-animation:pulse 2s infinite;
+.hidden {
+    display: none !important;
 }
 
-@keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.06);}
-100%{transform:scale(1);}
+/* Screen Layout Formats */
+.intro {
+    text-align: center;
 }
 
-h1{
-color:#1565c0;
-margin-bottom:10px;
+.intro h1 {
+    font-size: 2.2rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
-.info{
-margin:8px 0;
-font-size:1rem;
+.intro h1 span {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-margin-bottom:18px;
-font-weight:bold;
-font-size:1rem;
-gap:10px;
+.instructions {
+    background: rgba(241, 245, 249, 0.8);
+    padding: 24px;
+    border-radius: 16px;
+    line-height: 1.8;
+    color: #334155;
+    font-size: 1rem;
+    text-align: left;
+    margin: 20px 0;
+    border: 1px solid #e2e8f0;
 }
 
-.question{
-font-size:1.15rem;
-line-height:1.6;
-font-weight:600;
-color:#1b1b1b;
-margin-bottom:20px;
+.instructions ol {
+    margin-left: 20px;
 }
 
-.options{
-display:grid;
-gap:12px;
+.instructions li {
+    margin-bottom: 8px;
 }
 
-.option-btn{
-padding:14px;
-border:none;
-border-radius:14px;
-background:#eef6ff;
-cursor:pointer;
-font-size:1rem;
-transition:0.3s;
-color:#111;
-font-weight:500;
+/* Control Buttons */
+button.main-action-btn {
+    padding: 16px 36px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
 }
 
-.option-btn:hover{
-background:#d8ecff;
-transform:scale(1.02);
+button.main-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.4);
 }
 
-.correct{
-background:#d4ffd4 !important;
-border:2px solid #2e7d32;
+/* Top Stats Panel */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-.wrong{
-background:#ffd9d9 !important;
-border:2px solid #c62828;
+.topbox {
+    background: #ffffff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.feedback{
-margin-top:15px;
-font-weight:bold;
-min-height:28px;
+/* Visual Micro Progress System */
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
 }
 
-.explanation{
-margin-top:12px;
-background:#eef7ff;
-padding:12px;
-border-radius:12px;
-display:none;
-font-size:0.95rem;
-line-height:1.5;
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.main-btn{
-padding:12px 24px;
-margin-top:18px;
-border:none;
-background:#1565c0;
-color:white;
-font-size:1rem;
-border-radius:12px;
-cursor:pointer;
-transition:0.3s;
+.question-number {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.main-btn:hover{
-background:#0d47a1;
+.question {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--dark);
+    margin-bottom: 24px;
+    text-align: left;
 }
 
-.confetti{
-position:fixed;
-width:14px;
-height:14px;
-background:gold;
-clip-path:polygon(
-50% 0%,
-61% 35%,
-98% 35%,
-68% 57%,
-79% 91%,
-50% 70%,
-21% 91%,
-32% 57%,
-2% 35%,
-39% 35%
-);
-animation:fall 1.5s linear forwards;
-z-index:999;
+/* Grid Layout for Interactive Options */
+.options {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 20px;
 }
 
-@keyframes fall{
-0%{
-transform:translateY(0) rotate(0deg);
-opacity:1;
-}
-100%{
-transform:translateY(500px) rotate(360deg);
-opacity:0;
-}
-}
-
-.cross{
-position:fixed;
-font-size:42px;
-color:red;
-animation:fade 1s forwards;
-z-index:999;
+.option {
+    background: #ffffff;
+    padding: 18px 20px;
+    border-radius: 14px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    color: #334155;
+    display: flex;
+    align-items: center;
 }
 
-@keyframes fade{
-0%{
-opacity:1;
-transform:scale(1);
-}
-100%{
-opacity:0;
-transform:scale(2);
-}
+.option:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background-color: #f8fafc;
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.08);
 }
 
-.badge{
-font-size:2.2rem;
-margin:15px 0;
+.correct {
+    background: #ecfdf5 !important;
+    border-color: var(--success) !important;
+    color: #065f46 !important;
 }
 
-@media(max-width:600px){
-
-.question{
-font-size:1rem;
+.wrong {
+    background: #fef2f2 !important;
+    border-color: var(--danger) !important;
+    color: #991b1b !important;
+    animation: shake 0.4s ease-in-out;
 }
 
-.option-btn{
-font-size:0.95rem;
-padding:12px;
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
 }
 
-h1{
-font-size:1.5rem;
+/* Feedback Container Card */
+.feedback {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 14px;
+    display: none;
+    line-height: 1.7;
+    text-align: left;
+    font-size: 1rem;
+    animation: fadeIn 0.3s ease-in;
 }
 
-.topbar{
-font-size:0.9rem;
-flex-direction:column;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
+.feedback.success {
+    background: #ecfdf5;
+    border-left: 6px solid var(--success);
+    color: #065f46;
 }
 
+.feedback.error {
+    background: #fef2f2;
+    border-left: 6px solid var(--danger);
+    color: #991b1b;
+}
+
+/* Evaluation Screen Blocks */
+.result h1 {
+    font-size: 2.4rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+}
+
+.score-circle {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin: 24px auto;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
+}
+
+.result-message {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 0 10px;
+}
+
+/* Dynamic Particle System Elements */
+.celebration-star {
+    position: fixed;
+    font-size: 24px;
+    animation: fallStarAnimation 2.5s linear forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes fallStarAnimation {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@media(max-width:600px) {
+    .container { padding: 24px 16px; }
+    .question { font-size: 1.15rem; }
+    .option { font-size: 0.95rem; padding: 14px 16px; }
+    .intro h1 { font-size: 1.8rem; }
+    button.main-action-btn { width: 100%; }
+}
 </style>
 </head>
-
 <body>
 
-<div class="background" id="background"></div>
+<div class="bg-stars" id="bgStars"></div>
 
-<!-- LOGO SCREEN -->
-
-<div class="screen active logo-screen" id="logoScreen">
-
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
-
-<h2 style="margin-top:20px;">
-Innovine Interactive Learning
-</h2>
-
+<div id="splash">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
-<!-- INTRO SCREEN -->
+<div class="container hidden" id="app">
 
-<div class="screen" id="introScreen">
+    <div id="introScreen" class="intro">
+        <h1><span>Parts of Computer</span></h1>
+        <p style="margin-top: 6px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Grade 1 • Chapter 2 Quiz</p>
 
-<div class="card">
+        <div class="instructions">
+            <ol>
+                <li>Review each digital device function scenario and identification challenge carefully.</li>
+                <li>You receive a limit of two operational baseline attempts for each task.</li>
+                <li>After two wrong choices, the platform highlights the true choice inline.</li>
+                <li>A countdown buffer interval of 60 seconds is initialized per screen load.</li>
+                <li>Complete all 15 operational problems to calculate your final certificate score.</li>
+            </ol>
+        </div>
 
-<h1>Parts of Computer</h1>
+        <button class="main-action-btn" onclick="startGame()">Start Quiz</button>
+    </div>
 
-<p class="info"><strong>Grade:</strong> 1</p>
+    <div id="quizScreen" class="hidden">
+        <div class="topbar">
+            <div class="topbox">⭐ Score: <span id="score">0</span></div>
+            <div class="topbox">⏳ Time: <span id="timer">60</span>s</div>
+        </div>
 
-<p class="info"><strong>Subject:</strong> ICT</p>
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
 
-<p class="info"><strong>Topic:</strong> Parts of Computer</p>
+        <div class="question-number" id="questionNumber"></div>
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsBox"></div>
+        <div class="feedback" id="feedbackBox"></div>
 
-<p class="info"><strong>Total Questions:</strong> 20</p>
+        <button id="nextBtn" class="main-action-btn hidden" style="margin-top: 20px;" onclick="nextQuestion()">Next Question</button>
+    </div>
 
-<p style="margin-top:15px;">
-Learn different parts of a computer through fun interactive questions.
-</p>
-
-<button class="main-btn" onclick="startQuiz()">
-Start Quiz
-</button>
-
-</div>
-
-</div>
-
-<!-- QUIZ SCREEN -->
-
-<div class="screen" id="quizScreen">
-
-<div class="card">
-
-<div class="topbar">
-
-<div id="scoreText">Score: 0</div>
-
-<div id="timerText">Time: 60</div>
-
-</div>
-
-<div class="question" id="questionText"></div>
-
-<div class="options" id="optionsContainer"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<div class="explanation" id="explanation"></div>
-
-</div>
-
-</div>
-
-<!-- RESULT SCREEN -->
-
-<div class="screen" id="resultScreen">
-
-<div class="card">
-
-<h1>Quiz Completed!</h1>
-
-<div class="badge">🏆</div>
-
-<h2 id="finalScore"></h2>
-
-<p id="message"></p>
-
-<button class="main-btn" onclick="restartQuiz()">
-Play Again
-</button>
-
-</div>
+    <div id="resultScreen" class="hidden result">
+        <h1>🎉 Quiz Completed! 🎉</h1>
+        <div class="score-circle">
+            <span id="finalScore"></span>
+        </div>
+        <div class="result-message" id="resultMessage"></div>
+        <button class="main-action-btn" onclick="startGameAgain()">Play Again</button>
+    </div>
 
 </div>
 
@@ -381,556 +410,299 @@ Play Again
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 
 <script>
-
-let questions = [
-
-{
-question:"Riya wants to type her name on the computer. Which part should she use?",
-options:["Mouse","Keyboard","Monitor","Speaker"],
-answer:1,
-explanation:"Keyboard helps us type letters and numbers."
-},
-
-{
-question:"Aarav wants to hear music from the computer. Which part helps him?",
-options:["Monitor","CPU","Speaker","Keyboard"],
-answer:2,
-explanation:"Speakers help us hear sound from the computer."
-},
-
-{
-question:"Meera moves the mouse to click a picture on the screen. What does this show?",
-options:[
-"Mouse helps point and click",
-"Monitor types letters",
-"CPU plays music",
-"Keyboard shows pictures"
-],
-answer:0,
-explanation:"The mouse helps us point and click."
-},
-
-{
-question:"A student wants to see a cartoon on the computer screen. Which part is used?",
-options:["Speaker","Monitor","Mouse","CPU"],
-answer:1,
-explanation:"Monitor shows pictures and videos."
-},
-
-{
-question:"Rahul presses keys to write numbers and letters. Which part is being used?",
-options:["Keyboard","Monitor","Speaker","Printer"],
-answer:0,
-explanation:"Keyboard is used for typing."
-},
-
-{
-question:"A child hears no sound while watching a video. Which computer part may not be working properly?",
-options:["Keyboard","Speaker","Mouse","CPU"],
-answer:1,
-explanation:"Speakers help us hear sound."
-},
-
-{
-question:"A student clicks and drags objects on the screen. Which device helps in this action?",
-options:["Speaker","Mouse","Monitor","CPU"],
-answer:1,
-explanation:"Mouse helps us drag and click items."
-},
-
-{
-question:"Meera sees all pictures and text on one computer part. Which part is it?",
-options:["Monitor","Keyboard","Mouse","Speaker"],
-answer:0,
-explanation:"Monitor displays text and pictures."
-},
-
-{
-question:"Ritu types homework, listens to rhymes and watches videos on the computer. Which parts help her do all these tasks?",
-options:[
-"Keyboard, speaker and monitor",
-"Mouse and CPU only",
-"Monitor only",
-"Speaker only"
-],
-answer:0,
-explanation:"Keyboard types, speakers give sound and monitor shows videos."
-},
-
-{
-question:"A computer lab has monitors but no keyboards. What problem will students face?",
-options:[
-"They cannot hear sound",
-"They cannot type",
-"They cannot see pictures",
-"They cannot switch on computer"
-],
-answer:1,
-explanation:"Without keyboards students cannot type."
-},
-
-{
-question:"A child clicks the mouse but the pointer does not move. What may be the problem?",
-options:[
-"Mouse is not working properly",
-"Monitor is broken",
-"Keyboard is typing slowly",
-"Speaker is off"
-],
-answer:0,
-explanation:"If the pointer does not move, the mouse may not work properly."
-},
-
-{
-question:"Which part helps us hear sound?",
-options:["Keyboard","Speaker","Monitor","Mouse"],
-answer:1,
-explanation:"Speaker helps us hear sound."
-},
-
-{
-question:"Which part helps in typing words?",
-options:["Mouse","Monitor","Keyboard","Speaker"],
-answer:2,
-explanation:"Keyboard is used for typing."
-},
-
-{
-question:"Which part helps us to select items on the screen?",
-options:["Mouse","Speaker","Monitor","Keyboard"],
-answer:0,
-explanation:"Mouse helps us select items."
-},
-
-{
-question:"A picture shows a child typing using many small buttons. Which computer part is shown?",
-options:["Mouse","Keyboard","Monitor","Speaker"],
-answer:1,
-explanation:"Keyboard has many keys for typing."
-},
-
-{
-question:"A picture shows sound coming from two boxes connected to a computer. What are they?",
-options:["Monitor","CPU","Speakers","Mouse"],
-answer:2,
-explanation:"Speakers produce sound."
-},
-
-{
-question:"A picture shows a screen displaying text and cartoons. Which part is shown?",
-options:["Keyboard","Mouse","Monitor","Speaker"],
-answer:2,
-explanation:"Monitor displays text and pictures."
-},
-
-{
-question:"Assertion: A monitor is an output device. Reason: It shows text and pictures on the screen.",
-options:[
-"Both are true and reason explains assertion",
-"Both are true but reason does not explain assertion",
-"Assertion is true but reason is false",
-"Both are false"
-],
-answer:0,
-explanation:"Monitor is an output device because it shows output."
-},
-
-{
-question:"Assertion: A keyboard helps us type. Reason: It has many keys with letters and numbers.",
-options:[
-"Both are true and reason explains assertion",
-"Both are true but reason does not explain assertion",
-"Assertion is true but reason is false",
-"Both are false"
-],
-answer:0,
-explanation:"Keyboard helps in typing using keys."
-},
-
-{
-question:"Assertion: Speakers help us hear sound. Reason: They produce audio from the computer.",
-options:[
-"Both are true and reason explains assertion",
-"Both are true but reason does not explain assertion",
-"Assertion is true but reason is false",
-"Both are false"
-],
-answer:0,
-explanation:"Speakers produce audio output."
+/* Particle Layer Matrix Initialization */
+const bg = document.getElementById("bgStars");
+for(let i=0; i<25; i++) {
+    let star = document.createElement("div");
+    star.classList.add("bg-star");
+    star.style.left = Math.random()*100 + "%";
+    star.style.animationDuration = (Math.random()*8+10) + "s";
+    star.style.animationDelay = Math.random()*6 + "s";
+    star.style.width = (Math.random()*16+8) + "px";
+    star.style.height = star.style.width;
+    bg.appendChild(star);
 }
 
+/* Remove Splash Canvas Container After 5 Seconds */
+setTimeout(() => {
+    document.getElementById("splash").style.setProperty("display", "none", "important");
+    document.getElementById("app").classList.remove("hidden");
+}, 5000);
+
+/* Structural Database Object Array (15 Tasks Mapping Content Exactly) */
+const questions = [
+    {
+        q: "Riya wants to type her name on the computer. Which part should she use?",
+        o: ["Mouse", "Keyboard", "Monitor", "Speaker"],
+        a: 1,
+        e: "Keyboard helps us type letters and numbers."
+    },
+    {
+        q: "Aarav wants to hear music from the computer. Which part helps him?",
+        o: ["Monitor", "CPU", "Speaker", "Keyboard"],
+        a: 2,
+        e: "Speakers help us hear sound from the computer."
+    },
+    {
+        q: "Meera moves the mouse to click a picture on the screen. What does this show?",
+        o: ["Mouse helps point and click", "Monitor types letters", "CPU plays music", "Keyboard shows pictures"],
+        a: 0,
+        e: "The mouse helps us point and click."
+    },
+    {
+        q: "A student wants to see a cartoon on the computer screen. Which part is used?",
+        o: ["Speaker", "Monitor", "Mouse", "CPU"],
+        a: 1,
+        e: "Monitor shows pictures and videos."
+    },
+    {
+        q: "Rahul presses keys to write numbers and letters. Which part is being used?",
+        o: ["Keyboard", "Monitor", "Speaker", "Printer"],
+        a: 0,
+        e: "Keyboard is used for typing."
+    },
+    {
+        q: "A child hears no sound while watching a video. Which computer part may not be working properly?",
+        o: ["Keyboard", "Speaker", "Mouse", "CPU"],
+        a: 1,
+        e: "Speakers help us hear sound."
+    },
+    {
+        q: "A student clicks and drags objects on the screen. Which device helps in this action?",
+        o: ["Speaker", "Mouse", "Monitor", "CPU"],
+        a: 1,
+        e: "Mouse helps us drag and click items."
+    },
+    {
+        q: "Meera sees all pictures and text on one computer part. Which part is it?",
+        o: ["Monitor", "Keyboard", "Mouse", "Speaker"],
+        a: 0,
+        e: "Monitor displays text and pictures."
+    },
+    {
+        q: "Ritu types homework, listens to rhymes and watches videos on the computer. Which parts help her do all these tasks?",
+        o: ["Keyboard, speaker and monitor", "Mouse and CPU only", "Monitor only", "Speaker only"],
+        a: 0,
+        e: "Keyboard types, speakers give sound and monitor shows videos."
+    },
+    {
+        q: "A computer lab has monitors but no keyboards. What problem will students face?",
+        o: ["They cannot hear sound", "They cannot type", "They cannot see pictures", "They cannot switch on computer"],
+        a: 1,
+        e: "Without keyboards students cannot type."
+    },
+    {
+        q: "A child clicks the mouse but the pointer does not move. What may be the problem?",
+        o: ["Mouse is not working properly", "Monitor is broken", "Keyboard is typing slowly", "Speaker is off"],
+        a: 0,
+        e: "If the pointer does not move, the mouse may not work properly."
+    },
+    {
+        q: "Which part helps us hear sound?",
+        o: ["Keyboard", "Speaker", "Monitor", "Mouse"],
+        a: 1,
+        e: "Speaker helps us hear sound."
+    },
+    {
+        q: "Which part helps in typing words?",
+        o: ["Mouse", "Monitor", "Keyboard", "Speaker"],
+        a: 2,
+        e: "Keyboard is used for typing."
+    },
+    {
+        q: "Which part helps us to select items on the screen?",
+        o: ["Mouse", "Speaker", "Monitor", "Keyboard"],
+        a: 0,
+        e: "Mouse helps us select items."
+    },
+    {
+        q: "Assertion: A monitor is an output device.\nReason: It shows text and pictures on the screen.",
+        o: ["Both are true and reason explains assertion", "Both are true but reason does not explain assertion", "Assertion is true but reason is false", "Both are false"],
+        a: 0,
+        e: "Monitor is an output device because it shows output."
+    }
 ];
 
-// RANDOM QUESTION ORDER
-
-function shuffleQuestions(array){
-
-for(let i=array.length-1;i>0;i--){
-
-const j=Math.floor(Math.random()*(i+1));
-
-[array[i],array[j]]=[array[j],array[i]];
-
-}
-
-return array;
-
-}
-
-let currentQuestion=0;
-let score=0;
+/* State Machine Variables */
+let current = 0;
+let score = 0;
+let attempts = 0;
 let timer;
-let timeLeft=60;
-let retryUsed=false;
+let timeLeft = 60;
 
-const logoScreen=document.getElementById("logoScreen");
-const introScreen=document.getElementById("introScreen");
-const quizScreen=document.getElementById("quizScreen");
-const resultScreen=document.getElementById("resultScreen");
-
-const questionText=document.getElementById("questionText");
-const optionsContainer=document.getElementById("optionsContainer");
-const scoreText=document.getElementById("scoreText");
-const timerText=document.getElementById("timerText");
-const feedback=document.getElementById("feedback");
-const explanation=document.getElementById("explanation");
-
-const correctSound=document.getElementById("correctSound");
-const wrongSound=document.getElementById("wrongSound");
-
-setTimeout(()=>{
-
-logoScreen.classList.remove("active");
-
-introScreen.classList.add("active");
-
-},5000);
-
-function startQuiz(){
-
-questions=shuffleQuestions(questions);
-
-introScreen.classList.remove("active");
-
-introScreen.style.display="none";
-
-quizScreen.classList.add("active");
-
-quizScreen.style.display="flex";
-
-currentQuestion=0;
-
-score=0;
-
-loadQuestion();
-
+function shuffleQuestions() {
+    // Fisher-Yates shuffle algorithm implementation
+    for(let i = questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
 }
 
-function loadQuestion(){
-
-clearInterval(timer);
-
-retryUsed=false;
-
-feedback.innerHTML="";
-
-explanation.style.display="none";
-
-const q=questions[currentQuestion];
-
-questionText.innerHTML=
-`Q${currentQuestion+1}. ${q.question}`;
-
-optionsContainer.innerHTML="";
-
-q.options.forEach((option,index)=>{
-
-const btn=document.createElement("button");
-
-btn.classList.add("option-btn");
-
-btn.innerText=option;
-
-btn.onclick=()=>checkAnswer(index,btn);
-
-optionsContainer.appendChild(btn);
-
-});
-
-scoreText.innerHTML=`Score: ${score}`;
-
-timeLeft=60;
-
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
+function startGame() {
+    shuffleQuestions();
+    document.getElementById("introScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    loadQuestion();
 }
 
-},1000);
-
+function startGameAgain() {
+    document.getElementById("resultScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    shuffleQuestions();
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    loadQuestion();
 }
 
-function checkAnswer(selected,button){
+function loadQuestion() {
+    attempts = 0;
+    timeLeft = 60;
+    startTimer();
 
-const q=questions[currentQuestion];
+    document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+    const q = questions[current];
 
-const buttons=document.querySelectorAll(".option-btn");
+    document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById("questionText").innerHTML = q.q.replace(/\n/g, "<br>");
 
-if(selected===q.answer){
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
 
-clearInterval(timer);
+    q.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkAnswer(div, index);
+        box.appendChild(div);
+    });
 
-button.classList.add("correct");
-
-feedback.innerHTML="✅ Correct!";
-
-feedback.style.color="green";
-
-correctSound.play();
-
-score++;
-
-createConfetti();
-
-buttons.forEach(btn=>btn.disabled=true);
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},1500);
-
-}else{
-
-button.classList.add("wrong");
-
-wrongSound.play();
-
-showCross();
-
-if(!retryUsed){
-
-retryUsed=true;
-
-feedback.innerHTML=
-"❌ Try Again! One more chance.";
-
-feedback.style.color="#c62828";
-
-buttons.forEach(btn=>{
-btn.disabled=false;
-});
-
-button.disabled=true;
-
-}else{
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
 }
 
+function startTimer() {
+    clearInterval(timer);
+    document.getElementById("timer").innerText = timeLeft;
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+        if(timeLeft <= 0) {
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }, 1000);
 }
 
+function checkAnswer(element, index) {
+    if(element.classList.contains("correct") || element.classList.contains("wrong")) return;
+
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+
+    if(index === q.a) {
+        clearInterval(timer);
+        element.classList.add("correct");
+        try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
+        score++;
+        document.getElementById("score").innerText = score;
+        feedback.className = "feedback success";
+        feedback.innerHTML = `<strong>✨ Correct!</strong><br>💡 ${q.e}`;
+        feedback.style.display = "block";
+        disableAllOptions();
+        createCelebrationStars();
+        document.getElementById("nextBtn").classList.remove("hidden");
+    } else {
+        element.classList.add("wrong");
+        try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
+        attempts++;
+        if(attempts >= 2) {
+            clearInterval(timer);
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Incorrect! Let's examine the target choice:</strong><br>💡 ${q.e}`;
+            feedback.style.display = "block";
+            showCorrectAnswerInline();
+            disableAllOptions();
+            document.getElementById("nextBtn").classList.remove("hidden");
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Try Again!</strong> This is not correct. You have one attempt remaining.`;
+            feedback.style.display = "block";
+        }
+    }
 }
 
-function showCorrectAnswer(){
-
-const q=questions[currentQuestion];
-
-const buttons=
-document.querySelectorAll(".option-btn");
-
-buttons.forEach((btn,index)=>{
-
-btn.disabled=true;
-
-if(index===q.answer){
-
-btn.classList.add("correct");
-
+function showCorrectAnswerInline() {
+    const q = questions[current];
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        if(i === q.a) {
+            options[i].classList.add("correct");
+        }
+    }
 }
 
-});
-
-feedback.innerHTML="Correct answer shown";
-
-feedback.style.color="#1565c0";
-
-explanation.style.display="block";
-
-explanation.innerHTML=
-`💡 ${q.explanation}`;
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},4000);
-
+function showCorrectAnswer() {
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+    feedback.className = "feedback error";
+    feedback.innerHTML = `<strong>⏳ Time's Up! Here is the correct explanation:</strong><br>💡 ${q.e}`;
+    feedback.style.display = "block";
+    showCorrectAnswerInline();
+    disableAllOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
 }
 
-function nextQuestion(){
-
-currentQuestion++;
-
-if(currentQuestion<questions.length){
-
-loadQuestion();
-
-}else{
-
-showResult();
-
+function disableAllOptions() {
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        options[i].style.pointerEvents = "none";
+    }
 }
 
+function nextQuestion() {
+    current++;
+    if(current < questions.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
 }
 
-function showResult(){
+function showResults() {
+    clearInterval(timer);
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("finalScore").innerText = `${score} / ${questions.length}`;
 
-quizScreen.classList.remove("active");
-
-quizScreen.style.display="none";
-
-resultScreen.classList.add("active");
-
-resultScreen.style.display="flex";
-
-document.getElementById("finalScore").innerHTML=
-`Your Score: ${score} / ${questions.length}`;
-
-let msg="";
-
-if(score>=17){
-
-msg="Excellent Work!";
-
-}else if(score>=11){
-
-msg="Very Good Job!";
-
-}else{
-
-msg="Good Try! Keep Practicing.";
-
+    let msg = "";
+    if(score >= 13) {
+        msg = "🌟 Outstanding Work! You completely understand all parts of a computer and their vital functions!";
+    } else if(score >= 9) {
+        msg = "👍 Great Job! Good grasp of peripheral devices and computing hardware purposes.";
+    } else {
+        msg = "😊 Good effort! Keep practicing, review what keyboards, mice, and monitors do, and try again.";
+    }
+    document.getElementById("resultMessage").innerText = msg;
 }
 
-document.getElementById("message").innerHTML=msg;
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
+function createCelebrationStars() {
+    const emojis = ["⭐", "✨", "💻", "🖱️", "🔊", "🖥️"];
+    for(let i=0; i<25; i++) {
+        const star = document.createElement("div");
+        star.classList.add("celebration-star");
+        star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+        star.style.animationDelay = Math.random() * 0.2 + "s";
+        star.style.fontSize = Math.random() * 16 + 20 + "px";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2500);
+    }
 }
-
-function restartQuiz(){
-
-questions=shuffleQuestions(questions);
-
-currentQuestion=0;
-
-score=0;
-
-resultScreen.classList.remove("active");
-
-resultScreen.style.display="none";
-
-introScreen.classList.add("active");
-
-introScreen.style.display="flex";
-
-}
-
-function createConfetti(){
-
-for(let i=0;i<20;i++){
-
-const confetti=document.createElement("div");
-
-confetti.classList.add("confetti");
-
-confetti.style.left=
-Math.random()*window.innerWidth+"px";
-
-confetti.style.top=
-Math.random()*200+"px";
-
-document.body.appendChild(confetti);
-
-setTimeout(()=>{
-
-confetti.remove();
-
-},1500);
-
-}
-
-}
-
-function showCross(){
-
-const cross=document.createElement("div");
-
-cross.classList.add("cross");
-
-cross.innerHTML="✖";
-
-cross.style.left=
-Math.random()*window.innerWidth+"px";
-
-cross.style.top=
-Math.random()*window.innerHeight+"px";
-
-document.body.appendChild(cross);
-
-setTimeout(()=>{
-
-cross.remove();
-
-},1000);
-
-}
-
-function createBackground(){
-
-const bg=document.getElementById("background");
-
-for(let i=0;i<40;i++){
-
-const star=document.createElement("div");
-
-star.classList.add("star");
-
-star.style.left=Math.random()*100+"%";
-
-star.style.animationDuration=
-(5+Math.random()*8)+"s";
-
-star.style.animationDelay=
-Math.random()*5+"s";
-
-bg.appendChild(star);
-
-}
-
-}
-
-createBackground();
-
 </script>
-
 </body>
 </html>
