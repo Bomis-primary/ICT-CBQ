@@ -6,1182 +6,953 @@
 <title>Computer Hardware and Software - Interactive CBQ</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+:root {
+    --primary: #1565c0;
+    --secondary: #8e24aa;
+    --success: #2e7d32;
+    --danger: #c62828;
+    --text-color: #222222;
+    --card-bg: rgba(255, 255, 255, 0.96);
 }
 
-body{
-font-family:Arial,sans-serif;
-overflow-x:hidden;
-min-height:100vh;
-background:
-linear-gradient(rgba(255,255,255,0.82),rgba(255,255,255,0.82)),
-url('assets/bg.jpg');
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
-position:relative;
-color:#222;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Animated Background */
-
-.bg-icons{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-overflow:hidden;
-z-index:-1;
-pointer-events:none;
+body {
+    font-family: 'Comic Sans MS', 'Segoe UI', Arial, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background: linear-gradient(rgba(235, 244, 255, 0.85), rgba(243, 230, 255, 0.85)), url('assets/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
 }
 
-.icon{
-position:absolute;
-font-size:34px;
-opacity:0.12;
-animation:floatUp linear infinite;
+/* Floating Space Background Elements */
+.bg-icons {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
 }
 
-@keyframes floatUp{
-
-0%{
-transform:translateY(100vh) rotate(0deg);
-opacity:0;
+.icon {
+    position: absolute;
+    font-size: 34px;
+    opacity: 0.15;
+    animation: floatUp linear infinite;
 }
 
-30%{
-opacity:0.12;
+@keyframes floatUp {
+    0% {
+        transform: translateY(110vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.15;
+    }
+    90% {
+        opacity: 0.15;
+    }
+    100% {
+        transform: translateY(-20vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 
-100%{
-transform:translateY(-120vh) rotate(360deg);
-opacity:0;
+/* Screen Structure Control */
+.screen {
+    display: none;
+    width: 100%;
+    max-width: 820px;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.4s ease-in-out;
 }
 
+.active {
+    display: flex !important;
+    flex-direction: column;
 }
 
-/* Screens */
-
-.screen{
-display:none;
-min-height:100vh;
-justify-content:center;
-align-items:center;
-padding:20px;
-text-align:center;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.active{
-display:flex;
-flex-direction:column;
+/* Logo Splash Screen */
+.logo-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Logo Screen */
-
-.logo-screen{
-background:white;
-z-index:99999;
+.logo-screen img {
+    width: 280px;
+    max-width: 80vw;
+    height: auto;
+    object-fit: contain;
+    animation: pulse 2s infinite ease-in-out;
 }
 
-.logo-screen img{
-width:260px;
-max-width:80vw;
-max-height:40vh;
-object-fit:contain;
-animation:pulse 2s infinite;
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
 }
 
-@keyframes pulse{
-
-0%{
-transform:scale(1);
+/* Main Content Container Card */
+.card {
+    background: var(--card-bg);
+    padding: 32px;
+    border-radius: 24px;
+    width: 100%;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    text-align: center;
 }
 
-50%{
-transform:scale(1.05);
+h1 {
+    color: var(--primary);
+    margin-bottom: 16px;
+    font-size: 2.1rem;
+    font-weight: 800;
 }
 
-100%{
-transform:scale(1);
+.info-box {
+    background: #f1f5f9;
+    border-radius: 14px;
+    padding: 16px;
+    margin: 20px 0;
+    text-align: left;
+    border: 1px solid #e2e8f0;
 }
 
+.info-box p {
+    margin: 6px 0;
+    font-size: 1.1rem;
+    color: #475569;
 }
 
-/* Card */
-
-.card{
-background:rgba(255,255,255,0.95);
-padding:24px;
-border-radius:28px;
-max-width:1000px;
-width:100%;
-box-shadow:0 12px 30px rgba(0,0,0,0.18);
-backdrop-filter:blur(8px);
-animation:slideIn 0.5s ease;
+.instructions-list {
+    margin-top: 12px;
+    padding-left: 20px;
 }
 
-@keyframes slideIn{
-
-from{
-transform:translateY(25px);
-opacity:0;
+.instructions-list li {
+    margin-bottom: 6px;
 }
 
-to{
-transform:translateY(0);
-opacity:1;
+/* Dashboard Metrics Panel */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
+.topbar-badge {
+    background: #ffffff;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    font-size: 1.05rem;
 }
 
-h1{
-color:#1565c0;
-margin-bottom:12px;
+/* Micro-Progress Bar Gauge */
+.progress {
+    width: 100%;
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    border: 1px solid #cbd5e1;
 }
 
-.info{
-margin:8px 0;
-font-size:1rem;
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #42a5f5, #ab47bc, #26a69a);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Top Bar */
-
-.topbar{
-display:flex;
-justify-content:space-between;
-gap:10px;
-margin-bottom:20px;
-font-weight:bold;
-flex-wrap:wrap;
+/* Question Content Presentation */
+.question-header {
+    color: var(--secondary);
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    text-align: left;
 }
 
-/* Progress */
-
-.progress{
-width:100%;
-height:12px;
-background:#dbe9ff;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:20px;
+.question {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: left;
+    color: #0f172a;
 }
 
-.progress-fill{
-height:100%;
-width:0%;
-background:
-linear-gradient(
-90deg,
-#42a5f5,
-#ab47bc,
-#26a69a
-);
-transition:0.4s;
+/* Responsive Question Graphic Support Frame */
+.question-image-box {
+    width: 100%;
+    max-height: 220px;
+    margin: 0 auto 24px;
+    border-radius: 16px;
+    display: none;
+    overflow: hidden;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Question */
-
-.question{
-font-size:1.15rem;
-line-height:1.6;
-font-weight:600;
-margin-bottom:20px;
+.question-image {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 10px;
 }
 
-/* Question Image */
-
-.question-image{
-width:100%;
-max-width:340px;
-margin:0 auto 20px;
-border-radius:18px;
-display:none;
-box-shadow:0 6px 14px rgba(0,0,0,0.18);
-border:4px solid #fff;
+/* Multi-Column Layout Grid for Choices */
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
 }
 
-/* Options */
-
-.options{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
+.option-btn {
+    padding: 16px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    background: #ffffff;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    color: #334155;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
 }
 
-.option-btn{
-padding:15px;
-border:none;
-border-radius:18px;
-background:
-linear-gradient(
-135deg,
-#eef6ff,
-#f8ebff
-);
-cursor:pointer;
-font-size:1rem;
-transition:0.3s;
-font-weight:600;
-color:#333;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+.option-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background-color: #f8fafc;
+    box-shadow: 0 6px 12px rgba(21, 101, 192, 0.08);
 }
 
-.option-btn:hover{
-transform:translateY(-3px) scale(1.02);
-background:
-linear-gradient(
-135deg,
-#d8ecff,
-#ecdfff
-);
+/* Evaluation Status Styling rules */
+.correct {
+    background: #ecfdf5 !important;
+    border-color: var(--success) !important;
+    color: #065f46 !important;
 }
 
-/* Answer Effects */
-
-.correct{
-background:#c8ffd1 !important;
-border:2px solid #2e7d32;
+.wrong {
+    background: #fef2f2 !important;
+    border-color: var(--danger) !important;
+    color: #991b1b !important;
+    animation: shake 0.4s ease-in-out;
 }
 
-.wrong{
-background:#ffd6d6 !important;
-border:2px solid #c62828;
-animation:shake 0.4s;
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
 }
 
-@keyframes shake{
-
-0%,100%{
-transform:translateX(0);
+.feedback {
+    padding: 14px;
+    border-radius: 14px;
+    font-weight: 700;
+    margin-top: 16px;
+    font-size: 1.1rem;
+    display: none;
+    text-align: left;
+    animation: fadeIn 0.3s ease;
 }
 
-25%{
-transform:translateX(-5px);
+.feedback.alert-success {
+    background: #ecfdf5;
+    color: #065f46;
+    border-left: 5px solid var(--success);
 }
 
-75%{
-transform:translateX(5px);
+.feedback.alert-danger {
+    background: #fef2f2;
+    color: #991b1b;
+    border-left: 5px solid var(--danger);
 }
 
+.explanation {
+    display: none;
+    margin-top: 14px;
+    padding: 16px;
+    border-radius: 14px;
+    background: #eff6ff;
+    border-left: 5px solid var(--primary);
+    color: #1e40af;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-align: left;
+    animation: fadeIn 0.3s ease;
 }
 
-.feedback{
-margin-top:16px;
-font-weight:bold;
-min-height:28px;
+/* Call To Action Buttons */
+.main-btn {
+    padding: 14px 36px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 1.15rem;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 16px rgba(142, 36, 170, 0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.explanation{
-display:none;
-margin-top:14px;
-padding:14px;
-border-radius:16px;
-background:#eef7ff;
-font-size:0.96rem;
-line-height:1.5;
+.main-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(142, 36, 170, 0.35);
 }
 
-/* Buttons */
-
-.main-btn{
-padding:14px 28px;
-border:none;
-border-radius:18px;
-background:
-linear-gradient(
-135deg,
-#1565c0,
-#8e24aa
-);
-color:white;
-font-size:1rem;
-cursor:pointer;
-margin-top:20px;
-font-weight:bold;
-transition:0.3s;
+/* Dynamic Performance Output Layouts */
+.badge-gallery {
+    font-size: 3.5rem;
+    margin: 20px 0;
+    animation: floatBadge 3s ease-in-out infinite;
 }
 
-.main-btn:hover{
-transform:scale(1.04);
+@keyframes floatBadge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
 }
 
-/* Confetti */
-
-.confetti{
-position:fixed;
-width:14px;
-height:14px;
-background:gold;
-clip-path:polygon(
-50% 0%,
-61% 35%,
-98% 35%,
-68% 57%,
-79% 91%,
-50% 70%,
-21% 91%,
-32% 57%,
-2% 35%,
-39% 35%
-);
-animation:fall 1.5s linear forwards;
-z-index:999;
+.score-display-box {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 14px 0;
 }
 
-@keyframes fall{
-
-0%{
-transform:translateY(0) rotate(0deg);
-opacity:1;
+/* Custom Particle Elements */
+.canvas-star {
+    position: fixed;
+    font-size: 24px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: fallStar 2s linear forwards;
 }
 
-100%{
-transform:translateY(500px) rotate(360deg);
-opacity:0;
+@keyframes fallStar {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
 }
 
+.screen-cross {
+    position: fixed;
+    font-size: 48px;
+    color: var(--danger);
+    pointer-events: none;
+    z-index: 9999;
+    animation: explodeCross 0.8s ease-out forwards;
 }
 
-/* Wrong Cross */
-
-.cross{
-position:fixed;
-font-size:42px;
-color:red;
-animation:fade 1s forwards;
-z-index:999;
+@keyframes explodeCross {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
 }
 
-@keyframes fade{
-
-0%{
-opacity:1;
-transform:scale(1);
+/* Adaptive Responsive Viewports */
+@media (max-width: 768px) {
+    .options {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .card {
+        padding: 20px 16px;
+    }
+    h1 {
+        font-size: 1.6rem;
+    }
+    .question {
+        font-size: 1.15rem;
+    }
+    .option-btn {
+        font-size: 1rem;
+        padding: 14px;
+    }
+    .topbar {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .topbar-badge {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
 }
-
-100%{
-opacity:0;
-transform:scale(2);
-}
-
-}
-
-.badge{
-font-size:2.8rem;
-margin:15px 0;
-}
-
-/* Mobile */
-
-@media(max-width:768px){
-
-.options{
-grid-template-columns:1fr;
-}
-
-.question{
-font-size:1rem;
-}
-
-.option-btn{
-font-size:0.95rem;
-padding:14px;
-}
-
-.logo-screen img{
-width:200px;
-}
-
-.topbar{
-flex-direction:column;
-font-size:0.9rem;
-}
-
-}
-
 </style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 
 <body>
 
 <div class="bg-icons" id="bgIcons"></div>
 
-<!-- Logo Screen -->
-
 <div class="screen active logo-screen" id="logoScreen">
-
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
-
-<h2 style="margin-top:20px;">
-Innovine Interactive Learning
-</h2>
-
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <h2 style="margin-top:24px; color:#1e293b; font-weight:700; font-size:1.5rem;">
+        Innovine Interactive Learning
+    </h2>
 </div>
-
-<!-- Intro -->
 
 <div class="screen" id="introScreen">
-
-<div class="card">
-
-<h1>Computer Hardware and Software</h1>
-
-<p class="info"><strong>Grade:</strong> 3</p>
-
-<p class="info"><strong>Subject:</strong> ICT</p>
-
-<p class="info"><strong>Total Questions Per Round:</strong> 15</p>
-
-<p style="margin-top:16px;">
-Learn hardware and software concepts through interactive CBQ challenges.
-</p>
-
-<button class="main-btn" onclick="startQuiz()">
-Start Quiz
-</button>
-
+    <div class="card">
+        <h1>Computer Hardware and Software</h1>
+        <div class="info-box">
+            <p><strong>Grade:</strong> 3 &nbsp;|&nbsp; <strong>Subject:</strong> ICT</p>
+            <p><strong>Chapter Focus:</strong> Hardware and Software Fundamentals</p>
+            <p><strong>Quest Setup:</strong> 15 Curated Competency-Based Tasks</p>
+            <ul class="instructions-list">
+                <li>You have <strong>2 attempts</strong> per prompt to reach the correct answer.</li>
+                <li>Each screen interface assigns an active countdown of <strong>60 seconds</strong>.</li>
+                <li>Complete all 15 active levels to unlock your ultimate performance badge.</li>
+            </ul>
+        </div>
+        <button class="main-btn" onclick="startQuiz()">
+            Launch Quest 🚀
+        </button>
+    </div>
 </div>
-
-</div>
-
-<!-- Quiz -->
 
 <div class="screen" id="quizScreen">
+    <div class="card">
+        <div class="topbar">
+            <div id="scoreText" class="topbar-badge">⭐ Score: 0</div>
+            <div id="timerText" class="topbar-badge">⏳ Time: 60s</div>
+            <div id="questionCount" class="topbar-badge">Level 1 / 15</div>
+        </div>
 
-<div class="card">
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
 
-<div class="topbar">
+        <div class="question-header" id="questionHeaderLabel"></div>
+        <div class="question" id="questionText"></div>
 
-<div id="scoreText">Score: 0</div>
+        <div id="questionImageBox" class="question-image-box">
+            <img id="questionImage" class="question-image" src="" alt="Context Visual Matrix">
+        </div>
 
-<div id="timerText">Time: 60</div>
+        <div class="options" id="optionsContainer"></div>
 
-<div id="questionCount">Question 1 / 15</div>
+        <div class="feedback" id="feedback"></div>
+        <div class="explanation" id="explanation"></div>
 
+        <div style="text-align: right; margin-top: 15px;">
+            <button id="nextBtn" class="main-btn" style="display: none;" onclick="nextQuestion()">
+                Next Level ➡️
+            </button>
+        </div>
+    </div>
 </div>
-
-<div class="progress">
-<div class="progress-fill" id="progressFill"></div>
-</div>
-
-<img id="questionImage" class="question-image" src="" alt="Question Image">
-
-<div class="question" id="questionText"></div>
-
-<div class="options" id="optionsContainer"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<div class="explanation" id="explanation"></div>
-
-</div>
-
-</div>
-
-<!-- Result -->
 
 <div class="screen" id="resultScreen">
-
-<div class="card">
-
-<h1>Quiz Completed!</h1>
-
-<div class="badge">💻🏆🎉</div>
-
-<h2 id="finalScore"></h2>
-
-<p id="message"></p>
-
-<button class="main-btn" onclick="restartQuiz()">
-Play Again
-</button>
-
-</div>
-
+    <div class="card">
+        <h1>Mission Completed!</h1>
+        <div class="badge-gallery" id="resultBadge">💻🏆🎉</div>
+        <div class="score-display-box" id="finalScore"></div>
+        <p id="message" style="font-size: 1.25rem; color:#475569; font-weight: 600; margin-bottom: 24px; line-height: 1.6;"></p>
+        <button class="main-btn" onclick="restartQuiz()">
+            Play Again 🔄
+        </button>
+    </div>
 </div>
 
 <audio id="correctSound" src="assets/correct-1.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/clap.mp3"></audio>
 
 <script>
+/* Balanced Competency-Based Master Question Inventory Matrix */
+const allQuestions = [
+    // --- Scenario-Based Format Questions ---
+    {
+        question: "Riya is typing her English homework using a physical keyboard attached to her machine. What type of computing element is she physically clicking?",
+        options: ["💻 Hardware component", "⚙️ Software program", "📁 Digital file data", "🌐 Cloud storage space"],
+        answer: 0,
+        explanation: "The keyboard is a physical parts framework that you can see and touch, making it a hardware device.",
+        type: "Scenario Task"
+    },
+    {
+        question: "Aarav watches an educational animal documentary using an application software called VLC Media Player. What type of component is this player?",
+        options: ["⚙️ Software application", "💻 Hardware peripheral", "🔌 Electronic device", "🖨️ Printing hardware"],
+        answer: 0,
+        explanation: "A media player is a collection of code instructions that runs operations inside a machine, which means it is software.",
+        type: "Scenario Task"
+    },
+    {
+        question: "Anaya wants to print out her digital science project layout onto physical paper sheets using a desktop printer. What category does this printer belong to?",
+        options: ["💻 Hardware unit", "⚙️ System software", "📁 Storage extension", "🔌 Virtual setup application"],
+        answer: 0,
+        explanation: "Printers are mechanical, real objects connected to computers that you can physically touch, classifying them as hardware.",
+        type: "Scenario Task"
+    },
+    {
+        question: "Kabir is testing a mathematics practice puzzle game application that was recently downloaded and installed onto his desktop. What is this digital game?",
+        options: ["⚙️ Software application", "💻 Physical hardware", "🖱️ Input accessory", "⚡ Electronic wire unit"],
+        answer: 0,
+        explanation: "All games and tool applications loaded onto a computer system are software programs that perform processing tasks.",
+        type: "Scenario Task"
+    },
+    {
+        question: "Meera launches the Tux Paint program tool on her computer operating system to design a colorful banner. What category represents this drawing tool?",
+        options: ["⚙️ Software package", "💻 Hardware machine", "🔌 Electronic controller", "📺 Glass monitor display"],
+        answer: 0,
+        explanation: "The paint utility is an internally stored software system application that processes pixel instructions based on input commands.",
+        type: "Scenario Task"
+    },
+    {
+        question: "A young user wants to store a collection of multi-media document records so she can transfer them neatly to her school teacher's computer next morning. Which physical item should she choose?",
+        options: ["💾 Flash Pen Drive", "📺 Display Monitor screen", "⌨️ Mechanical Keyboard unit", "⚙️ Word processing application"],
+        answer: 0,
+        explanation: "A pen drive is a dedicated hardware storage appliance explicitly manufactured to store data files securely and carry them anywhere.",
+        type: "Scenario Task"
+    },
+    {
+        question: " Rohan saves his classroom project worksheet data inside his desktop hard disk directory before shutting down the power line. What functional property does this demonstrate?",
+        options: ["📁 Data Storage action", "📥 Input command capture", "📤 Output presentation", "⚡ Power generation action"],
+        answer: 0,
+        explanation: "Retaining documents on memory devices like hard disks or solid state drives represents data storage safely over time.",
+        type: "Scenario Task"
+    },
+    {
+        question: "Siddharth interacts with a computing machine configuration that contains zero operating software lines inside it. What consequence will he witness?",
+        options: ["❌ The computer will not run or work at all", "✔️ The computer functions perfectly as usual", "⌨️ Only the keyboard typing operations will work", "🖨️ Only the printing infrastructure responds"],
+        answer: 0,
+        explanation: "Hardware cannot perform logical computing processes without a software system layer providing operation instructions.",
+        type: "Scenario Task"
+    },
 
-/* ALL QUESTIONS */
+    // --- Assertion and Reasoning Format Questions ---
+    {
+        question: "Assertion (A): Computer hardware items can be naturally touched, picked up, and moved by hand.\nReason (R): Hardware represents the physical components and mechanical structures of a computing setup.",
+        options: [
+            "✔️ Both (A) and (R) are correct, and (R) provides the accurate explanation.",
+            "⚠️ Both (A) and (R) are correct, but (R) is not the correct explanation.",
+            "❌ (A) is correct, but (R) is completely incorrect.",
+            "⛔ Both (A) and (R) are completely false statements."
+        ],
+        answer: 0,
+        explanation: "Hardware is the concrete structural manifestation of a machine, so it can be touched, which confirms both parts of the rule.",
+        type: "Assertion-Reason Challenge"
+    },
 
-const allQuestions=[
+    // --- Observation Format Questions ---
+    {
+        question: "Analyze the operational relationships presented below carefully:\n• Keyboard → Used for typing alphabetical inputs\n• Tux Paint → Used for drawing digital visuals\n• Printer → Used for generating physical printouts\nIdentify which component functions exclusively as a software layer application.",
+        options: ["🎨 Tux Paint tool", "⌨️ Mechanical Keyboard", "🖨️ Printer hardware", "📺 Monitor glass screen"],
+        answer: 0,
+        explanation: "Keyboard, monitor, and printer are tangible units. Tux Paint is a set of programmatic operations, placing it under software.",
+        type: "Observation Task"
+    },
+    {
+        question: "Zoya monitors multiple desk items. She observes that while a wireless mouse can be easily lifted, the operating icons shown on the screen cannot be picked up. What does this observation clarify?",
+        options: [
+            "🔍 Screen icons are software layers that do not possess a physical body",
+            "🔍 The mouse is an internal processing system program",
+            "🔍 Screen icons represent heavy plastic items hidden inside the frame",
+            "🔍 Software layers can be pulled out of the monitor safely anytime"
+        ],
+        answer: 0,
+        explanation: "Software forms the non-tangible code instructions environment inside a computer system, meaning you can see its action but never physically grasp it.",
+        type: "Observation Task"
+    },
 
-{
-question:"Riya is typing her homework using a keyboard. What type of component is the keyboard?",
-options:["Software","Hardware","Program","File"],
-answer:1,
-explanation:"Keyboard is a physical device, so it is hardware."
-},
+    // --- Application-Based Format Questions ---
+    {
+        question: "Isha wishes to build a tabular birthday chart tracker for all her classmates. Which type of resource should she launch on her computer environment?",
+        options: ["⚙️ Spreadsheet or text editor software", "💻 An input scanner hardware unit", "🔌 External power cord cables", "🖱️ A secondary optical mouse tool"],
+        answer: 0,
+        explanation: "Sorting information and structuring data tables requires interactive application software built for text and record keeping.",
+        type: "Application Focus"
+    },
+    {
+        question: "An engineer wants to build an entirely automated toy car prototype using a computer workspace, but fails to connect any hardware interfaces to the design system. What happens to his project?",
+        options: [
+            "❌ The code execution stays locked inside the system with no physical movement",
+            "✔️ The toy car moves perfectly using virtual air waves",
+            "✔️ The software transforms itself automatically into mechanical wheels",
+            "❌ The computer bursts instantly due to high logical load"
+        ],
+        answer: 0,
+        explanation: "Software code strings need compatible, real-world hardware mechanisms to express physical movements or operations successfully.",
+        type: "Application Focus"
+    },
 
-{
-question:"Aarav watches a cartoon using a media player. What is the media player?",
-options:["Hardware","Software","Device","Tool"],
-answer:1,
-explanation:"Media player is software."
-},
+    // --- Error Detection Format Question ---
+    {
+        question: "Spot the single incorrect statement out of the assertions provided below regarding computing infrastructures:",
+        options: [
+            "❌ The mechanical mouse unit is an example of a software application.",
+            "✔️ A standard physical keyboard functions as hardware.",
+            "✔️ The computer web browser tool is an example of software code.",
+            "✔️ A paper-printing machine assembly represents computer hardware."
+        ],
+        answer: 0,
+        explanation: "The mechanical computer mouse is an input hardware peripheral tool, so claiming it is a software application is factually incorrect.",
+        type: "Error-Detection Quest"
+    },
 
-{
-question:"A student prints a project using a printer. What type of component is a printer?",
-options:["Software","Hardware","File","Program"],
-answer:1,
-explanation:"Printer is hardware."
-},
-
-{
-question:"A student plays a game installed on the computer. What is the game?",
-options:["Hardware","Software","Device","Machine"],
-answer:1,
-explanation:"Games are software programs."
-},
-
-{
-question:"A student opens Paint to draw. What is Paint?",
-options:["Hardware","Software","Device","Screen"],
-answer:1,
-explanation:"Paint is software."
-},
-
-{
-question:"Assertion: Hardware can be touched.\nReason: It is the physical part of a computer.",
-options:[
-"Both correct and reason explains",
-"Both correct but unrelated",
-"Assertion correct, reason wrong",
-"Both wrong"
-],
-answer:0,
-explanation:"Hardware is physical and can be touched."
-},
-
-{
-question:"Which statement is incorrect?",
-options:[
-"Keyboard is hardware",
-"Paint is software",
-"Mouse is software",
-"Printer is hardware"
-],
-answer:2,
-explanation:"Mouse is hardware."
-},
-
-{
-question:"Observe:\nKeyboard → Typing\nPaint → Drawing\nPrinter → Printing\nWhich is used for drawing?",
-options:[
-"Keyboard",
-"Printer",
-"Paint",
-"Monitor"
-],
-answer:2,
-explanation:"Paint is used for drawing."
-},
-
-{
-question:"A student wants to draw a picture on a computer. Which should be used?",
-options:[
-"Keyboard",
-"Paint",
-"Printer",
-"Mouse only"
-],
-answer:1,
-explanation:"Paint software is used for drawing."
-},
-
-{
-question:"A student sees icons like games and paint. What are these called?",
-options:[
-"Hardware",
-"Software",
-"Devices",
-"Machines"
-],
-answer:1,
-explanation:"Games and paint are software."
-},
-
-{
-question:"A student uses keyboard, mouse, and monitor together. What are these?",
-options:[
-"Software",
-"Hardware",
-"Files",
-"Programs"
-],
-answer:1,
-explanation:"Keyboard, mouse and monitor are hardware."
-},
-
-{
-question:"A student wants to carry files to another computer. What should be used?",
-options:[
-"Monitor",
-"Pen drive",
-"Keyboard",
-"CPU"
-],
-answer:1,
-explanation:"Pen drive carries files."
-},
-
-{
-question:"A student saves work to use later. What does this show?",
-options:[
-"Input",
-"Storage",
-"Output",
-"Processing"
-],
-answer:1,
-explanation:"Saving files means storage."
-},
-
-{
-question:"A student uses only hardware without software. What will happen?",
-options:[
-"Computer works normally",
-"Nothing will work",
-"Only typing works",
-"Only printing works"
-],
-answer:1,
-explanation:"Software is needed to use hardware."
-},
-
-{
-question:"A student uses only software without hardware. What will happen?",
-options:[
-"Everything works",
-"Nothing will work",
-"Only games work",
-"Only drawing works"
-],
-answer:1,
-explanation:"Hardware is needed to run software."
-},
-
-/* PICTURE QUESTIONS */
-
-{
-question:"Look at the picture. The student is playing a computer game. The game is an example of:",
-image:"assets/Q16.png",
-options:[
-"Hardware",
-"Software",
-"Storage Device",
-"Output Device"
-],
-answer:1,
-explanation:"Games are software."
-},
-
-{
-question:"Which device in the picture is used to carry files from one computer to another?",
-image:"assets/Q17.png",
-options:[
-"Monitor",
-"Keyboard",
-"Pen Drive",
-"Speaker"
-],
-answer:2,
-explanation:"Pen drive carries files."
-},
-
-{
-question:"Tick the picture that shows software.",
-image:"assets/Q18.png",
-options:[
-"Mouse",
-"Paint App",
-"Keyboard",
-"Printer"
-],
-answer:1,
-explanation:"Paint App is software."
-}
-
+    // --- Picture-Based Format Questions (Asset Bound Matrix) ---
+    {
+        question: "Examine the given picture layout meticulously. The children are interacting with an electronic game workspace on their device display. This interactive game element is an explicit example of:",
+        image: "assets/Q16.png",
+        options: ["⚙️ Software architecture", "💻 Hardware assembly", "🔋 Power source unit", "💾 Storage peripheral space"],
+        answer: 0,
+        explanation: "Even though you see the game on a hardware screen display, the game structure itself is driven entirely by internal software code loops.",
+        type: "Picture Analysis"
+    },
+    {
+        question: "Which component shown inside the provided asset illustration must be used by data operators when they need to transport files safely between physically disconnected computers?",
+        image: "assets/Q17.png",
+        options: ["💾 External Flash Pen Drive", "📺 Main Desktop Monitor Frame", "⌨️ Button Keyboard device", "🔊 Audio Channel Speakers"],
+        answer: 0,
+        explanation: "The pen drive module shown inside the asset graphic operates as a portable hardware data container for seamless file transport.",
+        type: "Picture Analysis"
+    },
+    {
+        question: "Analyze the provided image matrix item set carefully. Choose the option choice that represents an application software environment rather than a hardware asset.",
+        image: "assets/Q18.png",
+        options: ["🎨 The Interactive Paint Program", "🖱️ The Ergonomic Optical Mouse", "⌨️ The Standard QWERTY Keyboard", "🖨️ The Inkjet Paper Printer Unit"],
+        answer: 0,
+        explanation: "The Paint App layout showcased in the picture represents an interface of software instructions, while the remaining parts form actual physical hardware tools.",
+        type: "Picture Analysis"
+    }
 ];
 
-/* VARIABLES */
+/* Application Engine Runtime Parameter Space */
+let quizQuestions = [];
+let activeIndex = 0;
+let pointsScore = 0;
+let evaluationTimer;
+let secondsCountdown = 60;
+let currentAttemptCount = 0;
 
-let questions=[];
-let firstPlay=true;
-let currentQuestion=0;
-let score=0;
-let timer;
-let timeLeft=60;
-let retryUsed=false;
+const logoScreen = document.getElementById("logoScreen");
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
 
-const logoScreen=document.getElementById("logoScreen");
-const introScreen=document.getElementById("introScreen");
-const quizScreen=document.getElementById("quizScreen");
-const resultScreen=document.getElementById("resultScreen");
+const questionHeaderLabel = document.getElementById("questionHeaderLabel");
+const questionText = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const scoreText = document.getElementById("scoreText");
+const timerText = document.getElementById("timerText");
+const feedbackBox = document.getElementById("feedback");
+const explanationBox = document.getElementById("explanation");
+const progressFill = document.getElementById("progressFill");
+const questionImageBox = document.getElementById("questionImageBox");
+const questionImage = document.getElementById("questionImage");
+const nextBtn = document.getElementById("nextBtn");
 
-const questionText=document.getElementById("questionText");
-const optionsContainer=document.getElementById("optionsContainer");
-const scoreText=document.getElementById("scoreText");
-const timerText=document.getElementById("timerText");
-const feedback=document.getElementById("feedback");
-const explanation=document.getElementById("explanation");
-const progressFill=document.getElementById("progressFill");
-const questionImage=document.getElementById("questionImage");
-
-const correctSound=document.getElementById("correctSound");
-const wrongSound=document.getElementById("wrongSound");
-
-/* SHUFFLE */
-
-function shuffleArray(array){
-
-for(let i=array.length-1;i>0;i--){
-
-const j=Math.floor(Math.random()*(i+1));
-
-[array[i],array[j]]=[array[j],array[i]];
-
+/* Random Array Permutation Generator (Fisher-Yates Model implementation) */
+function shuffleArrayStructure(targetArray) {
+    let output = [...targetArray];
+    for (let i = output.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [output[i], output[output[j] ? j : 0]] = [output[j], output[i]];
+    }
+    return output;
 }
 
-return array;
-
-}
-
-/* GENERATE QUIZ */
-
-function generateQuizQuestions(){
-
-/* Always include picture questions */
-
-const mandatoryQuestions = allQuestions.slice(15,18);
-
-/* Remaining pool */
-
-let remainingPool = allQuestions.slice(0,15);
-
-/* Shuffle */
-
-remainingPool = shuffleArray(remainingPool);
-
-/* Pick 12 unique */
-
-const selectedRandom = remainingPool.slice(0,12);
-
-/* Combine */
-
-questions = [...selectedRandom, ...mandatoryQuestions];
-
-/* Final shuffle */
-
-questions = shuffleArray(questions);
-
-/* Shuffle options */
-
-shuffleOptions();
-
-}
-
-/* SHUFFLE OPTIONS */
-
-function shuffleOptions(){
-
-questions.forEach(q=>{
-
-const correctAnswer = q.options[q.answer];
-
-q.options = shuffleArray([...q.options]);
-
-q.answer = q.options.indexOf(correctAnswer);
-
-});
-
-}
-
-/* LOGO */
-
-window.onload=function(){
-
-logoScreen.style.display="flex";
-
-setTimeout(()=>{
-
-logoScreen.style.display="none";
-
-introScreen.style.display="flex";
-
-},5000);
-
+/* Screen Core Initialization */
+window.onload = function() {
+    // Exactly 5000ms splash threshold specification
+    setTimeout(() => {
+        logoScreen.style.setProperty("display", "none", "important");
+        introScreen.classList.add("active");
+    }, 5000);
+    buildAmbientIconBackground();
 };
 
-/* START */
+/* Start Quiz Session Environment */
+function startQuiz() {
+    // Isolate Picture questions to guarantee full coverage
+    const pictureSet = allQuestions.filter(item => item.type === "Picture Analysis");
+    let generalPool = allQuestions.filter(item => item.type !== "Picture Analysis");
+    
+    // Randomize general question lists thoroughly
+    generalPool = shuffleArrayStructure(generalPool);
+    
+    // Assemble final 15 tasks combination pattern
+    quizQuestions = [...generalPool.slice(0, 12), ...pictureSet];
+    quizQuestions = shuffleArrayStructure(quizQuestions);
 
-function startQuiz(){
+    // Randomize positional orientations of answers dynamically
+    quizQuestions.forEach(q => {
+        const correctText = q.options[q.answer];
+        q.options = shuffleArrayStructure(q.options);
+        q.answer = q.options.indexOf(correctText);
+    });
 
-generateQuizQuestions();
+    introScreen.classList.remove("active");
+    quizScreen.classList.add("active");
 
-introScreen.style.display="none";
-quizScreen.style.display="flex";
-
-currentQuestion=0;
-score=0;
-
-loadQuestion();
-
+    activeIndex = 0;
+    pointsScore = 0;
+    renderCurrentQuestionInstance();
 }
 
-/* LOAD QUESTION */
+/* Render Active Question Instance */
+function renderCurrentQuestionInstance() {
+    clearInterval(evaluationTimer);
+    currentAttemptCount = 0;
 
-function loadQuestion(){
+    feedbackBox.style.display = "none";
+    explanationBox.style.display = "none";
+    nextBtn.style.display = "none";
 
-clearInterval(timer);
+    const q = quizQuestions[activeIndex];
 
-retryUsed=false;
+    progressFill.style.width = `${(activeIndex / quizQuestions.length) * 100}%`;
+    document.getElementById("questionCount").innerText = `Level ${activeIndex + 1} / ${quizQuestions.length}`;
+    questionHeaderLabel.innerText = q.type;
+    questionText.innerText = q.question;
 
-feedback.innerHTML="";
-explanation.style.display="none";
+    // Graphic Attachment Visual validation
+    if (q.image) {
+        questionImage.src = q.image;
+        questionImageBox.style.display = "flex";
+        questionImage.onerror = function() {
+            questionImageBox.style.display = "none";
+        };
+    } else {
+        questionImageBox.style.display = "none";
+    }
 
-const q=questions[currentQuestion];
+    optionsContainer.innerHTML = "";
+    q.options.forEach((optStr, idx) => {
+        const btn = document.createElement("button");
+        btn.classList.add("option-btn");
+        btn.innerText = optStr;
+        btn.onclick = () => evaluateChoiceSelection(idx, btn);
+        optionsContainer.appendChild(btn);
+    });
 
-questionText.innerHTML=
-`Q${currentQuestion+1}. ${q.question}`;
+    scoreText.innerText = `⭐ Score: ${pointsScore}`;
+    secondsCountdown = 60;
+    timerText.innerText = `⏳ Time: ${secondsCountdown}s`;
 
-document.getElementById("questionCount").innerHTML=
-`Question ${currentQuestion+1} / ${questions.length}`;
-
-progressFill.style.width=
-`${((currentQuestion)/questions.length)*100}%`;
-
-/* IMAGE */
-
-if(q.image){
-
-questionImage.src=q.image;
-
-questionImage.style.display="block";
-
-questionImage.onerror=function(){
-
-console.log("Image failed:",q.image);
-
-questionImage.style.display="none";
-
-};
-
-}else{
-
-questionImage.style.display="none";
-
+    evaluationTimer = setInterval(() => {
+        secondsCountdown--;
+        timerText.innerText = `⏳ Time: ${secondsCountdown}s`;
+        if (secondsCountdown <= 0) {
+            clearInterval(evaluationTimer);
+            revealCorrectAnswerSequence();
+        }
+    }, 1000);
 }
 
-/* OPTIONS */
+/* Choice Selection Processing Evaluation Engine */
+function evaluateChoiceSelection(selectedIdx, targetButton) {
+    if (targetButton.classList.contains("correct") || targetButton.classList.contains("wrong")) return;
 
-optionsContainer.innerHTML="";
+    const q = quizQuestions[activeIndex];
+    const buttons = optionsContainer.getElementsByClassName("option-btn");
 
-q.options.forEach((option,index)=>{
+    if (selectedIdx === q.answer) {
+        clearInterval(evaluationTimer);
+        targetButton.classList.add("correct");
+        triggerAudioDeviceFeedback("correctSound");
+        pointsScore++;
+        scoreText.innerText = `⭐ Score: ${pointsScore}`;
+        
+        feedbackBox.className = "feedback alert-success";
+        feedbackBox.innerHTML = `✨ <strong>Fantastic Answer!</strong> That is absolutely correct.`;
+        feedbackBox.style.display = "block";
 
-const btn=document.createElement("button");
+        disableChoiceInputMatrix();
+        triggerConfettiStarsEffect();
+        nextBtn.style.display = "inline-flex";
+    } else {
+        targetButton.classList.add("wrong");
+        triggerAudioDeviceFeedback("wrongSound");
+        triggerScreenCrossEffect();
+        currentAttemptCount++;
 
-btn.classList.add("option-btn");
-
-btn.innerHTML=option;
-
-btn.onclick=()=>checkAnswer(index,btn);
-
-optionsContainer.appendChild(btn);
-
-});
-
-scoreText.innerHTML=`Score: ${score}`;
-
-timeLeft=60;
-
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
+        if (currentAttemptCount < 2) {
+            feedbackBox.className = "feedback alert-danger";
+            feedbackBox.innerHTML = `❌ <strong>Not quite right!</strong> Let's use your final attempt on this question.`;
+            feedbackBox.style.display = "block";
+        } else {
+            clearInterval(evaluationTimer);
+            feedbackBox.className = "feedback alert-danger";
+            feedbackBox.innerHTML = `⚠️ <strong>Chances Exhausted!</strong> Let's look over the conceptual fact below.`;
+            feedbackBox.style.display = "block";
+            revealCorrectAnswerSequence();
+        }
+    }
 }
 
-},1000);
+/* Explicit Fact Reveal Sequence */
+function revealCorrectAnswerSequence() {
+    const q = quizQuestions[activeIndex];
+    const buttons = optionsContainer.getElementsByClassName("option-btn");
 
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = true;
+        if (i === q.answer) {
+            buttons[i].classList.add("correct");
+        }
+    }
+
+    explanationBox.innerHTML = `💡 <strong>Core Concept Fact:</strong> ${q.explanation}`;
+    explanationBox.style.display = "block";
+    disableChoiceInputMatrix();
+    nextBtn.style.display = "inline-flex";
 }
 
-/* CHECK ANSWER */
-
-function checkAnswer(selected,button){
-
-const q=questions[currentQuestion];
-
-const buttons=document.querySelectorAll(".option-btn");
-
-if(selected===q.answer){
-
-clearInterval(timer);
-
-button.classList.add("correct");
-
-feedback.innerHTML="✅ Correct!";
-
-feedback.style.color="green";
-
-correctSound.play();
-
-score++;
-
-createConfetti();
-
-buttons.forEach(btn=>btn.disabled=true);
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},1500);
-
-}else{
-
-button.classList.add("wrong");
-
-wrongSound.play();
-
-showCross();
-
-if(!retryUsed){
-
-retryUsed=true;
-
-feedback.innerHTML=
-"❌ Try Again! One more chance.";
-
-feedback.style.color="#c62828";
-
-button.disabled=true;
-
-}else{
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
+/* Helper functions to decouple functional actions */
+function disableChoiceInputMatrix() {
+    const buttons = optionsContainer.getElementsByClassName("option-btn");
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = true;
+    }
 }
 
+function nextQuestion() {
+    activeIndex++;
+    if (activeIndex < quizQuestions.length) {
+        renderCurrentQuestionInstance();
+    } else {
+        renderQuizSessionOutcomes();
+    }
 }
 
+/* Final Summary Card Visual Generator */
+function renderQuizSessionOutcomes() {
+    quizScreen.classList.remove("active");
+    resultScreen.classList.add("active");
+
+    triggerAudioDeviceFeedback("clapSound");
+
+    finalScore.innerText = `Your Score: ${pointsScore} / ${quizQuestions.length}`;
+    
+    let promptMsg = "";
+    if (pointsScore >= 13) {
+        promptMsg = "👑 Outstanding Work! You have completely mastered the hardware and software systems module. Your diagnostic skills are perfect!";
+        resultBadge.innerText = "💻🏆🥇";
+    } else if (pointsScore >= 9) {
+        promptMsg = "🌟 Very Good Effort! You have a solid foundational grasp of how mechanical components connect with application software lines.";
+        resultBadge.innerText = "✨🥈👍";
+    } else {
+        promptMsg = "😊 Good attempt! Run through the interactive quest environment again to establish an excellent understanding of basic ICT hardware parts.";
+        resultBadge.innerText = "📚🔄💻";
+    }
+    document.getElementById("message").innerText = promptMsg;
+
+    if (typeof confetti === "function") {
+        confetti({ particleCount: 160, spread: 80, origin: { y: 0.6 } });
+    }
 }
 
-/* SHOW ANSWER */
-
-function showCorrectAnswer(){
-
-const q=questions[currentQuestion];
-
-const buttons=
-document.querySelectorAll(".option-btn");
-
-buttons.forEach((btn,index)=>{
-
-btn.disabled=true;
-
-if(index===q.answer){
-
-btn.classList.add("correct");
-
+function restartQuiz() {
+    resultScreen.classList.remove("active");
+    introScreen.classList.add("active");
 }
 
-});
-
-feedback.innerHTML="Correct answer shown";
-
-feedback.style.color="#1565c0";
-
-explanation.style.display="block";
-
-explanation.innerHTML=
-`💡 ${q.explanation}`;
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},3500);
-
+/* Contextual Sound Pipeline Manager */
+function triggerAudioDeviceFeedback(elementId) {
+    try {
+        const targetAudio = document.getElementById(elementId);
+        if (targetAudio) {
+            targetAudio.currentTime = 0;
+            targetAudio.play().catch(err => console.log("Audio play deferred until user gesture sequence: ", err));
+        }
+    } catch(e) { console.log("Audio unit reference failure: ", e); }
 }
 
-/* NEXT */
-
-function nextQuestion(){
-
-currentQuestion++;
-
-if(currentQuestion<questions.length){
-
-loadQuestion();
-
-}else{
-
-showResult();
-
+/* Custom Interactive Micro Animations Pipeline Elements */
+function triggerConfettiStarsEffect() {
+    const icons = ["⭐", "✨", "💻", "💾", "🎨"];
+    for (let i = 0; i < 20; i++) {
+        const star = document.createElement("div");
+        star.classList.add("canvas-star");
+        star.innerText = icons[Math.floor(Math.random() * icons.length)];
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.top = "-20px";
+        star.style.animationDuration = (Math.random() * 1.2 + 0.8) + "s";
+        star.style.fontSize = (Math.random() * 12 + 20) + "px";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2000);
+    }
 }
 
+function triggerScreenCrossEffect() {
+    const cross = document.createElement("div");
+    cross.classList.add("screen-cross");
+    cross.innerText = "✖";
+    cross.style.left = "50%";
+    cross.style.top = "50%";
+    document.body.appendChild(cross);
+    setTimeout(() => cross.remove(), 800);
 }
 
-/* RESULT */
-
-function showResult(){
-
-quizScreen.style.display="none";
-
-resultScreen.style.display="flex";
-
-document.getElementById("finalScore").innerHTML=
-`Your Score: ${score} / ${questions.length}`;
-
-let msg="";
-
-if(score>=13){
-
-msg="🌟 Excellent Hardware & Software Champion!";
-
-}else if(score>=9){
-
-msg="👍 Very Good Work!";
-
-}else{
-
-msg="😊 Keep Practicing ICT Concepts!";
-
+/* Background Atmosphere Decorator Layer */
+function buildAmbientIconBackground() {
+    const bgContainer = document.getElementById("bgIcons");
+    const iconsPool = ["💻", "🖱️", "⌨️", "🖨️", "🎮", "🖌️", "💾", "📁"];
+    
+    for (let i = 0; i < 30; i++) {
+        const unit = document.createElement("div");
+        unit.classList.add("icon");
+        unit.innerText = iconsPool[Math.floor(Math.random() * iconsPool.length)];
+        unit.style.left = Math.random() * 100 + "%";
+        unit.style.animationDuration = (Math.random() * 8 + 10) + "s";
+        unit.style.animationDelay = Math.random() * 6 + "s";
+        unit.style.fontSize = (Math.random() * 18 + 22) + "px";
+        bgContainer.appendChild(unit);
+    }
 }
-
-document.getElementById("message").innerHTML=msg;
-
-}
-
-/* RESTART */
-
-function restartQuiz(){
-
-resultScreen.style.display="none";
-
-introScreen.style.display="flex";
-
-}
-
-/* CONFETTI */
-
-function createConfetti(){
-
-for(let i=0;i<24;i++){
-
-const confetti=document.createElement("div");
-
-confetti.classList.add("confetti");
-
-confetti.style.left=
-Math.random()*window.innerWidth+"px";
-
-confetti.style.top=
-Math.random()*150+"px";
-
-document.body.appendChild(confetti);
-
-setTimeout(()=>{
-
-confetti.remove();
-
-},1500);
-
-}
-
-}
-
-/* WRONG CROSS */
-
-function showCross(){
-
-const cross=document.createElement("div");
-
-cross.classList.add("cross");
-
-cross.innerHTML="✖";
-
-cross.style.left=
-Math.random()*window.innerWidth+"px";
-
-cross.style.top=
-Math.random()*window.innerHeight+"px";
-
-document.body.appendChild(cross);
-
-setTimeout(()=>{
-
-cross.remove();
-
-},1000);
-
-}
-
-/* BACKGROUND ICONS */
-
-function createIcons(){
-
-const bg=document.getElementById("bgIcons");
-
-const icons=[
-"💻",
-"🖱️",
-"⌨️",
-"🖨️",
-"🎮",
-"🖌️",
-"💾",
-"📁"
-];
-
-for(let i=0;i<35;i++){
-
-const icon=document.createElement("div");
-
-icon.classList.add("icon");
-
-icon.innerHTML=
-icons[Math.floor(Math.random()*icons.length)];
-
-icon.style.left=Math.random()*100+"%";
-
-icon.style.animationDuration=
-(8+Math.random()*10)+"s";
-
-icon.style.animationDelay=
-Math.random()*5+"s";
-
-icon.style.fontSize=
-(24+Math.random()*25)+"px";
-
-bg.appendChild(icon);
-
-}
-
-}
-
-createIcons();
-
 </script>
 
 </body>
