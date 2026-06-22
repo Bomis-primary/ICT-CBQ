@@ -13,7 +13,7 @@
     --danger: #ef4444;
     --dark: #0f172a;
     --light: #ffffff;
-    --card-bg: rgba(255, 255, 255, 0.94);
+    --card-bg: rgba(255, 255, 255, 0.96);
 }
 
 * {
@@ -48,7 +48,7 @@ body {
 
 .bg-star {
     position: absolute;
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.3);
     clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
     animation: floatStar linear infinite;
 }
@@ -74,7 +74,7 @@ body {
 }
 
 #splash img {
-    width: 260px;
+    width: 280px;
     max-width: 80%;
     animation: pulse 2s infinite ease-in-out;
 }
@@ -97,7 +97,6 @@ body {
     z-index: 2;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.5);
-    transition: transform 0.3s ease;
 }
 
 .hidden {
@@ -112,9 +111,8 @@ body {
 .intro h1 {
     font-size: 2.2rem;
     color: var(--dark);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     font-weight: 800;
-    letter-spacing: -0.5px;
 }
 
 .intro h1 span {
@@ -124,7 +122,7 @@ body {
 }
 
 .instructions {
-    background: rgba(241, 245, 249, 0.8);
+    background: rgba(241, 245, 249, 0.9);
     padding: 24px;
     border-radius: 16px;
     line-height: 1.8;
@@ -145,12 +143,12 @@ body {
 
 /* Control Buttons */
 button.main-action-btn {
-    padding: 16px 36px;
+    padding: 16px 40px;
     border: none;
     border-radius: 14px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -179,9 +177,6 @@ button.main-action-btn:hover {
     color: #334155;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     border: 1px solid #e2e8f0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
     font-size: 1.1rem;
 }
 
@@ -199,7 +194,7 @@ button.main-action-btn:hover {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, #10b981, #059669);
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.4s ease;
 }
 
 .question-number {
@@ -208,16 +203,36 @@ button.main-action-btn:hover {
     font-weight: 700;
     font-size: 1.1rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .question {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 700;
     line-height: 1.6;
     color: var(--dark);
     margin-bottom: 24px;
     text-align: left;
+}
+
+/* Asset Graphic Container inside Quiz */
+.question-asset-box {
+    width: 100%;
+    max-height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    background: #f8fafc;
+    padding: 10px;
+    border: 1px dashed #cbd5e1;
+}
+
+.question-asset-box img {
+    max-width: 100%;
+    max-height: 160px;
+    object-fit: contain;
+    border-radius: 8px;
 }
 
 /* Grid Layout for Interactive Options */
@@ -229,17 +244,15 @@ button.main-action-btn:hover {
 
 .option {
     background: #ffffff;
-    padding: 18px 20px;
+    padding: 16px 20px;
     border-radius: 14px;
     border: 2px solid #e2e8f0;
     cursor: pointer;
     font-size: 1.15rem;
     font-weight: 600;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     text-align: left;
     color: #334155;
-    display: flex;
-    align-items: center;
 }
 
 .option:hover {
@@ -320,12 +333,11 @@ button.main-action-btn:hover {
 }
 
 .result-message {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     line-height: 1.8;
     color: #475569;
     font-weight: 600;
     margin-bottom: 24px;
-    padding: 0 10px;
 }
 
 /* Dynamic Particle System Elements */
@@ -345,11 +357,12 @@ button.main-action-btn:hover {
 @media(max-width:600px) {
     .container { padding: 24px 16px; }
     .question { font-size: 1.2rem; }
-    .option { font-size: 1rem; padding: 14px 16px; }
+    .option { font-size: 1.05rem; padding: 14px 16px; }
     .intro h1 { font-size: 1.8rem; }
     button.main-action-btn { width: 100%; }
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
@@ -365,13 +378,13 @@ button.main-action-btn:hover {
         <h1><span>Computer: A Smart Machine</span></h1>
         <div class="instructions">
             <ol>
-                <li>Read the fun computer story questions carefully.</li>
-                <li>You have 2 chances to pick the right answer.</li>
-                <li>Each screen gives you 60 seconds to answer.</li>
-                <li>Finish all 10 fun levels to win your super certificate!</li>
+                <li>Read the fun real-world computer quests carefully.</li>
+                <li>You have a limit of 2 chances to select the right answer.</li>
+                <li>A countdown space of 60 seconds is active per screen load.</li>
+                <li>Complete all 15 active levels to unlock your final badge.</li>
             </ol>
         </div>
-        <button class="main-action-btn" onclick="startGame()">Start Game</button>
+        <button class="main-action-btn" onclick="startGame()">Start Quest 🚀</button>
     </div>
 
     <div id="quizScreen" class="hidden">
@@ -386,6 +399,9 @@ button.main-action-btn:hover {
 
         <div class="question-number" id="questionNumber"></div>
         <div class="question" id="questionText"></div>
+        
+        <div id="assetBox" class="question-asset-box hidden"></div>
+
         <div class="options" id="optionsBox"></div>
         <div class="feedback" id="feedbackBox"></div>
 
@@ -393,7 +409,7 @@ button.main-action-btn:hover {
     </div>
 
     <div id="resultScreen" class="hidden result">
-        <h1>🎉 Game Finished! 🎉</h1>
+        <h1>🎉 Quest Completed! 🎉</h1>
         <div class="score-circle">
             <span id="finalScore"></span>
         </div>
@@ -403,13 +419,12 @@ button.main-action-btn:hover {
 
 </div>
 
-<!-- Core Audio Elements Mapping Verbatim to Assets Folder -->
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/clap.mp3"></audio>
 
 <script>
-/* Particle Layer Matrix Initialization */
+/* Floating Star Matrix Layer Generator */
 const bg = document.getElementById("bgStars");
 for(let i=0; i<25; i++) {
     let star = document.createElement("div");
@@ -422,77 +437,133 @@ for(let i=0; i<25; i++) {
     bg.appendChild(star);
 }
 
-/* Remove Splash Canvas Container After 5 Seconds */
+/* Dismiss Splash Screen After Exactly 5 Seconds */
 setTimeout(() => {
     document.getElementById("splash").style.setProperty("display", "none", "important");
     document.getElementById("app").classList.remove("hidden");
 }, 5000);
 
-/* Corrected Question Bank: 10 Unique Grade-1 Friendly Competency-Based Questions (CBQs) */
+/* Master Competency-Based Question Bank (15 Balanced Tasks Mapping Categories Exactly) */
 const questions = [
+    // --- 8 Scenario-Based Questions ---
     {
-        q: "Rahul is tired of counting 50 marbles one by one. Which smart friend can count them in a tiny blink without ever getting tired?",
-        o: ["🤖 A clever computer", "🧸 A teddy bear", "🪑 A wooden chair"],
+        q: "Vivaan is tired of calculating 50 long sums by hand. Which smart machine helper can complete them instantly without ever making errors?",
+        o: ["💻 A fast computer", "🧸 A plush teddy bear", "🪵 A wooden bench"],
         a: 0,
-        e: "Computers are smart machines because they work super fast and never get tired!"
+        e: "Computers are smart because they calculate extremely fast and make no mistakes!",
+        type: "scenario"
     },
     {
-        q: "Sita wants to paint a beautiful, colorful butterfly but she has no crayons and no drawing paper. What can she use?",
-        o: ["🖥️ A computer drawing screen", "🎒 Her school bag fabric", "🍼 A plastic water bottle"],
+        q: "Anaya wants to draw and color a beautiful garden but her real drawing book and crayons are entirely missing. What should she do?",
+        o: ["🖥️ Draw on a computer screen canvas", "🎒 Paint directly on her fabric bag", "💧 Sketch on a plastic bottle"],
         a: 0,
-        e: "A computer lets us draw and color beautiful pictures cleanly without paper or real crayons!"
+        e: "A computer canvas enables kids to draw, color, and paint digitally without using real papers!",
+        type: "scenario"
     },
     {
-        q: "Ali typed a lovely story on the screen. Now he wants to hold it on real paper to show his mother. What extra machine can help him?",
-        o: ["🖨️ A computer printer", "✏️ A wooden pencil box", "📺 A living room television"],
+        q: "Kabir has finished 10 digital drawings. He wants them saved safely so they never get torn or misplaced in his room. Where should they go?",
+        o: ["📁 Inside a computer memory folder", "🛏️ Tucked under his sleeping mattress", "🚪 Taped behind the house entrance door"],
         a: 0,
-        e: "A printer takes work from the computer screen and puts it neatly on real paper!"
+        e: "Computers can keep massive amounts of work, stories, and digital paintings safely tucked away in memory folders!",
+        type: "scenario"
     },
     {
-        q: "Grandpa wants to listen to his favorite old songs while resting. What should he click on the computer screen to hear the music?",
-        o: ["▶️ The big Play button", "🔲 A blank empty black screen", "🔌 The long mouse wire"],
+        q: "Grandmother wants to enjoy sweet relaxing tunes while she knits. What feature on the computer can fulfill her wish?",
+        o: ["🎶 Playing digital audio and music tracks", "🌬️ Blowing cool fresh mountain air", "🧼 Automatically sweeping the house floors"],
         a: 0,
-        e: "Computers can play audio tracks and music beautifully when you press play!"
+        e: "Computers can store, decode, and play sound, songs, and background music instantly!",
+        type: "scenario"
     },
     {
-        q: "Tina made 100 digital drawings. She wants to keep them completely safe so they never get lost or torn in her room. Where should she save them?",
-        o: ["📁 Inside a computer folder", "🛏️ Under her bedroom mattress", "🚪 Behind the classroom door"],
+        q: "A busy shopkeeper has a very long line of customers waiting. Why does he use a computer machine to check out products?",
+        o: ["🚀 It processes actions fast to save time", "🎵 It can perform funny stage dances", "🧸 It makes the items turn into large toys"],
         a: 0,
-        e: "Computers have a large memory and can safely store lots of information and pictures for later!"
+        e: "Computers are incredibly fast tools that help people complete complicated tasks in a short time!",
+        type: "scenario"
     },
     {
-        q: "A toy shopkeeper has a very long line of families waiting to buy gifts. Why does he use a computer to print out bills?",
-        o: ["⚡ It calculates fast and saves everyone time", "💃 It dances and sings silly songs", "🧸 It makes the teddy bears look bigger"],
+        q: "Aarav is working on a difficult number puzzle. He wants to ensure his final answers have zero mistakes. Why check with a computer?",
+        o: ["🎯 Smart computers do not create calculation errors", "🎨 Computers change numbers into pretty pictures", "🤸 Computers can execute high jumps"],
         a: 0,
-        e: "Computers work quickly to help people complete big tasks without long waiting times!"
+        e: "A computer is built to deliver high precision and does not make random operational errors like humans do!",
+        type: "scenario"
     },
     {
-        q: "Rohit is solving a tricky math puzzle. He wants to be 100% sure there are zero mistakes. Why should he check it with a computer?",
-        o: ["🎯 Computers do not make silly calculation mistakes", "🎨 Computers change the numbers into pretty flowers", "🤸 Computers can flip upside down"],
+        q: "Meera wants to learn all about ocean animals by seeing moving, real-life color videos of dolphins. What should she turn on?",
+        o: ["🖥️ A computer monitor screen with internet", "📓 A blank pocket diary book", "🧼 A soft school blackboard duster"],
         a: 0,
-        e: "A computer is a smart machine that always gives correct answers and does not make mistakes!"
+        e: "Computers can run and present beautiful educational videos, animations, and photos to make learning highly interactive!",
+        type: "scenario"
     },
     {
-        q: "The teacher wants to show all twenty students a bright, moving video about wild forest animals. What should she turn on?",
-        o: ["🖥️ A computer with a big monitor screen", "📓 A small pocket notebook", "🧼 A soft blackboard eraser"],
+        q: "Dev wants to find out what a wild polar bear looks like for a hobby assignment. How can a computer help him see one right away?",
+        o: ["🌐 By looking up real images on the internet", "🐻 By changing into a living bear inside the house", "✈️ By flying him up like a real airplane jet"],
         a: 0,
-        e: "Computers with big screens help groups of people watch, learn, and enjoy educational lessons together!"
+        e: "The internet connection lets computer users view educational facts, photos, and information around the globe!",
+        type: "scenario"
+    },
+
+    // --- 2 Picture-Based Questions (using images from assets/) ---
+    {
+        q: "Look closely at the image provided. Which device part shown from the assets folder allows us to see movies, words, and text?",
+        o: ["📺 The Monitor screen", "⌨️ The Keyboard panel", "🖱️ The clicking Mouse"],
+        a: 0,
+        e: "The monitor works like a TV screen, displaying all visual elements, text, and movies clearly!",
+        type: "picture",
+        asset: "assets/monitor.png"
     },
     {
-        q: "Simran needs to find out what a real penguin looks like for her school hobby project. How can a computer help her see one instantly?",
-        o: ["🌐 By looking up a photo on the internet", "🐧 By turning into a real live penguin", "✈️ By flying her out into the sky like an airplane"],
+        q: "Examine this picture carefully. Which hardware item shown is used to send instructions into the smart computer by tapping labeled buttons?",
+        o: ["⌨️ The alpha-numeric Keyboard", "🖨️ The paper Printer machine", "🔊 The audio Sound speakers"],
         a: 0,
-        e: "Computers can connect to the internet to help us find beautiful information and images from around the world!"
+        e: "The keyboard is a primary input device filled with labeled keys used to type text and send basic commands!",
+        type: "picture",
+        asset: "assets/keyboard.png"
+    },
+
+    // --- 2 Observation-Based Questions ---
+    {
+        q: "Zoya is watching a ceiling fan and a smart computer working. What makes the computer stand out as a smart machine?",
+        o: ["🌟 It can do many different tasks like math, music, and art", "💨 It spins around rapidly to create strong wind", "🐘 It takes up more physical weight than the fan"],
+        a: 0,
+        e: "Simple machines perform one single task, while smart computers can switch between math, games, typing, and art!",
+        type: "observation"
     },
     {
-        q: "Kabir is looking closely at a ceiling fan and a computer. Why is the computer called a 'smart machine' but the fan is not?",
-        o: ["✨ The computer can do many different tasks like math, music, and games", "💨 The computer blows fresh air around the room", "🐘 The computer is heavier than the fan"],
+        q: "Hrithik notices that a computer needs to be plugged into an electrical wall socket or use a battery pack to start up. Why is this?",
+        o: ["🔌 It runs on electricity to activate its parts", "🧼 It needs juice to wash itself clean", "🍞 It consumes power as actual food crumbs"],
         a: 0,
-        e: "Fans can only do one basic thing (blow air), but a computer is smart because it can do many different jobs!"
+        e: "Computers are digital electronic devices that rely entirely on power and current to wake up and perform calculations!",
+        type: "observation"
+    },
+
+    // --- 2 Application-Based Questions ---
+    {
+        q: "Isha wants to create an accurate list of all her friends' birthdays neatly. Which functional feature of a computer is she taking advantage of?",
+        o: ["✍️ Typing and sorting text cleanly", "🍉 Slicing fresh summer fruits", "👟 Polishing her leather uniform shoes"],
+        a: 0,
+        e: "Computers possess software layers that allow us to type out, format, and organize list records in a clean layout!",
+        type: "application"
+    },
+    {
+        q: "Rohan is standing in a long line at an airport terminal. He observes the officer checking bags and scanning tickets with a screen. What does this prove?",
+        o: ["✈️ Computers help check flight details and safety rows", "🍦 Computers cook yummy chocolate cones for everyone", "🎨 Computers change heavy airplanes into toy birds"],
+        a: 0,
+        e: "Airports, schools, and banks implement computers to verify bookings, handle heavy records, and protect security!",
+        type: "application"
+    },
+
+    // --- 1 Error-Detection Question ---
+    {
+        q: "Siddharth hears an amateur user say: 'A smart computer is alive just like humans because it can think up fresh ideas on its own!' Spot the true mistake in this sentence.",
+        o: ["❌ Computers are non-living tools that only follow human inputs", "❌ Computers can run around the field like humans", "❌ Computers eat physical breakfast meals to stay alive"],
+        a: 0,
+        e: "Computers are not living beings and cannot think of independent original ideas; they rely entirely on precise human guidance and code steps!",
+        type: "error"
     }
 ];
 
-/* State Machine Variables */
+/* State Engine Parameters */
 let current = 0;
 let score = 0;
 let attempts = 0;
@@ -500,7 +571,7 @@ let timer;
 let timeLeft = 60;
 
 function startGame() {
-    // Fisher-Yates shuffle implementation
+    // Fisher-Yates array shuffling to randomize execution layout completely
     for(let i = questions.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [questions[i], questions[j]] = [questions[j], questions[i]];
@@ -521,14 +592,33 @@ function loadQuestion() {
     document.getElementById("questionNumber").innerHTML = `Level ${current + 1} of ${questions.length}`;
     document.getElementById("questionText").innerHTML = q.q;
 
+    // Handle Asset Graphic Injection for Picture Category cleanly
+    const assetBox = document.getElementById("assetBox");
+    if(q.type === "picture" && q.asset) {
+        assetBox.innerHTML = `<img src="${q.asset}" alt="Quiz Graphic Support" onerror="this.parentNode.classList.add('hidden')">`;
+        assetBox.classList.remove("hidden");
+    } else {
+        assetBox.innerHTML = "";
+        assetBox.classList.add("hidden");
+    }
+
+    // Build shuffled choice index arrays to avoid consistent positional patterns
+    const indexedOptions = q.o.map((text, i) => ({ text, isCorrect: i === q.a }));
+    
+    // Balanced random option sorting
+    for (let i = indexedOptions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indexedOptions[i], indexedOptions[j]] = [indexedOptions[j], indexedOptions[i]];
+    }
+
     const box = document.getElementById("optionsBox");
     box.innerHTML = "";
 
-    q.o.forEach((opt, index) => {
+    indexedOptions.forEach(opt => {
         const div = document.createElement("div");
         div.classList.add("option");
-        div.innerHTML = opt;
-        div.onclick = () => checkAnswer(div, index);
+        div.innerHTML = opt.text;
+        div.onclick = () => checkAnswer(div, opt.isCorrect);
         box.appendChild(div);
     });
 
@@ -549,20 +639,20 @@ function startTimer() {
     }, 1000);
 }
 
-function checkAnswer(element, index) {
+function checkAnswer(element, isCorrect) {
     if(element.classList.contains("correct") || element.classList.contains("wrong")) return;
 
     const q = questions[current];
     const feedback = document.getElementById("feedbackBox");
 
-    if(index === q.a) {
+    if(isCorrect) {
         clearInterval(timer);
         element.classList.add("correct");
         try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
         score++;
         document.getElementById("score").innerText = score;
         feedback.className = "feedback success";
-        feedback.innerHTML = `<strong>✨ Super Job!</strong><br>💡 ${q.e}`;
+        feedback.innerHTML = `<strong>✨ Outstanding Choice!</strong><br>💡 ${q.e}`;
         feedback.style.display = "block";
         disableAllOptions();
         createCelebrationStars();
@@ -574,24 +664,25 @@ function checkAnswer(element, index) {
         if(attempts >= 2) {
             clearInterval(timer);
             feedback.className = "feedback error";
-            feedback.innerHTML = `<strong> Let's see the right choice:</strong><br>💡 ${q.e}`;
+            feedback.innerHTML = `<strong> Let's see the accurate fact:</strong><br>💡 ${q.e}`;
             feedback.style.display = "block";
             showCorrectAnswerInline();
             disableAllOptions();
             document.getElementById("nextBtn").classList.remove("hidden");
         } else {
             feedback.className = "feedback error";
-            feedback.innerHTML = `<strong>❌ Try Again!</strong> Give it another guess! You have one more chance left.`;
+            feedback.innerHTML = `<strong>❌ Keep trying!</strong> That was incorrect. You have one active chance remaining!`;
             feedback.style.display = "block";
         }
     }
 }
 
 function showCorrectAnswerInline() {
-    const q = questions[current];
     const options = document.getElementsByClassName("option");
-    for(let i=0; i<options.length; i++) {
-        if(i === q.a) {
+    const q = questions[current];
+    // Evaluate options to highlight correct one textually
+    for(let i = 0; i < options.length; i++) {
+        if(options[i].innerText.includes(q.o[q.a].substring(3, 10))) {
             options[i].classList.add("correct");
         }
     }
@@ -601,7 +692,7 @@ function showCorrectAnswer() {
     const q = questions[current];
     const feedback = document.getElementById("feedbackBox");
     feedback.className = "feedback error";
-    feedback.innerHTML = `<strong>⏳ Time's Up! Let's check out the answer:</strong><br>💡 ${q.e}`;
+    feedback.innerHTML = `<strong>⏳ Time context over! Let's read the fact:</strong><br>💡 ${q.e}`;
     feedback.style.display = "block";
     showCorrectAnswerInline();
     disableAllOptions();
@@ -634,21 +725,21 @@ function showResults() {
     try { document.getElementById("clapSound").play().catch(()=>{}); } catch(e){}
 
     let msg = "";
-    if(score >= 8) {
-        msg = "👑 Spectacular Job! You are a Super Computer Champion! You know exactly why computers are smart machines.";
-    } else if(score >= 5) {
-        msg = "🌟 Wonderful Effort! You understand how computers help us work quickly and save time.";
+    if(score >= 12) {
+        msg = "👑 Sensational Score! You are a certified Smart Machine Master! Your system knowledge is flawless.";
+    } else if(score >= 8) {
+        msg = "🌟 Wonderful Effort! You have a solid understanding of how smart machines save time and human work.";
     } else {
-        msg = "😊 Good try! Play again to discover more about your smart machine friend, the computer.";
+        msg = "👍 Fair try! Run the quest once more to learn more details about our digital machine friend.";
     }
     document.getElementById("resultMessage").innerText = msg;
 
-    // Canvas Confetti Blast triggers smoothly
+    // Trigger explosive canvas confetti system if dependency loaded successfully
     if(typeof confetti === "function") {
         confetti({
-            particleCount: 150,
-            spread: 80,
-            origin: { y: 0.6 }
+            particleCount: 180,
+            spread: 90,
+            origin: { y: 0.65 }
         });
     }
 }
