@@ -25,10 +25,7 @@ body {
     font-family: 'Comic Sans MS', 'Segoe UI', Arial, sans-serif;
     overflow-x: hidden;
     min-height: 100vh;
-    background: linear-gradient(rgba(235, 244, 255, 0.85), rgba(243, 230, 255, 0.85)), url('assets/bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background: linear-gradient(135deg, #ebf4ff 0%, #f3e6ff 100%);
     position: relative;
     color: var(--text-color);
     display: flex;
@@ -185,7 +182,7 @@ h1 {
     font-size: 1.05rem;
 }
 
-/* Micro-Progress Bar Gauge */
+/* Progress Bar */
 .progress {
     width: 100%;
     height: 12px;
@@ -203,7 +200,7 @@ h1 {
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Question Content Presentation */
+/* Question Layout */
 .question-header {
     color: var(--secondary);
     font-size: 1.1rem;
@@ -222,7 +219,7 @@ h1 {
     color: #0f172a;
 }
 
-/* Responsive Question Graphic Support Frame */
+/* Image Frame */
 .question-image-box {
     width: 100%;
     max-height: 220px;
@@ -244,7 +241,7 @@ h1 {
     border-radius: 10px;
 }
 
-/* Multi-Column Layout Grid for Choices */
+/* Options Grid */
 .options {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -275,7 +272,6 @@ h1 {
     box-shadow: 0 6px 12px rgba(21, 101, 192, 0.08);
 }
 
-/* Evaluation Status Styling rules */
 .correct {
     background: #ecfdf5 !important;
     border-color: var(--success) !important;
@@ -332,7 +328,6 @@ h1 {
     animation: fadeIn 0.3s ease;
 }
 
-/* Call To Action Buttons */
 .main-btn {
     padding: 14px 36px;
     border: none;
@@ -354,7 +349,6 @@ h1 {
     box-shadow: 0 8px 20px rgba(142, 36, 170, 0.35);
 }
 
-/* Dynamic Performance Output Layouts */
 .badge-gallery {
     font-size: 3.5rem;
     margin: 20px 0;
@@ -373,7 +367,6 @@ h1 {
     margin: 14px 0;
 }
 
-/* Custom Particle Elements */
 .canvas-star {
     position: fixed;
     font-size: 24px;
@@ -401,7 +394,6 @@ h1 {
     100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
 }
 
-/* Adaptive Responsive Viewports */
 @media (max-width: 768px) {
     .options {
         grid-template-columns: 1fr;
@@ -507,14 +499,13 @@ h1 {
     </div>
 </div>
 
-<audio id="correctSound" src="assets/correct-1.mp3"></audio>
+<!-- Audio nodes corrected to match the asset directory perfectly -->
+<audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/clap.mp3"></audio>
 
 <script>
-/* Balanced Competency-Based Master Question Inventory Matrix */
 const allQuestions = [
-    // --- Scenario-Based Format Questions ---
     {
         question: "Riya is typing her English homework using a physical keyboard attached to her machine. What type of computing element is she physically clicking?",
         options: ["💻 Hardware component", "⚙️ Software program", "📁 Digital file data", "🌐 Cloud storage space"],
@@ -558,7 +549,7 @@ const allQuestions = [
         type: "Scenario Task"
     },
     {
-        question: " Rohan saves his classroom project worksheet data inside his desktop hard disk directory before shutting down the power line. What functional property does this demonstrate?",
+        question: "Rohan saves his classroom project worksheet data inside his desktop hard disk directory before shutting down the power line. What functional property does this demonstrate?",
         options: ["📁 Data Storage action", "📥 Input command capture", "📤 Output presentation", "⚡ Power generation action"],
         answer: 0,
         explanation: "Retaining documents on memory devices like hard disks or solid state drives represents data storage safely over time.",
@@ -571,8 +562,6 @@ const allQuestions = [
         explanation: "Hardware cannot perform logical computing processes without a software system layer providing operation instructions.",
         type: "Scenario Task"
     },
-
-    // --- Assertion and Reasoning Format Questions ---
     {
         question: "Assertion (A): Computer hardware items can be naturally touched, picked up, and moved by hand.\nReason (R): Hardware represents the physical components and mechanical structures of a computing setup.",
         options: [
@@ -585,8 +574,6 @@ const allQuestions = [
         explanation: "Hardware is the concrete structural manifestation of a machine, so it can be touched, which confirms both parts of the rule.",
         type: "Assertion-Reason Challenge"
     },
-
-    // --- Observation Format Questions ---
     {
         question: "Analyze the operational relationships presented below carefully:\n• Keyboard → Used for typing alphabetical inputs\n• Tux Paint → Used for drawing digital visuals\n• Printer → Used for generating physical printouts\nIdentify which component functions exclusively as a software layer application.",
         options: ["🎨 Tux Paint tool", "⌨️ Mechanical Keyboard", "🖨️ Printer hardware", "📺 Monitor glass screen"],
@@ -606,8 +593,6 @@ const allQuestions = [
         explanation: "Software forms the non-tangible code instructions environment inside a computer system, meaning you can see its action but never physically grasp it.",
         type: "Observation Task"
     },
-
-    // --- Application-Based Format Questions ---
     {
         question: "Isha wishes to build a tabular birthday chart tracker for all her classmates. Which type of resource should she launch on her computer environment?",
         options: ["⚙️ Spreadsheet or text editor software", "💻 An input scanner hardware unit", "🔌 External power cord cables", "🖱️ A secondary optical mouse tool"],
@@ -627,8 +612,6 @@ const allQuestions = [
         explanation: "Software code strings need compatible, real-world hardware mechanisms to express physical movements or operations successfully.",
         type: "Application Focus"
     },
-
-    // --- Error Detection Format Question ---
     {
         question: "Spot the single incorrect statement out of the assertions provided below regarding computing infrastructures:",
         options: [
@@ -641,8 +624,6 @@ const allQuestions = [
         explanation: "The mechanical computer mouse is an input hardware peripheral tool, so claiming it is a software application is factually incorrect.",
         type: "Error-Detection Quest"
     },
-
-    // --- Picture-Based Format Questions (Asset Bound Matrix) ---
     {
         question: "Examine the given picture layout meticulously. The children are interacting with an electronic game workspace on their device display. This interactive game element is an explicit example of:",
         image: "assets/Q16.png",
@@ -669,7 +650,6 @@ const allQuestions = [
     }
 ];
 
-/* Application Engine Runtime Parameter Space */
 let quizQuestions = [];
 let activeIndex = 0;
 let pointsScore = 0;
@@ -694,19 +674,16 @@ const questionImageBox = document.getElementById("questionImageBox");
 const questionImage = document.getElementById("questionImage");
 const nextBtn = document.getElementById("nextBtn");
 
-/* Random Array Permutation Generator (Fisher-Yates Model implementation) */
 function shuffleArrayStructure(targetArray) {
     let output = [...targetArray];
     for (let i = output.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [output[i], output[output[j] ? j : 0]] = [output[j], output[i]];
+        [output[i], output[j]] = [output[j], output[i]];
     }
     return output;
 }
 
-/* Screen Core Initialization */
 window.onload = function() {
-    // Exactly 5000ms splash threshold specification
     setTimeout(() => {
         logoScreen.style.setProperty("display", "none", "important");
         introScreen.classList.add("active");
@@ -714,20 +691,14 @@ window.onload = function() {
     buildAmbientIconBackground();
 };
 
-/* Start Quiz Session Environment */
 function startQuiz() {
-    // Isolate Picture questions to guarantee full coverage
     const pictureSet = allQuestions.filter(item => item.type === "Picture Analysis");
     let generalPool = allQuestions.filter(item => item.type !== "Picture Analysis");
     
-    // Randomize general question lists thoroughly
     generalPool = shuffleArrayStructure(generalPool);
-    
-    // Assemble final 15 tasks combination pattern
     quizQuestions = [...generalPool.slice(0, 12), ...pictureSet];
     quizQuestions = shuffleArrayStructure(quizQuestions);
 
-    // Randomize positional orientations of answers dynamically
     quizQuestions.forEach(q => {
         const correctText = q.options[q.answer];
         q.options = shuffleArrayStructure(q.options);
@@ -742,7 +713,6 @@ function startQuiz() {
     renderCurrentQuestionInstance();
 }
 
-/* Render Active Question Instance */
 function renderCurrentQuestionInstance() {
     clearInterval(evaluationTimer);
     currentAttemptCount = 0;
@@ -758,7 +728,6 @@ function renderCurrentQuestionInstance() {
     questionHeaderLabel.innerText = q.type;
     questionText.innerText = q.question;
 
-    // Graphic Attachment Visual validation
     if (q.image) {
         questionImage.src = q.image;
         questionImageBox.style.display = "flex";
@@ -792,12 +761,10 @@ function renderCurrentQuestionInstance() {
     }, 1000);
 }
 
-/* Choice Selection Processing Evaluation Engine */
 function evaluateChoiceSelection(selectedIdx, targetButton) {
     if (targetButton.classList.contains("correct") || targetButton.classList.contains("wrong")) return;
 
     const q = quizQuestions[activeIndex];
-    const buttons = optionsContainer.getElementsByClassName("option-btn");
 
     if (selectedIdx === q.answer) {
         clearInterval(evaluationTimer);
@@ -833,7 +800,6 @@ function evaluateChoiceSelection(selectedIdx, targetButton) {
     }
 }
 
-/* Explicit Fact Reveal Sequence */
 function revealCorrectAnswerSequence() {
     const q = quizQuestions[activeIndex];
     const buttons = optionsContainer.getElementsByClassName("option-btn");
@@ -851,7 +817,6 @@ function revealCorrectAnswerSequence() {
     nextBtn.style.display = "inline-flex";
 }
 
-/* Helper functions to decouple functional actions */
 function disableChoiceInputMatrix() {
     const buttons = optionsContainer.getElementsByClassName("option-btn");
     for (let i = 0; i < buttons.length; i++) {
@@ -868,7 +833,6 @@ function nextQuestion() {
     }
 }
 
-/* Final Summary Card Visual Generator */
 function renderQuizSessionOutcomes() {
     quizScreen.classList.remove("active");
     resultScreen.classList.add("active");
@@ -900,18 +864,16 @@ function restartQuiz() {
     introScreen.classList.add("active");
 }
 
-/* Contextual Sound Pipeline Manager */
 function triggerAudioDeviceFeedback(elementId) {
     try {
         const targetAudio = document.getElementById(elementId);
         if (targetAudio) {
             targetAudio.currentTime = 0;
-            targetAudio.play().catch(err => console.log("Audio play deferred until user gesture sequence: ", err));
+            targetAudio.play().catch(err => console.log("Audio play deferred: ", err));
         }
-    } catch(e) { console.log("Audio unit reference failure: ", e); }
+    } catch(e) { console.log("Audio reference failure: ", e); }
 }
 
-/* Custom Interactive Micro Animations Pipeline Elements */
 function triggerConfettiStarsEffect() {
     const icons = ["⭐", "✨", "💻", "💾", "🎨"];
     for (let i = 0; i < 20; i++) {
@@ -937,10 +899,9 @@ function triggerScreenCrossEffect() {
     setTimeout(() => cross.remove(), 800);
 }
 
-/* Background Atmosphere Decorator Layer */
 function buildAmbientIconBackground() {
     const bgContainer = document.getElementById("bgIcons");
-    const iconsPool = ["💻", "🖱️", "⌨️", "🖨️", "🎮", "🖌️", "💾", "📁"];
+    const iconsPool = ["💻", "🖱️", "⌨️", "💾", "🔌", "📺", "⚙️", "📁"];
     
     for (let i = 0; i < 30; i++) {
         const unit = document.createElement("div");
