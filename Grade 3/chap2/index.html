@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grade 3 - Files and Folders CBQ Challenge</title>
+<title>Files and Folders CBQ Challenge</title>
 
 <style>
 *{
@@ -14,25 +14,15 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:url('assets/bg.png') no-repeat center center fixed;
-background-size:cover;
+background: #0a192f;
 min-height:100vh;
 overflow-x:hidden;
 position:relative;
+display: flex;
+flex-direction: column;
 }
 
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(255,255,255,0.85);
-z-index:-1;
-}
-
-/* Animated Background */
+/* Animated Dark Background with Stars */
 .background{
 position:fixed;
 top:0;
@@ -46,11 +36,11 @@ z-index:0;
 
 .star{
 position:absolute;
-width:6px;
-height:6px;
-background:#1565c0;
+width:5px;
+height:5px;
+background:#64ffda;
 border-radius:50%;
-opacity:.4;
+opacity:.3;
 animation:floatStars linear infinite;
 }
 
@@ -60,7 +50,7 @@ transform:translateY(100vh);
 opacity:0;
 }
 50%{
-opacity:.6;
+opacity:.7;
 }
 100%{
 transform:translateY(-20vh);
@@ -74,9 +64,10 @@ display:none;
 min-height:100vh;
 justify-content:center;
 align-items:center;
-padding:20px;
+padding:15px;
 position:relative;
 z-index:2;
+width: 100%;
 }
 
 .active{
@@ -86,13 +77,13 @@ flex-direction:column;
 
 /* Splash Screen */
 .logo-screen{
-background:white;
+background:#ffffff;
 z-index:9999;
 }
 
 .logo-screen img{
 width:240px;
-max-width:90%;
+max-width:85%;
 animation:pulse 2s infinite;
 }
 
@@ -105,104 +96,122 @@ animation:pulse 2s infinite;
 /* Card layout */
 .card{
 width:100%;
-max-width:900px;
-background:rgba(255,255,255,.96);
-padding:25px;
+max-width:850px;
+background:#112240;
+padding:30px;
 border-radius:24px;
-box-shadow:0 12px 30px rgba(0,0,0,.15);
-border:2px solid #dbeafe;
+box-shadow:0 15px 35px rgba(0,0,0,0.5);
+border:2px solid #233554;
+text-align: center;
+color: #e2e8f0;
 }
 
 h1{
 text-align:center;
-color:#1565c0;
-margin-bottom:10px;
+color:#64ffda;
+margin-bottom:12px;
+font-size: 2rem;
+letter-spacing: 1px;
 }
 
 .chapter{
 text-align:center;
 font-weight:bold;
-margin-bottom:5px;
-color:#0d47a1;
-font-size:1.25rem;
+margin-bottom:6px;
+color:#cbd5e1;
+font-size:1.3rem;
 }
 
 .topic{
 text-align:center;
-margin-bottom:20px;
-color:#555;
+margin-bottom:22px;
+color:#8892b0;
 font-size:1.1rem;
 }
 
 .instructions{
-background:#eef6ff;
-padding:20px;
-border-radius:15px;
-line-height:2;
+background:#1d2d44;
+padding:22px;
+border-radius:16px;
+line-height:1.8;
 margin-top:15px;
 text-align:left;
+border-left: 4px solid #64ffda;
 }
 
 .instructions ol{
-margin-left:25px;
+margin-left:22px;
+color: #cbd5e1;
+}
+
+.instructions li{
+margin-bottom: 8px;
 }
 
 .main-btn{
-padding:14px 28px;
+padding:14px 32px;
 border:none;
 border-radius:12px;
-background:#1565c0;
-color:white;
-font-size:1rem;
+background:#64ffda;
+color:#0a192f;
+font-size:1.1rem;
 cursor:pointer;
-margin-top:20px;
-transition:.3s;
+margin-top:25px;
+transition:.3s ease;
 font-weight:bold;
+box-shadow: 0 4px 14px rgba(100, 255, 218, 0.3);
 }
 
 .main-btn:hover{
-background:#0d47a1;
+background:#52d1b2;
+transform: translateY(-2px);
 }
 
 /* Quiz UI elements */
 .topbar{
 display:flex;
 justify-content:space-between;
-gap:10px;
+gap:12px;
 flex-wrap:wrap;
-margin-bottom:15px;
+margin-bottom:20px;
+width: 100%;
 }
 
 .box{
-background:#eef6ff;
-padding:12px 18px;
+background:#1d2d44;
+padding:12px 20px;
 border-radius:12px;
 font-weight:bold;
-color:#1565c0;
+color:#64ffda;
+flex: 1;
+min-width: 120px;
+text-align: center;
+border: 1px solid #233554;
 }
 
 .progress{
-height:12px;
-background:#dbeafe;
+height:14px;
+background:#233554;
 border-radius:20px;
 overflow:hidden;
-margin-bottom:20px;
+margin-bottom:22px;
+width: 100%;
 }
 
 .progress-fill{
 height:100%;
 width:0%;
-background:linear-gradient(90deg,#10b981,#22c55e);
+background:linear-gradient(90deg,#10b981,#64ffda);
 transition:.4s;
 }
 
 .question{
-font-size:1.2rem;
+font-size:1.25rem;
 font-weight:600;
 line-height:1.6;
-margin-bottom:18px;
+margin-bottom:22px;
 text-align:left;
-color:#222;
+color:#f8fafc;
 }
 
 /* Image Question Styles */
@@ -210,105 +219,148 @@ color:#222;
 width: 100%;
 display: flex;
 justify-content: center;
-margin-bottom: 20px;
-background: #ffffff;
-padding: 10px;
-border-radius: 12px;
-border: 1px solid #dbeafe;
+margin-bottom: 22px;
+background: #1d2d44;
+padding: 12px;
+border-radius: 14px;
+border: 1px solid #233554;
 }
 
 .q-image-container img {
 max-width: 100%;
 height: auto;
-max-height: 250px;
+max-height: 240px;
 border-radius: 8px;
 }
 
 .options{
 display:grid;
-gap:12px;
+grid-template-columns: 1fr;
+gap:14px;
+width: 100%;
+}
+
+/* Multi-column option orientation on wider dashboards */
+@media(min-width: 768px) {
+    .options {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .option-btn{
-padding:14px;
-border:none;
+padding:16px;
+border:1px solid #233554;
 border-radius:14px;
-background:#eef6ff;
+background:#1d2d44;
 cursor:pointer;
-font-size:1rem;
-transition:.3s;
+font-size:1.05rem;
+transition:.2s ease;
 font-weight:500;
 text-align:left;
 line-height:1.4;
-color:#333;
+color:#cbd5e1;
+outline: none;
 }
 
 .option-btn:hover{
-background:#dbeafe;
-transform:scale(1.01);
+background:#233554;
+color: #ffffff;
+border-color: #64ffda;
 }
 
 .correct{
-background:#d4ffd4!important;
-border:2px solid #2e7d32;
-color:#1b5e20!important;
+background:#10b981!important;
+border:2px solid #059669!important;
+color:#ffffff!important;
 font-weight:bold;
 }
 
 .wrong{
-background:#ffd9d9!important;
-border:2px solid #c62828;
-color:#b71c1c!important;
+background:#ef4444!important;
+border:2px solid #dc2626!important;
+color:#ffffff!important;
 }
 
 .feedback{
-margin-top:15px;
+margin-top:18px;
 font-weight:bold;
-min-height:28px;
-font-size:1.1rem;
+min-height:30px;
+font-size:1.15rem;
 text-align:left;
 }
 
 .explanation{
-margin-top:12px;
-background:#eef7ff;
-padding:12px;
+margin-top:15px;
+background:#1d2d44;
+padding:15px;
 border-radius:12px;
 display:none;
 line-height:1.6;
 text-align:left;
-border-left:5px solid #1565c0;
-color:#333;
+border-left:5px solid #64ffda;
+color:#e2e8f0;
 }
 
 .next-btn{
 display:none;
 }
 
-/* Result Screen */
+/* Result Screen Styles */
 .result{
 text-align:center;
 }
 
-.badge{
-font-size:4rem;
-margin:15px 0;
+.badge-box {
+margin: 20px auto;
+width: 160px;
+height: 160px;
+background: #1d2d44;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+border: 4px dashed #64ffda;
+animation: spinBadge 10s linear infinite;
+}
+
+@keyframes spinBadge {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.badge-icon {
+    font-size: 5rem;
+    animation: counterSpin 10s linear infinite;
+}
+
+@keyframes counterSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
+}
+
+.badge-title {
+    font-size: 1.5rem;
+    color: #64ffda;
+    font-weight: bold;
+    margin-top: 10px;
+    text-transform: uppercase;
 }
 
 .final-score{
-font-size:2rem;
+font-size:2.2rem;
 font-weight:bold;
-color:#1565c0;
-margin:10px 0;
+color:#ffffff;
+margin:15px 0 10px 0;
 }
 
 .message{
-font-size:1.1rem;
+font-size:1.15rem;
 line-height:1.7;
-color:#444;
+color:#8892b0;
+margin-bottom: 20px;
 }
 
-/* Confetti Stars */
+/* Confetti Falling Stars */
 .confetti{
 position:fixed;
 width:16px;
@@ -334,11 +386,11 @@ opacity:0;
 }
 }
 
-/* Cross Indicator Effect */
+/* Error Cross Graphic Overlay */
 .cross{
 position:fixed;
-font-size:50px;
-color:#c62828;
+font-size:55px;
+color:#ef4444;
 animation:fade 1s forwards;
 z-index:999;
 font-weight:bold;
@@ -356,23 +408,39 @@ transform:scale(1.8);
 }
 }
 
+/* Fine-tuned Responsive Queries for Mobile/Tablet Devices */
 @media(max-width:600px){
+.card {
+padding: 20px 15px;
+border-radius: 16px;
+}
+h1 {
+font-size: 1.6rem;
+}
 .question{
-font-size:1.05rem;
+font-size:1.1rem;
 }
 .option-btn{
 font-size:.95rem;
+padding: 14px;
 }
 .topbar{
-flex-direction:row;
-justify-content:space-between;
+gap: 8px;
 }
 .box {
-padding: 8px 12px;
-font-size: 0.9rem;
+padding: 10px;
+font-size: 0.85rem;
+min-width: 90px;
 }
 .logo-screen img{
 width:180px;
+}
+.badge-box {
+width: 130px;
+height: 130px;
+}
+.badge-icon {
+font-size: 4rem;
 }
 }
 </style>
@@ -388,8 +456,8 @@ width:180px;
 
 <div class="screen" id="introScreen">
     <div class="card">
-        <h1>ICT</h1>
-        <div class="chapter"> Files and Folders</div>
+        <h1>GRADE 3 – ICT</h1>
+        <div class="chapter">Chapter 2: Files and Folders</div>
         <div class="topic">Competency-Based Question (CBQ) Interactive Challenge</div>
         
         <div class="instructions">
@@ -397,8 +465,8 @@ width:180px;
                 <li>Read each application-based question carefully.</li>
                 <li>You have 45 seconds to answer each question.</li>
                 <li>You get up to 2 attempts for each level.</li>
-                <li>After 2 incorrect attempts, the correct answer and a helpful hint are shown.</li>
-                <li>Complete all 15 questions to win your File Management Badge!</li>
+                <li>After 2 incorrect attempts, the correct answer and a helpful explanation are shown.</li>
+                <li>Complete all questions to win your customized File Management Badge!</li>
             </ol>
         </div>
 
@@ -439,7 +507,12 @@ width:180px;
 <div class="screen" id="resultScreen">
     <div class="card result">
         <h1>Challenge Completed!</h1>
-        <div class="badge" id="badge">🏆</div>
+        
+        <div class="badge-box">
+            <div class="badge-icon" id="badgeIcon">🏆</div>
+        </div>
+        <div class="badge-title" id="badgeTitle">Gold Champion</div>
+
         <div class="final-score" id="finalScore"></div>
         <div class="message" id="message"></div>
         <button class="main-btn" onclick="restartQuiz()">Play Again</button>
@@ -452,71 +525,71 @@ width:180px;
 
 <script>
 /* Comprehensive Question Matrix for Grade 3 Chapter 2 */
-let questions = [
+let rawQuestions = [
     {
         question: "Riya saves her homework as a file. Where is it stored?",
         options: ["Folder", "Screen", "Mouse", "CPU"],
-        answer: 0,
+        answer: "Folder",
         explanation: "A folder is like a digital school bag used to organize and store files."
     },
     {
         question: "Aarav opens a folder to find his drawing. What is a folder used for?",
-        options: ["Typing", "Storing files", "Printing", "Clicking"],
-        answer: 1,
+        options: ["Storing files", "Typing", "Printing", "Clicking"],
+        answer: "Storing files",
         explanation: "Folders are specifically designed for storing and organizing files neatly."
     },
     {
         question: "A student double-clicks a file to open it. What happens?",
-        options: ["File deletes", "File opens", "File moves", "File prints"],
-        answer: 1,
+        options: ["File opens", "File deletes", "File moves", "File prints"],
+        answer: "File opens",
         explanation: "Double-clicking on any computer file icon commands the operating system to open it."
     },
     {
         question: "A student creates a new file to save work. What is being created?",
-        options: ["Folder", "File", "Icon", "Device"],
-        answer: 1,
+        options: ["File", "Folder", "Icon", "Device"],
+        answer: "File",
         explanation: "Any work saved in an application creates an individual collection of information known as a file."
     },
     {
         question: "A student deletes a file. Where does it go first?",
-        options: ["Folder", "Desktop", "Recycle Bin", "CPU"],
-        answer: 2,
+        options: ["Recycle Bin", "Folder", "Desktop", "CPU"],
+        answer: "Recycle Bin",
         explanation: "Deleted files are moved temporarily to the Recycle Bin so they can be retrieved if needed."
     },
     {
         question: "A student restores a deleted file. What happens?",
-        options: ["File is removed forever", "File comes back", "File prints", "File moves to CPU"],
-        answer: 1,
+        options: ["File comes back", "File is removed forever", "File prints", "File moves to CPU"],
+        answer: "File comes back",
         explanation: "Restoring a file takes it out of the Recycle Bin and puts it back to its original location."
     },
     {
         question: "Riya saves all her drawings in one place to keep them organized. What should she create?",
-        options: ["File", "Folder", "Screen", "Icon"],
-        answer: 1,
+        options: ["Folder", "File", "Screen", "Icon"],
+        answer: "Folder",
         explanation: "To keep files organized together in one shared location, you should create a folder."
     },
     {
         question: "Aarav cannot find his homework because it is saved in many random places. What should he do?",
-        options: ["Delete files", "Organize in folders", "Print files", "Close computer"],
-        answer: 1,
+        options: ["Organize in folders", "Delete files", "Print files", "Close computer"],
+        answer: "Organize in folders",
         explanation: "Organizing your files within properly named folders keeps them easy to track down later."
     },
     {
         question: "A student deletes an important file by mistake. What should be done?",
-        options: ["Ignore", "Check Recycle Bin", "Turn off computer", "Create new file"],
-        answer: 1,
+        options: ["Check Recycle Bin", "Ignore", "Turn off computer", "Create new file"],
+        answer: "Check Recycle Bin",
         explanation: "If a file is removed accidentally, open the Recycle Bin to find and restore it."
     },
     {
         question: "Look at the action list: Save → File stored, Delete → File removed, Restore → File comes back. Which action brings back a file?",
-        options: ["Save", "Delete", "Restore", "Close"],
-        answer: 2,
+        options: ["Restore", "Save", "Delete", "Close"],
+        answer: "Restore",
         explanation: "The 'Restore' command brings a deleted file safely back to where it was."
     },
     {
         question: "Review the mapping: Homework.doc → File, Pictures → Folder, Music.mp3 → File. Which item is a folder?",
-        options: ["Homework.doc", "Pictures", "Music.mp3", "All"],
-        answer: 1,
+        options: ["Pictures", "Homework.doc", "Music.mp3", "All"],
+        answer: "Pictures",
         explanation: "'Pictures' serves as a container workspace, which represents a folder."
     },
     {
@@ -527,31 +600,31 @@ let questions = [
             "The poem is sent to the printer automatically.",
             "The keyboard stops working."
         ],
-        answer: 0,
+        answer: "The poem can be stored and used later.",
         explanation: "Saving turns your active work into a preserved file so you can reopen it whenever you want."
     },
     {
         question: "Aarav has saved his Maths worksheet, Science project, and holiday photographs on the computer. He wants to keep similar files together so that they are easy to find later. What should he use?",
-        options: ["Recycle Bin", "Folder", "Desktop Background", "Keyboard"],
-        answer: 1,
+        options: ["Folder", "Recycle Bin", "Desktop Background", "Keyboard"],
+        answer: "Folder",
         explanation: "A folder lets you classify your work and keep similar items paired up securely."
     },
     {
         question: "A computer has the folders 'Pictures', 'Homework', and 'Games'. Where should Nisha save her Science project report?",
-        options: ["Pictures", "Games", "Homework", "Recycle Bin"],
-        answer: 2,
+        options: ["Homework", "Pictures", "Games", "Recycle Bin"],
+        answer: "Homework",
         explanation: "Since it is a school project report, the most logical location is inside the 'Homework' folder."
     },
     {
         question: "Look at the image of files and folders. Which panel shows a folder icon?",
-        options: ["Panel a", "Panel b", "Panel c", "Panel d"],
-        answer: 1, 
+        options: ["Panel b", "Panel a", "Panel c", "Panel d"],
+        answer: "Panel b", 
         explanation: "Panel (b) shows the classic yellow folder icon used to store data files.",
         image: "assets/Q15.png" 
     }
 ];
 
-/* Application Runtime State Variables */
+let questions = [];
 let currentQuestion = 0;
 let score = 0;
 let timer;
@@ -586,24 +659,44 @@ window.onload = function(){
     }, 5000);
 };
 
-/* Shuffle Array Utility */
-function shuffleQuestions(array){
-    for(let i = array.length - 1; i > 0; i--){
+/* Shuffle Arrays Randomly */
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
 }
 
-/* Initialization Handler */
+/* Process and Randomize Game Pool */
+function prepareQuestions() {
+    // 1. Shuffle the list of overall questions
+    let shuffledPool = shuffle([...rawQuestions]);
+    
+    // 2. Shuffle options inside each question individually
+    questions = shuffledPool.map(q => {
+        let optionsCopy = shuffle([...q.options]);
+        // Track down the integer position index of correct option string post-shuffling
+        let correctIndex = optionsCopy.indexOf(q.answer);
+        return {
+            question: q.question,
+            options: optionsCopy,
+            answer: correctIndex,
+            explanation: q.explanation,
+            image: q.image || null
+        };
+    });
+}
+
+/* Start Game Action */
 function startQuiz(){
-    questions = shuffleQuestions(questions);
+    prepareQuestions();
     introScreen.style.display = "none";
     quizScreen.style.display = "flex";
     loadQuestion();
 }
 
-/* Set Up and Display Question Data */
+/* Load Question Screen Content */
 function loadQuestion(){
     clearInterval(timer);
     retryUsed = false;
@@ -617,7 +710,7 @@ function loadQuestion(){
     document.getElementById("questionCounter").innerHTML = `Question ${currentQuestion + 1} of ${questions.length}`;
     document.getElementById("progressFill").style.width = ((currentQuestion) / questions.length) * 100 + "%";
 
-    // Image Assessment Node Check
+    // Handle Optional Image Component Nodes
     if(q.image) {
         questionImage.src = q.image;
         qImageContainer.style.display = "flex";
@@ -628,7 +721,7 @@ function loadQuestion(){
 
     optionsContainer.innerHTML = "";
 
-    // Generate option elements dynamically
+    // Generate dynamic layout option buttons
     q.options.forEach((option, index) => {
         const btn = document.createElement("button");
         btn.classList.add("option-btn");
@@ -641,7 +734,7 @@ function loadQuestion(){
     timeLeft = 45;
     timerText.innerHTML = `Time: ${timeLeft}`;
 
-    // Establish countdown loop
+    // Countdown Clock Loop logic
     timer = setInterval(() => {
         timeLeft--;
         timerText.innerHTML = `Time: ${timeLeft}`;
@@ -660,14 +753,14 @@ function checkAnswer(selected, button){
     if(selected === q.answer){
         clearInterval(timer);
         button.classList.add("correct");
-        feedback.innerHTML = "✅ Correct! Fantastic job!";
-        feedback.style.color = "green";
+        feedback.innerHTML = "✅ Correct! Wonderful logic!";
+        feedback.style.color = "#10b981";
         
-        // Audio playback hooks
+        // Sound Triggers
         correctSound.play();
         setTimeout(() => {
             clapSound.play();
-        }, 300);
+        }, 250);
 
         score++;
         createConfetti();
@@ -680,8 +773,8 @@ function checkAnswer(selected, button){
         
         if(!retryUsed){
             retryUsed = true;
-            feedback.innerHTML = "❌ Try Again! You have one more chance.";
-            feedback.style.color = "#c62828";
+            feedback.innerHTML = "❌ Try Again! You have one more attempt.";
+            feedback.style.color = "#ef4444";
             button.disabled = true;
         } else {
             clearInterval(timer);
@@ -690,7 +783,7 @@ function checkAnswer(selected, button){
     }
 }
 
-/* Fallback Correct Answer State Visualizer */
+/* Correct Answer Reveal Module */
 function showCorrectAnswer(){
     const q = questions[currentQuestion];
     const buttons = document.querySelectorAll(".option-btn");
@@ -702,14 +795,14 @@ function showCorrectAnswer(){
         }
     });
 
-    feedback.innerHTML = "💡 Let's learn the correct answer:";
-    feedback.style.color = "#1565c0";
+    feedback.innerHTML = "💡 Let's check the correct explanation:";
+    feedback.style.color = "#64ffda";
     explanation.style.display = "block";
     explanation.innerHTML = q.explanation;
     nextBtn.style.display = "inline-block";
 }
 
-/* Advancement Control */
+/* Advance Question Stack */
 function nextQuestion(){
     currentQuestion++;
     if(currentQuestion < questions.length){
@@ -719,48 +812,57 @@ function nextQuestion(){
     }
 }
 
-/* End Game Summary Construction */
+/* End Game Summary Badge Router Node */
 function showResult(){
     quizScreen.style.display = "none";
     resultScreen.style.display = "flex";
     document.getElementById("finalScore").innerHTML = score + " / " + questions.length;
     
-    // Play celebratory sound if score is excellent
-    if(score >= 10) {
-        clapSound.play();
-    }
-
+    let badgeIcon = document.getElementById("badgeIcon");
+    let badgeTitle = document.getElementById("badgeTitle");
     let msg = "";
+
+    // Score evaluation logic routing badges
     if(score >= 13){ 
-        msg = "🏆 Outstanding! You are an official Files & Folders Champion!"; 
+        badgeIcon.innerHTML = "👑";
+        badgeTitle.innerHTML = "File Master King/Queen";
+        msg = "Outstanding work! You've achieved perfect command over all computer data structures!"; 
+        clapSound.play();
     } else if(score >= 8){ 
-        msg = "🌟 Great job! You know your way around computer systems very well."; 
+        badgeIcon.innerHTML = "🌟";
+        badgeTitle.innerHTML = "Tech Explorer Badge";
+        msg = "Excellent performance! You know your way around file configurations thoroughly.";
+        clapSound.play();
     } else { 
-        msg = "👍 Good try! Play again to improve your score and learn more."; 
+        badgeIcon.innerHTML = "👍";
+        badgeTitle.innerHTML = "Learning Star";
+        msg = "Good attempt! Review your concepts and try playing again to secure a Master Badge."; 
     }
     document.getElementById("message").innerHTML = msg;
 }
 
 function restartQuiz(){
-    location.reload();
+    currentQuestion = 0;
+    score = 0;
+    resultScreen.style.display = "none";
+    startQuiz();
 }
 
-/* Interactive Visual FX: Falling Stars Generator */
+/* FX Module: Confetti Falling Stars */
 function createConfetti(){
     for(let i = 0; i < 25; i++){
         const confetti = document.createElement("div");
         confetti.classList.add("confetti");
         confetti.style.left = Math.random() * window.innerWidth + "px";
-        confetti.style.top = (Math.random() * -50) + "px";
-        // Assign random background colors to the star elements
-        const colors = ["gold", "#ffd700", "#1565c0", "#22c55e", "#ff4081"];
+        confetti.style.top = (Math.random() * -40) + "px";
+        const colors = ["#64ffda", "gold", "#ffd700", "#10b981", "#ff4081"];
         confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), 2000);
     }
 }
 
-/* Interactive Visual FX: Overlay Fade Cross */
+/* FX Module: Error Screen Shaker Cross */
 function showCross(){
     const cross = document.createElement("div");
     cross.classList.add("cross");
@@ -774,11 +876,11 @@ function showCross(){
 /* Background Ambient Generator */
 function createBackground(){
     const bg = document.getElementById("background");
-    for(let i = 0; i < 30; i++){
+    for(let i = 0; i < 35; i++){
         const star = document.createElement("div");
         star.classList.add("star");
         star.style.left = Math.random() * 100 + "%";
-        star.style.animationDuration = (6 + Math.random() * 8) + "s";
+        star.style.animationDuration = (5 + Math.random() * 8) + "s";
         star.style.animationDelay = Math.random() * 4 + "s";
         bg.appendChild(star);
     }
