@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Editing in MS Word CBQ Challenge</title>
+<title>Grade 3 - Editing in MS Word CBQ Challenge</title>
 
 <style>
 *{
@@ -408,16 +408,14 @@ width: 100%;
 
 <body>
 
-<!-- Splash Loader -->
 <div class="screen active logo-screen" id="logoScreen">
     <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
-<!-- Welcome Panel -->
 <div class="screen" id="introScreen">
     <div class="card">
         <h1>ICT CHALLENGE</h1>
-        <div class="chapter">Editing in MS Word</div>
+        <div class="chapter">Chapter 4: Editing in MS Word</div>
         <div class="topic">Competency-Based Question (CBQ) Workspace</div>
         
         <div class="instructions">
@@ -434,7 +432,6 @@ width: 100%;
     </div>
 </div>
 
-<!-- Main Game Playground -->
 <div class="screen" id="quizScreen">
     <div class="card">
         <div class="topbar">
@@ -459,7 +456,6 @@ width: 100%;
     </div>
 </div>
 
-<!-- Milestone Evaluation Board with Rewards -->
 <div class="screen" id="resultScreen">
     <div class="card">
         <h1>Challenge Completed!</h1>
@@ -475,105 +471,104 @@ width: 100%;
     </div>
 </div>
 
-<!-- Sound Anchors matching assets/ folder exactly -->
-<audio id="correctSound" src="assets/clap.mp3"></audio> <!-- Adjusted to match available clap resource -->
+<audio id="correctSound" src="assets/clap.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/clap.mp3"></audio>
 
 <script>
-/* Question Matrix Pool for Chapter 4 with Integrated Image Assets */
+/* Question Matrix Pool for Chapter 4 - All manual references or citations removed */
 let rawQuestions = [
     {
-        question: "Aarav typed a sentence in the wrong place. He wants to move it to another location in the document. Which option should he use first?[cite: 3]",
+        question: "Aarav typed a sentence in the wrong place. He wants to move it to another location in the document. Which option should he use first?",
         options: ["Cut", "Copy", "Paste", "Save"],
         answer: "Cut",
-        explanation: "To move text completely from its old position to a brand new spot, you use the Cut action first.[cite: 3]"
+        explanation: "To move text completely from its old position to a brand new spot, you use the Cut action first."
     },
     {
-        question: "Riya wants the same paragraph to appear in two places in her project. Which option should she use?[cite: 3]",
+        question: "Riya wants the same paragraph to appear in two places in her project. Which option should she use?",
         options: ["Copy", "Cut", "Delete", "Replace"],
         answer: "Copy",
-        explanation: "The Copy option duplicates text, allowing it to stay in its original place and also appear somewhere else.[cite: 3]"
+        explanation: "The Copy option duplicates text, allowing it to stay in its original place and also appear somewhere else."
     },
     {
-        question: "After using the Copy command, what should a student do to place the copied text in a new location?[cite: 3]",
+        question: "After using the Copy command, what should a student do to place the copied text in a new location?",
         options: ["Paste", "Cut", "Find", "Print"],
         answer: "Paste",
-        explanation: "Paste places the text that you have copied or cut directly down onto your blinking cursor location.[cite: 3]"
+        explanation: "Paste places the text that you have copied or cut directly down onto your blinking cursor location."
     },
     {
-        question: "A student is preparing a chart with a wide layout. Which page orientation is most suitable?[cite: 3]",
+        question: "A student is preparing a chart with a wide layout. Which page orientation is most suitable?",
         options: ["Landscape", "Portrait", "Normal", "Vertical"],
         answer: "Landscape",
-        explanation: "Landscape orientation sets up your canvas page horizontally, making it perfect for broad charts or certificates.[cite: 3]"
+        explanation: "Landscape orientation sets up your canvas page horizontally, making it perfect for broad charts or certificates."
     },
     {
-        question: "Kabir cannot find the word 'Computer' in a long document. Which feature should he use?[cite: 3]",
+        question: "Kabir cannot find the word 'Computer' in a long document. Which feature should he use?",
         options: ["Find", "Replace", "Paste", "Cut"],
         answer: "Find",
-        explanation: "The Find feature automatically scans your entire document to search for and highlight specific words instantly.[cite: 3]"
+        explanation: "The Find feature automatically scans your entire document to search for and highlight specific words instantly."
     },
     {
-        question: "Meera copied a paragraph and pasted it into another section. What happened to the original paragraph?[cite: 3]",
+        question: "Meera copied a paragraph and pasted it into another section. What happened to the original paragraph?",
         options: ["It remained in its original place", "It was deleted", "It moved automatically", "It was printed"],
         answer: "It remained in its original place",
-        explanation: "Because Meera used Copy (and not Cut), the original text stays completely safe and unchanged where it was.[cite: 3]"
+        explanation: "Because Meera used Copy (and not Cut), the original text stays completely safe and unchanged where it was."
     },
     {
-        question: "Aman cut a sentence from a document but forgot to paste it. Identify this temporary storage area shown in the image:[cite: 3]",
+        question: "Aman cut a sentence from a document but forgot to paste it. Identify this temporary storage area shown in the image:",
         options: ["Clipboard", "Status Bar", "Title Bar", "Ruler"],
         answer: "Clipboard",
-        image: "assets/clipboard.PNG", // Image-based question added from assets folder[cite: 3]
-        explanation: "The Clipboard is a small, temporary memory workspace inside your computer that holds text you cut or copy.[cite: 3]"
+        image: "assets/clipboard.PNG",
+        explanation: "The Clipboard is a small, temporary memory workspace inside your computer that holds text you cut or copy."
     },
     {
-        question: "Riya wants to change every occurrence of 'School' to 'Library' in a document. Which feature will help?[cite: 3]",
+        question: "Riya wants to change every occurrence of 'School' to 'Library' in a document. Which feature will help?",
         options: ["Find and Replace", "Copy", "Delete", "Paste"],
         answer: "Find and Replace",
-        explanation: "Find and Replace changes old words to new words everywhere across your file all at the same time.[cite: 3]"
+        explanation: "Find and Replace changes old words to new words everywhere across your file all at the same time."
     },
     {
-        question: "Study the table: Cut → Move text, Copy → Duplicate text, Paste → Place text. Which action places text at the cursor position?[cite: 3]",
+        question: "Which action places text at the cursor position?",
         options: ["Paste", "Cut", "Copy", "Delete"],
         answer: "Paste",
-        explanation: "According to standard editing guidelines, the Paste option deposits the held text onto your screen cursor.[cite: 3]"
+        explanation: "According to standard editing guidelines, the Paste option deposits the held text onto your screen cursor."
     },
     {
-        question: "A teacher asks students to change all spelling mistakes of one word throughout a document. Which feature is most useful?[cite: 3]",
+        question: "A teacher asks students to change all spelling mistakes of one word throughout a document. Which feature is most useful?",
         options: ["Replace", "Margins", "Copy", "Undo"],
         answer: "Replace",
-        explanation: "The Replace function swaps out incorrect terms with the correct spelling across the whole file quickly.[cite: 3]"
+        explanation: "The Replace function swaps out incorrect terms with the correct spelling across the whole file quickly."
     },
     {
-        question: "A student sees this tool button in MS Word. What editing action does it represent?[cite: 3]",
+        question: "A student sees this tool button in MS Word. What editing action does it represent?",
         options: ["Cut", "Copy", "Paste", "Print"],
         answer: "Cut",
-        image: "assets/scissor.PNG", // Image-based question added from assets folder[cite: 3]
-        explanation: "The icon shaped like scissors stands for the Cut tool, which slices text away from its current position.[cite: 3]"
+        image: "assets/scissor.PNG",
+        explanation: "The icon shaped like scissors stands for the Cut tool, which slices text away from its current position."
     },
     {
-        question: "Which situation shows the correct use of Landscape orientation?[cite: 3]",
+        question: "Which situation shows the correct use of Landscape orientation?",
         options: ["Making a wide certificate", "Writing a letter", "Typing a short note", "Saving a file"],
         answer: "Making a wide certificate",
-        explanation: "A wide certificate spreads horizontally across the page, making Landscape orientation ideal.[cite: 3]"
+        explanation: "A wide certificate spreads horizontally across the page, making Landscape orientation ideal."
     },
     {
-        question: "Rohan selected text by mistake and wants to remove it immediately. What should he do?[cite: 3]",
+        question: "Rohan selected text by mistake and wants to remove it immediately. What should he do?",
         options: ["Press Delete", "Press Enter", "Click Print", "Use Zoom"],
         answer: "Press Delete",
-        explanation: "Pressing Delete or Backspace clears away whatever items or sentences you have selected instantly.[cite: 3]"
+        explanation: "Pressing Delete or Backspace clears away whatever items or sentences you have selected instantly."
     },
     {
-        question: "Which shortcut key combination is commonly used for Paste?[cite: 3]",
+        question: "Which shortcut key combination is commonly used for Paste?",
         options: ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + S"],
         answer: "Ctrl + V",
-        explanation: "While Ctrl+C copies and Ctrl+X cuts, Ctrl+V is the universal keyboard shortcut to Paste text.[cite: 3]"
+        explanation: "While Ctrl+C copies and Ctrl+X cuts, Ctrl+V is the universal keyboard shortcut to Paste text."
     },
     {
-        question: "While editing a school magazine, one student uses proper alignment, spacing, and editing tools. Another student does not. Why is the first document better?[cite: 3]",
+        question: "While editing a school magazine, one student uses proper alignment, spacing, and editing tools. Another student does not. Why is the first document better?",
         options: ["It is easier to read and looks organised", "It uses more pages", "It contains fewer words", "It opens faster"],
         answer: "It is easier to read and looks organised",
-        explanation: "Properly edited text looks presentation-ready, neat, professional, and is much easier for people to read.[cite: 3]"
+        explanation: "Properly edited text looks presentation-ready, neat, professional, and is much easier for people to read."
     }
 ];
 
@@ -658,7 +653,6 @@ function loadQuestion(){
     document.getElementById("questionCounter").innerHTML = `Question ${currentQuestion + 1} of ${questions.length}`;
     document.getElementById("progressFill").style.width = ((currentQuestion) / questions.length) * 100 + "%";
 
-    /* Image-Based Layout Injection handling */
     if (q.image) {
         qImage.src = q.image;
         qImageContainer.style.display = "block";
