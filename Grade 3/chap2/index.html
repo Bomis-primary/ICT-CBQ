@@ -10,64 +10,30 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body{
-background: #0a192f;
+background: linear-gradient(135deg, #0082ff, #7800ff);
 min-height:100vh;
 overflow-x:hidden;
 position:relative;
 display: flex;
 flex-direction: column;
-}
-
-/* Animated Dark Background with Stars */
-.background{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-overflow:hidden;
-pointer-events:none;
-z-index:0;
-}
-
-.star{
-position:absolute;
-width:5px;
-height:5px;
-background:#64ffda;
-border-radius:50%;
-opacity:.3;
-animation:floatStars linear infinite;
-}
-
-@keyframes floatStars{
-0%{
-transform:translateY(100vh);
-opacity:0;
-}
-50%{
-opacity:.7;
-}
-100%{
-transform:translateY(-20vh);
-opacity:0;
-}
+justify-content: center;
+align-items: center;
+padding: 15px;
 }
 
 /* Screens */
 .screen{
 display:none;
-min-height:100vh;
+width: 100%;
+max-width: 850px;
 justify-content:center;
 align-items:center;
-padding:15px;
 position:relative;
 z-index:2;
-width: 100%;
 }
 
 .active{
@@ -78,7 +44,15 @@ flex-direction:column;
 /* Splash Screen */
 .logo-screen{
 background:#ffffff;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+max-width: 100%;
 z-index:9999;
+justify-content: center;
+align-items: center;
 }
 
 .logo-screen img{
@@ -93,81 +67,82 @@ animation:pulse 2s infinite;
 100%{transform:scale(1);}
 }
 
-/* Card layout */
+/* Card layout matching reference style sheet */
 .card{
 width:100%;
-max-width:850px;
-background:#112240;
-padding:30px;
-border-radius:24px;
-box-shadow:0 15px 35px rgba(0,0,0,0.5);
-border:2px solid #233554;
+background: #f5f6fc;
+padding: 40px 30px;
+border-radius: 32px;
+box-shadow: 0 20px 40px rgba(0,0,0,0.25);
 text-align: center;
-color: #e2e8f0;
+color: #333333;
 }
 
 h1{
 text-align:center;
-color:#64ffda;
-margin-bottom:12px;
-font-size: 2rem;
-letter-spacing: 1px;
+color: #631bfb;
+margin-bottom:8px;
+font-size: 2.2rem;
+font-weight: 800;
 }
 
 .chapter{
 text-align:center;
-font-weight:bold;
+font-weight:700;
 margin-bottom:6px;
-color:#cbd5e1;
+color: #444444;
 font-size:1.3rem;
 }
 
 .topic{
 text-align:center;
-margin-bottom:22px;
-color:#8892b0;
-font-size:1.1rem;
+margin-bottom:25px;
+color: #666666;
+font-size:1.15rem;
+font-weight: 500;
 }
 
 .instructions{
-background:#1d2d44;
-padding:22px;
-border-radius:16px;
-line-height:1.8;
-margin-top:15px;
-text-align:left;
-border-left: 4px solid #64ffda;
+background: #ffffff;
+padding: 25px;
+border-radius: 20px;
+line-height: 1.8;
+margin-top: 15px;
+text-align: left;
+box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
 }
 
 .instructions ol{
-margin-left:22px;
-color: #cbd5e1;
+margin-left: 22px;
+color: #444444;
+font-size: 1.05rem;
 }
 
 .instructions li{
-margin-bottom: 8px;
+margin-bottom: 10px;
 }
 
 .main-btn{
-padding:14px 32px;
-border:none;
-border-radius:12px;
-background:#64ffda;
-color:#0a192f;
-font-size:1.1rem;
-cursor:pointer;
-margin-top:25px;
-transition:.3s ease;
-font-weight:bold;
-box-shadow: 0 4px 14px rgba(100, 255, 218, 0.3);
+padding: 14px 40px;
+border: none;
+border-radius: 16px;
+background: linear-gradient(90deg, #3858f9, #622cfb);
+color: #ffffff;
+font-size: 1.15rem;
+cursor: pointer;
+margin-top: 30px;
+transition: all .3s ease;
+font-weight: bold;
+box-shadow: 0 6px 20px rgba(98, 44, 251, 0.4);
 }
 
 .main-btn:hover{
-background:#52d1b2;
 transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(98, 44, 251, 0.5);
+opacity: 0.95;
 }
 
-/* Quiz UI elements */
+/* Quiz UI top elements */
 .topbar{
 display:flex;
 justify-content:space-between;
@@ -178,59 +153,60 @@ width: 100%;
 }
 
 .box{
-background:#1d2d44;
+background: #ffffff;
 padding:12px 20px;
-border-radius:12px;
+border-radius:14px;
 font-weight:bold;
-color:#64ffda;
+color: #631bfb;
 flex: 1;
 min-width: 120px;
 text-align: center;
-border: 1px solid #233554;
+box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+font-size: 1rem;
 }
 
 .progress{
-height:14px;
-background:#233554;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:22px;
+height: 12px;
+background: #e2e8f0;
+border-radius: 20px;
+overflow: hidden;
+margin-bottom: 25px;
 width: 100%;
 }
 
 .progress-fill{
 height:100%;
 width:0%;
-background:linear-gradient(90deg,#10b981,#64ffda);
+background: linear-gradient(90deg, #3858f9, #622cfb);
 transition:.4s;
 }
 
 .question{
-font-size:1.25rem;
-font-weight:600;
-line-height:1.6;
-margin-bottom:22px;
-text-align:left;
-color:#f8fafc;
+font-size: 1.35rem;
+font-weight: 700;
+line-height:1.5;
+margin-bottom: 25px;
+text-align: left;
+color: #1a1a1a;
 }
 
-/* Image Question Styles */
+/* Graphical containers */
 .q-image-container {
 width: 100%;
 display: flex;
 justify-content: center;
-margin-bottom: 22px;
-background: #1d2d44;
-padding: 12px;
-border-radius: 14px;
-border: 1px solid #233554;
+margin-bottom: 25px;
+background: #ffffff;
+padding: 15px;
+border-radius: 20px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.04);
 }
 
 .q-image-container img {
 max-width: 100%;
 height: auto;
-max-height: 240px;
-border-radius: 8px;
+max-height: 220px;
+border-radius: 12px;
 }
 
 .options{
@@ -240,7 +216,6 @@ gap:14px;
 width: 100%;
 }
 
-/* Multi-column option orientation on wider dashboards */
 @media(min-width: 768px) {
     .options {
         grid-template-columns: 1fr 1fr;
@@ -248,148 +223,126 @@ width: 100%;
 }
 
 .option-btn{
-padding:16px;
-border:1px solid #233554;
-border-radius:14px;
-background:#1d2d44;
-cursor:pointer;
-font-size:1.05rem;
-transition:.2s ease;
-font-weight:500;
-text-align:left;
-line-height:1.4;
-color:#cbd5e1;
+padding: 18px 20px;
+border: 2px solid #e2e8f0;
+border-radius: 16px;
+background: #ffffff;
+cursor: pointer;
+font-size: 1.05rem;
+transition: all .2s ease;
+font-weight: 600;
+text-align: left;
+line-height: 1.4;
+color: #444444;
 outline: none;
+box-shadow: 0 4px 10px rgba(0,0,0,0.02);
 }
 
 .option-btn:hover{
-background:#233554;
-color: #ffffff;
-border-color: #64ffda;
+background: #f1f5f9;
+border-color: #631bfb;
+color: #631bfb;
 }
 
 .correct{
-background:#10b981!important;
-border:2px solid #059669!important;
-color:#ffffff!important;
-font-weight:bold;
+background: #10b981 !important;
+border-color: #059669 !important;
+color: #ffffff !important;
+font-weight: bold;
 }
 
 .wrong{
-background:#ef4444!important;
-border:2px solid #dc2626!important;
-color:#ffffff!important;
+background: #ef4444 !important;
+border-color: #dc2626 !important;
+color: #ffffff !important;
 }
 
 .feedback{
-margin-top:18px;
-font-weight:bold;
+margin-top:20px;
+font-weight: 700;
 min-height:30px;
-font-size:1.15rem;
-text-align:left;
+font-size: 1.2rem;
+text-align: left;
 }
 
 .explanation{
 margin-top:15px;
-background:#1d2d44;
-padding:15px;
-border-radius:12px;
+background: #ffffff;
+padding: 18px;
+border-radius: 16px;
 display:none;
 line-height:1.6;
 text-align:left;
-border-left:5px solid #64ffda;
-color:#e2e8f0;
+border-left: 5px solid #631bfb;
+color: #444444;
+font-size: 1rem;
+box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 
 .next-btn{
 display:none;
 }
 
-/* Result Screen Styles */
-.result{
-text-align:center;
-}
-
+/* Result Dashboard Badges layout */
 .badge-box {
-margin: 20px auto;
-width: 160px;
-height: 160px;
-background: #1d2d44;
+margin: 25px auto;
+width: 150px;
+height: 150px;
+background: #ffffff;
 border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
-border: 4px dashed #64ffda;
-animation: spinBadge 10s linear infinite;
-}
-
-@keyframes spinBadge {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+box-shadow: 0 10px 25px rgba(99, 27, 251, 0.15);
+border: 4px solid #631bfb;
 }
 
 .badge-icon {
-    font-size: 5rem;
-    animation: counterSpin 10s linear infinite;
-}
-
-@keyframes counterSpin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(-360deg); }
+font-size: 4.5rem;
 }
 
 .badge-title {
-    font-size: 1.5rem;
-    color: #64ffda;
-    font-weight: bold;
-    margin-top: 10px;
-    text-transform: uppercase;
+font-size: 1.4rem;
+color: #631bfb;
+font-weight: 800;
+margin-top: 12px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
 }
 
 .final-score{
-font-size:2.2rem;
-font-weight:bold;
-color:#ffffff;
-margin:15px 0 10px 0;
+font-size: 2.5rem;
+font-weight: 800;
+color: #1a1a1a;
+margin: 15px 0 10px 0;
 }
 
 .message{
-font-size:1.15rem;
-line-height:1.7;
-color:#8892b0;
+font-size: 1.1rem;
+line-height: 1.6;
+color: #555555;
 margin-bottom: 20px;
+padding: 0 10px;
 }
 
-/* Confetti Falling Stars */
+/* Absolute Floating FX Components */
 .confetti{
 position:fixed;
-width:16px;
-height:16px;
-background:gold;
-clip-path:polygon(
-50% 0%,61% 35%,98% 35%,68% 57%,
-79% 91%,50% 70%,21% 91%,32% 57%,
-2% 35%,39% 35%
-);
+width:14px;
+height:14px;
+border-radius: 50%;
 animation:fall 2s linear forwards;
 z-index:999;
 }
 
 @keyframes fall{
-0%{
-transform:translateY(-20px) rotate(0deg);
-opacity:1;
-}
-100%{
-transform:translateY(100vh) rotate(360deg);
-opacity:0;
-}
+0%{ transform:translateY(-20px) rotate(0deg); opacity:1; }
+100%{ transform:translateY(100vh) rotate(360deg); opacity:0; }
 }
 
-/* Error Cross Graphic Overlay */
 .cross{
 position:fixed;
-font-size:55px;
+font-size:60px;
 color:#ef4444;
 animation:fade 1s forwards;
 z-index:999;
@@ -398,49 +351,61 @@ pointer-events:none;
 }
 
 @keyframes fade{
-0%{
-opacity:1;
-transform:scale(1);
-}
-100%{
-opacity:0;
-transform:scale(1.8);
-}
+0%{ opacity:1; transform:scale(1); }
+100%{ opacity:0; transform:scale(1.6); }
 }
 
-/* Fine-tuned Responsive Queries for Mobile/Tablet Devices */
+/* Screen Size Adaptive Media Breakpoints */
 @media(max-width:600px){
+body {
+padding: 10px;
+}
 .card {
-padding: 20px 15px;
-border-radius: 16px;
+padding: 25px 15px;
+border-radius: 24px;
 }
 h1 {
-font-size: 1.6rem;
+font-size: 1.7rem;
+}
+.chapter {
+font-size: 1.15rem;
+}
+.topic {
+font-size: 1rem;
+margin-bottom: 15px;
 }
 .question{
-font-size:1.1rem;
+font-size: 1.15rem;
+margin-bottom: 20px;
 }
 .option-btn{
-font-size:.95rem;
-padding: 14px;
+font-size: .95rem;
+padding: 14px 16px;
 }
 .topbar{
 gap: 8px;
+margin-bottom: 15px;
 }
 .box {
 padding: 10px;
 font-size: 0.85rem;
-min-width: 90px;
+min-width: 95px;
 }
 .logo-screen img{
 width:180px;
 }
 .badge-box {
-width: 130px;
-height: 130px;
+width: 120px;
+height: 120px;
 }
 .badge-icon {
-font-size: 4rem;
+font-size: 3.5rem;
+}
+.main-btn {
+margin-top: 20px;
+padding: 12px 30px;
+font-size: 1.05rem;
+width: 100%;
 }
 }
 </style>
@@ -448,31 +413,27 @@ font-size: 4rem;
 
 <body>
 
-<div class="background" id="background"></div>
-
 <div class="screen active logo-screen" id="logoScreen">
     <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
 <div class="screen" id="introScreen">
     <div class="card">
-        <h1>GRADE 3 – ICT</h1>
+        <h1>ICT CHALLENGE</h1>
         <div class="chapter">Chapter 2: Files and Folders</div>
-        <div class="topic">Competency-Based Question (CBQ) Interactive Challenge</div>
+        <div class="topic">Competency-Based Question (CBQ) Workspace</div>
         
         <div class="instructions">
             <ol>
-                <li>Read each application-based question carefully.</li>
-                <li>You have 45 seconds to answer each question.</li>
-                <li>You get up to 2 attempts for each level.</li>
-                <li>After 2 incorrect attempts, the correct answer and a helpful explanation are shown.</li>
-                <li>Complete all questions to win your customized File Management Badge!</li>
+                <li>Read each application question carefully.</li>
+                <li>You have 2 attempts for every scenario before moving ahead.</li>
+                <li>After 2 incorrect attempts, the right concept insight is displayed.</li>
+                <li>You have a comfortable limit of 45 seconds per puzzle.</li>
+                <li>Score high to achieve the ultimate File Management Badge!</li>
             </ol>
         </div>
 
-        <center>
-            <button class="main-btn" onclick="startQuiz()">Start Challenge</button>
-        </center>
+        <button class="main-btn" onclick="startQuiz()">Start Challenge</button>
     </div>
 </div>
 
@@ -491,21 +452,19 @@ font-size: 4rem;
         <div class="question" id="questionText"></div>
         
         <div class="q-image-container" id="qImageContainer" style="display: none;">
-            <img id="questionImage" src="" alt="Question Graphic Reference">
+            <img id="questionImage" src="" alt="Reference Diagram">
         </div>
 
         <div class="options" id="optionsContainer"></div>
         <div class="feedback" id="feedback"></div>
         <div class="explanation" id="explanation"></div>
 
-        <center>
-            <button class="main-btn next-btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
-        </center>
+        <button class="main-btn next-btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
     </div>
 </div>
 
 <div class="screen" id="resultScreen">
-    <div class="card result">
+    <div class="card">
         <h1>Challenge Completed!</h1>
         
         <div class="badge-box">
@@ -524,73 +483,73 @@ font-size: 4rem;
 <audio id="clapSound" src="assets/clap.mp3"></audio>
 
 <script>
-/* Comprehensive Question Matrix for Grade 3 Chapter 2 */
+/* Question Matrix Pool */
 let rawQuestions = [
     {
         question: "Riya saves her homework as a file. Where is it stored?",
         options: ["Folder", "Screen", "Mouse", "CPU"],
         answer: "Folder",
-        explanation: "A folder is like a digital school bag used to organize and store files."
+        explanation: "A folder works exactly like a digital container or bag to hold and manage multiple items safely."
     },
     {
         question: "Aarav opens a folder to find his drawing. What is a folder used for?",
         options: ["Storing files", "Typing", "Printing", "Clicking"],
         answer: "Storing files",
-        explanation: "Folders are specifically designed for storing and organizing files neatly."
+        explanation: "Folders are designed explicitly to organize and store multiple computer files together cleanly."
     },
     {
         question: "A student double-clicks a file to open it. What happens?",
         options: ["File opens", "File deletes", "File moves", "File prints"],
         answer: "File opens",
-        explanation: "Double-clicking on any computer file icon commands the operating system to open it."
+        explanation: "Double-clicking on a file icon sends a command to launch and read that file instantly."
     },
     {
         question: "A student creates a new file to save work. What is being created?",
         options: ["File", "Folder", "Icon", "Device"],
         answer: "File",
-        explanation: "Any work saved in an application creates an individual collection of information known as a file."
+        explanation: "Whenever you write data or save a drawing in an application, a new data file is formed."
     },
     {
         question: "A student deletes a file. Where does it go first?",
         options: ["Recycle Bin", "Folder", "Desktop", "CPU"],
         answer: "Recycle Bin",
-        explanation: "Deleted files are moved temporarily to the Recycle Bin so they can be retrieved if needed."
+        explanation: "Deleted files are sent directly to the Recycle Bin first, allowing a safety backup to restore them later."
     },
     {
         question: "A student restores a deleted file. What happens?",
         options: ["File comes back", "File is removed forever", "File prints", "File moves to CPU"],
         answer: "File comes back",
-        explanation: "Restoring a file takes it out of the Recycle Bin and puts it back to its original location."
+        explanation: "Restoring pulls the file straight out of the Recycle Bin and replaces it to its exact original location."
     },
     {
         question: "Riya saves all her drawings in one place to keep them organized. What should she create?",
         options: ["Folder", "File", "Screen", "Icon"],
         answer: "Folder",
-        explanation: "To keep files organized together in one shared location, you should create a folder."
+        explanation: "To group individual files into one single organized compartment, creating a folder is the perfect solution."
     },
     {
         question: "Aarav cannot find his homework because it is saved in many random places. What should he do?",
         options: ["Organize in folders", "Delete files", "Print files", "Close computer"],
         answer: "Organize in folders",
-        explanation: "Organizing your files within properly named folders keeps them easy to track down later."
+        explanation: "Sorting elements inside custom-named folders makes finding and managing specific tasks quick and effortless."
     },
     {
         question: "A student deletes an important file by mistake. What should be done?",
         options: ["Check Recycle Bin", "Ignore", "Turn off computer", "Create new file"],
         answer: "Check Recycle Bin",
-        explanation: "If a file is removed accidentally, open the Recycle Bin to find and restore it."
+        explanation: "If something is cleared unexpectedly, go straight inside the Recycle Bin to locate and bring it back."
     },
     {
         question: "Look at the action list: Save → File stored, Delete → File removed, Restore → File comes back. Which action brings back a file?",
         options: ["Restore", "Save", "Delete", "Close"],
         answer: "Restore",
-        explanation: "The 'Restore' command brings a deleted file safely back to where it was."
+        explanation: "The 'Restore' utility acts like a time-machine to recover items that were discarded."
     },
     {
         question: "Review the mapping: Homework.doc → File, Pictures → Folder, Music.mp3 → File. Which item is a folder?",
         options: ["Pictures", "Homework.doc", "Music.mp3", "All"],
         answer: "Pictures",
-        explanation: "'Pictures' serves as a container workspace, which represents a folder."
+        explanation: "'Pictures' functions as a directory storage hub, meaning it is a distinct folder category."
     },
     {
         question: "Meera typed a poem on the computer and clicked Save before closing it. What is the benefit of saving the poem as a file?",
@@ -601,25 +560,25 @@ let rawQuestions = [
             "The keyboard stops working."
         ],
         answer: "The poem can be stored and used later.",
-        explanation: "Saving turns your active work into a preserved file so you can reopen it whenever you want."
+        explanation: "Saving locks your text into storage permanently as an active file so that you can reuse it safely tomorrow."
     },
     {
         question: "Aarav has saved his Maths worksheet, Science project, and holiday photographs on the computer. He wants to keep similar files together so that they are easy to find later. What should he use?",
         options: ["Folder", "Recycle Bin", "Desktop Background", "Keyboard"],
         answer: "Folder",
-        explanation: "A folder lets you classify your work and keep similar items paired up securely."
+        explanation: "Using customized folders allows multiple separate files to match under organized labels perfectly."
     },
     {
         question: "A computer has the folders 'Pictures', 'Homework', and 'Games'. Where should Nisha save her Science project report?",
         options: ["Homework", "Pictures", "Games", "Recycle Bin"],
         answer: "Homework",
-        explanation: "Since it is a school project report, the most logical location is inside the 'Homework' folder."
+        explanation: "School assignments always match logically inside an academic container workspace like a 'Homework' folder."
     },
     {
-        question: "Look at the image of files and folders. Which panel shows a folder icon?",
-        options: ["Panel b", "Panel a", "Panel c", "Panel d"],
-        answer: "Panel b", 
-        explanation: "Panel (b) shows the classic yellow folder icon used to store data files.",
+        question: "Look at the image of files and folders. Which option represents a classic folder storage icon?",
+        options: ["Option b", "Option a", "Option c", "Option d"],
+        answer: "Option b", 
+        explanation: "Option (b) exhibits the yellow paper folder silhouette used universally to hold digital data.",
         image: "assets/Q15.png" 
     }
 ];
@@ -650,7 +609,7 @@ const correctSound = document.getElementById("correctSound");
 const wrongSound = document.getElementById("wrongSound");
 const clapSound = document.getElementById("clapSound");
 
-/* Handle Window Load Phase (5 Seconds Splash Guard) */
+/* 5-Seconds Splash Screen Hold */
 window.onload = function(){
     logoScreen.style.display = "flex";
     setTimeout(() => {
@@ -659,7 +618,7 @@ window.onload = function(){
     }, 5000);
 };
 
-/* Shuffle Arrays Randomly */
+/* Linear Shuffle utility mapping function */
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -668,15 +627,11 @@ function shuffle(array) {
     return array;
 }
 
-/* Process and Randomize Game Pool */
+/* Question Matrix Randomization Module */
 function prepareQuestions() {
-    // 1. Shuffle the list of overall questions
     let shuffledPool = shuffle([...rawQuestions]);
-    
-    // 2. Shuffle options inside each question individually
     questions = shuffledPool.map(q => {
         let optionsCopy = shuffle([...q.options]);
-        // Track down the integer position index of correct option string post-shuffling
         let correctIndex = optionsCopy.indexOf(q.answer);
         return {
             question: q.question,
@@ -688,7 +643,6 @@ function prepareQuestions() {
     });
 }
 
-/* Start Game Action */
 function startQuiz(){
     prepareQuestions();
     introScreen.style.display = "none";
@@ -696,7 +650,7 @@ function startQuiz(){
     loadQuestion();
 }
 
-/* Load Question Screen Content */
+/* Build Interactive Question Elements */
 function loadQuestion(){
     clearInterval(timer);
     retryUsed = false;
@@ -710,7 +664,6 @@ function loadQuestion(){
     document.getElementById("questionCounter").innerHTML = `Question ${currentQuestion + 1} of ${questions.length}`;
     document.getElementById("progressFill").style.width = ((currentQuestion) / questions.length) * 100 + "%";
 
-    // Handle Optional Image Component Nodes
     if(q.image) {
         questionImage.src = q.image;
         qImageContainer.style.display = "flex";
@@ -721,7 +674,6 @@ function loadQuestion(){
 
     optionsContainer.innerHTML = "";
 
-    // Generate dynamic layout option buttons
     q.options.forEach((option, index) => {
         const btn = document.createElement("button");
         btn.classList.add("option-btn");
@@ -734,7 +686,6 @@ function loadQuestion(){
     timeLeft = 45;
     timerText.innerHTML = `Time: ${timeLeft}`;
 
-    // Countdown Clock Loop logic
     timer = setInterval(() => {
         timeLeft--;
         timerText.innerHTML = `Time: ${timeLeft}`;
@@ -745,7 +696,7 @@ function loadQuestion(){
     }, 1000);
 }
 
-/* Choice Selection Evaluator Node */
+/* User Selection Validation Routing */
 function checkAnswer(selected, button){
     const q = questions[currentQuestion];
     const buttons = document.querySelectorAll(".option-btn");
@@ -753,14 +704,11 @@ function checkAnswer(selected, button){
     if(selected === q.answer){
         clearInterval(timer);
         button.classList.add("correct");
-        feedback.innerHTML = "✅ Correct! Wonderful logic!";
+        feedback.innerHTML = "🎉 Correct! Super job!";
         feedback.style.color = "#10b981";
         
-        // Sound Triggers
         correctSound.play();
-        setTimeout(() => {
-            clapSound.play();
-        }, 250);
+        setTimeout(() => { clapSound.play(); }, 200);
 
         score++;
         createConfetti();
@@ -773,8 +721,8 @@ function checkAnswer(selected, button){
         
         if(!retryUsed){
             retryUsed = true;
-            feedback.innerHTML = "❌ Try Again! You have one more attempt.";
-            feedback.style.color = "#ef4444";
+            feedback.innerHTML = "⏳ Try again! You have one more attempt.";
+            feedback.style.color = "#ea580c";
             button.disabled = true;
         } else {
             clearInterval(timer);
@@ -783,7 +731,7 @@ function checkAnswer(selected, button){
     }
 }
 
-/* Correct Answer Reveal Module */
+/* Fallback Explanation UI */
 function showCorrectAnswer(){
     const q = questions[currentQuestion];
     const buttons = document.querySelectorAll(".option-btn");
@@ -795,14 +743,13 @@ function showCorrectAnswer(){
         }
     });
 
-    feedback.innerHTML = "💡 Let's check the correct explanation:";
-    feedback.style.color = "#64ffda";
+    feedback.innerHTML = "🔍 Let's learn the concept:";
+    feedback.style.color = "#631bfb";
     explanation.style.display = "block";
     explanation.innerHTML = q.explanation;
     nextBtn.style.display = "inline-block";
 }
 
-/* Advance Question Stack */
 function nextQuestion(){
     currentQuestion++;
     if(currentQuestion < questions.length){
@@ -812,7 +759,7 @@ function nextQuestion(){
     }
 }
 
-/* End Game Summary Badge Router Node */
+/* Badge distribution and calculation module */
 function showResult(){
     quizScreen.style.display = "none";
     resultScreen.style.display = "flex";
@@ -822,21 +769,20 @@ function showResult(){
     let badgeTitle = document.getElementById("badgeTitle");
     let msg = "";
 
-    // Score evaluation logic routing badges
     if(score >= 13){ 
         badgeIcon.innerHTML = "👑";
-        badgeTitle.innerHTML = "File Master King/Queen";
-        msg = "Outstanding work! You've achieved perfect command over all computer data structures!"; 
+        badgeTitle.innerHTML = "Data King/Queen";
+        msg = "Incredible score! You have completely mastered how files and folders work!"; 
         clapSound.play();
     } else if(score >= 8){ 
-        badgeIcon.innerHTML = "🌟";
-        badgeTitle.innerHTML = "Tech Explorer Badge";
-        msg = "Excellent performance! You know your way around file configurations thoroughly.";
+        badgeIcon.innerHTML = "⭐";
+        badgeTitle.innerHTML = "Folder Specialist";
+        msg = "Wonderful job! You can easily organize any workspace file framework seamlessly.";
         clapSound.play();
     } else { 
-        badgeIcon.innerHTML = "👍";
-        badgeTitle.innerHTML = "Learning Star";
-        msg = "Good attempt! Review your concepts and try playing again to secure a Master Badge."; 
+        badgeIcon.innerHTML = "🎯";
+        badgeTitle.innerHTML = "Rising Star";
+        msg = "Good try! Play once more to get all answers correct and win your crown!"; 
     }
     document.getElementById("message").innerHTML = msg;
 }
@@ -848,45 +794,30 @@ function restartQuiz(){
     startQuiz();
 }
 
-/* FX Module: Confetti Falling Stars */
+/* FX Part: Confetti Particle Generator */
 function createConfetti(){
-    for(let i = 0; i < 25; i++){
+    for(let i = 0; i < 20; i++){
         const confetti = document.createElement("div");
         confetti.classList.add("confetti");
         confetti.style.left = Math.random() * window.innerWidth + "px";
-        confetti.style.top = (Math.random() * -40) + "px";
-        const colors = ["#64ffda", "gold", "#ffd700", "#10b981", "#ff4081"];
+        confetti.style.top = "-20px";
+        const colors = ["#0082ff", "#7800ff", "#10b981", "#ffeb3b", "#ff2a6d"];
         confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), 2000);
     }
 }
 
-/* FX Module: Error Screen Shaker Cross */
+/* FX Part: Translucent Shake Cross Overlay */
 function showCross(){
     const cross = document.createElement("div");
     cross.classList.add("cross");
-    cross.innerHTML = "✖";
+    cross.innerHTML = "✕";
     cross.style.left = (Math.random() * (window.innerWidth - 60)) + "px";
     cross.style.top = (Math.random() * (window.innerHeight - 60)) + "px";
     document.body.appendChild(cross);
     setTimeout(() => cross.remove(), 1000);
 }
-
-/* Background Ambient Generator */
-function createBackground(){
-    const bg = document.getElementById("background");
-    for(let i = 0; i < 35; i++){
-        const star = document.createElement("div");
-        star.classList.add("star");
-        star.style.left = Math.random() * 100 + "%";
-        star.style.animationDuration = (5 + Math.random() * 8) + "s";
-        star.style.animationDelay = Math.random() * 4 + "s";
-        bg.appendChild(star);
-    }
-}
-
-createBackground();
 </script>
 </body>
 </html>
