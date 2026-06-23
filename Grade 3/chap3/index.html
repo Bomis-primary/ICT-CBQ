@@ -1,1 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Word Processing in MS Word CBQ Challenge</title>
 
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+background: linear-gradient(135deg, #0082ff, #7800ff);
+min-height:100vh;
+overflow-x:hidden;
+position:relative;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 15px;
+}
+
+/* Screens */
+.screen{
+display:none;
+width: 100%;
+max-width: 850px;
+justify-content:center;
+align-items:center;
+position:relative;
+z-index:2;
+}
+
+.active{
+display:flex;
+flex-direction:column;
+}
+
+/* Splash Screen */
+.logo-screen{
+background:#ffffff;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+max-width: 100%;
+z-index:9999;
+justify-content: center;
+align-items: center;
+}
+
+.logo-screen img{
+width:240px;
+max-width:85%;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+/* Card layout matching reference layout style */
+.card{
+width:100%;
+background: #f5f6fc;
+padding: 40px 30px;
+border-radius: 32px;
+box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+text-align: center;
+color: #333333;
+}
+
+h1{
+text-align:center;
+color: #631bfb;
+margin-bottom:8px;
+font-size: 2.2rem;
+font-weight: 800;
+}
+
+.chapter{
+text-align:center;
+font-weight:700;
+margin-bottom:6px;
+color: #444444;
+font-size:1.3rem;
+}
+
+.topic{
+text-align:center;
+margin-bottom:25px;
+color: #666666;
+font-size:1.15rem;
+font-weight: 500;
+}
+
+.instructions{
+background: #ffffff;
+padding: 25px;
+border-radius: 20px;
+line-height: 1.8;
+margin-top: 15px;
+text-align: left;
+box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.instructions ol{
+margin-left: 22px;
+color: #444444;
+font-size: 1.05rem;
+}
+
+.instructions li{
+margin-bottom: 10px;
+}
+
+.main-btn{
+padding: 14px 40px;
+border: none;
+border-radius: 16px;
+background: linear-gradient(90deg, #3858f9, #622cfb);
+color: #ffffff;
+font-size: 1.15rem;
+cursor: pointer;
+margin-top: 30px;
+transition: all .3s ease;
+font-weight: bold;
+box-shadow: 0 6px 20px rgba(98, 44, 251, 0.4);
+}
+
+.main-btn:hover{
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(98, 44, 251, 0.5);
+opacity: 0.95;
+}
+
+/* Quiz UI top elements */
+.topbar{
+display:flex;
+justify-content:space-between;
+gap:12px;
+flex-wrap:wrap;
+margin-bottom:20px;
+width: 100%;
+}
+
+.box{
+background: #ffffff;
+padding:12px 20px;
+border-radius:14px;
+font-weight:bold;
+color: #631bfb;
+flex: 1;
+min-width: 120px;
+text-align: center;
+box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+font-size: 1rem;
+}
+
+.progress{
+height: 12px;
+background: #e2e8f0;
+border-radius: 20px;
+overflow: hidden;
+margin-bottom: 25px;
+width: 100%;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background: linear-gradient(90deg, #3858f9, #622cfb);
+transition:.4s;
+}
+
+.question{
+font-size: 1.35rem;
+font-weight: 700;
+line-height:1.5;
+margin-bottom: 25px;
+text-align: left;
+color: #1a1a1a;
+}
+
+.options{
+display:grid;
+grid-template-columns: 1fr;
+gap:14px;
+width: 100%;
+}
+
+@media(min-width: 768px) {
+    .options {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.option-btn{
+padding: 18px 20px;
+border: 2px solid #e2e8f0;
+border-radius: 16px;
+background: #ffffff;
+cursor: pointer;
+font-size: 1.05rem;
+transition: all .2s ease;
+font-weight: 600;
+text-align: left;
+line-height: 1.4;
+color: #444444;
+outline: none;
+box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.option-btn:hover{
+background: #f1f5f9;
+border-color: #631bfb;
+color: #631bfb;
+}
+
+.correct{
+background: #10b981 !important;
+border-color: #059669 !important;
+color: #ffffff !important;
+font-weight: bold;
+}
+
+.wrong{
+background: #ef4444 !important;
+border-color: #dc2626 !important;
+color: #ffffff !important;
+}
+
+.feedback{
+margin-top:20px;
+font-weight: 700;
+min-height:30px;
+font-size: 1.2rem;
+text-align: left;
+}
+
+.explanation{
+margin-top:15px;
+background: #ffffff;
+padding: 18px;
+border-radius: 16px;
+display:none;
+line-height:1.6;
+text-align:left;
+border-left: 5px solid #631bfb;
+color: #444444;
+font-size: 1rem;
+box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.next-btn{
+display:none;
+}
+
+/* Result Dashboard Badges layout */
+.badge-box {
+margin: 25px auto;
+width: 150px;
+height: 150px;
+background: #ffffff;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 10px 25px rgba(99, 27, 251, 0.15);
+border: 4px solid #631bfb;
+}
+
+.badge-icon {
+font-size: 4.5rem;
+}
+
+.badge-title {
+font-size: 1.4rem;
+color: #631bfb;
+font-weight: 800;
+margin-top: 12px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.final-score{
+font-size: 2.5rem;
+font-weight: 800;
+color: #1a1a1a;
+margin: 15px 0 10px 0;
+}
+
+.message{
+font-size: 1.1rem;
+line-height: 1.6;
+color: #555555;
+margin-bottom: 20px;
+padding: 0 10px;
+}
+
+/* Floating FX Elements */
+.confetti{
+position:fixed;
+width:14px;
+height:14px;
+border-radius: 50%;
+animation:fall 2s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+0%{ transform:translateY(-20px) rotate(0deg); opacity:1; }
+100%{ transform:translateY(100vh) rotate(360deg); opacity:0; }
+}
+
+.cross{
+position:fixed;
+font-size:60px;
+color:#ef4444;
+animation:fade 1s forwards;
+z-index:999;
+font-weight:bold;
+pointer-events:none;
+}
+
+@keyframes fade{
+0%{ opacity:1; transform:scale(1); }
+100%{ opacity:0; transform:scale(1.6); }
+}
+
+/* Device Friendly Responsive Breakpoints */
+@media(max-width:600px){
+body {
+padding: 10px;
+}
+.card {
+padding: 25px 15px;
+border-radius: 24px;
+}
+h1 {
+font-size: 1.7rem;
+}
+.chapter {
+font-size: 1.15rem;
+}
+.topic {
+font-size: 1rem;
+margin-bottom: 15px;
+}
+.question{
+font-size: 1.15rem;
+margin-bottom: 20px;
+}
+.option-btn{
+font-size: .95rem;
+padding: 14px 16px;
+}
+.topbar{
+gap: 8px;
+margin-bottom: 15px;
+}
+.box {
+padding: 10px;
+font-size: 0.85rem;
+min-width: 95px;
+}
+.logo-screen img{
+width:180px;
+}
+.badge-box {
+width: 120px;
+height: 120px;
+}
+.badge-icon {
+font-size: 3.5rem;
+}
+.main-btn {
+margin-top: 20px;
+padding: 12px 30px;
+font-size: 1.05rem;
+width: 100%;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Splash Loader using your repo asset layout -->
+<div class="screen active logo-screen" id="logoScreen">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<!-- Welcome Panel -->
+<div class="screen" id="introScreen">
+    <div class="card">
+        <h1>ICT CHALLENGE</h1>
+        <div class="chapter">Word Processing in MS Word</div>
+        <div class="topic">Competency-Based Question (CBQ) Workspace</div>
+        
+        <div class="instructions">
+            <ol>
+                <li>Read each real-world application question carefully.</li>
+                <li>You get up to 2 attempts for every question before moving forward.</li>
+                <li>After 2 incorrect attempts, the correct explanation will guide you.</li>
+                <li>You have a comfortable limit of 45 seconds per puzzle.</li>
+                <li>Earn a perfect score to unlock the ultimate Word Processor Badge!</li>
+            </ol>
+        </div>
+
+        <button class="main-btn" onclick="startQuiz()">Start Challenge</button>
+    </div>
+</div>
+
+<!-- Main Game Playground -->
+<div class="screen" id="quizScreen">
+    <div class="card">
+        <div class="topbar">
+            <div class="box" id="scoreText">Score: 0</div>
+            <div class="box" id="questionCounter">Question 1</div>
+            <div class="box" id="timerText">Time: 45</div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsContainer"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="explanation" id="explanation"></div>
+
+        <button class="main-btn next-btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<!-- Milestone Evaluation Board with Rewards -->
+<div class="screen" id="resultScreen">
+    <div class="card">
+        <h1>Challenge Completed!</h1>
+        
+        <div class="badge-box">
+            <div class="badge-icon" id="badgeIcon">🏆</div>
+        </div>
+        <div class="badge-title" id="badgeTitle">Gold Champion</div>
+
+        <div class="final-score" id="finalScore"></div>
+        <div class="message" id="message"></div>
+        <button class="main-btn" onclick="restartQuiz()">Play Again</button>
+    </div>
+</div>
+
+<!-- Sound Anchors matching assets/ folder exactly -->
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/clap.mp3"></audio>
+
+<script>
+/* Question Matrix Pool for Chapter 3 */
+let rawQuestions = [
+    {
+        question: "Riya wants to prepare a neat project report and save it for future editing. Which software should she use?",
+        options: ["MS Word", "Calculator", "Paint", "Media Player"],
+        answer: "MS Word",
+        explanation: "MS Word is a word processor software designed specifically to create, edit, format, and save text documents neatly."
+    },
+    {
+        question: "Aman typed a paragraph and wants to start writing on a new line. What should he do?",
+        options: ["Press Enter", "Press Esc", "Press Shift", "Press Ctrl"],
+        answer: "Press Enter",
+        explanation: "Pressing the Enter key commands the cursor to jump down and begin a brand new line or paragraph."
+    },
+    {
+        question: "Rohan wants to make changes to the text he has already typed. Which feature of a word processor helps him?",
+        options: ["Editing", "Printing", "Scanning", "Recording"],
+        answer: "Editing",
+        explanation: "Editing means making changes, corrections, or additions to your already typed text."
+    },
+    {
+        question: "Neha completed her homework in MS Word and wants to use it again next week. Which option should she choose?",
+        options: ["Save", "Open", "Print", "Close"],
+        answer: "Save",
+        explanation: "The Save option keeps your work securely inside the computer memory so you can return to it later."
+    },
+    {
+        question: "Aarav wants to know the total number of words in his document. Which component can help him?",
+        options: ["Status Bar", "Ribbon", "Ruler", "Scroll Bar"],
+        answer: "Status Bar",
+        explanation: "The Status Bar is at the very bottom of the MS Word window and dynamically tracks metrics like page numbers and total words."
+    },
+    {
+        question: "Rahul sees a blinking cursor on a blank page in MS Word. Where should he type his essay?",
+        options: ["Document Area", "Title Bar", "Ribbon", "Status Bar"],
+        answer: "Document Area",
+        explanation: "The large blank white space in the middle of the screen is the Document Area, which is where you type your text."
+    },
+    {
+        question: "Meera wants to create a new document. Which sequence is correct?",
+        options: ["Office Button → New → Blank Document → Create", "Office Button → Open → Create", "Open → Save → Create", "New → Print → Create"],
+        answer: "Office Button → New → Blank Document → Create",
+        explanation: "To start fresh, click the Office Button, select New, choose a Blank Document, and hit the Create action button."
+    },
+    {
+        question: "Which shortcut key creates a new document?",
+        options: ["Ctrl + N", "Ctrl + S", "Ctrl + O", "Ctrl + F4"],
+        answer: "Ctrl + N",
+        explanation: "The keyboard combination 'Ctrl + N' stands for New and instantly generates a clean blank document window."
+    },
+    {
+        question: "Your teacher asks you to open an existing file. Which shortcut key will you use?",
+        options: ["Ctrl + O", "Ctrl + S", "Ctrl + A", "Ctrl + N"],
+        answer: "Ctrl + O",
+        explanation: "The shortcut key 'Ctrl + O' launches the Open dialog window to load previously saved files."
+    },
+    {
+        question: "A student clicks a button that displays New, Open, Save and Print options. Which button is it?",
+        options: ["Office Button", "Ribbon", "Status Bar", "Ruler"],
+        answer: "Office Button",
+        explanation: "The Office Button (found at the top-left corner) houses core file management operations like New, Open, Save, and Print."
+    },
+    {
+        question: "The horizontal ruler appears at the top and the vertical ruler on the left side. What is their use?",
+        options: ["Measure page size", "Print pages", "Save documents", "Close documents"],
+        answer: "Measure page size",
+        explanation: "Rulers are measurement tools that help manage layout boundaries and determine text margins cleanly."
+    },
+    {
+        question: "A student says the Quick Access Toolbar is located at the bottom of the MS Word window. Identify the mistake.",
+        options: ["Its location is incorrect", "It has Save button", "It has Undo button", "It has Redo button"],
+        answer: "Its location is incorrect",
+        explanation: "The Quick Access Toolbar is actually located at the very top left of the window (above or on the Title Bar), not at the bottom."
+    },
+    {
+        question: "Priya wants to select the entire document at once. Which shortcut key should she use?",
+        options: ["Ctrl + A", "Ctrl + O", "Ctrl + N", "Ctrl + S"],
+        answer: "Ctrl + A",
+        explanation: "The shortcut 'Ctrl + A' stands for 'Select All' and instantly highlights every character and graphic inside your document."
+    },
+    {
+        question: "Kabir selected a sentence by mistake and wants to remove it quickly. What should he do?",
+        options: ["Press Delete", "Press Enter", "Press Shift", "Press Esc"],
+        answer: "Press Delete",
+        explanation: "Pressing the Delete key instantly removes whatever text blocks or sentences you currently have highlighted."
+    },
+    {
+        question: "Two students submit projects. One is neatly formatted in MS Word and the other is untidy. Why may the teacher prefer the MS Word project?",
+        options: ["Looks neat and attractive", "Uses more paper", "Has fewer words", "Takes longer to make"],
+        answer: "Looks neat and attractive",
+        explanation: "MS Word provides formatting tools that make documents professional, tidy, organized, and highly readable."
+    }
+];
+
+let questions = [];
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 45;
+let retryUsed = false;
+
+const logoScreen = document.getElementById("logoScreen");
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
+
+const questionText = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const scoreText = document.getElementById("scoreText");
+const timerText = document.getElementById("timerText");
+const feedback = document.getElementById("feedback");
+const explanation = document.getElementById("explanation");
+const nextBtn = document.getElementById("nextBtn");
+
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const clapSound = document.getElementById("clapSound");
+
+/* 5-Seconds Splash Screen Timeout */
+window.onload = function(){
+    logoScreen.style.display = "flex";
+    setTimeout(() => {
+        logoScreen.style.display = "none";
+        introScreen.style.display = "flex";
+    }, 5000);
+};
+
+/* Shuffle utility array mapper */
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+/* Master Randomization Initialization */
+function prepareQuestions() {
+    let shuffledPool = shuffle([...rawQuestions]);
+    questions = shuffledPool.map(q => {
+        let optionsCopy = shuffle([...q.options]);
+        let correctIndex = optionsCopy.indexOf(q.answer);
+        return {
+            question: q.question,
+            options: optionsCopy,
+            answer: correctIndex,
+            explanation: q.explanation
+        };
+    });
+}
+
+function startQuiz(){
+    prepareQuestions();
+    introScreen.style.display = "none";
+    quizScreen.style.display = "flex";
+    loadQuestion();
+}
+
+/* Setup Active Question */
+function loadQuestion(){
+    clearInterval(timer);
+    retryUsed = false;
+    feedback.innerHTML = "";
+    explanation.style.display = "none";
+    nextBtn.style.display = "none";
+
+    const q = questions[currentQuestion];
+
+    questionText.innerHTML = `Q${currentQuestion + 1}. ${q.question}`;
+    document.getElementById("questionCounter").innerHTML = `Question ${currentQuestion + 1} of ${questions.length}`;
+    document.getElementById("progressFill").style.width = ((currentQuestion) / questions.length) * 100 + "%";
+
+    optionsContainer.innerHTML = "";
+
+    q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.classList.add("option-btn");
+        btn.innerHTML = option;
+        btn.onclick = () => checkAnswer(index, btn);
+        optionsContainer.appendChild(btn);
+    });
+
+    scoreText.innerHTML = `Score: ${score}`;
+    timeLeft = 45;
+    timerText.innerHTML = `Time: ${timeLeft}`;
+
+    timer = setInterval(() => {
+        timeLeft--;
+        timerText.innerHTML = `Time: ${timeLeft}`;
+        if(timeLeft <= 0){
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }, 1000);
+}
+
+/* Check Selection Logic */
+function checkAnswer(selected, button){
+    const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll(".option-btn");
+
+    if(selected === q.answer){
+        clearInterval(timer);
+        button.classList.add("correct");
+        feedback.innerHTML = "🎉 Correct! Super job!";
+        feedback.style.color = "#10b981";
+        
+        correctSound.play();
+        setTimeout(() => { clapSound.play(); }, 200);
+
+        score++;
+        createConfetti();
+        buttons.forEach(btn => btn.disabled = true);
+        nextBtn.style.display = "inline-block";
+    } else {
+        button.classList.add("wrong");
+        wrongSound.play();
+        showCross();
+        
+        if(!retryUsed){
+            retryUsed = true;
+            feedback.innerHTML = "⏳ Try again! You have one more attempt.";
+            feedback.style.color = "#ea580c";
+            button.disabled = true;
+        } else {
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }
+}
+
+/* Concept Insight Fallback Screen */
+function showCorrectAnswer(){
+    const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll(".option-btn");
+    
+    buttons.forEach((btn, index) => {
+        btn.disabled = true;
+        if(index === q.answer){ 
+            btn.classList.add("correct"); 
+        }
+    });
+
+    feedback.innerHTML = "🔍 Let's learn the concept:";
+    feedback.style.color = "#631bfb";
+    explanation.style.display = "block";
+    explanation.innerHTML = q.explanation;
+    nextBtn.style.display = "inline-block";
+}
+
+function nextQuestion(){
+    currentQuestion++;
+    if(currentQuestion < questions.length){
+        loadQuestion();
+    } else {
+        showResult();
+    }
+}
+
+/* Badge Generator Module */
+function showResult(){
+    quizScreen.style.display = "none";
+    resultScreen.style.display = "flex";
+    document.getElementById("finalScore").innerHTML = score + " / " + questions.length;
+    
+    let badgeIcon = document.getElementById("badgeIcon");
+    let badgeTitle = document.getElementById("badgeTitle");
+    let msg = "";
+
+    if(score >= 13){ 
+        badgeIcon.innerHTML = "👑";
+        badgeTitle.innerHTML = "Word Processing Master";
+        msg = "Incredible score! You have completely mastered document editing and keyboard shortcuts!"; 
+        clapSound.play();
+    } else if(score >= 8){ 
+        badgeIcon.innerHTML = "⭐";
+        badgeTitle.innerHTML = "MS Word Expert";
+        msg = "Wonderful job! You know how to format text blocks and handle files smoothly.";
+        clapSound.play();
+    } else { 
+        badgeIcon.innerHTML = "🎯";
+        badgeTitle.innerHTML = "Typing Star";
+        msg = "Good try! Play once more to get all answers correct and win your master crown!"; 
+    }
+    document.getElementById("message").innerHTML = msg;
+}
+
+function restartQuiz(){
+    currentQuestion = 0;
+    score = 0;
+    resultScreen.style.display = "none";
+    startQuiz();
+}
+
+/* Confetti System Particle Generation */
+function createConfetti(){
+    for(let i = 0; i < 20; i++){
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.top = "-20px";
+        const colors = ["#0082ff", "#7800ff", "#10b981", "#ffeb3b", "#ff2a6d"];
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+    }
+}
+
+/* Visual Overlay for Errors */
+function showCross(){
+    const cross = document.createElement("div");
+    cross.classList.add("cross");
+    cross.innerHTML = "✕";
+    cross.style.left = (Math.random() * (window.innerWidth - 60)) + "px";
+    cross.style.top = (Math.random() * (window.innerHeight - 60)) + "px";
+    document.body.appendChild(cross);
+    setTimeout(() => cross.remove(), 1000);
+}
+</script>
+</body>
+</html>
