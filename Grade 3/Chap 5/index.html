@@ -3,79 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Drawing Tools - Interactive CBQ</title>
+<title> WordArt, SmartArt, Shapes CBQ Challenge</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body{
-font-family:Arial,sans-serif;
-overflow-x:hidden;
+background: linear-gradient(135deg, #0082ff, #7800ff);
 min-height:100vh;
-background:
-linear-gradient(
-135deg,
-#e3f2fd,
-#fff8e1,
-#f3e5f5,
-#e8f5e9
-);
+overflow-x:hidden;
 position:relative;
-color:#222;
-}
-
-/* Animated Background */
-
-.bg-icons{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-overflow:hidden;
-z-index:-1;
-pointer-events:none;
-}
-
-.icon{
-position:absolute;
-font-size:32px;
-opacity:0.12;
-animation:floatUp linear infinite;
-}
-
-@keyframes floatUp{
-
-0%{
-transform:translateY(100vh) rotate(0deg);
-opacity:0;
-}
-
-30%{
-opacity:0.12;
-}
-
-100%{
-transform:translateY(-120vh) rotate(360deg);
-opacity:0;
-}
-
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 15px;
 }
 
 /* Screens */
-
 .screen{
 display:none;
-min-height:100vh;
+width: 100%;
+max-width: 850px;
 justify-content:center;
 align-items:center;
-padding:20px;
-text-align:center;
+position:relative;
+z-index:2;
 }
 
 .active{
@@ -83,991 +41,789 @@ display:flex;
 flex-direction:column;
 }
 
-/* Logo */
-
+/* Splash Screen */
 .logo-screen{
-background:white;
-z-index:99999;
+background:#ffffff;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+max-width: 100%;
+z-index:9999;
+justify-content: center;
+align-items: center;
 }
 
 .logo-screen img{
-width:260px;
-max-width:80vw;
-max-height:40vh;
-object-fit:contain;
+width:240px;
+max-width:85%;
 animation:pulse 2s infinite;
 }
 
 @keyframes pulse{
-
 0%{transform:scale(1);}
 50%{transform:scale(1.05);}
 100%{transform:scale(1);}
-
 }
 
-/* Card */
-
+/* Card Layout */
 .card{
-background:rgba(255,255,255,0.95);
-padding:24px;
-border-radius:28px;
-max-width:1000px;
 width:100%;
-box-shadow:0 12px 30px rgba(0,0,0,0.18);
-backdrop-filter:blur(8px);
-animation:slideIn 0.5s ease;
-}
-
-@keyframes slideIn{
-
-from{
-transform:translateY(25px);
-opacity:0;
-}
-
-to{
-transform:translateY(0);
-opacity:1;
-}
-
+background: #f5f6fc;
+padding: 40px 30px;
+border-radius: 32px;
+box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+text-align: center;
+color: #333333;
 }
 
 h1{
-color:#1565c0;
-margin-bottom:12px;
+text-align:center;
+color: #631bfb;
+margin-bottom:8px;
+font-size: 2.2rem;
+font-weight: 800;
 }
 
-.info{
-margin:8px 0;
-font-size:1rem;
+.chapter{
+text-align:center;
+font-weight:700;
+margin-bottom:6px;
+color: #444444;
+font-size:1.3rem;
 }
 
-/* Topbar */
+.topic{
+text-align:center;
+margin-bottom:25px;
+color: #666666;
+font-size:1.15rem;
+font-weight: 500;
+}
 
+.instructions{
+background: #ffffff;
+padding: 25px;
+border-radius: 20px;
+line-height: 1.8;
+margin-top: 15px;
+text-align: left;
+box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.instructions ol{
+margin-left: 22px;
+color: #444444;
+font-size: 1.05rem;
+}
+
+.instructions li{
+margin-bottom: 10px;
+}
+
+.main-btn{
+padding: 14px 40px;
+border: none;
+border-radius: 16px;
+background: linear-gradient(90deg, #3858f9, #622cfb);
+color: #ffffff;
+font-size: 1.15rem;
+cursor: pointer;
+margin-top: 30px;
+transition: all .3s ease;
+font-weight: bold;
+box-shadow: 0 6px 20px rgba(98, 44, 251, 0.4);
+}
+
+.main-btn:hover{
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(98, 44, 251, 0.5);
+opacity: 0.95;
+}
+
+/* Quiz UI Components */
 .topbar{
 display:flex;
 justify-content:space-between;
-gap:10px;
-margin-bottom:20px;
-font-weight:bold;
+gap:12px;
 flex-wrap:wrap;
+margin-bottom:20px;
+width: 100%;
 }
 
-/* Progress */
+.box{
+background: #ffffff;
+padding:12px 20px;
+border-radius:14px;
+font-weight:bold;
+color: #631bfb;
+flex: 1;
+min-width: 120px;
+text-align: center;
+box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+font-size: 1rem;
+}
 
 .progress{
-width:100%;
-height:12px;
-background:#dbe9ff;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:20px;
+height: 12px;
+background: #e2e8f0;
+border-radius: 20px;
+overflow: hidden;
+margin-bottom: 25px;
+width: 100%;
 }
 
 .progress-fill{
 height:100%;
 width:0%;
-background:
-linear-gradient(
-90deg,
-#42a5f5,
-#ab47bc,
-#26a69a
-);
-transition:0.4s;
+background: linear-gradient(90deg, #3858f9, #622cfb);
+transition:.4s;
 }
-
-/* Question */
 
 .question{
-font-size:1.15rem;
-line-height:1.6;
-font-weight:600;
-margin-bottom:20px;
+font-size: 1.35rem;
+font-weight: 700;
+line-height:1.5;
+margin-bottom: 25px;
+text-align: left;
+color: #1a1a1a;
 }
 
-/* Options */
+.q-image-container {
+margin-bottom: 20px;
+text-align: center;
+}
+
+.q-image {
+max-height: 130px;
+max-width: 100%;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+background: white;
+padding: 8px;
+}
 
 .options{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns: 1fr;
 gap:14px;
+width: 100%;
+}
+
+@media(min-width: 768px) {
+    .options {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .option-btn{
-padding:14px;
-border:none;
-border-radius:18px;
-background:
-linear-gradient(
-135deg,
-#eef6ff,
-#f8ebff
-);
-cursor:pointer;
-font-size:1rem;
-transition:0.3s;
-font-weight:600;
-color:#333;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
-min-height:90px;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
+padding: 18px 20px;
+border: 2px solid #e2e8f0;
+border-radius: 16px;
+background: #ffffff;
+cursor: pointer;
+font-size: 1.05rem;
+transition: all .2s ease;
+font-weight: 600;
+text-align: left;
+line-height: 1.4;
+color: #444444;
+outline: none;
+box-shadow: 0 4px 10px rgba(0,0,0,0.02);
 }
 
 .option-btn:hover{
-transform:translateY(-3px) scale(1.02);
+background: #f1f5f9;
+border-color: #631bfb;
+color: #631bfb;
 }
-
-.option-btn img{
-width:100%;
-max-width:160px;
-height:auto;
-border-radius:12px;
-object-fit:contain;
-pointer-events:none;
-}
-
-/* Effects */
 
 .correct{
-background:#c8ffd1 !important;
-border:2px solid #2e7d32;
+background: #10b981 !important;
+border-color: #059669 !important;
+color: #ffffff !important;
+font-weight: bold;
 }
 
 .wrong{
-background:#ffd6d6 !important;
-border:2px solid #c62828;
-animation:shake 0.4s;
-}
-
-@keyframes shake{
-
-0%,100%{
-transform:translateX(0);
-}
-
-25%{
-transform:translateX(-5px);
-}
-
-75%{
-transform:translateX(5px);
-}
-
+background: #ef4444 !important;
+border-color: #dc2626 !important;
+color: #ffffff !important;
 }
 
 .feedback{
-margin-top:16px;
-font-weight:bold;
-min-height:28px;
+margin-top:20px;
+font-weight: 700;
+min-height:30px;
+font-size: 1.2rem;
+text-align: left;
 }
 
 .explanation{
+margin-top:15px;
+background: #ffffff;
+padding: 18px;
+border-radius: 16px;
 display:none;
-margin-top:14px;
-padding:14px;
-border-radius:16px;
-background:#eef7ff;
-font-size:0.96rem;
-line-height:1.5;
+line-height:1.6;
+text-align:left;
+border-left: 5px solid #631bfb;
+color: #444444;
+font-size: 1rem;
+box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 
-/* Buttons */
-
-.main-btn{
-padding:14px 28px;
-border:none;
-border-radius:18px;
-background:
-linear-gradient(
-135deg,
-#1565c0,
-#8e24aa
-);
-color:white;
-font-size:1rem;
-cursor:pointer;
-margin-top:20px;
-font-weight:bold;
-transition:0.3s;
+.next-btn{
+display:none;
 }
 
-.main-btn:hover{
-transform:scale(1.04);
+/* Results Display */
+.badge-box {
+margin: 25px auto;
+width: 150px;
+height: 150px;
+background: #ffffff;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 10px 25px rgba(99, 27, 251, 0.15);
+border: 4px solid #631bfb;
 }
 
-/* Confetti */
+.badge-icon {
+font-size: 4.5rem;
+}
 
+.badge-title {
+font-size: 1.4rem;
+color: #631bfb;
+font-weight: 800;
+margin-top: 12px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.final-score{
+font-size: 2.5rem;
+font-weight: 800;
+color: #1a1a1a;
+margin: 15px 0 10px 0;
+}
+
+.message{
+font-size: 1.1rem;
+line-height: 1.6;
+color: #555555;
+margin-bottom: 20px;
+padding: 0 10px;
+}
+
+/* Action Particle VFX */
 .confetti{
 position:fixed;
 width:14px;
 height:14px;
-background:gold;
-clip-path:polygon(
-50% 0%,
-61% 35%,
-98% 35%,
-68% 57%,
-79% 91%,
-50% 70%,
-21% 91%,
-32% 57%,
-2% 35%,
-39% 35%
-);
-animation:fall 1.5s linear forwards;
+border-radius: 50%;
+animation:fall 2s linear forwards;
 z-index:999;
 }
 
 @keyframes fall{
-
-0%{
-transform:translateY(0) rotate(0deg);
-opacity:1;
+0%{ transform:translateY(-20px) rotate(0deg); opacity:1; }
+100%{ transform:translateY(100vh) rotate(360deg); opacity:0; }
 }
-
-100%{
-transform:translateY(500px) rotate(360deg);
-opacity:0;
-}
-
-}
-
-/* Wrong Cross */
 
 .cross{
 position:fixed;
-font-size:42px;
-color:red;
+font-size:60px;
+color:#ef4444;
 animation:fade 1s forwards;
 z-index:999;
+font-weight:bold;
+pointer-events:none;
 }
 
 @keyframes fade{
-
-0%{
-opacity:1;
-transform:scale(1);
+0%{ opacity:1; transform:scale(1); }
+100%{ opacity:0; transform:scale(1.6); }
 }
 
-100%{
-opacity:0;
-transform:scale(2);
+/* Responsive Rules */
+@media(max-width:600px){
+body {
+padding: 10px;
 }
-
+.card {
+padding: 25px 15px;
+border-radius: 24px;
 }
-
-.badge{
-font-size:2.8rem;
-margin:15px 0;
+h1 {
+font-size: 1.7rem;
 }
-
-/* Mobile */
-
-@media(max-width:768px){
-
-.options{
-grid-template-columns:1fr;
+.chapter {
+font-size: 1.15rem;
 }
-
+.topic {
+font-size: 1rem;
+margin-bottom: 15px;
+}
 .question{
-font-size:1rem;
+font-size: 1.15rem;
+margin-bottom: 20px;
 }
-
 .option-btn{
-font-size:0.95rem;
-padding:14px;
+font-size: .95rem;
+padding: 14px 16px;
 }
-
-.logo-screen img{
-width:200px;
-}
-
 .topbar{
-flex-direction:column;
-font-size:0.9rem;
+gap: 8px;
+margin-bottom: 15px;
 }
-
+.box {
+padding: 10px;
+font-size: 0.85rem;
+min-width: 95px;
 }
-
+.logo-screen img{
+width:180px;
+}
+.badge-box {
+width: 120px;
+height: 120px;
+}
+.badge-icon {
+font-size: 3.5rem;
+}
+.main-btn {
+margin-top: 20px;
+padding: 12px 30px;
+font-size: 1.05rem;
+width: 100%;
+}
+}
 </style>
 </head>
 
 <body>
 
-<div class="bg-icons" id="bgIcons"></div>
-
-<!-- LOGO SCREEN -->
-
+<!-- Splash Loader using innovine-logo.png -->
 <div class="screen active logo-screen" id="logoScreen">
-
-<img src="assets/innovine-logo.png" alt="Innovine Logo">
-
-<h2 style="margin-top:20px;">
-Innovine Interactive Learning
-</h2>
-
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
-<!-- INTRO -->
-
+<!-- Welcome Panel -->
 <div class="screen" id="introScreen">
+    <div class="card">
+        <h1>ICT CHALLENGE</h1>
+        <div class="chapter"> WordArt, SmartArt, Shapes</div>
+        <div class="topic">Competency-Based Question (CBQ) Workspace</div>
+        
+        <div class="instructions">
+            <ol>
+                <li>Read each scenario and inspect the design graphics carefully.</li>
+                <li>You get up to 2 attempts for every question before moving forward.</li>
+                <li>After 2 incorrect attempts, a helpful review panel will reveal itself.</li>
+                <li>You have a 45-second timer on every puzzle workspace.</li>
+                <li>Score high to unlock your Master Presentation Designer Badge!</li>
+            </ol>
+        </div>
 
-<div class="card">
-
-<h1>Drawing Tools</h1>
-
-<p class="info"><strong>Grade:</strong> 3</p>
-<p class="info"><strong>Subject:</strong> ICT</p>
-<p class="info"><strong>Total Questions:</strong> 15</p>
-
-<p style="margin-top:16px;">
-Learn SmartArt, ClipArt and AutoShapes through interactive CBQ challenges.
-</p>
-
-<button class="main-btn" onclick="startQuiz()">
-Start Quiz
-</button>
-
+        <button class="main-btn" onclick="startQuiz()">Start Challenge</button>
+    </div>
 </div>
 
-</div>
-
-<!-- QUIZ -->
-
+<!-- Main Game Playground -->
 <div class="screen" id="quizScreen">
+    <div class="card">
+        <div class="topbar">
+            <div class="box" id="scoreText">Score: 0</div>
+            <div class="box" id="questionCounter">Question 1</div>
+            <div class="box" id="timerText">Time: 45</div>
+        </div>
 
-<div class="card">
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
 
-<div class="topbar">
+        <div class="question" id="questionText"></div>
+        <div class="q-image-container" id="qImageContainer" style="display:none;">
+            <img src="" id="qImage" class="q-image" alt="Question Asset">
+        </div>
+        <div class="options" id="optionsContainer"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="explanation" id="explanation"></div>
 
-<div id="scoreText">Score: 0</div>
-
-<div id="timerText">Time: 60</div>
-
-<div id="questionCount">Question 1 / 15</div>
-
+        <button class="main-btn next-btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+    </div>
 </div>
 
-<div class="progress">
-<div class="progress-fill" id="progressFill"></div>
-</div>
-
-<div class="question" id="questionText"></div>
-
-<div class="options" id="optionsContainer"></div>
-
-<div class="feedback" id="feedback"></div>
-
-<div class="explanation" id="explanation"></div>
-
-</div>
-
-</div>
-
-<!-- RESULT -->
-
+<!-- Milestone Scoreboard -->
 <div class="screen" id="resultScreen">
+    <div class="card">
+        <h1>Challenge Completed!</h1>
+        
+        <div class="badge-box">
+            <div class="badge-icon" id="badgeIcon">🏆</div>
+        </div>
+        <div class="badge-title" id="badgeTitle">Design Champion</div>
 
-<div class="card">
-
-<h1>Quiz Completed!</h1>
-
-<div class="badge">🎨🏆🖌️</div>
-
-<h2 id="finalScore"></h2>
-
-<p id="message"></p>
-
-<button class="main-btn" onclick="restartQuiz()">
-Play Again
-</button>
-
+        <div class="final-score" id="finalScore"></div>
+        <div class="message" id="message"></div>
+        <button class="main-btn" onclick="restartQuiz()">Play Again</button>
+    </div>
 </div>
 
-</div>
-
-<audio id="correctSound" src="assets/correct-1.mp3"></audio>
+<!-- Sound Anchors matching the exact file requirements -->
+<audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/clap.mp3"></audio>
 
 <script>
-
-/* QUESTIONS */
-
-const questions=[
-
-{
-question:"Riya wants to insert ready-made pictures in Word. What should she use?",
-options:["ClipArt","Save","Print","Cut"],
-answer:0,
-explanation:"ClipArt adds ready-made pictures."
-},
-
-{
-question:"Aarav wants to create a flow diagram. Which feature should he use?",
-options:["SmartArt","Print","Margins","Delete"],
-answer:0,
-explanation:"SmartArt helps create diagrams."
-},
-
-{
-question:"Riya inserts stars and arrows in Word. Which tool is used?",
-options:["AutoShapes","Paste","Save","Copy"],
-answer:0,
-explanation:"AutoShapes insert shapes like arrows and stars."
-},
-
-{
-question:"A student wants to make a process chart. Which tool is best?",
-options:["SmartArt","Cut","Delete","Undo"],
-answer:0,
-explanation:"SmartArt is used for charts and diagrams."
-},
-
-{
-question:"Aarav inserts a cartoon image in document. Which option helps?",
-options:["ClipArt","Margins","Find","Replace"],
-answer:0,
-explanation:"ClipArt inserts pictures."
-},
-
-{
-question:"Riya draws circles and rectangles. Which feature is used?",
-options:["AutoShapes","Paste","Copy","Open"],
-answer:0,
-explanation:"AutoShapes creates shapes."
-},
-
-{
-question:"A student uses SmartArt. What is created?",
-options:["Diagram","Video","Audio","Print"],
-answer:0,
-explanation:"SmartArt creates diagrams."
-},
-
-{
-question:"Feature → Work\nClipArt → Pictures\nSmartArt → Diagrams\nAutoShapes → Shapes\nWhich inserts pictures?",
-options:["ClipArt","SmartArt","AutoShapes","Print"],
-answer:0,
-explanation:"ClipArt inserts pictures."
-},
-
-{
-question:"Feature → Work\nAutoShapes → Shapes\nSmartArt → Charts\nWhich creates charts?",
-options:["SmartArt","Paste","Copy","Delete"],
-answer:0,
-explanation:"SmartArt creates charts."
-},
-
-{
-question:"Which statement is incorrect?",
-options:[
-"ClipArt inserts pictures",
-"SmartArt creates diagrams",
-"AutoShapes insert shapes",
-"ClipArt creates videos"
-],
-answer:3,
-explanation:"ClipArt inserts pictures, not videos."
-},
-
-/* IMAGE QUESTION */
-
-{
-question:"Identify SmartArt.",
-options:[
-"assets/smartart.png",
-"assets/autoshapes.png",
-"assets/clipart.png",
-"assets/wordart.png"
-],
-answer:0,
-isImageOptions:true,
-explanation:"This image shows SmartArt."
-},
-
-{
-question:"Identify AutoShapes.",
-options:[
-"assets/clipart.png",
-"assets/autoshapes.png",
-"assets/smartart.png",
-"assets/smartart-1.png"
-],
-answer:1,
-isImageOptions:true,
-explanation:"This image shows AutoShapes."
-},
-
-{
-question:"Identify ClipArt.",
-options:[
-"assets/smartart.png",
-"assets/autoshapes.png",
-"assets/clipart.png",
-"assets/smartart-1.png"
-],
-answer:2,
-isImageOptions:true,
-explanation:"This image shows ClipArt."
-},
-
-{
-question:"Assertion: SmartArt helps make diagrams.\nReason: It organises information visually.",
-options:[
-"Both correct and reason explains",
-"Both correct but unrelated",
-"Assertion correct, reason wrong",
-"Both wrong"
-],
-answer:0,
-explanation:"SmartArt visually organizes information."
-},
-
-{
-question:"Which is wrongly matched?",
-options:[
-"ClipArt – Pictures",
-"AutoShapes – Shapes",
-"SmartArt – Diagrams",
-"ClipArt – Audio"
-],
-answer:3,
-explanation:"ClipArt is for pictures, not audio."
-}
-
+/* Question Matrix Pool for Chapter 5 including Image-Based Questions mapping to folder assets */
+let rawQuestions = [
+    {
+        question: "Riya wants to create a colorful, curved title for her science cover page. Which feature should she use?",
+        options: ["WordArt", "ClipArt", "Shapes", "Font"],
+        answer: "WordArt",
+        explanation: "WordArt lets you create stylized text with curves, drop shadows, gradients, and multiple decorative colors."
+    },
+    {
+        question: "Aarav wants to display a structural family chart. Which tool is best suited for this?",
+        options: ["SmartArt", "WordArt", "Shapes", "Font"],
+        answer: "SmartArt",
+        explanation: "SmartArt is specially built to turn lists or hierarchies into neat, clean structural diagrams effortlessly."
+    },
+    {
+        question: "Look at the graphics shown in the image below. Which feature in MS Word allows you to draw these geometric elements?",
+        options: ["Shapes", "WordArt", "SmartArt", "ClipArt"],
+        answer: "Shapes",
+        image: "assets/autoshapes.png",
+        explanation: "The Shapes menu contains ready-made stars, circles, banners, and connecting arrows that you can draw onto a page."
+    },
+    {
+        question: "Riya wants a stylish heading for her assignment. What should she choose?",
+        options: ["WordArt", "SmartArt", "Shapes", "ClipArt"],
+        answer: "WordArt",
+        explanation: "WordArt instantly transforms normal typing into text that acts like a decorative, stylized headline."
+    },
+    {
+        question: "Look at this specific diagram structure. Which tool allows a user to map out process steps sequentially like this?",
+        options: ["SmartArt", "WordArt", "Shapes", "Font"],
+        answer: "SmartArt",
+        image: "assets/smartart.png",
+        explanation: "SmartArt layouts offer predefined process and sequence diagrams to clean up broken steps visually."
+    },
+    {
+        question: "A student wants to insert ready-made pictures into their short story. What option should be used?",
+        options: ["ClipArt", "WordArt", "Shapes", "SmartArt"],
+        answer: "ClipArt",
+        explanation: "ClipArt provides a built-in library collection of illustrations and pictures that can be inserted quickly."
+    },
+    {
+        question: "Riya is making an ICT project that requires both a bold title banner and a layout diagram. Which combination is correct?",
+        options: ["WordArt + SmartArt", "Shapes + Font", "ClipArt + Save", "Print + Paste"],
+        answer: "WordArt + SmartArt",
+        explanation: "WordArt supplies the stylish title look, while SmartArt structures the complex topic diagram gracefully."
+    },
+    {
+        question: "Aarav wants to present his school management hierarchy (Principal down to Teachers). What should he use?",
+        options: ["SmartArt", "WordArt", "Shapes", "Font"],
+        answer: "SmartArt",
+        explanation: "Hierarchy diagrams inside SmartArt are specifically tuned to illustrate reporting structures and organizational chains."
+    },
+    {
+        question: "Look at this stylistic example text. Which tool was used to create this decorative type style?",
+        options: ["WordArt", "SmartArt", "Shapes", "ClipArt"],
+        answer: "WordArt",
+        image: "assets/wordart.png",
+        explanation: "Decorative, thick, filled, and styled texts with fancy transformations are built directly using WordArt."
+    },
+    {
+        question: "Look at the object style icon displayed below. Which feature provides these pre-loaded illustrative pictures?",
+        options: ["ClipArt", "Shapes", "WordArt", "Font"],
+        answer: "ClipArt",
+        image: "assets/clipart.png",
+        explanation: "ClipArt gives you access to a rich vault of illustrations, drawings, and cartoons for easy document inserting."
+    },
+    {
+        question: "Which of the following descriptions accurately defines WordArt styled text?",
+        options: ["Decorative text", "Plain text", "Diagram", "Shape"],
+        answer: "Decorative text",
+        explanation: "WordArt explicitly treats text like an editable graphic element, changing it into decorative display lettering."
+    },
+    {
+        question: "Which type of content does a SmartArt element primarily produce in your document workspace?",
+        options: ["Diagram", "Picture", "Text", "Shape"],
+        answer: "Diagram",
+        explanation: "SmartArt is fundamentally a visual diagram engine used to express relational data or interconnected steps."
+    },
+    {
+        question: "Mehul is preparing a poster for the Science Exhibition. He wants the title 'Amazing Science' to look colourful and attractive. Which feature should he use?",
+        options: ["WordArt", "SmartArt", "Shapes", "Clipboard"],
+        answer: "WordArt",
+        explanation: "WordArt is perfect for title banners on posters because it adds colors, shadows, and eye-catching text curves."
+    },
+    {
+        question: "Assertion: SmartArt shows relationships. Reason: It uses diagrams. Choose the most appropriate summary:",
+        options: [
+            "Both correct and reason explains", 
+            "Both correct but unrelated", 
+            "Assertion correct, reason wrong", 
+            "Both wrong"
+        ],
+        answer: "Both correct and reason explains",
+        explanation: "SmartArt is designed to use visual chart diagrams specifically to make connections and data paths clear."
+    },
+    {
+        question: "Which feature mapping pair given below is completely incorrect?",
+        options: ["Shapes – Save file", "WordArt – Decorative text", "SmartArt – Diagrams", "ClipArt – Pictures"],
+        answer: "Shapes – Save file",
+        explanation: "Shapes are used for vector line drawings, arrows, and blocks. Saving a file is a separate action in the File menu."
+    },
+    {
+        question: "Identify the tool combination that is wrongly matched with its core purpose:",
+        options: ["WordArt – Delete text", "Shapes – Drawing", "SmartArt – Organising info", "ClipArt – Images"],
+        answer: "WordArt – Delete text",
+        explanation: "WordArt is used to insert beautiful decorative text headings, not to delete normal document words."
+    }
 ];
 
-/* VARIABLES */
-
-let currentQuestion=0;
-let score=0;
+let questions = [];
+let currentQuestion = 0;
+let score = 0;
 let timer;
-let timeLeft=60;
-let retryUsed=false;
+let timeLeft = 45;
+let retryUsed = false;
 
-/* ELEMENTS */
+const logoScreen = document.getElementById("logoScreen");
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
 
-const logoScreen=document.getElementById("logoScreen");
-const introScreen=document.getElementById("introScreen");
-const quizScreen=document.getElementById("quizScreen");
-const resultScreen=document.getElementById("resultScreen");
+const questionText = document.getElementById("questionText");
+const qImageContainer = document.getElementById("qImageContainer");
+const qImage = document.getElementById("qImage");
+const optionsContainer = document.getElementById("optionsContainer");
+const scoreText = document.getElementById("scoreText");
+const timerText = document.getElementById("timerText");
+const feedback = document.getElementById("feedback");
+const explanation = document.getElementById("explanation");
+const nextBtn = document.getElementById("nextBtn");
 
-const questionText=document.getElementById("questionText");
-const optionsContainer=document.getElementById("optionsContainer");
-const scoreText=document.getElementById("scoreText");
-const timerText=document.getElementById("timerText");
-const feedback=document.getElementById("feedback");
-const explanation=document.getElementById("explanation");
-const progressFill=document.getElementById("progressFill");
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const clapSound = document.getElementById("clapSound");
 
-const correctSound=document.getElementById("correctSound");
-const wrongSound=document.getElementById("wrongSound");
-
-/* SHUFFLE */
-
-function shuffleArray(array){
-
-for(let i=array.length-1;i>0;i--){
-
-const j=Math.floor(Math.random()*(i+1));
-
-[array[i],array[j]]=[array[j],array[i]];
-
-}
-
-return array;
-
-}
-
-/* RANDOMIZE */
-
-function randomizeQuestions(){
-
-shuffleArray(questions);
-
-questions.forEach(q=>{
-
-const correctAnswer=q.options[q.answer];
-
-q.options=shuffleArray([...q.options]);
-
-q.answer=q.options.indexOf(correctAnswer);
-
-});
-
-}
-
-/* LOGO */
-
-window.onload=function(){
-
-logoScreen.style.display="flex";
-
-setTimeout(()=>{
-
-logoScreen.style.display="none";
-
-introScreen.style.display="flex";
-
-},5000);
-
+/* 5-Seconds Splash Screen Timeout */
+window.onload = function(){
+    logoScreen.style.display = "flex";
+    setTimeout(() => {
+        logoScreen.style.display = "none";
+        introScreen.style.display = "flex";
+    }, 5000);
 };
 
-/* START */
+/* Shuffle utility mapping logic */
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+/* Master Randomizer Execution */
+function prepareQuestions() {
+    let shuffledPool = shuffle([...rawQuestions]);
+    questions = shuffledPool.map(q => {
+        let optionsCopy = shuffle([...q.options]);
+        let correctIndex = optionsCopy.indexOf(q.answer);
+        return {
+            question: q.question,
+            options: optionsCopy,
+            answer: correctIndex,
+            image: q.image || null,
+            explanation: q.explanation
+        };
+    });
+}
 
 function startQuiz(){
-
-randomizeQuestions();
-
-introScreen.style.display="none";
-quizScreen.style.display="flex";
-
-currentQuestion=0;
-score=0;
-
-loadQuestion();
-
+    prepareQuestions();
+    introScreen.style.display = "none";
+    quizScreen.style.display = "flex";
+    loadQuestion();
 }
 
-/* LOAD QUESTION */
-
+/* Construct Active Question Screen Layout */
 function loadQuestion(){
+    clearInterval(timer);
+    retryUsed = false;
+    feedback.innerHTML = "";
+    explanation.style.display = "none";
+    nextBtn.style.display = "none";
 
-clearInterval(timer);
+    const q = questions[currentQuestion];
 
-retryUsed=false;
+    questionText.innerHTML = `Q${currentQuestion + 1}. ${q.question}`;
+    document.getElementById("questionCounter").innerHTML = `Question ${currentQuestion + 1} of ${questions.length}`;
+    document.getElementById("progressFill").style.width = ((currentQuestion) / questions.length) * 100 + "%";
 
-feedback.innerHTML="";
-explanation.style.display="none";
+    if (q.image) {
+        qImage.src = q.image;
+        qImageContainer.style.display = "block";
+    } else {
+        qImageContainer.style.display = "none";
+    }
 
-const q=questions[currentQuestion];
+    optionsContainer.innerHTML = "";
 
-questionText.innerHTML=
-`Q${currentQuestion+1}. ${q.question}`;
+    q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.classList.add("option-btn");
+        btn.innerHTML = option;
+        btn.onclick = () => checkAnswer(index, btn);
+        optionsContainer.appendChild(btn);
+    });
 
-document.getElementById("questionCount").innerHTML=
-`Question ${currentQuestion+1} / ${questions.length}`;
+    scoreText.innerHTML = `Score: ${score}`;
+    timeLeft = 45;
+    timerText.innerHTML = `Time: ${timeLeft}`;
 
-progressFill.style.width=
-`${((currentQuestion)/questions.length)*100}%`;
-
-optionsContainer.innerHTML="";
-
-/* OPTIONS */
-
-q.options.forEach((option,index)=>{
-
-const btn=document.createElement("button");
-
-btn.classList.add("option-btn");
-
-if(q.isImageOptions){
-
-btn.innerHTML=`
-<img src="${option}" alt="Option Image">
-`;
-
-}else{
-
-btn.innerHTML=option;
-
+    timer = setInterval(() => {
+        timeLeft--;
+        timerText.innerHTML = `Time: ${timeLeft}`;
+        if(timeLeft <= 0){
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }, 1000);
 }
 
-btn.onclick=()=>checkAnswer(index,btn);
+/* Validation System logic */
+function checkAnswer(selected, button){
+    const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll(".option-btn");
 
-optionsContainer.appendChild(btn);
+    if(selected === q.answer){
+        clearInterval(timer);
+        button.classList.add("correct");
+        feedback.innerHTML = "🎉 Correct! Super job!";
+        feedback.style.color = "#10b981";
+        
+        if(correctSound) correctSound.play();
+        setTimeout(() => { if(clapSound) clapSound.play(); }, 250);
 
-});
-
-scoreText.innerHTML=`Score: ${score}`;
-
-timeLeft=60;
-
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-timer=setInterval(()=>{
-
-timeLeft--;
-
-timerText.innerHTML=`Time: ${timeLeft}`;
-
-if(timeLeft<=0){
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
+        score++;
+        createConfetti();
+        buttons.forEach(btn => btn.disabled = true);
+        nextBtn.style.display = "inline-block";
+    } else {
+        button.classList.add("wrong");
+        if(wrongSound) wrongSound.play();
+        showCross();
+        
+        if(!retryUsed){
+            retryUsed = true;
+            feedback.innerHTML = "⏳ Try again! You have one more attempt.";
+            feedback.style.color = "#ea580c";
+            button.disabled = true;
+        } else {
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }
 }
 
-},1000);
-
-}
-
-/* CHECK ANSWER */
-
-function checkAnswer(selected,button){
-
-const q=questions[currentQuestion];
-
-const buttons=document.querySelectorAll(".option-btn");
-
-if(selected===q.answer){
-
-clearInterval(timer);
-
-button.classList.add("correct");
-
-feedback.innerHTML="✅ Correct!";
-
-feedback.style.color="green";
-
-correctSound.play();
-
-score++;
-
-createConfetti();
-
-buttons.forEach(btn=>btn.disabled=true);
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},1500);
-
-}else{
-
-button.classList.add("wrong");
-
-wrongSound.play();
-
-showCross();
-
-if(!retryUsed){
-
-retryUsed=true;
-
-feedback.innerHTML=
-"❌ Try Again! One more chance.";
-
-feedback.style.color="#c62828";
-
-button.disabled=true;
-
-}else{
-
-clearInterval(timer);
-
-showCorrectAnswer();
-
-}
-
-}
-
-}
-
-/* SHOW ANSWER */
-
+/* Concept Insight Panel Reveal */
 function showCorrectAnswer(){
+    const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll(".option-btn");
+    
+    buttons.forEach((btn, index) => {
+        btn.disabled = true;
+        if(index === q.answer){ 
+            btn.classList.add("correct"); 
+        }
+    });
 
-const q=questions[currentQuestion];
-
-const buttons=
-document.querySelectorAll(".option-btn");
-
-buttons.forEach((btn,index)=>{
-
-btn.disabled=true;
-
-if(index===q.answer){
-
-btn.classList.add("correct");
-
+    feedback.innerHTML = "🔍 Let's learn the concept:";
+    feedback.style.color = "#631bfb";
+    explanation.style.display = "block";
+    explanation.innerHTML = q.explanation;
+    nextBtn.style.display = "inline-block";
 }
-
-});
-
-feedback.innerHTML="Correct answer shown";
-
-feedback.style.color="#1565c0";
-
-explanation.style.display="block";
-
-explanation.innerHTML=
-`💡 ${q.explanation}`;
-
-setTimeout(()=>{
-
-nextQuestion();
-
-},3500);
-
-}
-
-/* NEXT */
 
 function nextQuestion(){
-
-currentQuestion++;
-
-if(currentQuestion<questions.length){
-
-loadQuestion();
-
-}else{
-
-showResult();
-
+    currentQuestion++;
+    if(currentQuestion < questions.length){
+        loadQuestion();
+    } else {
+        showResult();
+    }
 }
 
-}
-
-/* RESULT */
-
+/* Final Evaluation Module */
 function showResult(){
+    quizScreen.style.display = "none";
+    resultScreen.style.display = "flex";
+    document.getElementById("finalScore").innerHTML = score + " / " + questions.length;
+    
+    let badgeIcon = document.getElementById("badgeIcon");
+    let badgeTitle = document.getElementById("badgeTitle");
+    let msg = "";
 
-quizScreen.style.display="none";
-
-resultScreen.style.display="flex";
-
-document.getElementById("finalScore").innerHTML=
-`Your Score: ${score} / ${questions.length}`;
-
-let msg="";
-
-if(score>=13){
-
-msg="🌟 Excellent Drawing Tools Expert!";
-
-}else if(score>=9){
-
-msg="👍 Very Good Work!";
-
-}else{
-
-msg="😊 Keep Practicing Drawing Tools!";
-
+    if(score >= 14){ 
+        badgeIcon.innerHTML = "👑";
+        badgeTitle.innerHTML = "Presentation Master Wizard";
+        msg = "Incredible score! You have a perfect understanding of shapes, diagrams, and illustrative layouts!"; 
+        if(clapSound) clapSound.play();
+    } else if(score >= 9){ 
+        badgeIcon.innerHTML = "⭐";
+        badgeTitle.innerHTML = "Graphic Layout Editor";
+        msg = "Excellent achievement! You easily distinguish text styling functions from relational diagrams.";
+        if(clapSound) clapSound.play();
+    } else { 
+        badgeIcon.innerHTML = "🎯";
+        badgeTitle.innerHTML = "Visual Artist Apprentice";
+        msg = "Good attempt! Play the challenge once more to unlock your highest master rank badge!"; 
+    }
+    document.getElementById("message").innerHTML = msg;
 }
-
-document.getElementById("message").innerHTML=msg;
-
-}
-
-/* RESTART */
 
 function restartQuiz(){
-
-resultScreen.style.display="none";
-
-introScreen.style.display="flex";
-
+    currentQuestion = 0;
+    score = 0;
+    resultScreen.style.display = "none";
+    startQuiz();
 }
 
-/* CONFETTI */
-
+/* Confetti System Particles generation */
 function createConfetti(){
-
-for(let i=0;i<24;i++){
-
-const confetti=document.createElement("div");
-
-confetti.classList.add("confetti");
-
-confetti.style.left=
-Math.random()*window.innerWidth+"px";
-
-confetti.style.top=
-Math.random()*150+"px";
-
-document.body.appendChild(confetti);
-
-setTimeout(()=>{
-
-confetti.remove();
-
-},1500);
-
+    for(let i = 0; i < 20; i++){
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.top = "-20px";
+        const colors = ["#0082ff", "#7800ff", "#10b981", "#ffeb3b", "#ff2a6d"];
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+    }
 }
 
-}
-
-/* WRONG CROSS */
-
+/* Error Cross Overlay element */
 function showCross(){
-
-const cross=document.createElement("div");
-
-cross.classList.add("cross");
-
-cross.innerHTML="✖";
-
-cross.style.left=
-Math.random()*window.innerWidth+"px";
-
-cross.style.top=
-Math.random()*window.innerHeight+"px";
-
-document.body.appendChild(cross);
-
-setTimeout(()=>{
-
-cross.remove();
-
-},1000);
-
+    const cross = document.createElement("div");
+    cross.classList.add("cross");
+    cross.innerHTML = "✕";
+    cross.style.left = (Math.random() * (window.innerWidth - 60)) + "px";
+    cross.style.top = (Math.random() * (window.innerHeight - 60)) + "px";
+    document.body.appendChild(cross);
+    setTimeout(() => cross.remove(), 1000);
 }
-
-/* BACKGROUND ICONS */
-
-function createIcons(){
-
-const bg=document.getElementById("bgIcons");
-
-const icons=[
-"🎨",
-"🖌️",
-"📊",
-"🟦",
-"⭐",
-"📘",
-"✂️",
-"🖍️"
-];
-
-for(let i=0;i<35;i++){
-
-const icon=document.createElement("div");
-
-icon.classList.add("icon");
-
-icon.innerHTML=
-icons[Math.floor(Math.random()*icons.length)];
-
-icon.style.left=Math.random()*100+"%";
-
-icon.style.animationDuration=
-(8+Math.random()*10)+"s";
-
-icon.style.animationDelay=
-Math.random()*5+"s";
-
-icon.style.fontSize=
-(24+Math.random()*25)+"px";
-
-bg.appendChild(icon);
-
-}
-
-}
-
-createIcons();
-
 </script>
-
 </body>
 </html>
