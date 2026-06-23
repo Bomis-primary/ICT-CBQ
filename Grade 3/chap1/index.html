@@ -3,286 +3,287 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Computer Hardware and Software - Interactive CBQ</title>
+<title>Grade 2: Computer Hardware & Software Challenge</title>
 
 <style>
 :root {
-    --primary: #1565c0;
-    --secondary: #8e24aa;
-    --success: #2e7d32;
-    --danger: #c62828;
-    --text-color: #222222;
-    --card-bg: rgba(255, 255, 255, 0.96);
+    --primary: #FF6B6B;      /* Fun Coral Red */
+    --secondary: #4D96FF;    /* Bright Friendly Blue */
+    --success: #6BCB77;      /* Happy Mint Green */
+    --warning: #FFD93D;      /* Cheerful Sun Yellow */
+    --dark: #2C3E50;         /* Soft Dark Slate */
+    --light: #F9F9F9;        /* Warm Off-White */
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Comic Sans MS', 'Ubuntu', Arial, sans-serif;
 }
 
 body {
-    font-family: 'Comic Sans MS', 'Segoe UI', Arial, sans-serif;
-    overflow-x: hidden;
     min-height: 100vh;
-    background: linear-gradient(135deg, #ebf4ff 0%, #f3e6ff 100%);
-    position: relative;
-    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(135deg, #E8F0FE, #F3E8FF, #E6FFFA);
+    overflow-x: hidden;
+    position: relative;
     padding: 15px;
+    color: var(--dark);
 }
 
-/* Floating Space Background Elements */
-.bg-icons {
-    position: fixed;
-    top: 0;
-    left: 0;
+/* Animated Floating Elements for Kids */
+.bg-stars {
+    position: absolute;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: -1;
+    z-index: 1;
     pointer-events: none;
 }
 
-.icon {
+.bg-star {
     position: absolute;
-    font-size: 34px;
-    opacity: 0.15;
-    animation: floatUp linear infinite;
+    background: rgba(77, 150, 255, 0.15);
+    border-radius: 50%;
+    animation: floatStar linear infinite;
 }
 
-@keyframes floatUp {
+@keyframes floatStar {
     0% {
-        transform: translateY(110vh) rotate(0deg);
+        transform: translateY(110vh) scale(0.5);
         opacity: 0;
     }
-    10% {
-        opacity: 0.15;
-    }
-    90% {
-        opacity: 0.15;
-    }
+    10% { opacity: 1; }
     100% {
-        transform: translateY(-20vh) rotate(360deg);
+        transform: translateY(-20vh) scale(1.2);
         opacity: 0;
     }
 }
 
-/* Screen Structure Control */
-.screen {
-    display: none;
-    width: 100%;
-    max-width: 820px;
-    justify-content: center;
-    align-items: center;
-    animation: fadeIn 0.4s ease-in-out;
-}
-
-.active {
-    display: flex !important;
-    flex-direction: column;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Logo Splash Screen */
-.logo-screen {
+/* Splash Screen */
+#splash {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #ffffff;
-    z-index: 99999;
+    background: #FFFFFF;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 9999;
 }
 
-.logo-screen img {
-    width: 280px;
-    max-width: 80vw;
-    height: auto;
-    object-fit: contain;
-    animation: pulse 2s infinite ease-in-out;
+#splash img {
+    width: 260px;
+    max-width: 80%;
+    animation: pulse 1.8s infinite ease-in-out;
+}
+
+#splash h2 {
+    margin-top: 20px;
+    color: var(--secondary);
+    font-size: 1.5rem;
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.04); }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
 }
 
-/* Main Content Container Card */
-.card {
-    background: var(--card-bg);
-    padding: 32px;
-    border-radius: 24px;
+/* Main Container Card */
+.container {
     width: 100%;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(12px);
+    max-width: 740px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 4px solid #FFFFFF;
+    border-radius: 36px;
+    padding: 30px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Intro Screen styling */
+.intro {
     text-align: center;
 }
 
-h1 {
+.intro h1 {
+    font-size: 2.3rem;
     color: var(--primary);
-    margin-bottom: 16px;
-    font-size: 2.1rem;
-    font-weight: 800;
+    margin-bottom: 12px;
+    text-shadow: 2px 2px 0px #FFF, 4px 4px 0px rgba(0,0,0,0.05);
 }
 
-.info-box {
-    background: #f1f5f9;
-    border-radius: 14px;
-    padding: 16px;
-    margin: 20px 0;
-    text-align: left;
-    border: 1px solid #e2e8f0;
+.topic {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--secondary);
+    margin-bottom: 24px;
 }
 
-.info-box p {
-    margin: 6px 0;
+.instructions {
+    background: #F0F7FF;
+    border: 2px dashed #B4D4FF;
+    padding: 24px;
+    border-radius: 24px;
+    line-height: 1.8;
+    color: #4A5568;
     font-size: 1.1rem;
-    color: #475569;
+    text-align: left;
 }
 
-.instructions-list {
-    margin-top: 12px;
-    padding-left: 20px;
+.instructions ol {
+    margin-left: 24px;
 }
 
-.instructions-list li {
-    margin-bottom: 6px;
+.instructions li {
+    margin-bottom: 8px;
 }
 
-/* Dashboard Metrics Panel */
+/* Playful Buttons */
+button {
+    padding: 16px 40px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--secondary), #3A82EE);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 24px;
+    box-shadow: 0 8px 0px #2563EB, 0 12px 20px rgba(0,0,0,0.15);
+    transition: all 0.15s ease;
+}
+
+button:hover {
+    transform: translateY(2px);
+    box-shadow: 0 6px 0px #2563EB, 0 8px 15px rgba(0,0,0,0.15);
+}
+
+button:active {
+    transform: translateY(6px);
+    box-shadow: 0 2px 0px #2563EB, 0 4px 10px rgba(0,0,0,0.15);
+}
+
+#nextBtn {
+    background: linear-gradient(135deg, var(--success), #58B364);
+    box-shadow: 0 8px 0px #3D8B47, 0 12px 20px rgba(0,0,0,0.15);
+}
+#nextBtn:hover {
+    box-shadow: 0 6px 0px #3D8B47, 0 8px 15px rgba(0,0,0,0.15);
+}
+
+/* Dashboard Elements */
 .topbar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
     flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
 }
 
-.topbar-badge {
-    background: #ffffff;
-    padding: 8px 16px;
-    border-radius: 12px;
-    font-weight: 700;
-    color: #334155;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    border: 1px solid #e2e8f0;
-    font-size: 1.05rem;
+.topbox {
+    background: #FFFFFF;
+    border: 3px solid #E2E8F0;
+    padding: 10px 20px;
+    border-radius: 18px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--dark);
+    box-shadow: 0 4px 0px #E2E8F0;
 }
 
-/* Progress Bar */
+/* Playful Progress Bar */
 .progress {
     width: 100%;
-    height: 12px;
-    background: #e2e8f0;
+    height: 16px;
+    background: #EDF2F7;
     border-radius: 999px;
     overflow: hidden;
     margin-bottom: 24px;
-    border: 1px solid #cbd5e1;
+    border: 2px solid #E2E8F0;
 }
 
 .progress-fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #42a5f5, #ab47bc, #26a69a);
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(90deg, #6BCB77, #4D96FF);
+    border-radius: 999px;
+    transition: width 0.4s ease;
 }
 
-/* Question Layout */
-.question-header {
-    color: var(--secondary);
-    font-size: 1.1rem;
-    font-weight: 700;
+.question-number {
+    color: #A0AEC0;
+    font-size: 1rem;
+    margin-bottom: 8px;
     text-transform: uppercase;
-    margin-bottom: 6px;
-    text-align: left;
+    letter-spacing: 1px;
+    font-weight: bold;
 }
 
 .question {
-    font-size: 1.3rem;
-    line-height: 1.6;
-    font-weight: 700;
+    font-size: 1.4rem;
+    font-weight: bold;
+    line-height: 1.5;
+    color: var(--dark);
     margin-bottom: 24px;
-    text-align: left;
-    color: #0f172a;
-}
-
-/* Image Frame */
-.question-image-box {
-    width: 100%;
-    max-height: 220px;
-    margin: 0 auto 24px;
-    border-radius: 16px;
-    display: none;
-    overflow: hidden;
-    background: #f8fafc;
-    border: 2px dashed #cbd5e1;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-}
-
-.question-image {
-    max-width: 100%;
-    max-height: 200px;
-    object-fit: contain;
-    border-radius: 10px;
 }
 
 /* Options Grid */
 .options {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 16px;
-    margin-bottom: 20px;
 }
 
-.option-btn {
-    padding: 16px 20px;
-    border: 2px solid #e2e8f0;
-    border-radius: 16px;
-    background: #ffffff;
+.option {
+    background: #FFFFFF;
+    padding: 18px;
+    border-radius: 20px;
+    border: 3px solid #E2E8F0;
     cursor: pointer;
-    font-size: 1.1rem;
-    transition: all 0.2s ease;
-    font-weight: 600;
-    color: #334155;
-    text-align: left;
+    font-size: 1.15rem;
+    font-weight: bold;
+    box-shadow: 0 5px 0px #E2E8F0;
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
 }
 
-.option-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    border-color: var(--primary);
-    background-color: #f8fafc;
-    box-shadow: 0 6px 12px rgba(21, 101, 192, 0.08);
+.option:hover {
+    border-color: var(--secondary);
+    box-shadow: 0 5px 0px var(--secondary);
+    background-color: #F8FAFC;
+}
+
+.option:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0px var(--secondary);
 }
 
 .correct {
-    background: #ecfdf5 !important;
+    background: #F0FDF4 !important;
     border-color: var(--success) !important;
-    color: #065f46 !important;
+    color: #166534 !important;
+    box-shadow: 0 5px 0px var(--success) !important;
 }
 
 .wrong {
-    background: #fef2f2 !important;
-    border-color: var(--danger) !important;
-    color: #991b1b !important;
-    animation: shake 0.4s ease-in-out;
+    background: #FEF2F2 !important;
+    border-color: var(--primary) !important;
+    color: #991B1B !important;
+    box-shadow: 0 5px 0px var(--primary) !important;
+    animation: shake 0.3s ease;
 }
 
 @keyframes shake {
@@ -291,627 +292,586 @@ h1 {
     75% { transform: translateX(6px); }
 }
 
+/* Feedback Boxes */
 .feedback {
-    padding: 14px;
-    border-radius: 14px;
-    font-weight: 700;
-    margin-top: 16px;
+    margin-top: 24px;
+    padding: 20px;
+    border-radius: 20px;
+    display: none;
+    line-height: 1.6;
     font-size: 1.1rem;
-    display: none;
-    text-align: left;
-    animation: fadeIn 0.3s ease;
 }
 
-.feedback.alert-success {
-    background: #ecfdf5;
-    color: #065f46;
-    border-left: 5px solid var(--success);
+.feedback.success {
+    background: #F0FDF4;
+    border: 3px dashed var(--success);
+    color: #166534;
 }
 
-.feedback.alert-danger {
-    background: #fef2f2;
-    color: #991b1b;
-    border-left: 5px solid var(--danger);
+.feedback.error {
+    background: #FEF2F2;
+    border: 3px dashed var(--primary);
+    color: #991B1B;
 }
 
-.explanation {
-    display: none;
-    margin-top: 14px;
-    padding: 16px;
-    border-radius: 14px;
-    background: #eff6ff;
-    border-left: 5px solid var(--primary);
-    color: #1e40af;
-    font-size: 1rem;
-    line-height: 1.5;
-    text-align: left;
-    animation: fadeIn 0.3s ease;
+/* Result Dashboard */
+.result {
+    text-align: center;
 }
 
-.main-btn {
-    padding: 14px 36px;
-    border: none;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    font-size: 1.15rem;
-    cursor: pointer;
-    font-weight: 700;
-    transition: all 0.2s ease;
-    box-shadow: 0 6px 16px rgba(142, 36, 170, 0.25);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.main-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(142, 36, 170, 0.35);
-}
-
-.badge-gallery {
-    font-size: 3.5rem;
-    margin: 20px 0;
-    animation: floatBadge 3s ease-in-out infinite;
-}
-
-@keyframes floatBadge {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
-
-.score-display-box {
-    font-size: 2.2rem;
-    font-weight: 800;
+.result h1 {
+    font-size: 2.5rem;
     color: var(--primary);
-    margin: 14px 0;
+    margin-bottom: 10px;
 }
 
-.canvas-star {
+.score-circle {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin: 25px auto;
+    background: linear-gradient(135deg, var(--warning), #FFA41B);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: var(--dark);
+    box-shadow: 0 10px 0px #D87D00, 0 15px 25px rgba(0,0,0,0.1);
+    border: 5px solid #FFFFFF;
+}
+
+.result-message {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: #4A5568;
+    margin-bottom: 15px;
+}
+
+/* Confetti System */
+.star {
     position: fixed;
-    font-size: 24px;
+    font-size: 26px;
+    animation: fall 2.2s linear forwards;
     pointer-events: none;
-    z-index: 9999;
-    animation: fallStar 2s linear forwards;
+    z-index: 999;
 }
 
-@keyframes fallStar {
-    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
-}
-
-.screen-cross {
-    position: fixed;
-    font-size: 48px;
-    color: var(--danger);
-    pointer-events: none;
-    z-index: 9999;
-    animation: explodeCross 0.8s ease-out forwards;
-}
-
-@keyframes explodeCross {
-    0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
-}
-
-@media (max-width: 768px) {
-    .options {
-        grid-template-columns: 1fr;
-        gap: 12px;
+@keyframes fall {
+    0% {
+        transform: translateY(-40px) rotate(0deg);
+        opacity: 1;
     }
-    .card {
-        padding: 20px 16px;
+    100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
     }
-    h1 {
-        font-size: 1.6rem;
+}
+
+@media(max-width:600px){
+    .container {
+        padding: 24px 16px;
+        border-radius: 28px;
     }
     .question {
-        font-size: 1.15rem;
+        font-size: 1.2rem;
     }
-    .option-btn {
+    .option {
         font-size: 1rem;
         padding: 14px;
     }
-    .topbar {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    .topbar-badge {
-        font-size: 0.9rem;
-        padding: 6px 12px;
+    button {
+        width: 100%;
     }
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 
 <body>
 
-<div class="bg-icons" id="bgIcons"></div>
+<div class="bg-stars" id="bgStars"></div>
 
-<div class="screen active logo-screen" id="logoScreen">
-    <img src="assets/innovine-logo.png" alt="Innovine Logo">
-    <h2 style="margin-top:24px; color:#1e293b; font-weight:700; font-size:1.5rem;">
-        Innovine Interactive Learning
-    </h2>
+<div id="splash">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.style.display='none'">
+    <h2>Innovine Learning Platform</h2>
 </div>
 
-<div class="screen" id="introScreen">
-    <div class="card">
-        <h1>Computer Hardware and Software</h1>
-        <div class="info-box">
-            
-            <p> Hardware and Software Fundamentals</p>
-            <p><strong>Quest Setup:</strong> 15 Curated Competency-Based Tasks</p>
-            <ul class="instructions-list">
-                <li>You have <strong>2 attempts</strong> per prompt to reach the correct answer.</li>
-                <li>Each screen interface assigns an active countdown of <strong>60 seconds</strong>.</li>
-                <li>Complete all 15 active levels to unlock your ultimate performance badge.</li>
-            </ul>
+<div class="container hidden" id="app">
+
+    <div id="introScreen" class="intro">
+        <h1>ICT Fun Quiz! 🎮</h1>
+        <div class="topic">Computer Hardware & Software</div>
+        <div class="instructions">
+            <ol>
+                <li>🎈 Read each fun question carefully!</li>
+                <li>⭐ You have <strong>2 tries</strong> for every level.</li>
+                <li>🤖 If you get stuck twice, we will help you with the answer!</li>
+                <li>⏳ You have 60 seconds for each puzzle question.</li>
+                <li>🏆 Finish all the levels to win your star celebration!</li>
+            </ol>
         </div>
-        <button class="main-btn" onclick="startQuiz()">
-            Launch Quest 🚀
-        </button>
+        <button onclick="startGame()">Start Challenge 🚀</button>
     </div>
-</div>
 
-<div class="screen" id="quizScreen">
-    <div class="card">
+    <div id="quizScreen" class="hidden">
         <div class="topbar">
-            <div id="scoreText" class="topbar-badge">⭐ Score: 0</div>
-            <div id="timerText" class="topbar-badge">⏳ Time: 60s</div>
-            <div id="questionCount" class="topbar-badge">Level 1 / 15</div>
+            <div class="topbox">⭐ Stars: <span id="score">0</span></div>
+            <div class="topbox">⏳ Time: <span id="timer">60</span>s</div>
         </div>
 
         <div class="progress">
             <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <div class="question-header" id="questionHeaderLabel"></div>
+        <div class="question-number" id="questionNumber"></div>
         <div class="question" id="questionText"></div>
+        <div class="options" id="optionsBox"></div>
+        <div class="feedback" id="feedbackBox"></div>
 
-        <div id="questionImageBox" class="question-image-box">
-            <img id="questionImage" class="question-image" src="" alt="Context Visual Matrix">
-        </div>
-
-        <div class="options" id="optionsContainer"></div>
-
-        <div class="feedback" id="feedback"></div>
-        <div class="explanation" id="explanation"></div>
-
-        <div style="text-align: right; margin-top: 15px;">
-            <button id="nextBtn" class="main-btn" style="display: none;" onclick="nextQuestion()">
-                Next Level ➡️
-            </button>
-        </div>
+        <button id="nextBtn" class="hidden" onclick="nextQuestion()">Next Level ➡️</button>
     </div>
+
+    <div id="resultScreen" class="hidden result">
+        <h1>🎉 Challenge Completed 🎉</h1>
+        <div class="score-circle">
+            <span id="finalScore"></span>
+        </div>
+        <div class="result-message" id="resultMessage"></div>
+        <button onclick="location.reload()">Play Again 🔄</button>
+    </div>
+
 </div>
 
-<div class="screen" id="resultScreen">
-    <div class="card">
-        <h1>Mission Completed!</h1>
-        <div class="badge-gallery" id="resultBadge">💻🏆🎉</div>
-        <div class="score-display-box" id="finalScore"></div>
-        <p id="message" style="font-size: 1.25rem; color:#475569; font-weight: 600; margin-bottom: 24px; line-height: 1.6;"></p>
-        <button class="main-btn" onclick="restartQuiz()">
-            Play Again 🔄
-        </button>
-    </div>
-</div>
-
-<!-- Audio nodes corrected to match the asset directory perfectly -->
 <audio id="correctSound" src="assets/correct.mp3"></audio>
 <audio id="wrongSound" src="assets/wrong.mp3"></audio>
-<audio id="clapSound" src="assets/clap.mp3"></audio>
 
 <script>
-const allQuestions = [
+/* Ambient Floating Background Bubbles */
+const bg = document.getElementById("bgStars");
+for(let i=0; i<25; i++){
+    let star = document.createElement("div");
+    star.classList.add("bg-star");
+    star.style.left = Math.random() * 100 + "%";
+    star.style.animationDuration = (Math.random() * 8 + 8) + "s";
+    star.style.animationDelay = Math.random() * 4 + "s";
+    const size = (Math.random() * 20 + 10) + "px";
+    star.style.width = size;
+    star.style.height = size;
+    bg.appendChild(star);
+}
+
+/* Dismiss Splash Screen */
+setTimeout(() => {
+    document.getElementById("splash").style.display = "none";
+    document.getElementById("app").classList.remove("hidden");
+}, 5000);
+
+/* Core Database Array Updated with Complete Codebases */
+const questions = [
     {
-        question: "Riya is typing her English homework using a physical keyboard attached to her machine. What type of computing element is she physically clicking?",
-        options: ["💻 Hardware component", "⚙️ Software program", "📁 Digital file data", "🌐 Cloud storage space"],
-        answer: 0,
-        explanation: "The keyboard is a physical parts framework that you can see and touch, making it a hardware device.",
-        type: "Scenario Task"
+        q: "Riya types her name using a keyboard. What step is this?",
+        o: ["📟 Output Action", "📥 Input Action", "⚙️ Processing Action", "💾 Storage Action"],
+        a: 1,
+        e: "Typing with a keyboard is an Input Action because you are putting letters into the computer!"
     },
     {
-        question: "Aarav watches an educational animal documentary using an application software called VLC Media Player. What type of component is this player?",
-        options: ["⚙️ Software application", "💻 Hardware peripheral", "🔌 Electronic device", "🖨️ Printing hardware"],
-        answer: 0,
-        explanation: "A media player is a collection of code instructions that runs operations inside a machine, which means it is software.",
-        type: "Scenario Task"
+        q: "Aarav clicks the mouse to open a game. What is this action?",
+        o: ["📟 Output Action", "📥 Input Action", "⚙️ Processing Action", "📺 Display Action"],
+        a: 1,
+        e: "Clicking the mouse is an Input Action because it tells the computer what to open next!"
     },
     {
-        question: "Anaya wants to print out her digital science project layout onto physical paper sheets using a desktop printer. What category does this printer belong to?",
-        options: ["💻 Hardware unit", "⚙️ System software", "📁 Storage extension", "🔌 Virtual setup application"],
-        answer: 0,
-        explanation: "Printers are mechanical, real objects connected to computers that you can physically touch, classifying them as hardware.",
-        type: "Scenario Task"
+        q: "The computer adds two numbers and finds the answer. What step is this?",
+        o: ["📥 Input Action", "📟 Output Action", "⚙️ Processing Action", "⌨️ Typing Action"],
+        a: 2,
+        e: "The computer is doing brain work! This is called a Processing Action."
     },
     {
-        question: "Kabir is testing a mathematics practice puzzle game application that was recently downloaded and installed onto his desktop. What is this digital game?",
-        options: ["⚙️ Software application", "💻 Physical hardware", "🖱️ Input accessory", "⚡ Electronic wire unit"],
-        answer: 0,
-        explanation: "All games and tool applications loaded onto a computer system are software programs that perform processing tasks.",
-        type: "Scenario Task"
+        q: "A printer gives a paper with your drawing. What step is this?",
+        o: ["📥 Input Action", "⚙️ Processing Action", "📟 Output Action", "💾 Saving Action"],
+        a: 2,
+        e: "The printer gives out something real you can take away. This is an Output Action!"
     },
     {
-        question: "Meera launches the Tux Paint program tool on her computer operating system to design a colorful banner. What category represents this drawing tool?",
-        options: ["⚙️ Software package", "💻 Hardware machine", "🔌 Electronic controller", "📺 Glass monitor display"],
-        answer: 0,
-        explanation: "The paint utility is an internally stored software system application that processes pixel instructions based on input commands.",
-        type: "Scenario Task"
+        q: "Meera speaks into a microphone. What step is happening?",
+        o: ["📟 Output Action", "📥 Input Action", "⚙️ Processing Action", "👀 Show Action"],
+        a: 1,
+        e: "Speaking into a microphone sends your voice inside the computer. That is an Input Action!"
     },
     {
-        question: "A young user wants to store a collection of multi-media document records so she can transfer them neatly to her school teacher's computer next morning. Which physical item should she choose?",
-        options: ["💾 Flash Pen Drive", "📺 Display Monitor screen", "⌨️ Mechanical Keyboard unit", "⚙️ Word processing application"],
-        answer: 0,
-        explanation: "A pen drive is a dedicated hardware storage appliance explicitly manufactured to store data files securely and carry them anywhere.",
-        type: "Scenario Task"
+        q: "The computer shows a picture on the screen after clicking. What step is this?",
+        o: ["📥 Input Action", "⚙️ Processing Action", "📟 Output Action", "⌨️ Typing Action"],
+        a: 2,
+        e: "Showing pictures on the screen display is an Output Action!"
     },
     {
-        question: "Rohan saves his classroom project worksheet data inside his desktop hard disk directory before shutting down the power line. What functional property does this demonstrate?",
-        options: ["📁 Data Storage action", "📥 Input command capture", "📤 Output presentation", "⚡ Power generation action"],
-        answer: 0,
-        explanation: "Retaining documents on memory devices like hard disks or solid state drives represents data storage safely over time.",
-        type: "Scenario Task"
-    },
-    {
-        question: "Siddharth interacts with a computing machine configuration that contains zero operating software lines inside it. What consequence will he witness?",
-        options: ["❌ The computer will not run or work at all", "✔️ The computer functions perfectly as usual", "⌨️ Only the keyboard typing operations will work", "🖨️ Only the printing infrastructure responds"],
-        answer: 0,
-        explanation: "Hardware cannot perform logical computing processes without a software system layer providing operation instructions.",
-        type: "Scenario Task"
-    },
-    {
-        question: "Assertion (A): Computer hardware items can be naturally touched, picked up, and moved by hand.\nReason (R): Hardware represents the physical components and mechanical structures of a computing setup.",
-        options: [
-            "✔️ Both (A) and (R) are correct, and (R) provides the accurate explanation.",
-            "⚠️ Both (A) and (R) are correct, but (R) is not the correct explanation.",
-            "❌ (A) is correct, but (R) is completely incorrect.",
-            "⛔ Both (A) and (R) are completely false statements."
+        q: "Look at the steps: Click → Computer works → Picture appears. What is the correct order?",
+        o: [
+            "📟 Output → 📥 Input → ⚙️ Process",
+            "📥 Input → ⚙️ Process → 📟 Output",
+            "⚙️ Process → 📥 Input → 📟 Output",
+            "📥 Input → 📟 Output → ⚙️ Process"
         ],
-        answer: 0,
-        explanation: "Hardware is the concrete structural manifestation of a machine, so it can be touched, which confirms both parts of the rule.",
-        type: "Assertion-Reason Challenge"
+        a: 1,
+        e: "Computers always follow the rule: First you Input, then it Processes, and then you get Output!"
     },
     {
-        question: "Analyze the operational relationships presented below carefully:\n• Keyboard → Used for typing alphabetical inputs\n• Tux Paint → Used for drawing digital visuals\n• Printer → Used for generating physical printouts\nIdentify which component functions exclusively as a software layer application.",
-        options: ["🎨 Tux Paint tool", "⌨️ Mechanical Keyboard", "🖨️ Printer hardware", "📺 Monitor glass screen"],
-        answer: 0,
-        explanation: "Keyboard, monitor, and printer are tangible units. Tux Paint is a set of programmatic operations, placing it under software.",
-        type: "Observation Task"
-    },
-    {
-        question: "Zoya monitors multiple desk items. She observes that while a wireless mouse can be easily lifted, the operating icons shown on the screen cannot be picked up. What does this observation clarify?",
-        options: [
-            "🔍 Screen icons are software layers that do not possess a physical body",
-            "🔍 The mouse is an internal processing system program",
-            "🔍 Screen icons represent heavy plastic items hidden inside the frame",
-            "🔍 Software layers can be pulled out of the monitor safely anytime"
+        /* Transformed Assertion Question Style & Options for Grade 2 Users */
+        q: "⭐️ True or False Teamwork Challenge! ⭐️<br><br><b>Statement:</b> The computer mouse is an input device.<br><b>Why:</b> Because it helps us point and give instructions directly to the computer system.",
+        o: [
+            "👍 Both are completely right! The 'Why' explains the statement perfectly.",
+            "🙃 Both are right facts, but they do not match each other.",
+            "🌤️ Only the Statement is right, but the 'Why' part is totally wrong.",
+            "❌ Both statements are completely wrong words."
         ],
-        answer: 0,
-        explanation: "Software forms the non-tangible code instructions environment inside a computer system, meaning you can see its action but never physically grasp it.",
-        type: "Observation Task"
+        a: 0,
+        e: "The mouse is an input tool because we use it to pass directions into the computer!"
     },
     {
-        question: "Isha wishes to build a tabular birthday chart tracker for all her classmates. Which type of resource should she launch on her computer environment?",
-        options: ["⚙️ Spreadsheet or text editor software", "💻 An input scanner hardware unit", "🔌 External power cord cables", "🖱️ A secondary optical mouse tool"],
-        answer: 0,
-        explanation: "Sorting information and structuring data tables requires interactive application software built for text and record keeping.",
-        type: "Application Focus"
-    },
-    {
-        question: "An engineer wants to build an entirely automated toy car prototype using a computer workspace, but fails to connect any hardware interfaces to the design system. What happens to his project?",
-        options: [
-            "❌ The code execution stays locked inside the system with no physical movement",
-            "✔️ The toy car moves perfectly using virtual air waves",
-            "✔️ The software transforms itself automatically into mechanical wheels",
-            "❌ The computer bursts instantly due to high logical load"
+        q: "Which device does NOT belong in the same family group as the others?",
+        o: [
+            "⌨️ Keyboard",
+            "🖱️ Mouse",
+            "📺 Monitor Screen",
+            "🎙️ Microphone"
         ],
-        answer: 0,
-        explanation: "Software code strings need compatible, real-world hardware mechanisms to express physical movements or operations successfully.",
-        type: "Application Focus"
+        a: 2,
+        e: "The Monitor doesn't belong because it shows output, while all the others are input tools!"
     },
     {
-        question: "Spot the single incorrect statement out of the assertions provided below regarding computing infrastructures:",
-        options: [
-            "❌ The mechanical mouse unit is an example of a software application.",
-            "✔️ A standard physical keyboard functions as hardware.",
-            "✔️ The computer web browser tool is an example of software code.",
-            "✔️ A paper-printing machine assembly represents computer hardware."
+        q: "Rohan types numbers and gets an answer on screen. Which step is typing?",
+        o: [
+            "📥 Input Action",
+            "⚙️ Processing Action",
+            "📟 Output Action",
+            "🏆 Final Result"
         ],
-        answer: 0,
-        explanation: "The mechanical computer mouse is an input hardware peripheral tool, so claiming it is a software application is factually incorrect.",
-        type: "Error-Detection Quest"
+        a: 0,
+        e: "Typing numbers into the machine is an Input Action."
     },
     {
-        question: "Examine the given picture layout meticulously. The children are interacting with an electronic game workspace on their device display. This interactive game element is an explicit example of:",
-        image: "assets/Q16.png",
-        options: ["⚙️ Software architecture", "💻 Hardware assembly", "🔋 Power source unit", "💾 Storage peripheral space"],
-        answer: 0,
-        explanation: "Even though you see the game on a hardware screen display, the game structure itself is driven entirely by internal software code loops.",
-        type: "Picture Analysis"
+        q: "Sia clicks a photo, the computer changes its colors, then shows it. What is the processing step?",
+        o: [
+            "📸 Clicking the photo",
+            "🎨 Changing the colors internally",
+            "📺 Showing the photo on screen",
+            "💾 Saving the photo to memory"
+        ],
+        a: 1,
+        e: "Changing the colors is the computer working hard behind the scenes. That's Processing!"
     },
     {
-        question: "Which component shown inside the provided asset illustration must be used by data operators when they need to transport files safely between physically disconnected computers?",
-        image: "assets/Q17.png",
-        options: ["💾 External Flash Pen Drive", "📺 Main Desktop Monitor Frame", "⌨️ Button Keyboard device", "🔊 Audio Channel Speakers"],
-        answer: 0,
-        explanation: "The pen drive module shown inside the asset graphic operates as a portable hardware data container for seamless file transport.",
-        type: "Picture Analysis"
+        q: "A student says the monitor screen is an input device. What is their mistake?",
+        o: [
+            "📺 The monitor shows things to us (Output)",
+            "📥 The monitor takes things from us (Input)",
+            "💾 The monitor keeps files safe (Storage)",
+            "🧮 The monitor calculates math lines"
+        ],
+        a: 0,
+        e: "Monitors can only display pictures and text to us, making them Output tools."
     },
     {
-        question: "Analyze the provided image matrix item set carefully. Choose the option choice that represents an application software environment rather than a hardware asset.",
-        image: "assets/Q18.png",
-        options: ["🎨 The Interactive Paint Program", "🖱️ The Ergonomic Optical Mouse", "⌨️ The Standard QWERTY Keyboard", "🖨️ The Inkjet Paper Printer Unit"],
-        answer: 0,
-        explanation: "The Paint App layout showcased in the picture represents an interface of software instructions, while the remaining parts form actual physical hardware tools.",
-        type: "Picture Analysis"
+        q: "A child presses buttons on the keyboard to write a story sentence. What type of step is this?",
+        o: [
+            "📟 Output Action",
+            "📥 Input Action",
+            "⚙️ Processing Action",
+            "🖨️ Print Action"
+        ],
+        a: 1,
+        e: "Pressing keys sends letters into the computer, which means it is an Input Action."
+    },
+    {
+        q: "A computer plays your favorite music track after you click play. Which step is playing music?",
+        o: [
+            "📥 Input Action",
+            "⚙️ Processing Action",
+            "📟 Output Action",
+            "🖱️ Click Action"
+        ],
+        a: 2,
+        e: "Music playing out loud from speakers or headphones is an Output Action."
+    },
+    {
+        q: "A student clicks print, the computer prepares the file, then the paper comes out. What is the correct order?",
+        o: [
+            "📥 Input → 📟 Output → ⚙️ Process",
+            "📥 Input → ⚙️ Process → 📟 Output",
+            "📟 Output → ⚙️ Process → 📥 Input",
+            "⚙️ Process → 📥 Input → 📟 Output"
+        ],
+        a: 1,
+        e: "Clicking print is Input, preparing the file is Processing, and the printed paper coming out is Output."
     }
 ];
 
-let quizQuestions = [];
-let activeIndex = 0;
-let pointsScore = 0;
-let evaluationTimer;
-let secondsCountdown = 60;
-let currentAttemptCount = 0;
-
-const logoScreen = document.getElementById("logoScreen");
-const introScreen = document.getElementById("introScreen");
-const quizScreen = document.getElementById("quizScreen");
-const resultScreen = document.getElementById("resultScreen");
-
-const questionHeaderLabel = document.getElementById("questionHeaderLabel");
-const questionText = document.getElementById("questionText");
-const optionsContainer = document.getElementById("optionsContainer");
-const scoreText = document.getElementById("scoreText");
-const timerText = document.getElementById("timerText");
-const feedbackBox = document.getElementById("feedback");
-const explanationBox = document.getElementById("explanation");
-const progressFill = document.getElementById("progressFill");
-const questionImageBox = document.getElementById("questionImageBox");
-const questionImage = document.getElementById("questionImage");
-const nextBtn = document.getElementById("nextBtn");
-
-function shuffleArrayStructure(targetArray) {
-    let output = [...targetArray];
-    for (let i = output.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [output[i], output[j]] = [output[j], output[i]];
+const finalChallenge = [
+    {
+        q: "A child types a paragraph, the computer checks the spelling, then shows corrected words. Which step is checking spelling?",
+        o: [
+            "📥 Input Action",
+            "⚙️ Processing Action",
+            "📟 Output Action",
+            "⌨️ Typing Action"
+        ],
+        a: 1,
+        e: "The computer checking for mistakes is doing smart brain work, which means it is Processing."
+    },
+    {
+        q: "A student records their voice, the computer changes it, and then plays it out loud. Which step is playing sound?",
+        o: [
+            "📥 Input Action",
+            "⚙️ Processing Action",
+            "📟 Output Action",
+            "🎙️ Recording Action"
+        ],
+        a: 2,
+        e: "Sound coming out into the room so you can hear it is an Output Action."
     }
-    return output;
+];
+
+/* Game Flow Management Variables */
+let current = 0;
+let score = 0;
+let attempts = 0;
+let timer;
+let timeLeft = 60;
+
+/* Initialize Game Setup */
+function startGame(){
+    // Shuffling questions array
+    questions.sort(() => Math.random() - 0.5);
+    document.getElementById("introScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    loadQuestion();
 }
 
-window.onload = function() {
-    setTimeout(() => {
-        logoScreen.style.setProperty("display", "none", "important");
-        introScreen.classList.add("active");
-    }, 5000);
-    buildAmbientIconBackground();
-};
+/* Load Individual Question Instance */
+function loadQuestion(){
+    attempts = 0;
+    timeLeft = 60;
+    startTimer();
 
-function startQuiz() {
-    const pictureSet = allQuestions.filter(item => item.type === "Picture Analysis");
-    let generalPool = allQuestions.filter(item => item.type !== "Picture Analysis");
+    document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
     
-    generalPool = shuffleArrayStructure(generalPool);
-    quizQuestions = [...generalPool.slice(0, 12), ...pictureSet];
-    quizQuestions = shuffleArrayStructure(quizQuestions);
+    const q = questions[current];
+    document.getElementById("questionNumber").innerHTML = `Level Puzzle ${current + 1} of ${questions.length}`;
+    document.getElementById("questionText").innerHTML = q.q;
 
-    quizQuestions.forEach(q => {
-        const correctText = q.options[q.answer];
-        q.options = shuffleArrayStructure(q.options);
-        q.answer = q.options.indexOf(correctText);
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
+
+    q.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkAnswer(div, index);
+        box.appendChild(div);
     });
 
-    introScreen.classList.remove("active");
-    quizScreen.classList.add("active");
-
-    activeIndex = 0;
-    pointsScore = 0;
-    renderCurrentQuestionInstance();
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
 }
 
-function renderCurrentQuestionInstance() {
-    clearInterval(evaluationTimer);
-    currentAttemptCount = 0;
-
-    feedbackBox.style.display = "none";
-    explanationBox.style.display = "none";
-    nextBtn.style.display = "none";
-
-    const q = quizQuestions[activeIndex];
-
-    progressFill.style.width = `${(activeIndex / quizQuestions.length) * 100}%`;
-    document.getElementById("questionCount").innerText = `Level ${activeIndex + 1} / ${quizQuestions.length}`;
-    questionHeaderLabel.innerText = q.type;
-    questionText.innerText = q.question;
-
-    if (q.image) {
-        questionImage.src = q.image;
-        questionImageBox.style.display = "flex";
-        questionImage.onerror = function() {
-            questionImageBox.style.display = "none";
-        };
-    } else {
-        questionImageBox.style.display = "none";
-    }
-
-    optionsContainer.innerHTML = "";
-    q.options.forEach((optStr, idx) => {
-        const btn = document.createElement("button");
-        btn.classList.add("option-btn");
-        btn.innerText = optStr;
-        btn.onclick = () => evaluateChoiceSelection(idx, btn);
-        optionsContainer.appendChild(btn);
-    });
-
-    scoreText.innerText = `⭐ Score: ${pointsScore}`;
-    secondsCountdown = 60;
-    timerText.innerText = `⏳ Time: ${secondsCountdown}s`;
-
-    evaluationTimer = setInterval(() => {
-        secondsCountdown--;
-        timerText.innerText = `⏳ Time: ${secondsCountdown}s`;
-        if (secondsCountdown <= 0) {
-            clearInterval(evaluationTimer);
-            revealCorrectAnswerSequence();
+/* Live Countdown Mechanics */
+function startTimer(){
+    clearInterval(timer);
+    document.getElementById("timer").innerText = timeLeft;
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+        if(timeLeft <= 0){
+            clearInterval(timer);
+            showCorrectAnswer();
         }
     }, 1000);
 }
 
-function evaluateChoiceSelection(selectedIdx, targetButton) {
-    if (targetButton.classList.contains("correct") || targetButton.classList.contains("wrong")) return;
+/* Answer Evaluation Logic */
+function checkAnswer(element, index){
+    const q = questions[current];
 
-    const q = quizQuestions[activeIndex];
-
-    if (selectedIdx === q.answer) {
-        clearInterval(evaluationTimer);
-        targetButton.classList.add("correct");
-        triggerAudioDeviceFeedback("correctSound");
-        pointsScore++;
-        scoreText.innerText = `⭐ Score: ${pointsScore}`;
-        
-        feedbackBox.className = "feedback alert-success";
-        feedbackBox.innerHTML = `✨ <strong>Fantastic Answer!</strong> That is absolutely correct.`;
-        feedbackBox.style.display = "block";
-
-        disableChoiceInputMatrix();
-        triggerConfettiStarsEffect();
-        nextBtn.style.display = "inline-flex";
+    if(index === q.a){
+        element.classList.add("correct");
+        triggerSound("correctSound");
+        createConfetti();
+        score++;
+        document.getElementById("score").innerText = score;
+        showFeedback(true, "🌟 Way To Go! You Got It!", q.e);
+        disableOptions();
+        clearInterval(timer);
+        document.getElementById("nextBtn").classList.remove("hidden");
     } else {
-        targetButton.classList.add("wrong");
-        triggerAudioDeviceFeedback("wrongSound");
-        triggerScreenCrossEffect();
-        currentAttemptCount++;
+        attempts++;
+        element.classList.add("wrong");
+        triggerSound("wrongSound");
+        element.style.pointerEvents = "none";
 
-        if (currentAttemptCount < 2) {
-            feedbackBox.className = "feedback alert-danger";
-            feedbackBox.innerHTML = `❌ <strong>Not quite right!</strong> Let's use your final attempt on this question.`;
-            feedbackBox.style.display = "block";
+        if(attempts < 2){
+            showFeedback(false, "🌤️ Oh, Not Quite Right!", "Don't give up! You have <b>one more try</b> left.");
         } else {
-            clearInterval(evaluationTimer);
-            feedbackBox.className = "feedback alert-danger";
-            feedbackBox.innerHTML = `⚠️ <strong>Chances Exhausted!</strong> Let's look over the conceptual fact below.`;
-            feedbackBox.style.display = "block";
-            revealCorrectAnswerSequence();
+            showCorrectAnswer();
         }
     }
 }
 
-function revealCorrectAnswerSequence() {
-    const q = quizQuestions[activeIndex];
-    const buttons = optionsContainer.getElementsByClassName("option-btn");
+/* Handle Expired Tries or Timers */
+function showCorrectAnswer(){
+    clearInterval(timer);
+    disableOptions();
+    const q = questions[current];
 
-    for (let i = 0; i < buttons.length; i++) {
-        buttons[i].disabled = true;
-        if (i === q.answer) {
-            buttons[i].classList.add("correct");
+    document.querySelectorAll(".option").forEach((opt, index) => {
+        if(index === q.a){
+            opt.classList.add("correct");
         }
-    }
+    });
 
-    explanationBox.innerHTML = `💡 <strong>Core Concept Fact:</strong> ${q.explanation}`;
-    explanationBox.style.display = "block";
-    disableChoiceInputMatrix();
-    nextBtn.style.display = "inline-flex";
+    showFeedback(false, "🤖 Let's Learn Together!", q.e);
+    document.getElementById("nextBtn").classList.remove("hidden");
 }
 
-function disableChoiceInputMatrix() {
-    const buttons = optionsContainer.getElementsByClassName("option-btn");
-    for (let i = 0; i < buttons.length; i++) {
-        buttons[i].disabled = true;
-    }
+function disableOptions(){
+    document.querySelectorAll(".option").forEach(opt => {
+        opt.style.pointerEvents = "none";
+    });
 }
 
-function nextQuestion() {
-    activeIndex++;
-    if (activeIndex < quizQuestions.length) {
-        renderCurrentQuestionInstance();
+function showFeedback(success, title, text){
+    const box = document.getElementById("feedbackBox");
+    box.style.display = "block";
+    box.className = "feedback " + (success ? "success" : "error");
+    box.innerHTML = `<strong style="font-size:1.2rem;">${title}</strong><br><br>${text}`;
+}
+
+/* Phase Transitions to Final Challenge Sets */
+function nextQuestion(){
+    current++;
+    if(current < questions.length){
+        loadQuestion();
     } else {
-        renderQuizSessionOutcomes();
+        showFinalChallenge();
     }
 }
 
-function renderQuizSessionOutcomes() {
-    quizScreen.classList.remove("active");
-    resultScreen.classList.add("active");
+function showFinalChallenge(){
+    const challenge = finalChallenge[0];
+    document.getElementById("questionNumber").innerHTML = "🚀 Super Boss Level 1";
+    document.getElementById("questionText").innerHTML = challenge.q;
 
-    triggerAudioDeviceFeedback("clapSound");
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
 
-    finalScore.innerText = `Your Score: ${pointsScore} / ${quizQuestions.length}`;
-    
-    let promptMsg = "";
-    if (pointsScore >= 13) {
-        promptMsg = "👑 Outstanding Work! You have completely mastered the hardware and software systems module. Your diagnostic skills are perfect!";
-        resultBadge.innerText = "💻🏆🥇";
-    } else if (pointsScore >= 9) {
-        promptMsg = "🌟 Very Good Effort! You have a solid foundational grasp of how mechanical components connect with application software lines.";
-        resultBadge.innerText = "✨🥈👍";
+    challenge.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkFinal1(div, index);
+        box.appendChild(div);
+    });
+
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
+    clearInterval(timer);
+    document.getElementById("timer").innerText = "--";
+}
+
+function checkFinal1(element, index){
+    const q = finalChallenge[0];
+    if(index === q.a){
+        element.classList.add("correct");
+        score++;
+        createConfetti();
+        document.getElementById("score").innerText = score;
+        showFeedback(true, "🎨 Incredible Thinking!", q.e);
     } else {
-        promptMsg = "😊 Good attempt! Run through the interactive quest environment again to establish an excellent understanding of basic ICT hardware parts.";
-        resultBadge.innerText = "📚🔄💻";
+        element.classList.add("wrong");
+        showFeedback(false, "💡 Keep Learning!", q.e);
     }
-    document.getElementById("message").innerText = promptMsg;
+    disableOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
+    document.getElementById("nextBtn").onclick = showFinalChallenge2;
+}
 
-    if (typeof confetti === "function") {
-        confetti({ particleCount: 160, spread: 80, origin: { y: 0.6 } });
+function showFinalChallenge2(){
+    const challenge = finalChallenge[1];
+    document.getElementById("questionNumber").innerHTML = "🚀 Super Boss Level 2";
+    document.getElementById("questionText").innerHTML = challenge.q;
+
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
+
+    challenge.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkFinal2(div, index);
+        box.appendChild(div);
+    });
+
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
+}
+
+function checkFinal2(element, index){
+    const q = finalChallenge[1];
+    if(index === q.a){
+        element.classList.add("correct");
+        score++;
+        createConfetti();
+        document.getElementById("score").innerText = score;
+        showFeedback(true, "🎈 Star Answer Completed!", q.e);
+    } else {
+        element.classList.add("wrong");
+        showFeedback(false, "🤖 Check Out the Fact:", q.e);
     }
+    disableOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
+    document.getElementById("nextBtn").innerHTML = "View My Trophy 🏆";
+    document.getElementById("nextBtn").onclick = showResult;
 }
 
-function restartQuiz() {
-    resultScreen.classList.remove("active");
-    introScreen.classList.add("active");
+/* Results Compilation */
+function showResult(){
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("finalScore").innerHTML = `${score}/17`;
+
+    let message = "";
+    if(score >= 15){
+        message = "🏆 <b>Ultimate ICT Superstar!</b> Outstanding! You understand Input, Process, and Output perfectly!";
+    } else if(score >= 12){
+        message = "⭐ <b>Excellent Job!</b> You have a wonderful understanding of how computers think and work!";
+    } else if(score >= 8){
+        message = "👍 <b>Great Effort!</b> You did well. Keep exploring and practicing to grow your computer brain!";
+    } else {
+        message = "🚀 <b>Keep On Trying!</b> Re-read the chapter topics once more and try again to win more stars!";
+    }
+    document.getElementById("resultMessage").innerHTML = message;
+    createConfetti();
 }
 
-function triggerAudioDeviceFeedback(elementId) {
-    try {
-        const targetAudio = document.getElementById(elementId);
-        if (targetAudio) {
-            targetAudio.currentTime = 0;
-            targetAudio.play().catch(err => console.log("Audio play deferred: ", err));
-        }
-    } catch(e) { console.log("Audio reference failure: ", e); }
-}
-
-function triggerConfettiStarsEffect() {
-    const icons = ["⭐", "✨", "💻", "💾", "🎨"];
-    for (let i = 0; i < 20; i++) {
+/* Confetti Generation Logic */
+function createConfetti(){
+    const visualIcons = ["⭐", "🎈", "✨", "🎉", "⚡"];
+    for(let i=0; i<35; i++){
         const star = document.createElement("div");
-        star.classList.add("canvas-star");
-        star.innerText = icons[Math.floor(Math.random() * icons.length)];
+        star.classList.add("star");
+        star.innerHTML = visualIcons[Math.floor(Math.random() * visualIcons.length)];
         star.style.left = Math.random() * 100 + "vw";
-        star.style.top = "-20px";
-        star.style.animationDuration = (Math.random() * 1.2 + 0.8) + "s";
-        star.style.fontSize = (Math.random() * 12 + 20) + "px";
+        star.style.fontSize = (Math.random() * 15 + 18) + "px";
         document.body.appendChild(star);
-        setTimeout(() => star.remove(), 2000);
+        setTimeout(() => { star.remove(); }, 2200);
     }
 }
 
-function triggerScreenCrossEffect() {
-    const cross = document.createElement("div");
-    cross.classList.add("screen-cross");
-    cross.innerText = "✖";
-    cross.style.left = "50%";
-    cross.style.top = "50%";
-    document.body.appendChild(cross);
-    setTimeout(() => cross.remove(), 800);
-}
-
-function buildAmbientIconBackground() {
-    const bgContainer = document.getElementById("bgIcons");
-    const iconsPool = ["💻", "🖱️", "⌨️", "💾", "🔌", "📺", "⚙️", "📁"];
-    
-    for (let i = 0; i < 30; i++) {
-        const unit = document.createElement("div");
-        unit.classList.add("icon");
-        unit.innerText = iconsPool[Math.floor(Math.random() * iconsPool.length)];
-        unit.style.left = Math.random() * 100 + "%";
-        unit.style.animationDuration = (Math.random() * 8 + 10) + "s";
-        unit.style.animationDelay = Math.random() * 6 + "s";
-        unit.style.fontSize = (Math.random() * 18 + 22) + "px";
-        bgContainer.appendChild(unit);
+/* Audio Device Safe Playback */
+function triggerSound(id) {
+    const aud = document.getElementById(id);
+    if(aud) {
+        aud.currentTime = 0;
+        aud.play().catch(e => console.log('Audio playback delayed or context waiting.'));
     }
 }
 </script>
