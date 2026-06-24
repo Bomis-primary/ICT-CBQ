@@ -1,1 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logical Thinking CBQ Challenge</title>
 
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+background: linear-gradient(135deg, #0082ff, #7800ff);
+min-height:100vh;
+overflow-x:hidden;
+position:relative;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 15px;
+}
+
+/* Screen Controls */
+.screen{
+display:none;
+width: 100%;
+max-width: 850px;
+justify-content:center;
+align-items:center;
+position:relative;
+z-index:2;
+}
+
+.active{
+display:flex;
+flex-direction:column;
+}
+
+/* Splash Loader Screen */
+.logo-screen{
+background:#ffffff;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+max-width: 100%;
+z-index:9999;
+justify-content: center;
+align-items: center;
+}
+
+.logo-screen img{
+width:240px;
+max-width:85%;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+/* Core Card Structure */
+.card{
+width:100%;
+background: #f5f6fc;
+padding: 40px 30px;
+border-radius: 32px;
+box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+text-align: center;
+color: #333333;
+}
+
+h1{
+text-align:center;
+color: #631bfb;
+margin-bottom:8px;
+font-size: 2.2rem;
+font-weight: 800;
+}
+
+.chapter{
+text-align:center;
+font-weight:700;
+margin-bottom:6px;
+color: #444444;
+font-size:1.3rem;
+}
+
+.topic{
+text-align:center;
+margin-bottom:25px;
+color: #666666;
+font-size:1.15rem;
+font-weight: 500;
+}
+
+.instructions{
+background: #ffffff;
+padding: 25px;
+border-radius: 20px;
+line-height: 1.8;
+margin-top: 15px;
+text-align: left;
+box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.instructions ol{
+margin-left: 22px;
+color: #444444;
+font-size: 1.05rem;
+}
+
+.instructions li{
+margin-bottom: 10px;
+}
+
+.main-btn{
+padding: 14px 40px;
+border: none;
+border-radius: 16px;
+background: linear-gradient(90deg, #3858f9, #622cfb);
+color: #ffffff;
+font-size: 1.15rem;
+cursor: pointer;
+margin-top: 30px;
+transition: all .3s ease;
+font-weight: bold;
+box-shadow: 0 6px 20px rgba(98, 44, 251, 0.4);
+}
+
+.main-btn:hover{
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(98, 44, 251, 0.5);
+opacity: 0.95;
+}
+
+/* Playfield UI Elements */
+.topbar{
+display:flex;
+justify-content:space-between;
+gap:12px;
+flex-wrap:wrap;
+margin-bottom:20px;
+width: 100%;
+}
+
+.box{
+background: #ffffff;
+padding:12px 20px;
+border-radius:14px;
+font-weight:bold;
+color: #631bfb;
+flex: 1;
+min-width: 120px;
+text-align: center;
+box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+font-size: 1rem;
+}
+
+.progress{
+height: 12px;
+background: #e2e8f0;
+border-radius: 20px;
+overflow: hidden;
+margin-bottom: 25px;
+width: 100%;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background: linear-gradient(90deg, #3858f9, #622cfb);
+transition:.4s;
+}
+
+.question{
+font-size: 1.35rem;
+font-weight: 700;
+line-height:1.5;
+margin-bottom: 25px;
+text-align: left;
+color: #1a1a1a;
+}
+
+/* Text Matrix Data Box */
+.data-display-box {
+background: #ffffff;
+border: 2px dashed #631bfb;
+padding: 15px;
+border-radius: 12px;
+margin-bottom: 20px;
+font-family: 'Courier New', Courier, monospace;
+font-weight: bold;
+font-size: 1.1rem;
+text-align: left;
+color: #222222;
+display: inline-block;
+box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+/* Image Question Components */
+.q-image-container {
+margin-bottom: 20px;
+text-align: center;
+}
+
+.q-image {
+max-height: 180px;
+max-width: 100%;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+background: white;
+padding: 8px;
+}
+
+.options{
+display:grid;
+grid-template-columns: 1fr;
+gap:14px;
+width: 100%;
+}
+
+@media(min-width: 768px) {
+    .options {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.option-btn{
+padding: 18px 20px;
+border: 2px solid #e2e8f0;
+border-radius: 16px;
+background: #ffffff;
+cursor: pointer;
+font-size: 1.05rem;
+transition: all .2s ease;
+font-weight: 600;
+text-align: left;
+line-height: 1.4;
+color: #444444;
+outline: none;
+box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.option-btn:hover{
+background: #f1f5f9;
+border-color: #631bfb;
+color: #631bfb;
+}
+
+.correct{
+background: #10b981 !important;
+border-color: #059669 !important;
+color: #ffffff !important;
+font-weight: bold;
+}
+
+.wrong{
+background: #ef4444 !important;
+border-color: #dc2626 !important;
+color: #ffffff !important;
+}
+
+.feedback{
+margin-top:20px;
+font-weight: 700;
+min-height:30px;
+font-size: 1.2rem;
+text-align: left;
+}
+
+.explanation{
+margin-top:15px;
+background: #ffffff;
+padding: 18px;
+border-radius: 16px;
+display:none;
+line-height:1.6;
+text-align:left;
+border-left: 5px solid #631bfb;
+color: #444444;
+font-size: 1rem;
+box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.next-btn{
+display:none;
+}
+
+/* Scoreboard Framework */
+.badge-box {
+margin: 25px auto;
+width: 150px;
+height: 150px;
+background: #ffffff;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 10px 25px rgba(99, 27, 251, 0.15);
+border: 4px solid #631bfb;
+}
+
+.badge-icon {
+font-size: 4.5rem;
+}
+
+.badge-title {
+font-size: 1.4rem;
+color: #631bfb;
+font-weight: 800;
+margin-top: 12px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.final-score{
+font-size: 2.5rem;
+font-weight: 800;
+color: #1a1a1a;
+margin: 15px 0 10px 0;
+}
+
+.message{
+font-size: 1.1rem;
+line-height: 1.6;
+color: #555555;
+margin-bottom: 20px;
+padding: 0 10px;
+}
+
+/* On-Screen Particle FX */
+.confetti{
+position:fixed;
+width:14px;
+height:14px;
+border-radius: 50%;
+animation:fall 2s linear forwards;
+z-index:999;
+}
+
+@keyframes fall{
+0%{ transform:translateY(-20px) rotate(0deg); opacity:1; }
+100%{ transform:translateY(100vh) rotate(360deg); opacity:0; }
+}
+
+.cross{
+position:fixed;
+font-size:60px;
+color:#ef4444;
+animation:fade 1s forwards;
+z-index:999;
+font-weight:bold;
+pointer-events:none;
+}
+
+@keyframes fade{
+0%{ opacity:1; transform:scale(1); }
+100%{ opacity:0; transform:scale(1.6); }
+}
+
+/* Device Adaptive Breakdown (Mobile, Tablets, Laptops) */
+@media(max-width:600px){
+body {
+padding: 10px;
+}
+.card {
+padding: 25px 15px;
+border-radius: 24px;
+}
+h1 {
+font-size: 1.7rem;
+}
+.chapter {
+font-size: 1.15rem;
+}
+.topic {
+font-size: 1rem;
+margin-bottom: 15px;
+}
+.question{
+font-size: 1.15rem;
+margin-bottom: 20px;
+}
+.option-btn{
+font-size: .95rem;
+padding: 14px 16px;
+}
+.topbar{
+gap: 8px;
+margin-bottom: 15px;
+}
+.box {
+padding: 10px;
+font-size: 0.85rem;
+min-width: 95px;
+}
+.logo-screen img{
+width:180px;
+}
+.badge-box {
+width: 120px;
+height: 120px;
+}
+.badge-icon {
+font-size: 3.5rem;
+}
+.main-btn {
+margin-top: 20px;
+padding: 12px 30px;
+font-size: 1.05rem;
+width: 100%;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Splash Loader Core using assets/innovine-logo.png -->
+<div class="screen active logo-screen" id="logoScreen">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<!-- Welcome Panel -->
+<div class="screen" id="introScreen">
+    <div class="card">
+        <!-- Logo Display at Start Page Header -->
+        <div style="text-align: center; margin-bottom: 15px;">
+            <img src="assets/innovine-logo.png" alt="Innovine Logo" style="width: 160px; max-width: 50%;">
+        </div>
+        <h1>ICT CHALLENGE</h1>
+        <div class="chapter">Logical Thinking</div>
+        <div class="topic">Competency-Based Question (CBQ) Workspace</div>
+        
+        <div class="instructions">
+            <ol>
+                <li>Analyze the logical patterns, number rules, and sequence images carefully.</li>
+                <li>You get up to 2 attempts for each randomized query before advancing.</li>
+                <li>Correct answers trigger celebratory sounds, while mistakes sound an alert.</li>
+                <li>Each question is bound to an active 45-second workspace timer.</li>
+                <li>Score maximum points to win the Logic Thinker Master Badge!</li>
+            </ol>
+        </div>
+
+        <button class="main-btn" onclick="startQuiz()">Start Challenge</button>
+    </div>
+</div>
+
+<!-- Interactive Play Engine Container -->
+<div class="screen" id="quizScreen">
+    <div class="card">
+        <div class="topbar">
+            <div class="box" id="scoreText">Score: 0</div>
+            <div class="box" id="questionCounter">Question 1</div>
+            <div class="box" id="timerText">Time: 45</div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="question" id="questionText"></div>
+        
+        <!-- Text Grid Block Layout -->
+        <div id="dataDisplayContainer" style="display:none; text-align:center;">
+            <div class="data-display-box" id="dataDisplay"></div>
+        </div>
+
+        <!-- Asset Image Container Block -->
+        <div class="q-image-container" id="qImageContainer" style="display:none;">
+            <img src="" id="qImage" class="q-image" alt="Logic Asset Graphic">
+        </div>
+        
+        <div class="options" id="optionsContainer"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="explanation" id="explanation"></div>
+
+        <button class="main-btn next-btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<!-- Milestone Final Evaluation Screen -->
+<div class="screen" id="resultScreen">
+    <div class="card">
+        <h1>Challenge Completed!</h1>
+        
+        <div class="badge-box">
+            <div class="badge-icon" id="badgeIcon">🏆</div>
+        </div>
+        <div class="badge-title" id="badgeTitle">Logic Master</div>
+
+        <div class="final-score" id="finalScore"></div>
+        <div class="message" id="message"></div>
+        <button class="main-btn" onclick="restartQuiz()">Play Again</button>
+    </div>
+</div>
+
+<!-- Core Sound Anchors mapped directly to folder layout -->
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/clap.mp3"></audio>
+
+<script>
+/* 15 Competency-Based Question Dataset incorporating Image and Matrix Layouts */
+let rawQuestions = [
+    {
+        question: "Mihika is making a sandwich. She has all the ingredients but does not know which step to do first. What should she do?",
+        options: ["Arrange the steps in order", "Guess the steps", "Skip some steps", "Ask someone to do it"],
+        answer: "Arrange the steps in order",
+        explanation: "To complete any multi-step task successfully, steps must always be logically arranged in the correct sequential order."
+    },
+    {
+        question: "Arjun is solving a maze. Which method will help him reach the exit?",
+        options: ["Step-by-step thinking", "Random guessing", "Closing the maze", "Starting again"],
+        answer: "Step-by-step thinking",
+        explanation: "Solving a complex maze requires step-by-step analysis to explore paths and trace a route to the correct exit."
+    },
+    {
+        question: "Kabir wants to arrange numbers from smallest to largest. Which skill is he using?",
+        options: ["Sorting", "Drawing", "Saving", "Printing"],
+        answer: "Sorting",
+        explanation: "Sorting is the process of ordering or arranging items systematic based on rules, such as numerical size values."
+    },
+    {
+        question: "Anaya groups pencils, erasers and sharpeners into separate sets. What is she doing?",
+        options: ["Sorting", "Mixing", "Deleting", "Comparing"],
+        answer: "Sorting",
+        explanation: "Grouping similar objects into distinct, separate collections based on characteristics is an example of sorting."
+    },
+    {
+        question: "Vivaan sees the pattern 3, 6, 9, 12, __. What should he do first to solve what comes next?",
+        options: ["Find the rule", "Delete a number", "Start a new pattern", "Ignore it"],
+        answer: "Find the rule",
+        image: "assets/missing no.png",
+        explanation: "Before predicting missing values in patterns, you must first discover the mathematical rule connecting existing numbers."
+    },
+    {
+        question: "The steps for planting a seed are mixed up. What should students do to fix it?",
+        options: ["Arrange the steps correctly", "Remove the steps", "Colour the steps", "Print the steps"],
+        answer: "Arrange the steps correctly",
+        explanation: "Fixing scattered tasks requires putting them back in a logical, step-by-step sequence so the cycle functions."
+    },
+    {
+        question: "Siya follows instructions one after another to draw a house. Which skill is she using?",
+        options: ["Logical thinking", "Guessing", "Copying", "Typing"],
+        answer: "Logical thinking",
+        explanation: "Processing predefined instructions step-by-step to arrive at a goal is a core pillar of logical thinking."
+    },
+    {
+        question: "Dev looks at the following row items: Apple, Mango, Banana, Bicycle. Which item is the odd one out?",
+        options: ["Bicycle", "Apple", "Mango", "Banana"],
+        answer: "Bicycle",
+        explanation: "Apple, Mango, and Banana belong to the group of fruits, making the non-edible Bicycle the clear odd one out."
+    },
+    {
+        question: "Observe the number pattern carefully. Which number comes next in this sequence?",
+        options: ["10", "9", "12", "14"],
+        answer: "10",
+        matrixData: "Sequence Matrix:\n2 -> 4 -> 6 -> 8 -> [ ? ]",
+        explanation: "The rule is to skip-count upwards by adding 2 each time. Following 8, the next calculated value is 10."
+    },
+    {
+        question: "Analyze the dataset grouping below. Which item does not belong to the category?",
+        options: ["Rose", "Dog", "Cat", "Cow"],
+        answer: "Rose",
+        matrixData: "Group Members:\n- Dog\n- Cat\n- Cow\n- Rose",
+        explanation: "Dog, Cat, and Cow are domestic animals, while a Rose is a flower and does not belong to the group."
+    },
+    {
+        question: "Picture-Based: A picture shows steps arranged in correct order as loaded below. What concept does it represent?",
+        options: ["Sequencing", "Sorting", "Grouping", "Comparing"],
+        answer: "Sequencing",
+        image: "assets/Q.11.png",
+        explanation: "Arranging tasks or occurrences systematically in the correct linear order of execution is called sequencing."
+    },
+    {
+        question: "Picture-Based: Review the items loaded in the asset viewport below. What logical process should a student use to find the mismatched asset?",
+        options: ["Odd One Out", "Pattern", "Sequence", "Table"],
+        answer: "Odd One Out",
+        image: "assets/Q.12.png",
+        explanation: "Identifying the distinct mismatched single item from an otherwise homogeneous group uses the 'Odd One Out' strategy."
+    },
+    {
+        question: "Rohan says sorting means mixing objects together. What is his mistake?",
+        options: ["Sorting means arranging/grouping items", "Sorting means printing", "Sorting means deleting", "Sorting means drawing"],
+        answer: "Sorting means arranging/grouping items",
+        explanation: "Rohan is incorrect because sorting is an organizing method that arranges or groups components, completely opposite to mixing them."
+    },
+    {
+        question: "Two students solve a puzzle. One follows clues step-by-step while the other guesses randomly. Who is more likely to solve it?",
+        options: ["Student following clues", "Guesser", "Both", "Neither"],
+        answer: "Student following clues",
+        explanation: "A structured, step-by-step problem solver breaks down details logically and will reliably solve puzzles faster than guessing."
+    },
+    {
+        question: "Review the fundamental rules of reason. Which statement is NOT correct about logical thinking?",
+        options: ["It encourages random guessing", "It helps solve problems", "It uses steps and rules", "It helps identify patterns"],
+        answer: "It encourages random guessing",
+        explanation: "Logical thinking values systematic data rules and verified procedures over unstructured random guessing."
+    }
+];
+
+let questions = [];
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 45;
+let retryUsed = false;
+
+const logoScreen = document.getElementById("logoScreen");
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
+
+const questionText = document.getElementById("questionText");
+const dataDisplayContainer = document.getElementById("dataDisplayContainer");
+const dataDisplay = document.getElementById("dataDisplay");
+const qImageContainer = document.getElementById("qImageContainer");
+const qImage = document.getElementById("qImage");
+const optionsContainer = document.getElementById("optionsContainer");
+const scoreText = document.getElementById("scoreText");
+const timerText = document.getElementById("timerText");
+const feedback = document.getElementById("feedback");
+const explanation = document.getElementById("explanation");
+const nextBtn = document.getElementById("nextBtn");
+
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const clapSound = document.getElementById("clapSound");
+
+/* Automated Initial 5-Second Splash Loader Sequence */
+window.onload = function(){
+    logoScreen.style.display = "flex";
+    setTimeout(() => {
+        logoScreen.style.display = "none";
+        introScreen.style.display = "flex";
+    }, 5000);
+};
+
+/* Fisher-Yates Complete Randomizer Engine */
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+/* Setup Quiz States with Complete Dynamic Choice and Question Shuffle Engine */
+function prepareQuestions() {
+    let shuffledPool = shuffle([...rawQuestions]);
+    questions = shuffledPool.map(q => {
+        let optionsCopy = shuffle([...q.options]);
+        let correctIndex = optionsCopy.indexOf(q.answer);
+        return {
+            question: q.question,
+            options: optionsCopy,
+            answer: correctIndex,
+            image: q.image || null,
+            matrixData: q.matrixData || null,
+            explanation: q.explanation
+        };
+    });
+}
+
+function startQuiz(){
+    prepareQuestions();
+    introScreen.style.display = "none";
+    quizScreen.style.display = "flex";
+    loadQuestion();
+}
+
+/* Layout Builder Component */
+function loadQuestion(){
+    clearInterval(timer);
+    retryUsed = false;
+    feedback.innerHTML = "";
+    explanation.style.display = "none";
+    nextBtn.style.display = "none";
+
+    const q = questions[currentQuestion];
+
+    questionText.innerHTML = `Q${currentQuestion + 1}. ${q.question}`;
+    document.getElementById("questionCounter").innerHTML = `Question ${currentQuestion + 1} of ${questions.length}`;
+    document.getElementById("progressFill").style.width = ((currentQuestion) / questions.length) * 100 + "%";
+
+    // Text Matrix Handler Block
+    if (q.matrixData) {
+        dataDisplay.innerHTML = q.matrixData.replace(/\n/g, "<br>");
+        dataDisplayContainer.style.display = "block";
+    } else {
+        dataDisplayContainer.style.display = "none";
+    }
+
+    // Image Component Handler Block
+    if (q.image) {
+        qImage.src = q.image;
+        qImageContainer.style.display = "block";
+    } else {
+        qImageContainer.style.display = "none";
+    }
+
+    optionsContainer.innerHTML = "";
+
+    q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.classList.add("option-btn");
+        btn.innerHTML = option;
+        btn.onclick = () => checkAnswer(index, btn);
+        optionsContainer.appendChild(btn);
+    });
+
+    scoreText.innerHTML = `Score: ${score}`;
+    timeLeft = 45;
+    timerText.innerHTML = `Time: ${timeLeft}`;
+
+    timer = setInterval(() => {
+        timeLeft--;
+        timerText.innerHTML = `Time: ${timeLeft}`;
+        if(timeLeft <= 0){
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }, 1000);
+}
+
+/* Evaluation Mechanism with Audio Controls */
+function checkAnswer(selected, button){
+    const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll(".option-btn");
+
+    if(selected === q.answer){
+        clearInterval(timer);
+        button.classList.add("correct");
+        feedback.innerHTML = "🎉 Correct! Excellent logical deduction!";
+        feedback.style.color = "#10b981";
+        
+        // Audio triggers matching requirements
+        if(correctSound) correctSound.play();
+        setTimeout(() => { if(clapSound) clapSound.play(); }, 250);
+
+        score++;
+        createConfetti();
+        buttons.forEach(btn => btn.disabled = true);
+        nextBtn.style.display = "inline-block";
+    } else {
+        button.classList.add("wrong");
+        if(wrongSound) wrongSound.play();
+        showCross();
+        
+        if(!retryUsed){
+            retryUsed = true;
+            feedback.innerHTML = "⏳ Keep thinking! Try your second attempt.";
+            feedback.style.color = "#ea580c";
+            button.disabled = true;
+        } else {
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }
+}
+
+/* Conceptual Explanation Reveal Module */
+function showCorrectAnswer(){
+    const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll(".option-btn");
+    
+    buttons.forEach((btn, index) => {
+        btn.disabled = true;
+        if(index === q.answer){ 
+            btn.classList.add("correct"); 
+        }
+    });
+
+    feedback.innerHTML = "🔍 Logical Thinking Concept Review:";
+    feedback.style.color = "#631bfb";
+    explanation.style.display = "block";
+    explanation.innerHTML = q.explanation;
+    nextBtn.style.display = "inline-block";
+}
+
+function nextQuestion(){
+    currentQuestion++;
+    if(currentQuestion < questions.length){
+        loadQuestion();
+    } else {
+        showResult();
+    }
+}
+
+/* Final Score Evaluation & Badge Assignment */
+function showResult(){
+    quizScreen.style.display = "none";
+    resultScreen.style.display = "flex";
+    document.getElementById("finalScore").innerHTML = score + " / " + questions.length;
+    
+    let badgeIcon = document.getElementById("badgeIcon");
+    let badgeTitle = document.getElementById("badgeTitle");
+    let msg = "";
+
+    if(score >= 13){ 
+        badgeIcon.innerHTML = "👑";
+        badgeTitle.innerHTML = "Computational Logic Grandmaster";
+        msg = "Astounding skill! You possess a robust analytical mind capable of handling sequence tracks, sorting structures, and pattern calculations seamlessly."; 
+        if(clapSound) clapSound.play();
+    } else if(score >= 8){ 
+        badgeIcon.innerHTML = "⭐";
+        badgeTitle.innerHTML = "Analytical Specialist";
+        msg = "Wonderful performance! You have no trouble sorting sets, finding the odd item out, and applying rules step-by-step.";
+        if(clapSound) clapSound.play();
+    } else { 
+        badgeIcon.innerHTML = "🎯";
+        badgeTitle.innerHTML = "Logic Apprentice";
+        msg = "Good try! Give this task another shot to strengthen your step-by-step problem-solving and claim the Master Badge!"; 
+    }
+    document.getElementById("message").innerHTML = msg;
+}
+
+function restartQuiz(){
+    currentQuestion = 0;
+    score = 0;
+    resultScreen.style.display = "none";
+    startQuiz();
+}
+
+/* Active Confetti Burst Particle Generator */
+function createConfetti(){
+    for(let i = 0; i < 20; i++){
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.top = "-20px";
+        const colors = ["#0082ff", "#7800ff", "#10b981", "#ffeb3b", "#ff2a6d"];
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+    }
+}
+
+/* On-Error Visual Feedback Cross Overlay */
+function showCross(){
+    const cross = document.createElement("div");
+    cross.classList.add("cross");
+    cross.innerHTML = "✕";
+    cross.style.left = (Math.random() * (window.innerWidth - 60)) + "px";
+    cross.style.top = (Math.random() * (window.innerHeight - 60)) + "px";
+    document.body.appendChild(cross);
+    setTimeout(() => cross.remove(), 1000);
+}
+</script>
+</body>
+</html>
