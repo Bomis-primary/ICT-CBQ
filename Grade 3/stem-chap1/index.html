@@ -63,7 +63,7 @@ body {
     display: block;
 }
 
-/* Splash Loader Screen (Disappears completely after 5s) */
+/* Splash Loader Screen */
 .logo-screen {
     background: #ffffff;
     position: fixed;
@@ -83,10 +83,8 @@ body {
     display: flex;
 }
 
-.logo-screen img {
-    width: 250px;
-    max-width: 80vw;
-    object-fit: contain;
+.logo-screen .logo-placeholder {
+    font-size: 4rem;
     animation: pulse 2s infinite;
 }
 
@@ -94,11 +92,12 @@ body {
     margin-top: 20px;
     color: #1a237e;
     font-weight: 700;
+    font-size: 1.8rem;
 }
 
 @keyframes pulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.04); }
+    50% { transform: scale(1.06); }
     100% { transform: scale(1); }
 }
 
@@ -269,7 +268,7 @@ body {
     animation: shake 0.4s ease;
 }
 
-@keyframes shake {
+@workspace keyframes shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-6px); }
     75% { transform: translateX(6px); }
@@ -400,7 +399,7 @@ body {
 <div class="bg-icons" id="bgIcons"></div>
 
 <div class="screen active logo-screen" id="logoScreen">
-    <img src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.style.display='none'">
+    <div class="logo-placeholder">💡</div>
     <h2>Innovine Interactive Learning</h2>
 </div>
 
@@ -595,14 +594,14 @@ const correctSound = document.getElementById("correctSound");
 const wrongSound = document.getElementById("wrongSound");
 const clapSound = document.getElementById("clapSound");
 
-/* Startup Splash Control */
-window.onload = function() {
+/* Absolute Transition Safeguard (Bypasses missing asset locks) */
+document.addEventListener("DOMContentLoaded", function() {
     logoScreen.classList.add("active");
     setTimeout(() => {
         logoScreen.classList.remove("active");
         introScreen.classList.add("active");
     }, 5000);
-};
+});
 
 /* Fisher-Yates Array Shuffle */
 function shuffleArray(array) {
@@ -630,7 +629,7 @@ function prepareQuizData() {
         return {
             question: q.question,
             options: shuffledOpts,
-            answer: targetIdx, // Numerical reference position
+            answer: targetIdx, 
             image: q.image || null,
             matrixData: q.matrixData || null,
             explanation: q.explanation
@@ -701,4 +700,143 @@ function loadQuestion() {
 }
 
 function verifyAnswer(selected, targetButton) {
-    const q = questions
+    const q = questions[currentQuestion];
+    const optionButtons = document.querySelectorAll(".option-item");
+
+    if (selected === q.answer) {
+        clearInterval(timer);
+        targetButton.classList.add("correct-state");
+        
+        statusAlert.innerHTML = "✅ Correct! Excellent logic analysis.";
+        statusAlert.className = "status-alert correct-alert";
+        
+        if (correctSound) correctSound.play().catch(()=>{});
+        setTimeout(() => { if (clapSound) clapSound.play().catch(()=>{}); }, 150);
+
+        score++;
+        triggerConfettiParticles();
+        optionButtons.forEach(btn => btn.disabled = true);
+        
+        setTimeout(() => { nextQuestion(); }, 2000);
+    } else {
+        targetButton.classList.add("wrong-state");
+        if (wrongSound) wrongSound.play().catch(()=>{});
+        triggerCrossEffect();
+        
+        if (!retryUsed) {
+            retryUsed = true;
+            statusAlert.innerHTML = "❌ Try Again! One last attempt remains.";
+            statusAlert.className = "status-alert wrong-alert";
+            targetButton.disabled = true;
+        } else {
+            clearInterval(timer);
+            revealCorrectAnswer();
+        }
+    }
+}
+
+function revealCorrectAnswer() {
+    const q = questions[currentQuestion];
+    const optionButtons = document.querySelectorAll(".option-item");
+    
+    optionButtons.forEach((btn, index) => {
+        btn.disabled = true;
+        if (index === q.answer) { 
+            btn.classList.add("correct-state"); 
+        }
+    });
+
+    statusAlert.innerHTML = "Review core details below:";
+    statusAlert.className = "status-alert";
+    statusAlert.style.color = "#1a237e";
+    statusAlert.style.display = "block";
+    
+    explanationPanel.innerHTML = `💡 ${q.explanation}`;
+    explanationPanel.style.display = "block";
+    nextBtn.style.display = "block";
+}
+
+function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+        loadQuestion();
+    } else {
+        displayResults();
+    }
+}
+
+function displayResults() {
+    quizScreen.classList.remove("active");
+    resultScreen.classList.add("active");
+    document.getElementById("finalScore").innerHTML = `Your Score: ${score} / ${questions.length}`;
+    
+    let badge = document.getElementById("resultBadge");
+    let msgText = document.getElementById("messageText");
+
+    if (score >= 13) { 
+        badge.innerHTML = "👑";
+        msgText.innerHTML = "Incredible Circuit Champion! You perfectly understand open tracks, conductors, battery power outputs, and toggle control behaviors.";
+        if (clapSound) clapSound.play().catch(()=>{});
+    } else if (score >= 9) { 
+        badge.innerHTML = "⭐";
+        msgText.innerHTML = "Great job! You cleanly recognize working circuit tracks and can separate basic component attributes safely.";
+        if (clapSound) clapSound.play().catch(()=>{});
+    } else { 
+        badge.innerHTML = "🎯";
+        msgText.innerHTML = "Nice attempt! Try playing the game again to secure an absolute perfect run and earn your Gold Crown Badge!"; 
+    }
+    firstPlay = false;
+}
+
+function restartQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    resultScreen.classList.remove("active");
+    introScreen.classList.add("active");
+}
+
+/* Confetti System */
+function triggerConfettiParticles() {
+    const hexColors = ["#1a237e", "#ffd700", "#ff9800", "#2e7d32", "#ab47bc"];
+    for (let i = 0; i < 25; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("confetti");
+        particle.style.left = Math.random() * window.innerWidth + "px";
+        particle.style.top = "-15px";
+        particle.style.background = hexColors[Math.floor(Math.random() * hexColors.length)];
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 1800);
+    }
+}
+
+/* On-Screen Error Indicator */
+function triggerCrossEffect() {
+    const errorCross = document.createElement("div");
+    errorCross.classList.add("cross");
+    errorCross.innerHTML = "✖";
+    errorCross.style.left = (Math.random() * (window.innerWidth - 60)) + "px";
+    errorCross.style.top = (Math.random() * (window.innerHeight - 60)) + "px";
+    document.body.appendChild(errorCross);
+    setTimeout(() => errorCross.remove(), 900);
+}
+
+/* Background floating icons setup */
+function initBackgroundParticles() {
+    const bgContainer = document.getElementById("bgIcons");
+    const circuitGlyphs = ["💡", "🔋", "⚡", "🔌", "🧲", "🔧", "🪫", "💻"];
+    for (let i = 0; i < 35; i++) {
+        const item = document.createElement("div");
+        item.classList.add("icon");
+        item.innerHTML = circuitGlyphs[Math.floor(Math.random() * circuitGlyphs.length)];
+        item.style.left = Math.random() * 100 + "%";
+        item.style.animationDuration = (7 + Math.random() * 9) + "s";
+        item.style.animationDelay = Math.random() * 4 + "s";
+        item.style.fontSize = (22 + Math.random() * 18) + "px";
+        bgContainer.appendChild(item);
+    }
+}
+
+initBackgroundParticles();
+</script>
+</body>
+</html>
