@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Introduction to Internet CBQ Challenge</title>
+<title>Grade 3 - Files and Folders CBQ Challenge</title>
 
 <style>
 *{
@@ -367,7 +367,7 @@ pointer-events:none;
 100%{ opacity:0; transform:scale(1.6); }
 }
 
-/* Device Adaptive Breakdown (Mobile, Tablets, Laptops) */
+/* Device Adaptive Breakdown */
 @media(max-width:600px){
 body {
 padding: 10px;
@@ -435,16 +435,16 @@ width: 100%;
             <img src="assets/innovine-logo.png" alt="Innovine Logo" style="width: 160px; max-width: 50%;">
         </div>
         <h1>ICT CHALLENGE</h1>
-        <div class="chapter">Introduction to Internet</div>
+        <div class="chapter">Chapter 2: Files and Folders</div>
         <div class="topic">Competency-Based Question (CBQ) Workspace</div>
         
         <div class="instructions">
             <ol>
-                <li>Analyze the web tools, network connections, and URL safety choices carefully.</li>
+                <li>Analyze the storage icons, directory structures, and file choices carefully.</li>
                 <li>You get up to 2 attempts for each randomized query before advancing.</li>
                 <li>Correct answers trigger celebratory sounds, while mistakes sound an alert.</li>
                 <li>Each question is bound to an active 45-second workspace timer.</li>
-                <li>Score maximum points to win the Internet Navigator Master Badge!</li>
+                <li>Score maximum points to win the File Management Master Badge!</li>
             </ol>
         </div>
 
@@ -471,7 +471,7 @@ width: 100%;
         </div>
 
         <div class="q-image-container" id="qImageContainer" style="display:none;">
-            <img src="" id="qImage" class="q-image" alt="Internet Framework Workspace Asset">
+            <img src="" id="qImage" class="q-image" alt="File and Folder Workspace Asset">
         </div>
         
         <div class="options" id="optionsContainer"></div>
@@ -489,7 +489,7 @@ width: 100%;
         <div class="badge-box">
             <div class="badge-icon" id="badgeIcon">🏆</div>
         </div>
-        <div class="badge-title" id="badgeTitle">Internet Master</div>
+        <div class="badge-title" id="badgeTitle">File Master</div>
 
         <div class="final-score" id="finalScore"></div>
         <div class="message" id="message"></div>
@@ -502,101 +502,84 @@ width: 100%;
 <audio id="clapSound" src="assets/clap.mp3"></audio>
 
 <script>
-/* 15 Balanced CBQ Questions built directly from Chapter 10 Document Source */
+/* 12 Balanced CBQ Questions mapped from Document Source (No Assertions, Correct Asset Images) */
 let rawQuestions = [
     {
-        question: "Riya wants to search for pictures of animals online. What core network tool infrastructure should she ensure her computer is connected to?",
-        options: ["Internet", "Paint", "Table", "Folder"],
-        answer: "Internet",
-        explanation: "The Internet is the global network connecting billions of computers, allowing you to access online graphics, websites, and research."
+        question: "Siya saves her school homework document on the computer system. Where is it stored directly to hold the text data?",
+        options: ["Folder", "Screen", "Mouse", "CPU"],
+        answer: "Folder",
+        explanation: "A folder is a virtual storage container on a storage drive used to organize and keep multiple digital files together."
     },
     {
-        question: "Aarav opens a website to watch educational science videos. What system resource is he using to transmit the video stream data?",
-        options: ["Internet", "Hardware", "Printer", "Keyboard"],
-        answer: "Internet",
-        explanation: "Streaming video content from remote servers down to a local system requires an active online Internet data connection."
+        question: "Aarav opens a container directory on his screen to look for his painting. What is a folder used for on a computer?",
+        options: ["Typing", "Storing files", "Printing", "Clicking"],
+        answer: "Storing files",
+        explanation: "Folders are designed specifically for grouping and storing collections of matching data files."
     },
     {
-        question: "A student types a complete text address like 'www.google.com' into the browser address slot to open a homepage. What is this address called?",
-        options: ["URL", "File", "Folder", "Icon"],
-        answer: "URL",
-        explanation: "URL stands for Uniform Resource Locator, which serves as the uniquely structured address used to identify web pages online."
+        question: "A student double-clicks on an icon file located on the screen desktop. What will happen to the file immediately?",
+        options: ["File deletes", "File opens", "File moves", "File prints"],
+        answer: "File opens",
+        explanation: "Double-clicking an application file or data file tells the computer operating system to open it so you can read or edit it."
     },
     {
-        question: "Riya uses Google to look up fun facts for her project workspace. What specific type of website service is Google?",
-        options: ["Search engine", "Game", "Folder", "Device"],
-        answer: "Search engine",
-        explanation: "A Search Engine is a web program designed to look up documents and index information across the internet using targeted keywords."
+        question: "A student creates a new document to save their typing project. What basic unit item is being built here?",
+        options: ["Folder", "File", "Icon", "Device"],
+        answer: "File",
+        explanation: "Any piece of work or information saved on a computer (like text, images, or sound) is stored in the form of a file."
     },
     {
-        question: "Aarav wants to send an instant digital letter to his friend living in another country. What internet service should he use?",
-        options: ["Email", "Printing", "Drawing", "Typing"],
-        answer: "Email",
-        explanation: "Email (Electronic Mail) is the internet service used to compose, send, and receive letters or documents digitally over a network."
+        question: "Rohni needs to organize her school computer projects. Look at the application workspace icon below. What does this container icon represent?",
+        options: ["Folder", "File", "Monitor", "Recycle Bin"],
+        answer: "Folder",
+        image: "assets/folder icon.png",
+        explanation: "The yellow container icon represents a folder, which is used to organize and hold multiple files in one directory place."
     },
     {
-        question: "Picture-Based: A student opens the application shown below to browse web portals. Identify this specific program software tool:",
-        options: ["Browser", "File", "Folder", "Device"],
-        answer: "Browser",
-        image: "assets/browser icon.png",
-        explanation: "Google Chrome is a web browser, which is the system application used to read, render, and display remote website layouts."
+        question: "A student accidentally deletes an active file from the computer directory. Where does this deleted item go first?",
+        options: ["Folder", "Desktop", "Recycle Bin", "CPU"],
+        answer: "Recycle Bin",
+        explanation: "Deleted files are transferred automatically into the Recycle Bin, acting as a temporary safety hold area before permanent erasure."
     },
     {
-        question: "Riya needs help finding her science homework topics online. What is the correct initial combination of actions she should execute?",
-        options: ["Open browser and search", "Turn off computer", "Print page", "Delete file"],
-        answer: "Open browser and search",
-        explanation: "To find facts on the internet safely, you must first launch your browser software and use an online search index."
+        question: "A student clicks 'Restore' inside the system safety bin container. What will happen to that deleted data sheet?",
+        options: ["File is removed forever", "File comes back", "File prints", "File moves to CPU"],
+        answer: "File comes back",
+        explanation: "The Restore feature recovers a temporarily deleted file from the Recycle Bin and moves it back to its original folder location."
     },
     {
-        question: "Aarav accidentally clicks a weird web link that looks unsafe or wrong. What is the best step for him to take immediately?",
-        options: ["Close the page", "Continue browsing", "Save it", "Print it"],
-        answer: "Close the page",
-        explanation: "If you hit an unexpected or suspicious looking website, closing the browser tab immediately protects your system integrity."
+        question: "Review the system desktop graphic item shown below. What type of computing item does this icon represent?",
+        options: ["File", "Folder", "Keyboard", "Recycle Bin"],
+        answer: "File",
+        image: "assets/file icon.png",
+        explanation: "This layout icon represents an individual document file, which holds raw encoded item records or user text data."
     },
     {
-        question: "Data Matrix Mapping: Analyze the tool configuration dataset. Which specific digital utility is engineered to transmit structural messages directly?",
-        options: ["Email", "Browser", "Search engine", "URL"],
-        answer: "Email",
-        matrixData: "Tool -> Function\nBrowser       -> Open websites\nSearch engine -> Find info\nEmail         -> Send message",
-        explanation: "According to the system matrix, Email is the specific utility whose operational function is to send communication messages."
+        question: "Aarav cannot find his homework files because they are scattered in many different locations. What is his best solution to solve this?",
+        options: ["Delete files", "Organise in folders", "Print files", "Close computer"],
+        answer: "Organise in folders",
+        explanation: "Grouping random items together into descriptive, named folders is the ideal way to organize and easily locate files later."
     },
     {
-        question: "Data Matrix Mapping: Review the definitions below. Which term represents the actual unique address string of a specific web node location?",
-        options: ["URL", "Website", "Internet", "Browser"],
-        answer: "URL",
-        matrixData: "Feature -> Meaning\nInternet -> Network\nWebsite  -> Page\nURL      -> Address",
-        explanation: "The data map explicitly specifies that the URL represents the actual unique location network address code."
+        question: "Nisha wants to clean up her files. If she drops a file into the container utility shown below, what action is she carrying out?",
+        options: ["Deleting the file", "Printing the file", "Saving the file", "Opening the file"],
+        answer: "Deleting the file",
+        image: "assets/recycle bin.png",
+        explanation: "The Recycle Bin icon is used to hold files that you choose to delete from your computer storage drives."
     },
     {
-        question: "Picture-Based: Review the user interface box shown below. What component element is highlighted in this workspace view?",
-        options: ["Text box / Search bar", "Image", "Table", "Folder"],
-        answer: "Text box / Search bar",
-        image: "assets/search bar.png",
-        explanation: "The input field where keywords are typed to initiate queries in search engines is called a Search Bar or Text Box."
+        question: "Data Matrix Mapping: Analyze the action mapping configuration matrix. Which operation should be run to bring back an item deleted by mistake?",
+        options: ["Save", "Delete", "Restore", "Close"],
+        answer: "Restore",
+        matrixData: "Action -> Result\nSave    -> File stored\nDelete  -> File removed\nRestore -> File comes back",
+        explanation: "According to the system action matrix data, running the 'Restore' command is what brings back a removed file."
     },
     {
-        question: "Assertion Analysis:\nAssertion: Internet helps find information.\nReason: It connects computers worldwide.\nSelect the correct critical verdict:",
-        options: ["Both correct and reason explains", "Both correct but unrelated", "Assertion correct, reason wrong", "Both wrong"],
-        answer: "Both correct and reason explains",
-        explanation: "The internet successfully provides information because it links independent systems around the globe into an open data pool."
-    },
-    {
-        question: "Assertion Analysis:\nAssertion: A web browser is used to open websites.\nReason: It shows web pages.\nSelect the correct critical verdict:",
-        options: ["Both correct and reason explains", "Both correct but unrelated", "Assertion correct, reason wrong", "Both wrong"],
-        answer: "Both correct and reason explains",
-        explanation: "Browsers exist to pull HTML source code across a network and render it visually as readable website layouts."
-    },
-    {
-        question: "Error Detection Challenge: Rohan says, 'A URL is a physical web browser program that helps you paint shapes.' What is his main mistake?",
-        options: ["URL is a web address string", "URL is a type of folder", "URL is an offline sound", "URL is a hardware mouse"],
-        answer: "URL is a web address string",
-        explanation: "Rohan is mistaken because a URL is an electronic address identifier for a web page, not a painting program."
-    },
-    {
-        question: "Which of the following statement configurations is completely INCORRECT regarding global internet usage?",
-        options: ["Browser is an internet connection wire", "Internet connects computers", "Search engines index information", "Email transfers messages"],
-        answer: "Browser is an internet connection wire",
-        explanation: "A browser is a software application installed on a drive; it is not a physical internet connection wire or network cord."
+        question: "Review the system data inventory list below. Which item option string is classified explicitly as a folder directory type?",
+        options: ["Homework.doc", "Pictures", "Music.mp3", "All options"],
+        answer: "Pictures",
+        matrixData: "Item Name    -> Storage Type\nHomework.doc -> File\nPictures     -> Folder\nMusic.mp3    -> File",
+        explanation: "The tracking table records state that 'Pictures' is configured explicitly as a folder, whereas the others are files."
     }
 ];
 
@@ -732,7 +715,7 @@ function checkAnswer(selected, button){
     if(selected === q.answer){
         clearInterval(timer);
         button.classList.add("correct");
-        feedback.innerHTML = "🎉 Correct! Superb connection network logic!";
+        feedback.innerHTML = "🎉 Correct! Superb file organization logic!";
         feedback.style.color = "#10b981";
         
         // Audio triggers matching requirements
@@ -750,7 +733,7 @@ function checkAnswer(selected, button){
         
         if(!retryUsed){
             retryUsed = true;
-            feedback.innerHTML = "⏳ Keep browsing! Try your second solution attempt.";
+            feedback.innerHTML = "⏳ Try again! Review your directory options for a second attempt.";
             feedback.style.color = "#ea580c";
             button.disabled = true;
         } else {
@@ -772,7 +755,7 @@ function showCorrectAnswer(){
         }
     });
 
-    feedback.innerHTML = "🔍 Internet Networking Concept Review:";
+    feedback.innerHTML = "🔍 File Management Concept Review:";
     feedback.style.color = "#631bfb";
     explanation.style.display = "block";
     explanation.innerHTML = q.explanation;
@@ -798,20 +781,20 @@ function showResult(){
     let badgeTitle = document.getElementById("badgeTitle");
     let msg = "";
 
-    if(score >= 13){ 
+    if(score >= 10){ 
         badgeIcon.innerHTML = "👑";
-        badgeTitle.innerHTML = "Internet Grand Navigator";
-        msg = "Incredible score! You clearly understand URLs, search filters, secure browser frames, and global data communication rules."; 
+        badgeTitle.innerHTML = "File Grand Master";
+        msg = "Excellent score! You fully understand files, folders, directory organization, and Recycle Bin safety management rules."; 
         if(clapSound) clapSound.play();
-    } else if(score >= 8){ 
+    } else if(score >= 6){ 
         badgeIcon.innerHTML = "⭐";
-        badgeTitle.innerHTML = "Web System Operator";
-        msg = "Great effort! You easily handle search bars, browser tools, email communication, and online safety steps.";
+        badgeTitle.innerHTML = "System Storage Operator";
+        msg = "Great effort! You easily handle creating files, grouping folders, restoring items, and cleaning directories.";
         if(clapSound) clapSound.play();
     } else { 
         badgeIcon.innerHTML = "🎯";
-        badgeTitle.innerHTML = "Network Apprentice";
-        msg = "Good try! Run through the network configuration workspace again to improve your internet concepts and win the Navigator Badge!"; 
+        badgeTitle.innerHTML = "Storage Apprentice";
+        msg = "Good attempt! Run through the system configuration workspace again to improve your computing skills and win the Grand Master Badge!"; 
     }
     document.getElementById("message").innerHTML = msg;
 }
