@@ -3,598 +3,614 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controlling the Flow of Electricity</title>
+    <title></title> Controlling the Flow of Electricity</title>
     <style>
         :root {
-            --primary: #4A90E2;
-            --primary-dark: #357ABD;
-            --secondary: #FFB300;
-            --success: #2ECC71;
-            --danger: #E74C3C;
-            --background: #EBF3FA;
-            --card-bg: #FFFFFF;
-            --text: #2C3E50;
+            --primary: #6366F1; /* Vibrant Purple-Blue from target UI */
+            --primary-dark: #4F46E5;
+            --text-main: #1E1B4B;
+            --text-sub: #4B5563;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --card-radius: 24px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: var(--background);
-            color: var(--text);
+            /* Matches the look and feel gradient from image_bef003.png */
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
             padding: 20px;
         }
 
         .container {
             width: 100%;
-            max-width: 700px;
-            background: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 30px;
+            max-width: 800px;
+            background: #FFFFFF;
+            border-radius: var(--card-radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
             text-align: center;
+            position: relative;
+        }
+
+        /* Screens Visibility Control */
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        /* Splash Screen (Logo Placeholder / First 5 seconds) */
+        #splash-screen {
+            padding: 60px 20px;
+        }
+        .logo-box {
+            max-width: 220px;
+            margin: 0 auto 20px auto;
+        }
+        .logo-box img {
+            width: 100%;
+            height: auto;
+        }
+        .loader-bar {
+            width: 120px;
+            height: 6px;
+            background: #E0E7FF;
+            border-radius: 3px;
+            margin: 20px auto;
             position: relative;
             overflow: hidden;
         }
-
-        /* Screens Management */
-        .screen {
-            display: none;
+        .loader-bar::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; height: 100%; width: 40%;
+            background: var(--primary);
+            border-radius: 3px;
+            animation: shift 1.5s infinite linear;
         }
-        .screen.active {
-            display: block;
-        }
-
-        /* Screen 1: Splash Branding */
-        #splash-screen {
-            padding: 50px 20px;
-        }
-        .logo-container img {
-            max-width: 250px;
-            height: auto;
-            margin-bottom: 20px;
-        }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes shift {
+            0% { left: -40%; }
+            100% { left: 100%; }
         }
 
-        /* Screen 2: Instructions */
-        h1 { color: var(--primary); margin-bottom: 15px; font-size: 28px; }
-        h2 { color: var(--text); margin-bottom: 20px; font-size: 22px; }
-        .instructions-list {
-            text-align: left;
-            margin: 20px auto;
-            max-width: 500px;
-            background: #f9f9f9;
-            padding: 20px 30px;
-            border-radius: 12px;
-            border-left: 5px solid var(--secondary);
+        /* Main Headers matching image_bef003.png style */
+        .challenge-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #7C3AED; /* Purple heading font */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
         }
-        .instructions-list li {
-            margin-bottom: 12px;
+        .challenge-subtitle {
+            font-size: 22px;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+        .workspace-tag {
             font-size: 16px;
+            color: #6B7280;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        /* Instruction Box Block from target UI design */
+        .inner-instructions-card {
+            background-color: #F9FAFB;
+            border-radius: 16px;
+            padding: 24px 30px;
+            text-align: left;
+            margin: 0 auto 30px auto;
+            max-width: 680px;
+            border: 1px solid #F3F4F6;
+        }
+        .inner-instructions-card ol {
+            padding-left: 5px;
+            list-style: none;
+            counter-reset: item;
+        }
+        .inner-instructions-card li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 16px;
+            font-size: 16px;
+            color: var(--text-sub);
             line-height: 1.5;
         }
-
-        /* Buttons */
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px 35px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
-            margin-top: 15px;
+        .inner-instructions-card li::before {
+            content: counter(item) ".";
+            counter-increment: item;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: 700;
+            color: var(--text-sub);
         }
-        .btn:hover {
-            background-color: var(--primary-dark);
+        .inner-instructions-card li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Action Buttons styling */
+        .btn {
+            background: var(--primary);
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 14px 45px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+            transition: all 0.2s ease;
+        }
+        .btn:hover:not(:disabled) {
+            background: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
         }
         .btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-            transform: none;
+            background: #9CA3AF;
             box-shadow: none;
+            cursor: not-allowed;
         }
 
-        /* Screen 3: Quiz Header & Progress */
-        .quiz-header {
+        /* Quiz UI Layout */
+        .quiz-top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            font-weight: bold;
+            margin-bottom: 15px;
+            font-weight: 700;
             font-size: 16px;
+            color: var(--text-sub);
         }
-        .progress-container {
+        .progress-track {
+            background: #E5E7EB;
+            height: 10px;
+            border-radius: 5px;
             width: 100%;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            height: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            overflow: hidden;
         }
-        .progress-bar {
+        .progress-fill {
+            background: var(--primary);
             height: 100%;
-            background-color: var(--primary);
             width: 0%;
-            border-radius: 10px;
             transition: width 0.3s ease;
         }
 
-        /* Question & Images */
-        .question-box {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            line-height: 1.4;
+        /* Circuit Images Representation block */
+        .circuit-image-panel {
+            background: #F3F4F6;
+            padding: 15px;
+            border-radius: 16px;
+            max-width: 320px;
+            margin: 0 auto 20px auto;
+            border: 2px dashed #D1D5DB;
         }
-        .asset-image-box {
-            margin: 15px auto;
-            max-width: 280px;
-            background: #f0f0f0;
-            padding: 10px;
-            border-radius: 12px;
-            border: 2px dashed #ccc;
-        }
-        .asset-image-box img {
+        .circuit-image-panel img {
             width: 100%;
             height: auto;
             border-radius: 8px;
             display: block;
         }
 
-        /* Options layout */
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
+        .question-text-box {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 25px;
+            line-height: 1.4;
         }
-        .option-card {
-            background: #fff;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 15px 20px;
+
+        /* Choice options styles */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .option-item {
+            background: #FFFFFF;
+            border: 2px solid #E5E7EB;
+            border-radius: 14px;
+            padding: 16px 20px;
             text-align: left;
             font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
         }
-        .option-card:hover:not(.disabled) {
+        .option-item:hover:not(.locked) {
             border-color: var(--primary);
-            background-color: #f7faff;
+            background: #EEF2FF;
         }
-        .option-card.selected {
+        .option-item.chosen {
             border-color: var(--primary);
-            background-color: #eef5fc;
-            font-weight: bold;
+            background: #EEF2FF;
+            box-shadow: inset 0 0 0 1px var(--primary);
         }
-        .option-card.correct {
-            background-color: #d4edda !important;
+        .option-item.correct-reveal {
+            background-color: #D1FAE5 !important;
             border-color: var(--success) !important;
-            color: #155724;
+            color: #065F46;
         }
-        .option-card.wrong {
-            background-color: #f8d7da !important;
+        .option-item.wrong-reveal {
+            background-color: #FEE2E2 !important;
             border-color: var(--danger) !important;
-            color: #721c24;
+            color: #991B1B;
         }
-        .option-prefix {
-            font-weight: bold;
-            margin-right: 12px;
-            background: #eee;
-            padding: 4px 8px;
-            border-radius: 6px;
-        }
-        .option-card.selected .option-prefix {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Feedback Area */
-        .feedback-message {
-            margin: 15px 0;
-            padding: 12px;
+        .prefix-badge {
+            background: #F3F4F6;
+            color: #4B5563;
+            width: 28px;
+            height: 28px;
             border-radius: 8px;
-            font-weight: bold;
-            display: none;
-            font-size: 16px;
-        }
-        .feedback-message.hint {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
-            display: block;
-        }
-        .feedback-message.success-msg {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
-            animation: bounce 0.5s ease;
-        }
-        .feedback-message.fail-msg {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        /* Score Screen */
-        .score-circle {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin: 20px auto;
-            font-size: 32px;
-            font-weight: bold;
-            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+            margin-right: 15px;
+            font-weight: 700;
         }
-        .score-circle span {
-            font-size: 14px;
-            text-transform: uppercase;
-            opacity: 0.9;
-            margin-top: 4px;
-        }
-        .verdict {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 20px;
+        .option-item.chosen .prefix-badge {
+            background: var(--primary);
+            color: #FFFFFF;
         }
 
-        /* Hidden Audio Setup */
-        audio { display: none; }
+        /* Interactive Feedback Area */
+        .feedback-banner {
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 20px;
+            display: none;
+            line-height: 1.4;
+        }
+        .feedback-banner.state-hint {
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FDE68A;
+            display: block;
+        }
+        .feedback-banner.state-success {
+            background: #D1FAE5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
+            display: block;
+        }
+        .feedback-banner.state-danger {
+            background: #FEE2E2;
+            color: #991B1B;
+            border: 1px solid #FCA5A5;
+            display: block;
+        }
+
+        /* Summary Screen End panel metrics */
+        .result-score-node {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--primary);
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
 
-    <audio id="sound-correct" src="assets/correct.mp3" preload="auto"></audio>
-    <audio id="sound-clap" src="assets/clap.mp3" preload="auto"></audio>
-    <audio id="sound-wrong" src="assets/wrong.mp3" preload="auto"></audio>
+    <!-- Audio Targets mapping file elements perfectly -->
+    <audio id="audio-correct" src="assets/correct.mp3" preload="auto"></audio>
+    <audio id="audio-clap" src="assets/clap.mp3" preload="auto"></audio>
+    <audio id="audio-wrong" src="assets/wrong.mp3" preload="auto"></audio>
 
     <div class="container">
-        
+
+        <!-- SCREEN 1: Brand intro displaying Innovine logo space for 5 seconds -->
         <div id="splash-screen" class="screen active">
-            <div class="logo-container">
-                <img src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.style.display='none'; document.getElementById('logo-text').style.display='block';">
-                <h1 id="logo-text" style="display:none; font-size: 42px; letter-spacing: 2px; color: #2C3E50;">INNOVINE</h1>
+            <div class="logo-box">
+                <img src="assets/innovine-logo.png" alt="Innovine Solutions" onerror="this.style.display='none'; document.getElementById('alt-logo-fallback').style.display='block';">
+                <h1 id="alt-logo-fallback" style="display:none; color: var(--text-main); font-size:38px; font-weight:800; letter-spacing:1px;">INNOVINE</h1>
             </div>
-            <div class="loader"></div>
-            <p style="color: #7f8c8d; font-size: 14px; margin-top:10px;">Loading your experience...</p>
+            <div class="loader-bar"></div>
         </div>
 
+        <!-- SCREEN 2: Instruction Menu configured after the logo screen -->
         <div id="instruction-screen" class="screen">
-                        <h2>Controlling the Flow of Electricity</h2>
-            <div class="instructions-list">
-                <ul>
-                    <li>🔌 This quiz contains <strong>15 exciting questions</strong> about electrical circuits!</li>
-                    <li>🧠 Each question checks how switches work to open and close connections.</li>
-                    <li>⭐ You have <strong>2 attempts</strong> for every question if you get stuck.</li>
-                    <li>🎉 Correct answers trigger fun sounds and celebrations!</li>
-                </ul>
+            <div class="logo-box" style="max-width: 140px; margin-bottom: 15px;">
+                <img src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.style.display='none';">
             </div>
-            <button class="btn" onclick="startQuizGame()">Start Quiz</button>
-        </div>
-
-        <div id="quiz-screen" class="screen">
-            <div class="quiz-header">
-                <span id="question-number-display">Question 1 of 15</span>
-                <span id="score-counter-display">Score: 0</span>
-            </div>
+            <h1 class="challenge-title">ICT Challenge</h1>
+            <h2 class="challenge-subtitle">Controlling the Flow of Electricity</h2>
+            <div class="workspace-tag">Competency-Based Question (CBQ) Workspace</div>
             
-            <div class="progress-container">
-                <div id="quiz-progress-bar" class="progress-bar"></div>
+            <div class="inner-instructions-card">
+                <ol>
+                    <li>Analyze cell components, circuit wires, switch settings, and bulb states carefully.</li>
+                    <li>You get up to 2 attempts for each randomized query before advancing.</li>
+                    <li>Correct answers trigger celebratory sounds, while mistakes sound an alert.</li>
+                    <li>Look at picture-based circuit layouts closely to check for gaps and open wires.</li>
+                    <li>Score maximum points to win the Circuit Engineering Master Badge!</li>
+                </ol>
+            </div>
+            <button class="btn" onclick="initializeGameSession()">Start Challenge</button>
+        </div>
+
+        <!-- SCREEN 3: Core Interactive Playback Area -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-top-bar">
+                <span id="current-step-indicator">Question 1 of 15</span>
+                <span id="live-score-indicator">Score: 0</span>
+            </div>
+            <div class="progress-track">
+                <div id="dynamic-progress-bar" class="progress-fill"></div>
             </div>
 
-            <div id="image-container" class="asset-image-box" style="display: none;">
-                <img id="question-asset-img" src="" alt="Circuit Diagram">
+            <!-- Dynamic circuit image container routing based on concept tags -->
+            <div id="circuit-image-box" class="circuit-image-panel" style="display: none;">
+                <img id="circuit-visual-asset" src="" alt="Circuit Configuration Schematic">
             </div>
 
-            <div id="question-text" class="question-box"></div>
+            <div id="question-text-field" class="question-text-box"></div>
+            <div id="options-stack-panel" class="options-list"></div>
+            <div id="interactive-feedback-block" class="feedback-banner"></div>
 
-            <div id="options-container" class="options-grid"></div>
-
-            <div id="feedback-zone" class="feedback-message"></div>
-
-            <div style="text-align: right; margin-top: 15px;">
-                <button id="action-btn" class="btn" onclick="handleActionClick()" disabled>Submit Answer</button>
+            <div style="text-align: right;">
+                <button id="footer-action-btn" class="btn" onclick="processActionButtonTrigger()" disabled>Submit Answer</button>
             </div>
         </div>
 
-        <div id="score-screen" class="screen">
-            <h1>Activity Completed!</h1>
-            <div class="score-circle" id="final-score-value">0/15 <span>Score</span></div>
-            <div class="verdict" id="performance-verdict">Great Job!</div>
-            <p id="performance-details" style="margin-bottom: 25px; color: #555;"></p>
-            <button class="btn" onclick="resetAndRestartQuiz()">Play Again</button>
+        <!-- SCREEN 4: Completion Summary Analytics Performance -->
+        <div id="result-screen" class="screen">
+            <h1 class="challenge-title" style="color: var(--success);">Challenge Completed!</h1>
+            <div class="result-score-node" id="score-achievement-value">0 / 15</div>
+            <h2 class="challenge-subtitle" id="evaluation-feedback-heading" style="margin-bottom: 15px;">Great Job!</h2>
+            <p id="evaluation-feedback-body" style="color: var(--text-sub); margin-bottom: 30px; font-size:16px; line-height:1.5;"></p>
+            <button class="btn" onclick="restartChallengeWorkflow()">Play Again</button>
         </div>
 
     </div>
 
     <script>
-        // Full Dataset Pool parsed completely from Source Material Document
-        const rawQuestionBank = [
-            { q: "Mihika presses a switch and a bulb starts glowing. What happened?", options: ["The circuit opened", "The circuit closed", "The battery disappeared", "The wire broke"], answer: "B", hint: "Think about what lets electricity run continuously!" },
-            { q: "Arjun wants to stop a lamp without removing the bulb. What should he do?", options: ["Open the switch", "Add another bulb", "Remove the wire", "Change the battery"], answer: "A", hint: "Opening the switch creates a break in the path." },
-            { q: "Kabir notices one wire is disconnected. Which type of circuit is formed?", options: ["Closed circuit", "Complete circuit", "Open circuit", "Strong circuit"], answer: "C", hint: "A disconnected wire means there is an open gap." },
-            { q: "Anaya wants a fan to work only when needed. Which component helps?", options: ["Switch", "Bulb", "Wire", "Cell"], answer: "A", hint: "This component is explicitly used to control the flow safely." },
-            { q: "Vivaan turns ON a switch and the toy car starts moving. Why?", options: ["The circuit became complete", "Battery removed", "Wire disappeared", "Switch broke"], answer: "A", hint: "When it turns ON, the loop allows electricity to travel cleanly." },
-            { q: "Dev builds a circuit with a cell, bulb, wires and switch. What does the switch do?", options: ["Decorates the circuit", "Controls electricity flow", "Stores electricity", "Produces light"], answer: "B", hint: "It acts like a gatekeeper for current paths." },
-            { q: "Siya sees a gap in the circuit. What should she do first?", options: ["Complete the connection", "Remove the bulb", "Turn off the cell", "Add colours"], answer: "A", hint: "To make it work, clear out any gaps first." },
-            { q: "Switch ON → Electricity Flows; Switch OFF → Electricity Stops. Which action stops the flow?", options: ["Switch ON", "Switch OFF", "Add a wire", "Add a bulb"], answer: "B", hint: "Look carefully at the instructions rule given in the text." },
-            { q: "Closed Circuit → Bulb Glows; Open Circuit → Bulb Does Not Glow. Which circuit allows a bulb to glow?", options: ["Broken", "Open", "Closed", "Loose"], answer: "C", hint: "A closed system leaves no breaks for the moving electricity." },
-            { q: "A switch is ON and the bulb is glowing. What type of circuit is shown?", options: ["Open", "Closed", "Broken", "Empty"], answer: "B", hint: "Glowing elements mean the path is currently complete." },
-            { q: "A gap is visible between two wires. What is this called?", options: ["Closed circuit", "Working circuit", "Open circuit", "Fast circuit"], answer: "C", hint: "Visible gaps break loops open." },
-            { q: "Error Detection: Rohan says a bulb glows best in an open circuit. What is the mistake?", options: ["A bulb glows in a closed circuit", "Bulbs need no wires", "Open circuits are stronger", "Switches produce power"], answer: "A", hint: "Remember that an open circuit means electricity is cut off!" },
-            { q: "Two students make circuits. One checks all connections carefully. Which circuit is more likely to work?", options: ["Second student's", "Both", "First student's", "Neither"], answer: "C", hint: "The person who builds without loose ends wins." },
-            { q: "Ishita wants a bedside lamp that can be turned ON and OFF easily. Why include a switch?", options: ["Control electricity flow", "Make it colourful", "Increase bulb size", "Replace wire"], answer: "A", hint: "Switches choose when to make or break links." },
-            { q: "Which statement is NOT correct?", options: ["A switch controls flow", "A closed circuit can work", "An open circuit has a break", "A switch produces electricity"], answer: "D", hint: "Batteries produce electricity; switches only direct it." },
-            { q: "Aarohi is making a simple electric circuit for her science activity. She moves the switch to the position shown in the picture. What is most likely to happen?", options: ["The bulb will stop glowing.", "The circuit will break.", "Electricity will flow and the bulb may glow.", "The battery will be removed."], answer: "C", image: "ON.png", hint: "The switch is shifted to ON position." },
-            { q: "Vihaan observes the switch shown in the picture while checking a table lamp. What can he conclude?", options: ["Electricity can flow through the circuit.", "The circuit is complete.", "The bulb will glow brighter.", "The flow of electricity is interrupted."], answer: "D", image: "OFF.png", hint: "The image exhibits a clean cut layout match for OFF setups." }
+        // High fidelity pool map explicitly structured from document data matching assets parameters
+        const fullQuestionPoolSource = [
+            { q: "Mihika presses a switch and a bulb starts glowing. What happened?", options: ["The circuit opened", "The circuit closed", "The battery disappeared", "The wire broke"], answer: "B", hint: "A glowing bulb means electricity has a full, uncut circle path to flow through.", image: "closed.png" },
+            { q: "Arjun wants to stop a lamp without removing the bulb. What should he do?", options: ["Open the switch", "Add another bulb", "Remove the wire", "Change the battery"], answer: "A", hint: "Turning off or opening a switch breaks the loop safely.", image: "open.png" },
+            { q: "Kabir notices one wire is disconnected. Which type of circuit is formed?", options: ["Closed circuit", "Complete circuit", "Open circuit", "Strong circuit"], answer: "C", hint: "Disconnected wires leave an open gap where electricity stops.", image: "open.png" },
+            { q: "Anaya wants a fan to work only when needed. Which component helps?", options: ["Switch", "Bulb", "Wire", "Cell"], answer: "A", hint: "This component lets you control the flow of current by turning it ON or OFF." },
+            { q: "Vivaan turns ON a switch and the toy car starts moving. Why?", options: ["The circuit became complete", "Battery removed", "Wire disappeared", "Switch broke"], answer: "A", hint: "Turning a switch ON closes the loop so electrical energy can flow completely.", image: "closed.png" },
+            { q: "Dev builds a circuit with a cell, bulb, wires and switch. What does the switch do?", options: ["Decorates the circuit", "Controls electricity flow", "Stores electricity", "Produces light"], answer: "B", hint: "It safely controls when electricity can flow and when it must stop." },
+            { q: "Siya sees a gap in the circuit. What should she do first?", options: ["Complete the connection", "Remove the bulb", "Turn off the cell", "Add colours"], answer: "A", hint: "To get the power moving, you need to clear the gap and connect the path.", image: "open.png" },
+            { q: "Switch ON → Electricity Flows; Switch OFF → Electricity Stops. Which action stops the flow?", options: ["Switch ON", "Switch OFF", "Add a wire", "Add a bulb"], answer: "B", hint: "Read the rules carefully: stopping the flow corresponds to turning the device OFF." },
+            { q: "Closed Circuit → Bulb Glows; Open Circuit → Bulb Does Not Glow. Which circuit allows a bulb to glow?", options: ["Broken", "Open", "Closed", "Loose"], answer: "C", hint: "Electricity flows smoothly only when the circle is totally closed." },
+            { q: "A switch is ON and the bulb is glowing. What type of circuit is shown?", options: ["Open", "Closed", "Broken", "Empty"], answer: "B", hint: "When current successfully runs and lights up the bulb, the system is closed.", image: "closed.png" },
+            { q: "A gap is visible between two wires. What is this called?", options: ["Closed circuit", "Working circuit", "Open circuit", "Fast circuit"], answer: "C", hint: "Gaps cause breaks in the wire path, creating an open configuration.", image: "open.png" },
+            { q: "Error Detection: Rohan says a bulb glows best in an open circuit. What is the mistake?", options: ["A bulb glows in a closed circuit", "Bulbs need no wires", "Open circuits are stronger", "Switches produce power"], answer: "A", hint: "An open circuit has a break, so electricity cannot reach the bulb." },
+            { q: "Two students make circuits. One checks all connections carefully. Which circuit is more likely to work?", options: ["Second student's", "Both", "First student's", "Neither"], answer: "C", hint: "Carefully checked paths have no loose wire ends or accidental gaps." },
+            { q: "Ishita wants a bedside lamp that can be turned ON and OFF easily. Why include a switch?", options: ["Control electricity flow", "Make it colourful", "Increase bulb size", "Replace wire"], answer: "A", hint: "Switches let you start and stop the light easily without pulling wires out." },
+            { q: "Which statement is NOT correct?", options: ["A switch controls flow", "A closed circuit can work", "An open circuit has a break", "A switch produces electricity"], answer: "D", hint: "Batteries produce electricity; switches only control its movement." },
+            { q: "Aarohi is making a simple electric circuit for her science activity. She moves the switch to the position shown in the picture. What is most likely to happen?", options: ["The bulb will stop glowing.", "The circuit will break.", "Electricity will flow and the bulb may glow.", "The battery will be removed."], answer: "C", image: "ON.png", hint: "Moving the switch into an ON position completes the circuit loop securely." },
+            { q: "Vihaan observes the switch shown in the picture while checking a table lamp. What can he conclude?", options: ["Electricity can flow through the circuit.", "The circuit is complete.", "The bulb will glow brighter.", "The flow of electricity is interrupted."], answer: "D", image: "OFF.png", hint: "An OFF state breaks the continuous connection of the circuit wire elements." }
         ];
 
-        // Runtime Tracking States
-        let dynamicQuizDeck = [];
-        let runningQuestionIndex = 0;
-        let selectedOptionLetter = null;
-        let userCurrentAttempts = 0;
-        let currentRunScore = 0;
-        let evaluatedState = false;
+        let activeGameDeck = [];
+        let itemIndexPointer = 0;
+        let selectedChoiceCode = null;
+        let attemptsCounter = 0;
+        let runningAccumulatedScore = 0;
+        let itemEvaluatedFlag = false;
 
-        // Auto initialization configuration logic
+        // Branding screen presentation countdown initialization timer setup
         window.addEventListener('DOMContentLoaded', () => {
-            // Strict 5-Second Branding Screen Timeout Implementation
             setTimeout(() => {
-                transitionScreen('splash-screen', 'instruction-screen');
+                swapDisplayScreens('splash-screen', 'instruction-screen');
             }, 5000);
         });
 
-        function transitionScreen(fromId, toId) {
-            document.getElementById(fromId).classList.remove('active');
-            document.getElementById(toId).classList.add('active');
+        function swapDisplayScreens(hideId, showId) {
+            document.getElementById(hideId).classList.remove('active');
+            document.getElementById(showId).classList.add('active');
         }
 
-        // Fisher-Yates Randomization to ensure unbiased question selections
-        function generateRandomDeck() {
-            let fullyShuffledPool = [...rawQuestionBank];
-            for (let i = fullyShuffledPool.length - 1; i > 0; i--) {
+        // Shuffles question list using the Fisher-Yates algorithm
+        function buildRandomQuizDeck() {
+            let mutablePool = [...fullQuestionPoolSource];
+            for (let i = mutablePool.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [fullyShuffledPool[i], fullyShuffledPool[j]] = [fullyShuffledPool[j], fullyShuffledPool[i]];
+                [mutablePool[i], mutablePool[j]] = [mutablePool[j], mutablePool[i]];
             }
-            // Slices exactly 15 questions per play session as required
-            return fullyShuffledPool.slice(0, 15);
+            return mutablePool.slice(0, 15);
         }
 
-        function startQuizGame() {
-            dynamicQuizDeck = generateRandomDeck();
-            runningQuestionIndex = 0;
-            currentRunScore = 0;
-            transitionScreen('instruction-screen', 'quiz-screen');
-            renderCurrentQuestionCard();
+        function initializeGameSession() {
+            activeGameDeck = buildRandomQuizDeck();
+            itemIndexPointer = 0;
+            runningAccumulatedScore = 0;
+            swapDisplayScreens('instruction-screen', 'quiz-screen');
+            populateQuizCardContext();
         }
 
-        function renderCurrentQuestionCard() {
-            // Reset question evaluation parameters
-            selectedOptionLetter = null;
-            userCurrentAttempts = 0;
-            evaluatedState = false;
+        function populateQuizCardContext() {
+            selectedChoiceCode = null;
+            attemptsCounter = 0;
+            itemEvaluatedFlag = false;
+
+            const submitBtn = document.getElementById('footer-action-btn');
+            submitBtn.innerText = "Submit Answer";
+            submitBtn.disabled = true;
+
+            const feedbackNode = document.getElementById('interactive-feedback-block');
+            feedbackNode.className = "feedback-banner";
+            feedbackNode.innerText = "";
+            feedbackNode.style.display = "none";
+
+            const currentQuestion = activeGameDeck[itemIndexPointer];
+
+            // Render Header indicators
+            document.getElementById('current-step-indicator').innerText = `Question ${itemIndexPointer + 1} of 15`;
+            document.getElementById('live-score-indicator').innerText = `Score: ${runningAccumulatedScore}`;
             
-            const actionButton = document.getElementById('action-btn');
-            actionButton.innerText = "Submit Answer";
-            actionButton.disabled = true;
+            // Step-by-step progress tracking computation metric bar
+            const percentWidth = (itemIndexPointer / 15) * 100;
+            document.getElementById('dynamic-progress-bar').style.width = `${percentWidth}%`;
 
-            const feedbackZone = document.getElementById('feedback-zone');
-            feedbackZone.className = "feedback-message";
-            feedbackZone.innerText = "";
-
-            const targetQuestion = dynamicQuizDeck[runningQuestionIndex];
-
-            // Render Header Status info elements
-            document.getElementById('question-number-display').innerText = `Question ${runningQuestionIndex + 1} of 15`;
-            document.getElementById('score-counter-display').innerText = `Score: ${currentRunScore}`;
-            
-            // Render Progress metric
-            const progressPct = ((runningQuestionIndex) / 15) * 100;
-            document.getElementById('quiz-progress-bar').style.width = `${progressPct}%`;
-
-            // Display Question Text content
-            document.getElementById('question-text').innerText = targetQuestion.q;
-
-            // Handle Picture-Based Question Logic dynamically via asset pointers
-            const imgContainer = document.getElementById('image-container');
-            const targetImgNode = document.getElementById('question-asset-img');
-            if (targetQuestion.image) {
-                targetImgNode.src = `assets/${targetQuestion.image}`;
-                imgContainer.style.display = 'block';
+            // Setup structural asset image inclusion mappings
+            const imagePanel = document.getElementById('circuit-image-box');
+            const imageTag = document.getElementById('circuit-visual-asset');
+            if (currentQuestion.image) {
+                imageTag.src = `assets/${currentQuestion.image}`;
+                imagePanel.style.display = 'block';
             } else {
-                imgContainer.style.display = 'none';
-                targetImgNode.src = '';
+                imagePanel.style.display = 'none';
+                imageTag.src = '';
             }
 
-            // Build Options Context Interactive DOM components
-            const choicesContainer = document.getElementById('options-container');
-            choicesContainer.innerHTML = '';
+            document.getElementById('question-text-field').innerText = currentQuestion.q;
 
-            const letterMap = ['A', 'B', 'C', 'D'];
-            targetQuestion.options.forEach((optionTxt, idx) => {
-                const letter = letterMap[idx];
-                
-                const card = document.createElement('div');
-                card.className = 'option-card';
-                card.dataset.letter = letter;
-                card.id = `option-node-${letter}`;
-                
-                card.innerHTML = `<span class="option-prefix">${letter}</span> <span class="option-text-val"></span>`;
-                card.querySelector('.option-text-val').innerText = optionTxt;
+            // Generate options lists layout matching branding specifications
+            const stackPanel = document.getElementById('options-stack-panel');
+            stackPanel.innerHTML = '';
 
-                card.addEventListener('click', () => selectOptionTrigger(letter));
-                choicesContainer.appendChild(card);
+            const optionLetters = ['A', 'B', 'C', 'D'];
+            currentQuestion.options.forEach((txt, index) => {
+                const letter = optionLetters[index];
+                const optItem = document.createElement('div');
+                optItem.className = 'option-item';
+                optItem.id = `opt-card-id-${letter}`;
+                
+                optItem.innerHTML = `<span class="prefix-badge">${letter}</span> <span class="opt-label-text"></span>`;
+                optItem.querySelector('.opt-label-text').innerText = txt;
+                
+                optItem.addEventListener('click', () => triggerOptionSelection(letter));
+                stackPanel.appendChild(optItem);
             });
         }
 
-        function selectOptionTrigger(letter) {
-            if (evaluatedState) return; // Prevent selection changes post item finalization
+        function triggerOptionSelection(letter) {
+            if (itemEvaluatedFlag) return;
 
-            selectedOptionLetter = letter;
+            selectedChoiceCode = letter;
+            document.querySelectorAll('.option-item').forEach(el => el.classList.remove('chosen'));
+            document.getElementById(`opt-card-id-${letter}`).classList.add('chosen');
             
-            // Clear prior active selections UI
-            const elements = document.querySelectorAll('.option-card');
-            elements.forEach(node => node.classList.remove('selected'));
-
-            // Set current selected node state layout
-            document.getElementById(`option-node-${letter}`).classList.add('selected');
-            document.getElementById('action-btn').disabled = false;
+            document.getElementById('footer-action-btn').disabled = false;
         }
 
-        function handleActionClick() {
-            if (!evaluatedState) {
-                processResponseEvaluation();
+        function processActionButtonTrigger() {
+            if (!itemEvaluatedFlag) {
+                evaluateUserSubmission();
             } else {
-                advanceToNextCard();
+                moveQuizToNextCard();
             }
         }
 
-        function processResponseEvaluation() {
-            const currentItem = dynamicQuizDeck[runningQuestionIndex];
-            const correctKey = currentItem.answer;
-            userCurrentAttempts++;
+        function evaluateUserSubmission() {
+            const currentItem = activeGameDeck[itemIndexPointer];
+            const matchingAnswerKey = currentItem.answer;
+            attemptsCounter++;
 
-            if (selectedOptionLetter === correctKey) {
-                // SUCCESS LOGIC: Execute feedback routines
-                triggerAssetAudio('sound-correct');
-                setTimeout(() => triggerAssetAudio('sound-clap'), 400);
+            if (selectedChoiceCode === matchingAnswerKey) {
+                // Correct answer track feedback sequence loops
+                dispatchAudioEffect('audio-correct');
+                setTimeout(() => dispatchAudioEffect('audio-clap'), 350);
 
-                document.getElementById(`option-node-${selectedOptionLetter}`).classList.add('correct');
-                currentRunScore++;
-                document.getElementById('score-counter-display').innerText = `Score: ${currentRunScore}`;
+                document.getElementById(`opt-card-id-${selectedChoiceCode}`).classList.add('correct-reveal');
+                runningAccumulatedScore++;
+                document.getElementById('live-score-indicator').innerText = `Score: ${runningAccumulatedScore}`;
                 
-                displayFeedbackMessage("🎉 Correct! Fantastic job! 👏👏", "success-msg");
-                finalizeQuestionState();
+                renderFeedbackBanner("🎉 Correct! Excellent circuit observation! 👏👏", "state-success");
+                freezeQuestionLayoutState();
             } else {
-                // ATTEMPT FAILURE BALANCING LOGIC
-                if (userCurrentAttempts === 1) {
-                    // Attempt 1: Offer customized guidance hint
-                    triggerAssetAudio('sound-wrong');
-                    document.getElementById(`option-node-${selectedOptionLetter}`).classList.add('wrong');
-                    displayFeedbackMessage(`❌ Oops! Try again. Hint: ${currentItem.hint}`, "hint");
+                // Incorrect answer attempt reduction checks
+                if (attemptsCounter === 1) {
+                    dispatchAudioEffect('audio-wrong');
+                    document.getElementById(`opt-card-id-${selectedChoiceCode}`).classList.add('wrong-reveal');
+                    renderFeedbackBanner(`💡 Try Again! Hint: ${currentItem.hint}`, "state-hint");
                     
-                    // Allow choice update operations
-                    document.getElementById(`option-node-${selectedOptionLetter}`).classList.remove('selected');
-                    selectedOptionLetter = null;
-                    document.getElementById('action-btn').disabled = true;
+                    // Reset single selection variables to allow full secondary fallback selection tracking
+                    document.getElementById(`opt-card-id-${selectedChoiceCode}`).classList.remove('chosen');
+                    selectedChoiceCode = null;
+                    document.getElementById('footer-action-btn').disabled = true;
                 } else {
-                    // Attempt 2: Final item evaluation failure routing
-                    triggerAssetAudio('sound-wrong');
-                    document.getElementById(`option-node-${selectedOptionLetter}`).classList.add('wrong');
-                    document.getElementById(`option-node-${correctKey}`).classList.add('correct');
+                    // Attempt 2 exhaustive resolution routing
+                    dispatchAudioEffect('audio-wrong');
+                    document.getElementById(`opt-card-id-${selectedChoiceCode}`).classList.add('wrong-reveal');
+                    document.getElementById(`opt-card-id-${matchingAnswerKey}`).classList.add('correct-reveal');
                     
-                    displayFeedbackMessage(`❌ Incorrect. The correct answer was (${correctKey}).`, "fail-msg");
-                    finalizeQuestionState();
+                    renderFeedbackBanner(`❌ Incorrect. The correct configuration was (${matchingAnswerKey}).`, "state-danger");
+                    freezeQuestionLayoutState();
                 }
             }
         }
 
-        function displayFeedbackMessage(msgText, stylingClass) {
-            const el = document.getElementById('feedback-zone');
-            el.className = `feedback-message ${stylingClass}`;
-            el.innerText = msgText;
+        function renderFeedbackBanner(message, aestheticClass) {
+            const block = document.getElementById('interactive-feedback-block');
+            block.className = `feedback-banner ${aestheticClass}`;
+            block.innerText = message;
         }
 
-        function finalizeQuestionState() {
-            evaluatedState = true;
+        function freezeQuestionLayoutState() {
+            itemEvaluatedFlag = true;
+            document.querySelectorAll('.option-item').forEach(el => el.classList.add('locked'));
             
-            // Freeze card selections interactive events tracking
-            document.querySelectorAll('.option-card').forEach(node => node.classList.add('disabled'));
-            
-            const actionButton = document.getElementById('action-btn');
-            if (runningQuestionIndex < 14) {
-                actionButton.innerText = "Next Question →";
+            const actionBtn = document.getElementById('footer-action-btn');
+            actionBtn.innerText = (itemIndexPointer < 14) ? "Next Question →" : "Finish Quiz 🏁";
+        }
+
+        function moveQuizToNextCard() {
+            if (itemIndexPointer < 14) {
+                itemIndexPointer++;
+                populateQuizCardContext();
             } else {
-                actionButton.innerText = "View Results 🏁";
+                renderFinalSummaryView();
             }
         }
 
-        function advanceToNextCard() {
-            if (runningQuestionIndex < 14) {
-                runningQuestionIndex++;
-                renderCurrentQuestionCard();
+        function renderFinalSummaryView() {
+            document.getElementById('dynamic-progress-bar').style.width = '100%';
+            swapDisplayScreens('quiz-screen', 'result-screen');
+            
+            document.getElementById('score-achievement-value').innerText = `${runningAccumulatedScore} / 15`;
+            
+            const headElement = document.getElementById('evaluation-feedback-heading');
+            const bodyElement = document.getElementById('evaluation-feedback-body');
+
+            if (runningAccumulatedScore === 15) {
+                headElement.innerText = "⚡ Master Circuit Engineer!";
+                bodyElement.innerText = "Superb execution! You controlled the flow of electricity cleanly with a 100% accurate system loop setup.";
+            } else if (runningAccumulatedScore >= 11) {
+                headElement.innerText = "🌟 Outstanding Performance!";
+                bodyElement.innerText = "Fantastic engineering logic! You handled switches, open circuit paths, and gaps with extreme precision.";
+            } else if (runningAccumulatedScore >= 7) {
+                headElement.innerText = "🔋 Good Work!";
+                bodyElement.innerText = "Nice attempts. Practice identifying open connections and you will maximize your score next time.";
             } else {
-                renderFinalScorecard();
+                headElement.innerText = "💡 Keep Practicing!";
+                bodyElement.innerText = "Remember, electricity only glows when circuit paths are completely closed without any gaps. Try running it again!";
             }
         }
 
-        function renderFinalScorecard() {
-            // Update UI framework context to point to performance metrics
-            document.getElementById('quiz-progress-bar').style.width = '100%';
-            transitionScreen('quiz-screen', 'score-screen');
-            
-            document.getElementById('final-score-value').innerHTML = `${currentRunScore} / 15<span>Score</span>`;
-            
-            const verdictNode = document.getElementById('performance-verdict');
-            const detailNode = document.getElementById('performance-details');
-
-            if (currentRunScore === 15) {
-                verdictNode.innerText = "⚡ Electrical Wizard! Perfect Score!";
-                detailNode.innerText = "Incredible! You understand open and closed circuits perfectly. Keep it up!";
-            } else if (currentRunScore >= 11) {
-                verdictNode.innerText = "🌟 Brilliant Circuit Engineer!";
-                detailNode.innerText = "You did an excellent job controlling the flow of electricity today!";
-            } else if (currentRunScore >= 7) {
-                verdictNode.innerText = "🔋 Good Effort!";
-                detailNode.innerText = "You understand the basics well. Review switches to close all learning gaps!";
-            } else {
-                verdictNode.innerText = "💡 Keep Learning!";
-                detailNode.innerText = "Try reviewing how open circuits stop electricity, then give it another shot!";
-            }
+        function restartChallengeWorkflow() {
+            swapDisplayScreens('result-screen', 'instruction-screen');
         }
 
-        function resetAndRestartQuiz() {
-            transitionScreen('score-screen', 'instruction-screen');
-        }
-
-        // Multi-browser safe audio layer dispatcher pattern wrapper
-        function triggerAssetAudio(elementId) {
-            const playerNode = document.getElementById(elementId);
-            if (playerNode) {
-                playerNode.currentTime = 0;
-                playerNode.play().catch(err => {
-                    // Muted interaction fallback safeguard logic to handle browser-specific safety filters cleanly
-                    console.log(`Audio notification triggered visually [Local Resource Blocked: ${elementId}]`);
+        function dispatchAudioEffect(nodeId) {
+            const player = document.getElementById(nodeId);
+            if (player) {
+                player.currentTime = 0;
+                player.play().catch(() => {
+                    console.log(`Audio notification skipped safely: ${nodeId}`);
                 });
             }
         }
