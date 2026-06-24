@@ -3,113 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Grade 4 ICT - Customising the Desktop</title>
+    <title> ICT - Customising the Desktop</title>
     <style>
         :root {
-            --primary-bg: linear-gradient(135deg, #5c54e5 0%, #7036ed 100%);
-            --card-bg: #ffffff;
-            --text-main: #2d3748;
-            --accent-purple: #7036ed;
+            --accent-purple: #6366f1;
+            --btn-purple: #4f46e5;
             --correct-green: #10b981;
             --wrong-red: #ef4444;
+            --text-main: #374151;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* Dynamic background controller to switch from pure white splash to gradient challenge workspace */
         body {
-            background: var(--primary-bg);
+            background: #ffffff;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
             overflow-x: hidden;
+            transition: background 0.3s ease;
         }
 
+        body.game-mode {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        }
+
+        /* Main Rounded Card Container seen on second page onwards */
         .container {
             width: 100%;
             max-width: 850px;
-            background: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            padding: 35px;
+            background: transparent;
+            padding: 0;
             position: relative;
-            min-height: 540px;
+            min-height: 500px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        /* Screen Management */
+        body.game-mode .container {
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+        }
+
+        /* Screen States */
         .screen {
             display: none;
             width: 100%;
             flex-direction: column;
             align-items: center;
-            animation: fadeIn 0.4s ease-out forwards;
         }
 
         .screen.active {
             display: flex;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Logo Branding Screen */
+        /* Screen 1: First Page Custom View (Pure White Splash Style) */
         #logo-screen {
-            text-align: center;
             justify-content: center;
         }
 
-        .logo-img {
-            max-width: 260px;
+        .splash-logo {
+            max-width: 320px;
+            width: 80%;
             height: auto;
-            margin-bottom: 20px;
+            animation: pulse 2s infinite ease-in-out;
         }
 
-        .loader-text {
-            font-size: 1.15rem;
-            color: #718096;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
 
-        /* Instructions Screen */
+        /* Instructions Page Inner White Box styling */
         .header-title {
-            color: var(--accent-purple);
-            font-size: 2.4rem;
+            color: #4f46e5;
+            font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
             text-align: center;
         }
 
         .header-subtitle {
-            font-size: 1.2rem;
-            color: #4a5568;
-            margin-bottom: 30px;
-            font-weight: 600;
+            font-size: 1.25rem;
+            color: #4b5563;
+            margin-bottom: 25px;
+            font-weight: 700;
             text-align: center;
         }
 
         .instruction-box {
-            background: #f7fafc;
-            border: 1px solid #edf2f7;
-            border-radius: 18px;
-            padding: 25px 30px;
+            background: #f9fafb;
+            border-radius: 20px;
+            padding: 25px 35px;
             width: 100%;
-            max-width: 650px;
-            margin-bottom: 35px;
+            max-width: 680px;
+            margin-bottom: 30px;
+            border: 1px solid #f3f4f6;
         }
 
         .instruction-list {
@@ -118,65 +123,62 @@
 
         .instruction-list li {
             font-size: 1.05rem;
-            color: #4a5568;
+            color: #4b5563;
             margin-bottom: 16px;
             position: relative;
             padding-left: 30px;
-            line-height: 1.5;
+            line-height: 1.6;
+            font-weight: 500;
         }
 
         .instruction-list li::before {
-            content: "✦";
+            content: "•";
             position: absolute;
-            left: 0;
-            top: 0;
-            color: var(--accent-purple);
+            left: 5px;
+            top: -2px;
+            color: #4f46e5;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.6rem;
         }
 
-        /* Buttons styling */
+        /* Buttons Layout */
         .btn {
-            background: var(--accent-purple);
+            background: var(--btn-purple);
             color: #ffffff;
             border: none;
-            padding: 15px 45px;
-            font-size: 1.15rem;
+            padding: 15px 50px;
+            font-size: 1.2rem;
             font-weight: 700;
             border-radius: 35px;
             cursor: pointer;
             transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-            box-shadow: 0 6px 18px rgba(112, 54, 237, 0.35);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
         }
 
         .btn:hover {
             transform: scale(1.03);
-            background: #5d2bcf;
-            box-shadow: 0 8px 22px rgba(112, 54, 237, 0.45);
+            background: #4338ca;
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.55);
         }
 
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Main Game Layout */
+        /* Gameplay Workspace components */
         .hud {
             display: flex;
             justify-content: space-between;
             width: 100%;
             font-weight: 700;
             margin-bottom: 15px;
-            border-bottom: 2px solid #edf2f7;
+            border-bottom: 2px solid #f3f4f6;
             padding-bottom: 12px;
-            font-size: 1.05rem;
-            color: #4a5568;
+            font-size: 1.1rem;
+            color: #6b7280;
         }
 
         .timer-bar {
             width: 100%;
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 5px;
             margin-bottom: 30px;
             overflow: hidden;
         }
@@ -190,7 +192,7 @@
 
         .question-container {
             width: 100%;
-            font-size: 1.35rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: var(--text-main);
             margin-bottom: 25px;
@@ -199,14 +201,14 @@
         }
 
         .asset-image-wrapper {
-            background-color: #f7fafc;
-            border-radius: 14px;
-            padding: 10px;
+            background-color: #f9fafb;
+            border-radius: 16px;
+            padding: 12px;
             margin-bottom: 25px;
             max-width: 100%;
             display: flex;
             justify-content: center;
-            border: 1px solid #edf2f7;
+            border: 1px solid #e5e7eb;
         }
 
         .asset-image {
@@ -220,7 +222,7 @@
         .options-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 14px;
+            gap: 15px;
             width: 100%;
             margin-bottom: 25px;
         }
@@ -232,29 +234,28 @@
         }
 
         .option-card {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 18px 22px;
-            font-size: 1.05rem;
-            font-weight: 500;
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 18px 24px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            color: #4a5568;
+            color: #4b5563;
         }
 
         .option-card:hover {
-            background: #f1f5f9;
-            border-color: #cbd5e1;
+            background: #e5e7eb;
+            border-color: #d1d5db;
         }
 
         .option-card.correct {
             background: rgba(16, 185, 129, 0.12) !important;
             border-color: var(--correct-green) !important;
             color: #065f46;
-            font-weight: 700;
         }
 
         .option-card.wrong {
@@ -264,7 +265,7 @@
         }
 
         .feedback-message {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 700;
             margin-bottom: 25px;
             min-height: 30px;
@@ -278,24 +279,19 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            border-radius: 24px;
+            border-radius: 32px;
             z-index: 10;
         }
 
         .badge {
-            font-size: 4.5rem;
+            font-size: 5rem;
             margin-bottom: 20px;
-            animation: float 1.5s infinite alternate ease-in-out;
-        }
-
-        @keyframes float {
-            from { transform: translateY(0); }
-            to { transform: translateY(-12px); }
         }
     </style>
 </head>
 <body>
 
+    <!-- Native Audio Element Assets Links -->
     <audio id="snd-correct" src="assets/correct.mp3" preload="auto"></audio>
     <audio id="snd-clap" src="assets/clap.mp3" preload="auto"></audio>
     <audio id="snd-wrong" src="assets/wrong.mp3" preload="auto"></audio>
@@ -303,27 +299,30 @@
     <div class="container">
         <canvas id="celebration-canvas"></canvas>
 
+        <!-- SCREEN 1: FIRST PAGE (Pure White Splash Screen Match - Exactly 5 Seconds) -->
         <div id="logo-screen" class="screen active">
-            <img class="logo-img" src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.src='https://placehold.co/250x100?text=INNOVINE+SOLUTIONS'">
-            <div class="loader-text">Loading Workspace Component Content...</div>
+            <img class="splash-logo" src="assets/innovine-logo.png" alt="Innovine Solutions Logo" onerror="this.src='https://placehold.co/280x110?text=INNOVINE+SOLUTIONS'">
         </div>
 
+        <!-- SCREEN 2: INSTRUCTIONS PAGE (Active Only After Splash Finishes) -->
         <div id="instruction-screen" class="screen">
-            <h1 class="header-title">ICT Challenge</h1>
-            <h2 class="header-subtitle">Competency-Based Question (CBQ) Workspace</h2>
+            <!-- Secondary Header Logo Icon -->
+            <img src="assets/innovine-logo.png" alt="Logo" style="max-width:160px; margin-bottom:15px;" onerror="this.style.display='none'">
+            <h2 class="header-subtitle">Logical Thinking<br><span style="font-size:1rem; font-weight:500; color:#6b7280;">Competency-Based Question (CBQ) Workspace</span></h2>
             
             <div class="instruction-box">
                 <ul class="instruction-list">
-                    <li>Analyze the logical desktop patterns and layout configurations carefully.</li>
-                    <li>You get up to <b>2 attempts</b> for each randomized question before answers reveal.</li>
-                    <li>Correct selections trigger immediate animations, claps, and sound track events.</li>
-                    <li>Each challenge question features a strictly timed <b>45-second</b> count.</li>
-                    <li>Earn the maximum score to claim the master rank title!</li>
+                    <li>Analyze the logical patterns, number rules, and sequence images carefully.</li>
+                    <li>You get up to 2 attempts for each randomized query before advancing.</li>
+                    <li>Correct answers trigger celebratory sounds, while mistakes sound an alert.</li>
+                    <li>Each question is bound to an active 45-second workspace timer.</li>
+                    <li>Score maximum points to win the Logic Thinker Master Badge!</li>
                 </ul>
             </div>
             <button class="btn" onclick="startChallenge()">Start Challenge</button>
         </div>
 
+        <!-- SCREEN 3: ACTIVE PLAY INTERACTION -->
         <div id="game-screen" class="screen">
             <div class="hud">
                 <span id="hud-question-num">Question: 1/15</span>
@@ -342,19 +341,20 @@
             <button id="next-btn" class="btn" style="display: none;" onclick="loadNextQuestion()">Next Question</button>
         </div>
 
+        <!-- SCREEN 4: RESULTS CHALLENGE PANEL -->
         <div id="result-screen" class="screen">
             <div class="badge">🏆</div>
-            <h1 class="header-title" id="result-title">Excellent Job!</h1>
+            <h1 class="header-title" id="result-title">Outstanding Work!</h1>
             <h2 class="header-subtitle" id="result-score-text">You scored 15 out of 15 points!</h2>
             <div class="instruction-box" style="text-align: center; margin-bottom: 25px;">
-                <p id="result-evaluation" style="font-size: 1.15rem; color: #4a5568; font-weight: 500;"></p>
+                <p id="result-evaluation" style="font-size: 1.2rem; color: #4b5563; font-weight: 600;"></p>
             </div>
             <button class="btn" onclick="restartChallenge()">Play Again</button>
         </div>
     </div>
 
     <script>
-        const Sounds = {
+        const AudioTrack = {
             playCorrect() {
                 const s = document.getElementById('snd-correct');
                 if (s) { s.currentTime = 0; s.play().catch(() => {}); }
@@ -369,8 +369,8 @@
             }
         };
 
-        // Fully parsed and clean text database from Chapter 1 (No raw markdown document citations)
-        const database = [
+        // Fully cleaned Question database (No markdown citations remaining)
+        const contentPool = [
             { q: "Aarohi switches on the computer. Which screen appears first?", o: ["Taskbar", "Desktop", "Folder", "Window"], a: 1 },
             { q: "Vihaan wants to make his screen attractive. Which feature should he change?", o: ["Wallpaper", "Printer", "Keyboard", "CPU"], a: 0 },
             { q: "Kabir sees small pictures that open programs. What are they called?", o: ["Menus", "Tabs", "Icons", "Files"], a: 2 },
@@ -388,16 +388,17 @@
             { q: "Which statement is NOT correct?", o: ["Wallpaper changes background", "Icons represent programs", "Screen savers appear when idle", "Icons print documents automatically"], a: 3 }
         ];
 
-        let challengeQuestions = [];
-        let currentIdx = 0;
-        let currentScore = 0;
-        let currentAttempts = 0;
-        let countdownTimer = null;
-        let timeRemaining = 45;
+        let playQuestions = [];
+        let indexPointer = 0;
+        let scoreCounter = 0;
+        let attemptCounter = 0;
+        let mainTimer = null;
+        let durationLeft = 45;
 
-        // Hold branding logo layer active exactly for 5 seconds (5000ms)
+        // Perfect 5 seconds holding phase for page one splash view layout matching image_cd8b02.png
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
+                document.body.classList.add('game-mode'); // Turns layout background to high fidelity blue gradient
                 showScreen('instruction-screen');
             }, 5000);
         });
@@ -408,162 +409,163 @@
         }
 
         function startChallenge() {
-            challengeQuestions = [...database].sort(() => Math.random() - 0.5);
-            currentIdx = 0;
-            currentScore = 0;
+            playQuestions = [...contentPool].sort(() => Math.random() - 0.5);
+            indexPointer = 0;
+            scoreCounter = 0;
             showScreen('game-screen');
-            loadQuestion();
+            loadWorkspaceQuestion();
         }
 
-        function loadQuestion() {
-            currentAttempts = 0;
-            timeRemaining = 45;
+        function loadWorkspaceQuestion() {
+            attemptCounter = 0;
+            durationLeft = 45;
             document.getElementById('next-btn').style.display = 'none';
             document.getElementById('feedback-message').textContent = '';
             
-            let currentData = challengeQuestions[currentIdx];
+            let currentItem = playQuestions[indexPointer];
             
-            document.getElementById('hud-question-num').textContent = `Question: ${currentIdx + 1}/${challengeQuestions.length}`;
-            document.getElementById('hud-score').textContent = `Score: ${currentScore}`;
-            document.getElementById('question-text').textContent = currentData.q;
+            document.getElementById('hud-question-num').textContent = `Question: ${indexPointer + 1}/${playQuestions.length}`;
+            document.getElementById('hud-score').textContent = `Score: ${scoreCounter}`;
+            document.getElementById('question-text').textContent = currentItem.q;
 
             const imgContainer = document.getElementById('image-container');
             imgContainer.innerHTML = '';
-            if (currentData.img) {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'asset-image-wrapper';
+            if (currentItem.img) {
+                const wrap = document.createElement('div');
+                wrap.className = 'asset-image-wrapper';
                 
-                const img = document.createElement('img');
-                img.className = 'asset-image';
-                img.src = currentData.img;
-                img.alt = "Reference Asset Component";
-                img.onerror = function() { wrapper.style.display = 'none'; };
+                const element = document.createElement('img');
+                element.className = 'asset-image';
+                element.src = currentItem.img;
+                element.alt = "Workspace Reference Image Asset";
+                element.onerror = function() { wrap.style.display = 'none'; };
                 
-                wrapper.appendChild(img);
-                imgContainer.appendChild(wrapper);
+                wrap.appendChild(element);
+                imgContainer.appendChild(wrap);
             }
 
             const grid = document.getElementById('options-grid');
             grid.innerHTML = '';
-            currentData.o.forEach((option, idx) => {
-                const card = document.createElement('div');
-                card.className = 'option-card';
-                card.textContent = option;
-                card.onclick = () => verifyChoice(idx, card);
-                grid.appendChild(card);
+            currentItem.o.forEach((val, idx) => {
+                const block = document.createElement('div');
+                block.className = 'option-card';
+                block.textContent = val;
+                block.onclick = () => challengeEvaluation(idx, block);
+                grid.appendChild(block);
             });
 
-            initiateTimer();
+            triggerCountdown();
         }
 
-        function initiateTimer() {
-            clearInterval(countdownTimer);
-            const fill = document.getElementById('timer-fill');
-            fill.style.backgroundColor = 'var(--accent-purple)';
-            fill.style.width = '100%';
+        function triggerCountdown() {
+            clearInterval(mainTimer);
+            const line = document.getElementById('timer-fill');
+            line.style.backgroundColor = 'var(--accent-purple)';
+            line.style.width = '100%';
             
-            countdownTimer = setInterval(() => {
-                timeRemaining--;
-                let percent = (timeRemaining / 45) * 100;
-                fill.style.width = `${percent}%`;
+            mainTimer = setInterval(() => {
+                durationLeft--;
+                let percentRatio = (durationLeft / 45) * 100;
+                line.style.width = `${percentRatio}%`;
 
-                if (timeRemaining <= 10) {
-                    fill.style.backgroundColor = 'var(--wrong-red)';
+                if (durationLeft <= 10) {
+                    line.style.backgroundColor = 'var(--wrong-red)';
                 }
 
-                if (timeRemaining <= 0) {
-                    clearInterval(countdownTimer);
-                    exposeAnswer("Time is up!");
+                if (durationLeft <= 0) {
+                    clearInterval(mainTimer);
+                    unveilCorrectAnswer("Time Out!");
                 }
             }, 1000);
         }
 
-        function verifyChoice(selectedIdx, cardElement) {
-            if (currentAttempts >= 2 || cardElement.classList.contains('correct') || cardElement.classList.contains('wrong')) return;
+        function challengeEvaluation(selectedIdx, targetElement) {
+            if (attemptCounter >= 2 || targetElement.classList.contains('correct') || targetElement.classList.contains('wrong')) return;
 
-            let currentData = challengeQuestions[currentIdx];
+            let dataObj = playQuestions[indexPointer];
 
-            if (selectedIdx === currentData.a) {
-                clearInterval(countdownTimer);
-                cardElement.classList.add('correct');
-                Sounds.playCorrect();
-                Sounds.playClap();
-                triggerConfettiEffect();
+            if (selectedIdx === dataObj.a) {
+                clearInterval(mainTimer);
+                targetElement.classList.add('correct');
+                AudioTrack.playCorrect();
+                AudioTrack.playClap();
+                sparkParticles();
                 
                 document.getElementById('feedback-message').style.color = 'var(--correct-green)';
                 document.getElementById('feedback-message').textContent = "Brilliant! Correct Answer 🎉";
-                currentScore++;
-                document.getElementById('hud-score').textContent = `Score: ${currentScore}`;
-                disableGridInteraction();
+                scoreCounter++;
+                document.getElementById('hud-score').textContent = `Score: ${scoreCounter}`;
+                lockGridInteraction();
                 document.getElementById('next-btn').style.display = 'block';
             } else {
-                currentAttempts++;
-                cardElement.classList.add('wrong');
-                Sounds.playWrong();
+                attemptCounter++;
+                targetElement.classList.add('wrong');
+                AudioTrack.playWrong();
 
-                if (currentAttempts === 1) {
+                if (attemptCounter === 1) {
                     document.getElementById('feedback-message').style.color = 'var(--wrong-red)';
-                    document.getElementById('feedback-message').textContent = "Incorrect choice. Use your final attempt thoughtfully!";
+                    document.getElementById('feedback-message').textContent = "Incorrect! Try your second attempt.";
                 } else {
-                    clearInterval(countdownTimer);
-                    exposeAnswer("Incorrect selection.");
+                    clearInterval(mainTimer);
+                    unveilCorrectAnswer("Incorrect response.");
                 }
             }
         }
 
-        function exposeAnswer(statusMessage) {
-            disableGridInteraction();
-            let currentData = challengeQuestions[currentIdx];
+        function unveilCorrectAnswer(msgHeader) {
+            lockGridInteraction();
+            let dataObj = playQuestions[indexPointer];
             const cards = document.querySelectorAll('.option-card');
-            cards[currentData.a].classList.add('correct');
+            cards[dataObj.a].classList.add('correct');
             
             document.getElementById('feedback-message').style.color = 'var(--wrong-red)';
-            document.getElementById('feedback-message').textContent = `${statusMessage} Correct option: ${currentData.o[currentData.a]}`;
+            document.getElementById('feedback-message').textContent = `${msgHeader} Correct target: ${dataObj.o[dataObj.a]}`;
             document.getElementById('next-btn').style.display = 'block';
         }
 
-        function disableGridInteraction() {
-            document.querySelectorAll('.option-card').forEach(c => {
-                c.style.cursor = 'default';
+        function lockGridInteraction() {
+            document.querySelectorAll('.option-card').forEach(itm => {
+                itm.style.cursor = 'default';
             });
         }
 
         function loadNextQuestion() {
-            currentIdx++;
-            if (currentIdx < challengeQuestions.length) {
-                loadQuestion();
+            indexPointer++;
+            if (indexPointer < playQuestions.length) {
+                loadWorkspaceQuestion();
             } else {
-                displayFinalResults();
+                renderFinalDashboard();
             }
         }
 
-        function displayFinalResults() {
+        function renderFinalDashboard() {
             showScreen('result-screen');
-            document.getElementById('result-score-text').textContent = `You scored ${currentScore} out of ${challengeQuestions.length} points!`;
+            document.getElementById('result-score-text').textContent = `You scored ${scoreCounter} out of ${playQuestions.length} points!`;
             
-            let messageText = "";
-            let titleText = "";
-            if (currentScore === challengeQuestions.length) {
-                titleText = "Perfect Mastery!";
-                messageText = "Incredible tracking skills! You've successfully finished with zero mistakes. 🎖️";
-                Sounds.playClap();
-                triggerConfettiEffect();
-            } else if (currentScore >= challengeQuestions.length * 0.7) {
-                titleText = "Great Performance!";
-                messageText = "Excellent configuration metrics. You have a very clear grasp of layout properties. 👍";
+            let message = "";
+            let rank = "";
+            if (scoreCounter === playQuestions.length) {
+                rank = "Logic Master Rank!";
+                message = "Perfect Score! You have fully claimed the premium Logic Thinker Master Badge! 🏅";
+                AudioTrack.playClap();
+                sparkParticles();
+            } else if (scoreCounter >= playQuestions.length * 0.7) {
+                rank = "Great Work!";
+                message = "Excellent capability metrics! Your computer customisation skills are top tier. 👍";
             } else {
-                titleText = "Keep Trying!";
-                messageText = "Good challenge effort! Refresh your knowledge of desktop options and run through again. 🚀";
+                rank = "Keep Practicing!";
+                message = "Good try! Rerun the challenge track to master your ICT core competency score. 🚀";
             }
-            document.getElementById('result-title').textContent = titleText;
-            document.getElementById('result-evaluation').textContent = messageText;
+            document.getElementById('result-title').textContent = rank;
+            document.getElementById('result-evaluation').textContent = message;
         }
 
         function restartChallenge() {
             startChallenge();
         }
 
-        function triggerConfettiEffect() {
+        // HTML5 canvas visual burst particle framework
+        function sparkParticles() {
             const canvas = document.getElementById('celebration-canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = canvas.parentElement.offsetWidth;
@@ -573,26 +575,26 @@
             for (let i = 0; i < 60; i++) {
                 particles.push({
                     x: canvas.width / 2,
-                    y: canvas.height / 3,
-                    radius: Math.random() * 4 + 2.5,
+                    y: canvas.height / 2.5,
+                    radius: Math.random() * 4 + 2,
                     color: `hsl(${Math.random() * 360}, 90%, 60%)`,
                     vx: (Math.random() - 0.5) * 10,
                     vy: (Math.random() - 0.5) * 10 - 2,
-                    gravity: 0.18,
+                    gravity: 0.16,
                     alpha: 1
                 });
             }
 
-            function animateFrame() {
+            function cycle() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                let continuing = false;
+                let currentStatus = false;
                 particles.forEach(p => {
                     p.x += p.vx;
                     p.y += p.vy;
                     p.vy += p.gravity;
-                    p.alpha -= 0.015;
+                    p.alpha -= 0.016;
                     if (p.alpha > 0) {
-                        continuing = true;
+                        currentStatus = true;
                         ctx.beginPath();
                         ctx.globalAlpha = p.alpha;
                         ctx.fillStyle = p.color;
@@ -601,9 +603,9 @@
                     }
                 });
                 ctx.globalAlpha = 1.0;
-                if (continuing) requestAnimationFrame(animateFrame);
+                if (currentStatus) requestAnimationFrame(cycle);
             }
-            animateFrame();
+            cycle();
         }
     </script>
 </body>
