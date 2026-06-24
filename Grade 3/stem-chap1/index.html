@@ -3,6 +3,852 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electronic Circuit - Interactive CBQ</title>
+
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #dff6ff, #fff4cc, #f4e7ff, #e8ffe7);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+}
+
+/* Floating Particle Background */
+.bg-icons {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.icon {
+    position: absolute;
+    font-size: 30px;
+    opacity: 0.12;
+    animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.15; }
+    90% { opacity: 0.15; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+/* Screen Switcher Panels */
+.screen {
+    display: none;
+    width: 100%;
+    max-width: 750px;
+    z-index: 2;
+}
+
+.active {
+    display: block;
+}
+
+/* Splash Loader Screen (Disappears completely after 5s) */
+.logo-screen {
+    background: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.logo-screen.active {
+    display: flex;
+}
+
+.logo-screen img {
+    width: 250px;
+    max-width: 80vw;
+    object-fit: contain;
+    animation: pulse 2s infinite;
+}
+
+.logo-screen h2 {
+    margin-top: 20px;
+    color: #1a237e;
+    font-weight: 700;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
+
+/* Premium Main Layout Container Card */
+.quiz-container {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Distinct Header Top Banner (Matching Screenshot Layout) */
+.quiz-header {
+    background: #1a237e;
+    color: #ffffff;
+    padding: 24px 30px;
+    position: relative;
+}
+
+.quiz-header h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.quiz-header p {
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+/* Inner Body Workspace Padding */
+.quiz-body {
+    padding: 30px;
+}
+
+/* Top Dashboard Row Panel */
+.dashboard-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.dash-box {
+    background: #f0f4c3;
+    color: #33691e;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: 1px solid rgba(51,105,30,0.15);
+}
+
+.dash-box.timer {
+    background: #ffecb3;
+    color: #e65100;
+    border: 1px solid rgba(230,81,0,0.15);
+}
+
+.dash-box.counter {
+    background: #e1f5fe;
+    color: #01579b;
+    border: 1px solid rgba(1,87,155,0.15);
+}
+
+/* Seamless Interactive Progress Bar */
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background: #edf2f7;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #42a5f5, #ab47bc);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Question Presentation Styles */
+.question-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #1a237e;
+    margin-bottom: 25px;
+}
+
+/* Data Matrix Table Style Block */
+.matrix-block {
+    background: #f8fafc;
+    border: 2px dashed #b0bec5;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #37474f;
+    white-space: pre-line;
+}
+
+/* Displaying Question Layout Images */
+.question-image {
+    display: none;
+    max-height: 180px;
+    max-width: 100%;
+    margin: 0 auto 25px auto;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border: 4px solid #ffffff;
+    outline: 1px solid #e2e8f0;
+    object-fit: contain;
+}
+
+/* Options Stack List Layout */
+.options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+/* Option Buttons (Matching Screenshot) */
+.option-item {
+    width: 100%;
+    padding: 16px 20px;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 500;
+    text-align: left;
+    color: #475569;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.option-item:hover:not(:disabled) {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #1e293b;
+    transform: translateY(-1px);
+}
+
+/* Assessment Selection States */
+.option-item.correct-state {
+    background: #e8f5e9 !important;
+    border-color: #2e7d32 !important;
+    color: #1b5e20 !important;
+    font-weight: 600;
+}
+
+.option-item.wrong-state {
+    background: #ffebee !important;
+    border-color: #c62828 !important;
+    color: #b71c1c !important;
+    font-weight: 600;
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+/* Status Notification Alerts (Matching Screenshot Placement) */
+.status-alert {
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding: 12px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.status-alert.correct-alert {
+    display: block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-left: 5px solid #2e7d32;
+}
+
+.status-alert.wrong-alert {
+    display: block;
+    background: #ffebee;
+    color: #c62828;
+    border-left: 5px solid #c62828;
+}
+
+/* Instructive Explanations Field */
+.explanation-panel {
+    display: none;
+    background: #f0f4f8;
+    padding: 18px 22px;
+    border-radius: 14px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    text-align: left;
+    border-left: 5px solid #1a237e;
+    color: #334155;
+    font-size: 1rem;
+}
+
+/* Call To Action Buttons */
+.action-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 14px;
+    background: #1a237e;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    box-shadow: 0 4px 12px rgba(26, 35, 126, 0.2);
+}
+
+.action-btn:hover {
+    background: #0d1b60;
+}
+
+/* Results and Scoreboards UI */
+.result-badge {
+    font-size: 4rem;
+    margin: 15px 0;
+}
+
+.final-score {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1a237e;
+    margin-bottom: 10px;
+}
+
+.message-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+/* Screen Particles */
+.confetti {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    animation: fall 1.8s linear forwards;
+    z-index: 999;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+.cross {
+    position: fixed;
+    font-size: 55px;
+    color: #c62828;
+    animation: fadeOut 0.9s ease-out forwards;
+    z-index: 999;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.5); }
+}
+
+/* Responsiveness Settings */
+@media(max-width: 600px) {
+    body { padding: 10px; }
+    .quiz-body { padding: 20px 15px; }
+    .quiz-header { padding: 20px; }
+    .quiz-header h1 { font-size: 1.35rem; }
+    .question-text { font-size: 1.1rem; }
+    .option-item { font-size: 0.95rem; padding: 14px; }
+    .dashboard-bar { gap: 6px; }
+    .dash-box { font-size: 0.8rem; padding: 6px 12px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-icons" id="bgIcons"></div>
+
+<div class="screen active logo-screen" id="logoScreen">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <h2>Innovine Interactive Learning</h2>
+</div>
+
+<div class="screen" id="introScreen">
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>Electronic Circuit Challenge</h1>
+            <p>Grade 3 • STEM / ICT Interactive Activity</p>
+        </div>
+        <div class="quiz-body" style="text-align: center;">
+            <p style="font-size: 1.1rem; color: #475569; margin-bottom: 20px; line-height: 1.6;">
+                Explore how batteries, components, paths, and controls handle electricity loops safely through 15 competency-based challenges.
+            </p>
+            <button class="action-btn" onclick="startQuiz()">Start Quiz Challenge</button>
+        </div>
+    </div>
+</div>
+
+<div class="screen" id="quizScreen">
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1 id="headerTitle">Electronic Circuit Challenge</h1>
+            <p>Read the question carefully and pick the correct choice.</p>
+        </div>
+        
+        <div class="quiz-body">
+            <div class="dashboard-bar">
+                <div class="dash-box" id="scoreText">Score: 0</div>
+                <div class="dash-box counter" id="questionCounter">Question 1 / 15</div>
+                <div class="dash-box timer" id="timerText">Time: 60</div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+
+            <img src="" id="questionImage" class="question-image" alt="Circuit Graphic">
+            <div id="matrixBlock" class="matrix-block" style="display: none;"></div>
+            <div class="question-text" id="questionText"></div>
+            
+            <div class="options-list" id="optionsContainer"></div>
+            <div class="status-alert" id="statusAlert"></div>
+            <div class="explanation-panel" id="explanationPanel"></div>
+
+            <button class="action-btn" id="nextBtn" style="display: none;" onclick="nextQuestion()">Next Question</button>
+        </div>
+    </div>
+</div>
+
+<div class="screen" id="resultScreen">
+    <div class="quiz-container">
+        <div class="quiz-header" style="text-align: center;">
+            <h1>Challenge Evaluation Completed!</h1>
+        </div>
+        <div class="quiz-body" style="text-align: center;">
+            <div class="result-badge" id="resultBadge">🏆</div>
+            <div class="final-score" id="finalScore"></div>
+            <div class="message-text" id="messageText"></div>
+            <button class="action-btn" onclick="restartQuiz()">Try Challenge Again</button>
+        </div>
+    </div>
+</div>
+
+<audio id="correctSound" src="assets/correct-1.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/clap.mp3"></audio>
+
+<script>
+/* Rebuilt 15 Questions Pool (Assertion question replaced cleanly in Question 14) */
+const originalQuestions = [
+    {
+        question: "Riya connects a bulb and battery but it does not glow. What structural condition should she check first?",
+        options: ["Decoration", "Circuit connection", "Paint", "Folder"],
+        answer: "Circuit connection",
+        explanation: "Electricity requires a continuous, clean connection to pass forward. Checking links helps find where the path is split."
+    },
+    {
+        question: "Aarav connects a battery, a metal wire, and a bulb correctly in order. What happens instantly?",
+        options: ["Bulb glows", "Bulb breaks", "Nothing happens", "Wire melts"],
+        answer: "Bulb glows",
+        explanation: "Linking all essential components correctly forms an unbroken closed circuit, allowing the light to glow."
+    },
+    {
+        question: "A student leaves a noticeable gap or break in the connecting wire line. What kind of circuit loop is this?",
+        options: ["Closed circuit", "Open circuit", "Full circuit", "Active circuit"],
+        answer: "Open circuit",
+        explanation: "An open circuit contains a broken path or empty gap anywhere along its loop, which halts electrical current."
+    },
+    {
+        question: "Riya joins all parts together properly and the bulb glows brightly. What is this closed track state called?",
+        options: ["Open circuit", "Closed circuit", "Broken circuit", "Loose circuit"],
+        answer: "Closed circuit",
+        explanation: "A closed circuit forms an uninterrupted, complete path line from the power cell into the device and back."
+    },
+    {
+        question: "Aarav uses an inline switch to turn a bulb ON and OFF. What is the actual function of a switch?",
+        options: ["Decorates", "Controls flow", "Deletes", "Saves"],
+        answer: "Controls flow",
+        explanation: "A switch opens or closes an internal path gap, which directly controls the movement flow of the electricity."
+    },
+    {
+        question: "A student tries to build a circuit using only a battery and a bulb without any connecting wires. What happens?",
+        options: ["Works perfectly", "Does not work", "Glows much brighter", "Explodes immediately"],
+        answer: "Does not work",
+        explanation: "Wires function as secure roads that guide the current. Without them, paths cannot link to form a full circle path."
+    },
+    {
+        question: "Riya's bulb is not glowing even though all pieces seem attached. What physical flaw should she check for?",
+        options: ["Loose connection", "Colour of wire", "Table size", "Font"],
+        answer: "Loose connection",
+        explanation: "A loose contact creates a micro-gap that acts exactly like an open circuit, stopping current immediately."
+    },
+    {
+        question: "Aarav wants to make sure his circuit loop bulb lights up reliably. What state configuration must he confirm?",
+        options: ["Open circuit", "Closed circuit", "Broken wire", "No battery"],
+        answer: "Closed circuit",
+        explanation: "Only a perfectly regular closed circuit provides the full uninterrupted loop track needed for energy transport."
+    },
+    {
+        question: "Review the Matrix Data: Look closely at the loop rule mappings. Which path configuration will allow the bulb to light up?",
+        options: ["Open", "Closed", "Both", "None"],
+        answer: "Closed",
+        matrixData: "Circuit Setup -> Loop Path State -> Result\nOpen         -> Broken Path    -> No Glow\nClosed       -> Complete Loop  -> Bulb Glows",
+        explanation: "According to the structural rules, only a complete closed path successfully results in a glowing bulb."
+    },
+    {
+        question: "Review the Component Chart: Analyze the properties shown inside the chart. Which item provides the active power force?",
+        options: ["Wire", "Battery", "Bulb", "Switch"],
+        answer: "Battery",
+        matrixData: "Component -> Main Action Role\nBattery   -> Supplies power push\nWire      -> Connects path tracks\nBulb      -> Converts energy to light\nSwitch    -> Controls track gap",
+        explanation: "The database tracking table records that the Battery is specifically responsible for supplying system power."
+    },
+    {
+        question: "Identify the operational state from the diagram assets that represents a closed circuit setup.",
+        options: ["Broken path", "Complete path", "No battery", "Loose wire"],
+        answer: "Complete path",
+        image: "assets/Q11.png",
+        explanation: "A closed circuit layout is shown visually by a complete, unbroken route where electricity streams around seamlessly."
+    },
+    {
+        question: "Examine the structural workspace device asset shown below. Identify the proper function for this device.",
+        options: ["Battery", "Control device", "Wire", "Bulb"],
+        answer: "Control device",
+        image: "assets/Q12.png",
+        explanation: "This symbol outlines a standard switch, which serves as a control device to safely manage loop track breaks."
+    },
+    {
+        question: "Which type of circuit loop path configuration is being displayed across this workspace graphic?",
+        options: ["Closed circuit", "Open circuit", "Broken circuit", "Loose circuit"],
+        answer: "Closed circuit",
+        image: "assets/Q13.png",
+        explanation: "Since no physical breaks, gaps, or fractured wires are visible across the current line, it is a closed circuit."
+    },
+    {
+        question: "Aarav wants to bridge an empty gap in his circuit wire loop. Which item can he insert to make the bulb glow safely?",
+        options: ["A metal paperclip", "A plastic ruler", "A rubber eraser", "A wooden stick"],
+        answer: "A metal paperclip",
+        explanation: "Metals are electric conductors that let current travel through them smoothly. Plastic, rubber, and wood block it."
+    },
+    {
+        question: "Review the system records. Which statement regarding basic electrical systems is completely INCORRECT?",
+        options: ["Battery gives power", "Wire connects parts", "Open circuit glows", "Closed circuit works"],
+        answer: "Open circuit glows",
+        explanation: "An open circuit features a broken connection path, making it impossible for electricity to move or light a bulb."
+    }
+];
+
+let questions = [];
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 60;
+let retryUsed = false;
+let firstPlay = true;
+
+const logoScreen = document.getElementById("logoScreen");
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
+
+const questionText = document.getElementById("questionText");
+const matrixBlock = document.getElementById("matrixBlock");
+const questionImage = document.getElementById("questionImage");
+const optionsContainer = document.getElementById("optionsContainer");
+const scoreText = document.getElementById("scoreText");
+const timerText = document.getElementById("timerText");
+const statusAlert = document.getElementById("statusAlert");
+const explanationPanel = document.getElementById("explanationPanel");
+const progressBarFill = document.getElementById("progressBarFill");
+const nextBtn = document.getElementById("nextBtn");
+
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const clapSound = document.getElementById("clapSound");
+
+/* Startup Splash Control */
+window.onload = function() {
+    logoScreen.classList.add("active");
+    setTimeout(() => {
+        logoScreen.classList.remove("active");
+        introScreen.classList.add("active");
+    }, 5000);
+};
+
+/* Fisher-Yates Array Shuffle */
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+/* Assembly and Shuffling of Options */
+function prepareQuizData() {
+    let pool = [...originalQuestions];
+    if (!firstPlay) {
+        pool = shuffleArray(pool);
+    }
+    
+    questions = pool.map(q => {
+        let textOptions = [...q.options];
+        let correctStr = typeof q.answer === "number" ? q.options[q.answer] : q.answer;
+
+        let shuffledOpts = shuffleArray([...textOptions]);
+        let targetIdx = shuffledOpts.indexOf(correctStr);
+
+        return {
+            question: q.question,
+            options: shuffledOpts,
+            answer: targetIdx,
+            image: q.image || null,
+            matrixData: q.matrixData || null,
+            explanation: q.explanation
+        };
+    });
+}
+
+function startQuiz() {
+    prepareQuizData();
+    introScreen.classList.remove("active");
+    quizScreen.classList.add("active");
+    currentQuestion = 0;
+    score = 0;
+    loadQuestion();
+}
+
+function loadQuestion() {
+    clearInterval(timer);
+    retryUsed = false;
+    
+    statusAlert.style.display = "none";
+    statusAlert.className = "status-alert";
+    explanationPanel.style.display = "none";
+    nextBtn.style.display = "none";
+
+    const q = questions[currentQuestion];
+
+    questionText.innerHTML = `Q${currentQuestion + 1}. ${q.question}`;
+    document.getElementById("questionCounter").innerHTML = `Question ${currentQuestion + 1} / ${questions.length}`;
+    progressBarFill.style.width = ((currentQuestion) / questions.length) * 100 + "%";
+
+    // Text Matrix Table Controller
+    if (q.matrixData) {
+        matrixBlock.innerHTML = q.matrixData;
+        matrixBlock.style.display = "block";
+    } else {
+        matrixBlock.style.display = "none";
+    }
+
+    // Media Image Controller
+    if (q.image) {
+        questionImage.src = q.image;
+        questionImage.style.display = "block";
+        questionImage.onerror = function() { questionImage.style.display = "none"; };
+    } else {
+        questionImage.style.display = "none";
+    }
+
+    // Build Selection Items Layout
+    optionsContainer.innerHTML = "";
+    q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.classList.add("option-item");
+        btn.innerHTML = option;
+        btn.onclick = () => verifyAnswer(index, btn);
+        optionsContainer.appendChild(btn);
+    });
+
+    scoreText.innerHTML = `Score: ${score}`;
+    timeLeft = 60;
+    timerText.innerHTML = `Time: ${timeLeft}`;
+
+    timer = setInterval(() => {
+        timeLeft--;
+        timerText.innerHTML = `Time: ${timeLeft}`;
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            revealCorrectAnswer();
+        }
+    }, 1000);
+}
+
+function verifyAnswer(selected, targetButton) {
+    const q = questions[currentQuestion];
+    const optionButtons = document.querySelectorAll(".option-item");
+
+    if (selected === q.answer) {
+        clearInterval(timer);
+        targetButton.classList.add("correct-state");
+        
+        statusAlert.innerHTML = "✅ Correct! Excellent logic analysis.";
+        statusAlert.className = "status-alert correct-alert";
+        
+        if (correctSound) correctSound.play();
+        setTimeout(() => { if (clapSound) clapSound.play(); }, 150);
+
+        score++;
+        triggerConfettiParticles();
+        optionButtons.forEach(btn => btn.disabled = true);
+        
+        setTimeout(() => { nextQuestion(); }, 2000);
+    } else {
+        targetButton.classList.add("wrong-state");
+        if (wrongSound) wrongSound.play();
+        triggerCrossEffect();
+        
+        if (!retryUsed) {
+            retryUsed = true;
+            statusAlert.innerHTML = "❌ Try Again! One last attempt remains.";
+            statusAlert.className = "status-alert wrong-alert";
+            targetButton.disabled = true;
+        } else {
+            clearInterval(timer);
+            revealCorrectAnswer();
+        }
+    }
+}
+
+function revealCorrectAnswer() {
+    const q = questions[currentQuestion];
+    const optionButtons = document.querySelectorAll(".option-item");
+    
+    optionButtons.forEach((btn, index) => {
+        btn.disabled = true;
+        if (index === q.answer) { 
+            btn.classList.add("correct-state"); 
+        }
+    });
+
+    statusAlert.innerHTML = "Review core details below:";
+    statusAlert.className = "status-alert";
+    statusAlert.style.color = "#1a237e";
+    statusAlert.style.display = "block";
+    
+    explanationPanel.innerHTML = `💡 ${q.explanation}`;
+    explanationPanel.style.display = "block";
+    nextBtn.style.display = "block";
+}
+
+function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+        loadQuestion();
+    } else {
+        displayResults();
+    }
+}
+
+function displayResults() {
+    quizScreen.classList.remove("active");
+    resultScreen.classList.add("active");
+    document.getElementById("finalScore").innerHTML = `Your Score: ${score} / ${questions.length}`;
+    
+    let badge = document.getElementById("resultBadge");
+    let msgText = document.getElementById("messageText");
+
+    if (score >= 13) { 
+        badge.innerHTML = "👑";
+        msgText.innerHTML = "Incredible Circuit Champion! You perfectly understand open tracks, conductors, battery power outputs, and toggle control behaviors.";
+        if (clapSound) clapSound.play();
+    } else if (score >= 9) { 
+        badge.innerHTML = "⭐";
+        msgText.innerHTML = "Great job! You cleanly recognize working circuit tracks and can separate basic component attributes safely.";
+        if (clapSound) clapSound.play();
+    } else { 
+        badge.innerHTML = "🎯";
+        msgText.innerHTML = "Nice attempt! Try playing the game again to secure an absolute perfect run and earn your Gold Crown Badge!"; 
+    }
+    firstPlay = false;
+}
+
+function restartQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    resultScreen.classList.remove("active");
+    introScreen.classList.add("active");
+}
+
+/* Confetti System */
+function triggerConfettiParticles() {
+    const hexColors = ["#1a237e", "#ffd700", "#ff9800", "#2e7d32", "#ab47bc"];
+    for (let i = 0; i < 25; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("confetti");
+        particle.style.left = Math.random() * window.innerWidth + "px";
+        particle.style.top = "-15px";
+        particle.style.background = hexColors[Math.floor(Math.random() * hexColors.length)];
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 1800);
+    }
+}
+
+/* On-Screen Error Indicator */
+function triggerCrossEffect() {
+    const errorCross = document.createElement("div");
+    errorCross.classList.add("cross");
+    errorCross.innerHTML = "✖";
+    errorCross.style.left = (Math.random() * (window.innerWidth - 60)) + "px";
+    errorCross.style.top = (Math.random() * (window.innerHeight - 60)) + "px";
+    document.body.appendChild(errorCross);
+    setTimeout(() => errorCross.remove(), 900);
+}
+
+/* Background floating icons setup */
+function initBackgroundParticles() {
+    const bgContainer = document.getElementById("bgIcons");
+    const circuitGlyphs = ["💡", "🔋", "⚡", "🔌", "🧲", "🔧", "🪫", "💻"];
+    for (let i = 0; i < 35; i++) {
+        const item = document.createElement("div");
+        item.classList.add("icon");
+        item.innerHTML = circuitGlyphs[Math.floor(Math.random() * circuitGlyphs.length)];
+        item.style.left = Math.random() * 100 + "%";
+        item.style.animationDuration = (7 + Math.random() * 9) + "s";
+        item.style.animationDelay = Math.random() * 4 + "s";
+        item.style.fontSize = (22 + Math.random() * 18) + "px";
+        bgContainer.appendChild(item);
+    }
+}
+
+initBackgroundParticles();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Electronic Circuit - Interactive CBQ Challenge</title>
 
 <style>
