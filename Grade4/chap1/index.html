@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ICT Challenge - Customising the Desktop</title>
+    <title>CBQ - Customising the Desktop</title>
     <style>
         :root {
-            --primary-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-bg: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             --card-bg: #ffffff;
-            --text-main: #333333;
-            --accent-purple: #764ba2;
-            --correct-green: #2ecc71;
-            --wrong-red: #e74c3c;
+            --text-main: #1f2937;
+            --accent-purple: #7c3aed;
+            --correct-green: #10b981;
+            --wrong-red: #ef4444;
+            --hint-blue: #3b82f6;
         }
 
         * {
@@ -37,10 +38,10 @@
             max-width: 800px;
             background: var(--card-bg);
             border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             padding: 30px;
             position: relative;
-            min-height: 500px;
+            min-height: 520px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -53,7 +54,7 @@
             width: 100%;
             flex-direction: column;
             align-items: center;
-            animation: fadeIn 0.5s ease-in-out forwards;
+            animation: fadeIn 0.4s ease-in-out forwards;
         }
 
         .screen.active {
@@ -61,25 +62,25 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Logo Screen */
+        /* Branding Screen */
         #logo-screen {
             text-align: center;
         }
 
         .logo-img {
-            max-width: 250px;
+            max-width: 240px;
             height: auto;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         /* Instruction Screen */
         .header-title {
             color: var(--accent-purple);
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
             margin-bottom: 5px;
             text-transform: uppercase;
@@ -88,20 +89,22 @@
         }
 
         .header-subtitle {
-            font-size: 1.1rem;
-            color: #555;
+            font-size: 1.15rem;
+            color: #4b5563;
             margin-bottom: 25px;
             font-weight: 600;
+            text-align: center;
         }
 
         .instruction-box {
-            background: #f8f9fa;
-            border-radius: 15px;
+            background: #f9fafb;
+            border-radius: 16px;
             padding: 20px 25px;
             width: 100%;
-            max-width: 600px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            max-width: 620px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
             margin-bottom: 30px;
+            border: 1px solid #f3f4f6;
         }
 
         .instruction-list {
@@ -110,63 +113,64 @@
 
         .instruction-list li {
             font-size: 1rem;
-            color: #444;
-            margin-bottom: 15px;
+            color: #374151;
+            margin-bottom: 14px;
             position: relative;
-            padding-left: 30px;
+            padding-left: 28px;
             line-height: 1.5;
         }
 
         .instruction-list li::before {
-            content: "✓";
+            content: "✦";
             position: absolute;
             left: 0;
             top: 0;
             color: var(--accent-purple);
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
-        /* UI Elements */
+        /* General Buttons */
         .btn {
             background: var(--accent-purple);
             color: #fff;
             border: none;
-            padding: 12px 35px;
+            padding: 14px 40px;
             font-size: 1.1rem;
             font-weight: bold;
             border-radius: 30px;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
         }
 
         .btn:hover {
-            transform: scale(1.05);
-            background: #5f3987;
+            transform: scale(1.03);
+            background: #6d28d9;
+            box-shadow: 0 7px 20px rgba(124, 58, 237, 0.45);
         }
 
         .btn:active {
             transform: scale(0.98);
         }
 
-        /* Game Screen Layout */
+        /* Gameplay Area */
         .hud {
             display: flex;
             justify-content: space-between;
             width: 100%;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            font-size: 0.95rem;
-            color: #666;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f3f4f6;
+            padding-bottom: 12px;
+            font-size: 1rem;
+            color: #4b5563;
         }
 
         .timer-bar {
             width: 100%;
             height: 8px;
-            background: #eee;
+            background: #e5e7eb;
             border-radius: 4px;
             margin-bottom: 25px;
             overflow: hidden;
@@ -181,21 +185,31 @@
 
         .question-container {
             width: 100%;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
             color: var(--text-main);
             margin-bottom: 20px;
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.45;
+        }
+
+        /* Dynamic Asset Images Without White Backgrounds */
+        .asset-image-wrapper {
+            background-color: #f3f4f6;
+            border-radius: 12px;
+            padding: 8px;
+            margin-bottom: 20px;
+            max-width: 100%;
+            display: flex;
+            justify-content: center;
         }
 
         .asset-image {
             max-width: 100%;
             height: auto;
-            max-height: 200px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-height: 180px;
+            border-radius: 8px;
+            object-fit: contain;
         }
 
         .options-grid {
@@ -213,45 +227,46 @@
         }
 
         .option-card {
-            background: #f1f3f9;
-            border: 2px solid #e2e8f0;
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
             border-radius: 12px;
-            padding: 15px 20px;
-            font-size: 1rem;
+            padding: 16px 20px;
+            font-size: 1.05rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
+            color: #374151;
         }
 
         .option-card:hover {
-            background: #e4e9f3;
-            border-color: #cbd5e1;
+            background: #f3f4f6;
+            border-color: #d1d5db;
         }
 
         .option-card.correct {
-            background: rgba(46, 204, 113, 0.15) !important;
+            background: rgba(16, 185, 129, 0.12) !important;
             border-color: var(--correct-green) !important;
-            color: #1b7a43;
-            font-weight: bold;
+            color: #065f46;
+            font-weight: 700;
         }
 
         .option-card.wrong {
-            background: rgba(231, 76, 60, 0.15) !important;
+            background: rgba(239, 68, 68, 0.12) !important;
             border-color: var(--wrong-red) !important;
-            color: #b83227;
+            color: #991b1b;
         }
 
         .feedback-message {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            min-height: 27px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            min-height: 28px;
             text-align: center;
         }
 
-        /* Confetti / Celebration canvas Overlay */
+        /* Celebration Animation Overlay */
         canvas#celebration-canvas {
             position: absolute;
             top: 0;
@@ -263,49 +278,63 @@
             z-index: 10;
         }
 
-        /* Results screen */
         .badge {
-            font-size: 4rem;
+            font-size: 4.5rem;
             margin-bottom: 15px;
-            animation: bounce 1s infinite alternate;
+            animation: float 1.5s infinite alternate ease-in-out;
         }
 
-        @keyframes bounce {
+        @keyframes float {
             from { transform: translateY(0); }
-            to { transform: translateY(-10px); }
+            to { transform: translateY(-12px); }
+        }
+
+        .loading-dots::after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Native Audio Players referencing files from your exact folder structure context (image_cd7532.png) -->
+    <audio id="snd-correct" src="assets/correct.mp3" preload="auto"></audio>
+    <audio id="snd-clap" src="assets/clap.mp3" preload="auto"></audio>
+    <audio id="snd-wrong" src="assets/wrong.mp3" preload="auto"></audio>
+
     <div class="container">
         <canvas id="celebration-canvas"></canvas>
 
-        <!-- SCREEN 1: BRANDING LOGO SCREEN -->
+        <!-- SCREEN 1: BRANDING LOGO SCREEN (Displays for 5 seconds exactly) -->
         <div id="logo-screen" class="screen active">
-            <!-- Referencing provided image file for the Innovine logo branding context -->
-            <img class="logo-img" src="image_cd039f.png" alt="Innovine Solutions Logo" onerror="this.src='https://placehold.co/250x100?text=INNOVINE+SOLUTIONS'">
-            <div style="font-size:1.2rem; color:#666; font-weight:600; margin-top:10px;">Loading your Workspace Activity...</div>
+            <!-- Referencing innovine-logo.png as shown in assets folder list -->
+            <img class="logo-img" src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.src='https://placehold.co/250x100?text=INNOVINE+SOLUTIONS'">
+            <div style="font-size:1.2rem; color:#4b5563; font-weight:600; margin-top:10px;" class="loading-dots">Initializing Workspace</div>
         </div>
 
-        <!-- SCREEN 2: INSTRUCTIONS SCREEN -->
+        <!-- SCREEN 2: INSTRUCTIONS SCREEN (Displays only after Logo screen) -->
         <div id="instruction-screen" class="screen">
-            <h1 class="header-title">ICT Challenge</h1>
-            <h2 class="header-subtitle">Competency-Based Question (CBQ) Workspace</h2>
+            <h2 class="header-subtitle">Logical Thinking & Competency-Based Questions</h2>
             
             <div class="instruction-box">
                 <ul class="instruction-list">
-                    <li>Analyze the computer customized desktop rules and choices carefully[cite: 1].</li>
-                    <li>You get up to <b>2 attempts</b> for each randomized query before advancing[cite: 1].</li>
-                    <li>Correct answers trigger celebratory sounds, while mistakes sound an alert[cite: 1].</li>
-                    <li>Each question is bound to an active <b>45-second</b> workspace timer[cite: 1].</li>
-                    <li>Score maximum points to win the Logic Thinker Master Badge![cite: 1]</li>
+                    <li>Analyze the logical patterns, desktop structures, and interface assets carefully[cite: 1].</li>
+                    <li>You get up to <b>2 attempts</b> for each randomized question before answers are revealed[cite: 1].</li>
+                    <li>Correct answers trigger celebratory animations, tracking claps, and audio sounds[cite: 1].</li>
+                    <li>Each task is bound to an active <b>45-second</b> workspace countdown timer[cite: 1].</li>
+                    <li>Score maximum points to earn the Logic Thinker Master Badge![cite: 1]</li>
                 </ul>
             </div>
             <button class="btn" onclick="startChallenge()">Start Challenge</button>
         </div>
 
-        <!-- SCREEN 3: GAMEPLAY WORKSPACE -->
+        <!-- SCREEN 3: GAMEPLAY INTERACTION -->
         <div id="game-screen" class="screen">
             <div class="hud">
                 <span id="hud-question-num">Question: 1/15</span>
@@ -324,83 +353,59 @@
             <button id="next-btn" class="btn" style="display: none;" onclick="loadNextQuestion()">Next Question</button>
         </div>
 
-        <!-- SCREEN 4: RESULTS SCREEN -->
+        <!-- SCREEN 4: EVALUATION & RESULTS -->
         <div id="result-screen" class="screen">
             <div class="badge">🏆</div>
-            <h1 class="header-title" id="result-title">Outstanding!</h1>
+            <h1 class="header-title" id="result-title">Excellent Score!</h1>
             <h2 class="header-subtitle" id="result-score-text">You scored 15 out of 15 points!</h2>
-            <div class="instruction-box" style="text-align: center; margin-bottom: 20px;">
-                <p id="result-evaluation" style="font-size: 1.1rem; color: #444; font-weight: 500;"></p>
+            <div class="instruction-box" style="text-align: center; margin-bottom: 25px;">
+                <p id="result-evaluation" style="font-size: 1.1rem; color: #374151; font-weight: 500;"></p>
             </div>
             <button class="btn" onclick="restartChallenge()">Play Again</button>
         </div>
     </div>
 
     <script>
-        // Web Audio API Synthesizer Helper to handle standalone zero-dependency perfect correct/clap/wrong audio tracks
-        const AudioFX = {
-            ctx: null,
-            init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+        // Media Players Manager calling assets elements directly from image_cd7532.png schema
+        const MediaController = {
             playCorrect() {
-                this.init();
-                let osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
-                osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5
-                osc.frequency.setValueAtTime(659.25, this.ctx.currentTime + 0.1); // E5
-                osc.frequency.setValueAtTime(783.99, this.ctx.currentTime + 0.2); // G5
-                gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.4);
-                osc.connect(gain); gain.connect(this.ctx.destination);
-                osc.start(); osc.stop(this.ctx.currentTime + 0.4);
-            },
-            playWrong() {
-                this.init();
-                let osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
-                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, this.ctx.currentTime);
-                osc.frequency.linearRampToValueAtTime(80, this.ctx.currentTime + 0.3);
-                gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
-                osc.connect(gain); gain.connect(this.ctx.destination);
-                osc.start(); osc.stop(this.ctx.currentTime + 0.3);
+                const s = document.getElementById('snd-correct');
+                if (s) { s.currentTime = 0; s.play().catch(() => {}); }
             },
             playClap() {
-                this.init();
-                // Create crisp clapping bursts using synthesized burst bursts
-                for (let i = 0; i < 5; i++) {
-                    let timeOffset = this.ctx.currentTime + (i * 0.08);
-                    let osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
-                    osc.type = 'triangle'; osc.frequency.setValueAtTime(350 + Math.random()*100, timeOffset);
-                    gain.gain.setValueAtTime(0.2, timeOffset);
-                    gain.gain.exponentialRampToValueAtTime(0.01, timeOffset + 0.05);
-                    osc.connect(gain); gain.connect(this.ctx.destination);
-                    osc.start(timeOffset); osc.stop(timeOffset + 0.05);
-                }
+                const s = document.getElementById('snd-clap');
+                if (s) { s.currentTime = 0; s.play().catch(() => {}); }
+            },
+            playWrong() {
+                const s = document.getElementById('snd-wrong');
+                if (s) { s.currentTime = 0; s.play().catch(() => {}); }
             }
         };
 
-        // Complete 15 Competency-Based Question Set according to layout specification[cite: 1]
-        const questionsData = [
+        // All 15 competency-based questions mapping exact assets image parameters where matching[cite: 1]
+        const questionPool = [
             { q: "Aarohi switches on the computer. Which screen appears first?[cite: 1]", o: ["Taskbar", "Desktop", "Folder", "Window"], a: 1 },
             { q: "Vihaan wants to make his screen attractive. Which feature should he change?[cite: 1]", o: ["Wallpaper", "Printer", "Keyboard", "CPU"], a: 0 },
             { q: "Kabir sees small pictures that open programs. What are they called?[cite: 1]", o: ["Menus", "Tabs", "Icons", "Files"], a: 2 },
-            { q: "Anaya wants to use her own photo as the desktop background. Which setting should she open?[cite: 1]", o: ["Personalize", "Insert", "Tools", "Edit"], a: 0 },
+            { q: "Anaya wants to use her own photo as the desktop background. Which setting should she open?[cite: 1]", o: ["Personalize", "Insert", "Tools", "Edit"], a: 0, img: "assets/personalize.png" },
             { q: "Myra right-clicks on the desktop. Why?[cite: 1]", o: ["Open shortcut menu", "Shut down computer", "Print file", "Open Paint"], a: 0 },
             { q: "Dev wants icons to arrange automatically. Which option should he use?[cite: 1]", o: ["Design", "Arrange/View", "Font", "Layout"], a: 1 },
-            { q: "Samaira leaves the computer idle. What may appear?[cite: 1]", o: ["Folder", "Screen Saver", "Calculator", "Browser"], a: 1 },
+            { q: "Samaira leaves the computer idle. What may appear?[cite: 1]", o: ["Folder", "Screen Saver", "Calculator", "Browser"], a: 1, img: "assets/bubble.png" },
             { q: "Wallpaper → Background Picture, Screen Saver → Appears When Idle. Which appears when the computer is not used?[cite: 1]", o: ["Wallpaper", "Theme", "Screen Saver", "Icon"], a: 2 },
             { q: "Icons → Open Programs, Taskbar → Shows Running Apps. Which helps start a program?[cite: 1]", o: ["Icon", "Taskbar", "Printer", "Folder"], a: 0 },
-            { q: "A picture shows Recycle Bin and This PC on the desktop. What are they?[cite: 1]", o: ["Themes", "Icons", "Wallpapers", "Windows"], a: 1, img: "image_cd039f.png" },
-            { q: "A colourful image is displayed behind desktop icons. What is it called?[cite: 1]", o: ["Taskbar", "Menu", "Wallpaper", "Screen Saver"], a: 2, img: "image_cd039f.png" },
+            { q: "Picture-Based: A picture shows Recycle Bin and This PC on the desktop. What are they?[cite: 1]", o: ["Themes", "Icons", "Wallpapers", "Windows"], a: 1, img: "assets/lockscreen.png" },
+            { q: "Picture-Based: A colourful image is displayed behind desktop icons. What is it called?[cite: 1]", o: ["Taskbar", "Menu", "Wallpaper", "Screen Saver"], a: 2, img: "assets/bubble.png" },
             { q: "Error Detection: Rohan says a screen saver appears immediately when the computer starts. What is incorrect?[cite: 1]", o: ["It appears after the computer is idle", "It is a wallpaper", "It opens programs", "It changes files"], a: 0 },
             { q: "Two students customise desktops. One keeps it organised and one cluttered. Which is easier to use?[cite: 1]", o: ["Second", "Both", "First", "Neither"], a: 2 },
             { q: "Ishita wants a plain blue background instead of a picture. Which option should she choose?[cite: 1]", o: ["Solid Colour", "Printer Settings", "Sound Settings", "Browser"], a: 0 },
             { q: "Which statement is NOT correct?[cite: 1]", o: ["Wallpaper changes background", "Icons represent programs", "Screen savers appear when idle", "Icons print documents automatically"], a: 3 }
         ];
 
-        let questions = [];
-        let currentQuestionIndex = 0;
+        let activeQuestions = [];
+        let currentQuestionIdx = 0;
         let score = 0;
         let attempts = 0;
-        let timerInterval = null;
+        let countdownTimer = null;
         let timeLeft = 45;
 
         // Auto transition Branding Logo Screen -> Instruction screen after exactly 5000ms (5 seconds)
@@ -416,9 +421,9 @@
         }
 
         function startChallenge() {
-            // Randomize questions for replayability value
-            questions = [...questionsData].sort(() => Math.random() - 0.5);
-            currentQuestionIndex = 0;
+            // Randomise layout structure for non-repetitive play cycles
+            activeQuestions = [...questionPool].sort(() => Math.random() - 0.5);
+            currentQuestionIdx = 0;
             score = 0;
             showScreen('game-screen');
             loadQuestion();
@@ -429,35 +434,38 @@
             timeLeft = 45;
             document.getElementById('next-btn').style.display = 'none';
             document.getElementById('feedback-message').textContent = '';
-            document.getElementById('feedback-message').style.color = '#333';
             
-            let qData = questions[currentQuestionIndex];
+            let qData = activeQuestions[currentQuestionIdx];
             
-            document.getElementById('hud-question-num').textContent = `Question: ${currentQuestionIndex + 1}/${questions.length}`;
+            document.getElementById('hud-question-num').textContent = `Question: ${currentQuestionIdx + 1}/${activeQuestions.length}`;
             document.getElementById('hud-score').textContent = `Score: ${score}`;
             document.getElementById('question-text').textContent = qData.q;
 
-            // Handle asset image safely without clear white default outlines
+            // Load contextual asset picture inside container
             const imgContainer = document.getElementById('image-container');
             imgContainer.innerHTML = '';
             if (qData.img) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'asset-image-wrapper';
+                
                 const img = document.createElement('img');
                 img.className = 'asset-image';
                 img.src = qData.img;
-                img.alt = "Workspace Reference Asset";
-                // Fallback elegant styling handling if file doesn't exist natively
-                img.onerror = function() { this.style.display = 'none'; };
-                imgContainer.appendChild(img);
+                img.alt = "Question Visual Asset";
+                img.onerror = function() { wrapper.style.display = 'none'; };
+                
+                wrapper.appendChild(img);
+                imgContainer.appendChild(wrapper);
             }
 
-            // Options instantiation
+            // Standardize multiple choice fields
             const grid = document.getElementById('options-grid');
             grid.innerHTML = '';
             qData.o.forEach((option, idx) => {
                 const card = document.createElement('div');
                 card.className = 'option-card';
                 card.textContent = option;
-                card.onclick = () => handleAnswerSelect(idx, card);
+                card.onclick = () => handleSelection(idx, card);
                 grid.appendChild(card);
             });
 
@@ -465,11 +473,12 @@
         }
 
         function startTimer() {
-            clearInterval(timerInterval);
+            clearInterval(countdownTimer);
             const fill = document.getElementById('timer-fill');
             fill.style.backgroundColor = 'var(--accent-purple)';
+            fill.style.width = '100%';
             
-            timerInterval = setInterval(() => {
+            countdownTimer = setInterval(() => {
                 timeLeft--;
                 let percent = (timeLeft / 45) * 100;
                 fill.style.width = `${percent}%`;
@@ -479,66 +488,67 @@
                 }
 
                 if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    revealCorrectAnswer(false, "Time's Up!");
+                    clearInterval(countdownTimer);
+                    revealCorrect("Time's Up!");
                 }
             }, 1000);
         }
 
-        function handleAnswerSelect(selectedIdx, cardElement) {
+        function handleSelection(selectedIdx, cardElement) {
             if (attempts >= 2 || cardElement.classList.contains('correct') || cardElement.classList.contains('wrong')) return;
 
-            let qData = questions[currentQuestionIndex];
+            let qData = activeQuestions[currentQuestionIdx];
 
             if (selectedIdx === qData.a) {
-                // Correct Choice
-                clearInterval(timerInterval);
+                // Correct path handling
+                clearInterval(countdownTimer);
                 cardElement.classList.add('correct');
-                AudioFX.playCorrect();
-                AudioFX.playClap();
+                MediaController.playCorrect();
+                MediaController.playClap();
                 triggerConfetti();
+                
                 document.getElementById('feedback-message').style.color = 'var(--correct-green)';
-                document.getElementById('feedback-message').textContent = "Brilliant! Correct Answer 🎉";
+                document.getElementById('feedback-message').textContent = "Excellent! Correct Answer 🎉";
                 score++;
                 document.getElementById('hud-score').textContent = `Score: ${score}`;
-                disableAllOptions();
+                disableOptions();
                 document.getElementById('next-btn').style.display = 'block';
             } else {
-                // Wrong Choice
+                // Wrong path handling
                 attempts++;
                 cardElement.classList.add('wrong');
-                AudioFX.playWrong();
+                MediaController.playWrong();
 
                 if (attempts === 1) {
                     document.getElementById('feedback-message').style.color = 'var(--wrong-red)';
                     document.getElementById('feedback-message').textContent = "Incorrect! Try your 2nd attempt carefully.";
                 } else {
-                    clearInterval(timerInterval);
-                    revealCorrectAnswer(true, "Incorrect! Out of attempts.");
+                    clearInterval(countdownTimer);
+                    revealCorrect("Incorrect choice out of attempts.");
                 }
             }
         }
 
-        function revealCorrectAnswer(hadAttempts, message) {
-            disableAllOptions();
-            let qData = questions[currentQuestionIndex];
+        function revealCorrect(message) {
+            disableOptions();
+            let qData = activeQuestions[currentQuestionIdx];
             const cards = document.querySelectorAll('.option-card');
             cards[qData.a].classList.add('correct');
             
             document.getElementById('feedback-message').style.color = 'var(--wrong-red)';
-            document.getElementById('feedback-message').textContent = `${message} Correct is: ${qData.o[qData.a]}`;
+            document.getElementById('feedback-message').textContent = `${message} The correct answer is: ${qData.o[qData.a]}`;
             document.getElementById('next-btn').style.display = 'block';
         }
 
-        function disableAllOptions() {
+        function disableOptions() {
             document.querySelectorAll('.option-card').forEach(c => {
                 c.style.cursor = 'default';
             });
         }
 
         function loadNextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
+            currentQuestionIdx++;
+            if (currentQuestionIdx < activeQuestions.length) {
                 loadQuestion();
             } else {
                 showResults();
@@ -547,21 +557,21 @@
 
         function showResults() {
             showScreen('result-screen');
-            document.getElementById('result-score-text').textContent = `You scored ${score} out of ${questions.length} points!`;
+            document.getElementById('result-score-text').textContent = `You scored ${score} out of ${activeQuestions.length} points!`;
             
             let evaluation = "";
             let title = "";
-            if (score === questions.length) {
-                title = "Logic Master!";
-                evaluation = "Perfection achieved! You've successfully won the premium Logic Thinker Master Badge! 🎖️";
-                AudioFX.playClap();
+            if (score === activeQuestions.length) {
+                title = "Logic Master Accomplished!";
+                evaluation = "Outstanding achievement! You've successfully locked in a perfect score and won the premium Logic Thinker Master Badge! 🎖️";
+                MediaController.playClap();
                 triggerConfetti();
-            } else if (score >= questions.length * 0.7) {
-                title = "Excellent Job!";
-                evaluation = "Fantastic grasp on Customising the Desktop interface rules. Almost perfect! 👍";
+            } else if (score >= activeQuestions.length * 0.7) {
+                title = "Terrific Job!";
+                evaluation = "Fantastic performance on Customising the Desktop interface rules. Excellent work! 👍";
             } else {
-                title = "Keep Learning!";
-                evaluation = "Good try! Review desktop settings features and challenge your logical thinking score again. 🚀";
+                title = "Keep Practicing!";
+                evaluation = "Good try! Test your desktop customisation interface definitions again to boost your score. 🚀";
             }
             document.getElementById('result-title').textContent = title;
             document.getElementById('result-evaluation').textContent = evaluation;
@@ -571,7 +581,7 @@
             startChallenge();
         }
 
-        // Lightweight HTML5 Canvas Particle Engine for the Confetti Animation
+        // Canvas Particle Engine for Feedback Animations
         function triggerConfetti() {
             const canvas = document.getElementById('celebration-canvas');
             const ctx = canvas.getContext('2d');
@@ -579,29 +589,29 @@
             canvas.height = canvas.parentElement.offsetHeight;
 
             let particles = [];
-            for (let i = 0; i < 60; i++) {
+            for (let i = 0; i < 65; i++) {
                 particles.push({
                     x: canvas.width / 2,
                     y: canvas.height / 2,
-                    radius: Math.random() * 4 + 2,
-                    color: `hsl(${Math.random() * 360}, 90%, 60%)`,
-                    vx: (Math.random() - 0.5) * 8,
-                    vy: (Math.random() - 0.5) * 8 - 3,
-                    gravity: 0.15,
+                    radius: Math.random() * 4 + 2.5,
+                    color: `hsl(${Math.random() * 360}, 95%, 65%)`,
+                    vx: (Math.random() - 0.5) * 9,
+                    vy: (Math.random() - 0.5) * 9 - 2.5,
+                    gravity: 0.16,
                     alpha: 1
                 });
             }
 
-            function update() {
+            function frame() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                let alive = false;
+                let active = false;
                 particles.forEach(p => {
                     p.x += p.vx;
                     p.y += p.vy;
                     p.vy += p.gravity;
-                    p.alpha -= 0.015;
+                    p.alpha -= 0.016;
                     if (p.alpha > 0) {
-                        alive = true;
+                        active = true;
                         ctx.beginPath();
                         ctx.globalAlpha = p.alpha;
                         ctx.fillStyle = p.color;
@@ -610,9 +620,9 @@
                     }
                 });
                 ctx.globalAlpha = 1.0;
-                if (alive) requestAnimationFrame(update);
+                if (active) requestAnimationFrame(frame);
             }
-            update();
+            frame();
         }
     </script>
 </body>
