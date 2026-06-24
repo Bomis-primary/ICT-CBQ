@@ -1,779 +1,841 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade 3 ICT - Controlling Electricity Challenge</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controlling the Flow of Electricity - CBQ Challenge</title>
 
-    <style>
-        :root {
-            --primary: #FF6B6B;      /* Playful Soft Coral */
-            --secondary: #4D96FF;    /* Kid-Friendly Sky Blue */
-            --success: #6BCB77;      /* Vibrant Mint Green */
-            --warning: #FFD93D;      /* Cheerful Sunny Yellow */
-            --dark: #2C3E50;         /* Deep Soft Charcoal */
-            --card-bg: rgba(255, 255, 255, 0.96);
-        }
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Comic Sans MS', 'Ubuntu', Arial, sans-serif;
-        }
+body{
+background: linear-gradient(135deg, #0082ff, #7800ff);
+min-height:100vh;
+overflow-x:hidden;
+position:relative;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 15px;
+}
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #E8F0FE 0%, #F3E8FF 50%, #E6FFFA 100%);
-            overflow-x: hidden;
-            position: relative;
-            padding: 15px;
-            color: var(--dark);
-        }
+/* Screens */
+.screen{
+display:none;
+width: 100%;
+max-width: 850px;
+justify-content:center;
+align-items:center;
+position:relative;
+z-index:2;
+}
 
-        /* Floating Ambient Background Elements */
-        .bg-decorations {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-            z-index: 1;
-            pointer-events: none;
-        }
+.active{
+display:flex;
+flex-direction:column;
+}
 
-        .bg-bubble {
-            position: absolute;
-            background: rgba(77, 150, 255, 0.12);
-            border-radius: 50%;
-            animation: floatUp linear infinite;
-        }
+/* Splash Screen */
+.logo-screen{
+background:#ffffff;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+max-width: 100%;
+z-index:9999;
+justify-content: center;
+align-items: center;
+}
 
-        @keyframes floatUp {
-            0% {
-                transform: translateY(110vh) scale(0.6) rotate(0deg);
-                opacity: 0;
-            }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% {
-                transform: translateY(-20vh) scale(1.3) rotate(360deg);
-                opacity: 0;
-            }
-        }
+.logo-screen img{
+width:240px;
+max-width:85%;
+animation:pulse 2s infinite;
+}
 
-        /* Splash Branding Cover */
-        #splashScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #FFFFFF;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
 
-        #splashScreen img {
-            width: 260px;
-            max-width: 75vw;
-            height: auto;
-            object-fit: contain;
-            animation: bouncePulse 2s infinite ease-in-out;
-        }
+/* Card layout matching reference style sheet */
+.card{
+width:100%;
+background: #f5f6fc;
+padding: 40px 30px;
+border-radius: 32px;
+box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+text-align: center;
+color: #333333;
+}
 
-        @keyframes bouncePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+h1{
+text-align:center;
+color: #631bfb;
+margin-bottom:8px;
+font-size: 2.2rem;
+font-weight: 800;
+}
 
-        /* Container Layout Framework Wrapper */
-        .container {
-            width: 100%;
-            max-width: 760px;
-            background: var(--card-bg);
-            border: 4px solid #FFFFFF;
-            border-radius: 32px;
-            padding: 32px;
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
-        }
+.chapter{
+text-align:center;
+font-weight:700;
+margin-bottom:6px;
+color: #444444;
+font-size:1.3rem;
+}
 
-        .hidden {
-            display: none !important;
-        }
+.topic{
+text-align:center;
+margin-bottom:25px;
+color: #666666;
+font-size:1.15rem;
+font-weight: 500;
+}
 
-        /* Intro Screen UI */
-        .intro-block {
-            text-align: center;
-        }
+.instructions{
+background: #ffffff;
+padding: 25px;
+border-radius: 20px;
+line-height: 1.8;
+margin-top: 15px;
+text-align: left;
+box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+}
 
-        .intro-block h1 {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 6px;
-            text-shadow: 2px 2px 0px #FFFFFF, 4px 4px 0px rgba(0,0,0,0.04);
-        }
+.instructions ol{
+margin-left: 22px;
+color: #444444;
+font-size: 1.05rem;
+}
 
-        .intro-block h2 {
-            font-size: 1.4rem;
-            color: var(--secondary);
-            margin-bottom: 20px;
-        }
+.instructions li{
+margin-bottom: 10px;
+}
 
-        .kids-instructions {
-            background: #F0F7FF;
-            border: 3px dashed #B4D4FF;
-            padding: 24px;
-            border-radius: 24px;
-            line-height: 1.8;
-            color: #4A5568;
-            font-size: 1.1rem;
-            text-align: left;
-        }
+.main-btn{
+padding: 14px 40px;
+border: none;
+border-radius: 16px;
+background: linear-gradient(90deg, #3858f9, #622cfb);
+color: #ffffff;
+font-size: 1.15rem;
+cursor: pointer;
+margin-top: 30px;
+transition: all .3s ease;
+font-weight: bold;
+box-shadow: 0 6px 20px rgba(98, 44, 251, 0.4);
+}
 
-        .kids-instructions ol {
-            margin-left: 24px;
-        }
+.main-btn:hover{
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(98, 44, 251, 0.5);
+opacity: 0.95;
+}
 
-        .kids-instructions li {
-            margin-bottom: 6px;
-        }
+/* Quiz UI top elements */
+.topbar{
+display:flex;
+justify-content:space-between;
+gap:12px;
+flex-wrap:wrap;
+margin-bottom:20px;
+width: 100%;
+}
 
-        /* Action Buttons styling */
-        button {
-            padding: 16px 36px;
-            border: none;
-            border-radius: 20px;
-            background: linear-gradient(135deg, var(--secondary), #3A82EE);
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 24px;
-            box-shadow: 0 8px 0px #2563EB, 0 12px 20px rgba(0,0,0,0.12);
-            transition: all 0.15s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
+.box{
+background: #ffffff;
+padding:12px 20px;
+border-radius:14px;
+font-weight:bold;
+color: #631bfb;
+flex: 1;
+min-width: 120px;
+text-align: center;
+box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+font-size: 1rem;
+}
 
-        button:hover {
-            transform: translateY(2px);
-            box-shadow: 0 6px 0px #2563EB, 0 8px 15px rgba(0,0,0,0.12);
-        }
+.progress{
+height: 12px;
+background: #e2e8f0;
+border-radius: 20px;
+overflow: hidden;
+margin-bottom: 25px;
+width: 100%;
+}
 
-        button:active {
-            transform: translateY(6px);
-            box-shadow: 0 2px 0px #2563EB, 0 4px 10px rgba(0,0,0,0.12);
-        }
+.progress-fill{
+height:100%;
+width:0%;
+background: linear-gradient(90deg, #3858f9, #622cfb);
+transition:.4s;
+}
 
-        #nextBtn {
-            background: linear-gradient(135deg, var(--success), #58B364);
-            box-shadow: 0 8px 0px #3D8B47, 0 12px 20px rgba(0,0,0,0.12);
-        }
+.question{
+font-size: 1.35rem;
+font-weight: 700;
+line-height:1.5;
+margin-bottom: 25px;
+text-align: left;
+color: #1a1a1a;
+}
 
-        #nextBtn:hover {
-            box-shadow: 0 6px 0px #3D8B47, 0 8px 15px rgba(0,0,0,0.12);
-        }
+/* Graphical containers */
+.q-image-container {
+width: 100%;
+display: flex;
+justify-content: center;
+margin-bottom: 25px;
+background: #ffffff;
+padding: 15px;
+border-radius: 20px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
 
-        #nextBtn:active {
-            box-shadow: 0 2px 0px #3D8B47, 0 4px 10px rgba(0,0,0,0.12);
-        }
+.q-image-container img {
+max-width: 100%;
+height: auto;
+max-height: 220px;
+border-radius: 12px;
+}
 
-        /* Score & Timer Header Stats Panel */
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
+.options{
+display:grid;
+grid-template-columns: 1fr;
+gap:14px;
+width: 100%;
+}
 
-        .topbox {
-            background: #FFFFFF;
-            border: 3px solid #E2E8F0;
-            padding: 10px 18px;
-            border-radius: 16px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: var(--dark);
-            box-shadow: 0 4px 0px #E2E8F0;
-        }
+@media(min-width: 768px) {
+    .options {
+        grid-template-columns: 1fr 1fr;
+    }
+}
 
-        /* Progress Bar Tracker */
-        .progress-container {
-            width: 100%;
-            height: 16px;
-            background: #EDF2F7;
-            border-radius: 999px;
-            overflow: hidden;
-            margin-bottom: 24px;
-            border: 2px solid #E2E8F0;
-        }
+.option-btn{
+padding: 18px 20px;
+border: 2px solid #e2e8f0;
+border-radius: 16px;
+background: #ffffff;
+cursor: pointer;
+font-size: 1.05rem;
+transition: all .2s ease;
+font-weight: 600;
+text-align: left;
+line-height: 1.4;
+color: #444444;
+outline: none;
+box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
 
-        .progress-fill-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #6BCB77, #4D96FF);
-            border-radius: 999px;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+.option-btn:hover{
+background: #f1f5f9;
+border-color: #631bfb;
+color: #631bfb;
+}
 
-        .level-indicator {
-            color: #A0AEC0;
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-            text-align: left;
-        }
+.correct{
+background: #10b981 !important;
+border-color: #059669 !important;
+color: #ffffff !important;
+font-weight: bold;
+}
 
-        .question-prompt {
-            font-size: 1.35rem;
-            font-weight: bold;
-            line-height: 1.5;
-            color: var(--dark);
-            margin-bottom: 24px;
-            text-align: left;
-        }
+.wrong{
+background: #ef4444 !important;
+border-color: #dc2626 !important;
+color: #ffffff !important;
+}
 
-        /* Picture-Based Context Box Frame */
-        .image-host-frame {
-            width: 100%;
-            max-height: 220px;
-            margin: 0 auto 24px;
-            border-radius: 20px;
-            background: #F7FAFC;
-            border: 3px dashed #CBD5E0;
-            padding: 12px;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
+.feedback{
+margin-top:20px;
+font-weight: 700;
+min-height:30px;
+font-size: 1.2rem;
+text-align: left;
+}
 
-        .image-host-frame img {
-            max-width: 100%;
-            max-height: 190px;
-            object-fit: contain;
-            border-radius: 12px;
-        }
+.explanation{
+margin-top:15px;
+background: #ffffff;
+padding: 18px;
+border-radius: 16px;
+display:none;
+line-height:1.6;
+text-align:left;
+border-left: 5px solid #631bfb;
+color: #444444;
+font-size: 1rem;
+box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
 
-        /* Option Selection Cards Grid Layout */
-        .options-matrix {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 14px;
-        }
+.next-btn{
+display:none;
+}
 
-        .option-card {
-            background: #FFFFFF;
-            padding: 16px 20px;
-            border-radius: 18px;
-            border: 3px solid #E2E8F0;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            box-shadow: 0 5px 0px #E2E8F0;
-            transition: all 0.1s ease;
-            display: flex;
-            align-items: center;
-            text-align: left;
-        }
+/* Result Dashboard Badges layout */
+.badge-box {
+margin: 25px auto;
+width: 150px;
+height: 150px;
+background: #ffffff;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 10px 25px rgba(99, 27, 251, 0.15);
+border: 4px solid #631bfb;
+}
 
-        .option-card:hover:not(.disabled) {
-            border-color: var(--secondary);
-            box-shadow: 0 5px 0px var(--secondary);
-            background-color: #F8FAFC;
-        }
+.badge-icon {
+font-size: 4.5rem;
+}
 
-        .option-card:active:not(.disabled) {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0px var(--secondary);
-        }
+.badge-title {
+font-size: 1.4rem;
+color: #631bfb;
+font-weight: 800;
+margin-top: 12px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
 
-        .correct-state {
-            background: #F0FDF4 !important;
-            border-color: var(--success) !important;
-            color: #166534 !important;
-            box-shadow: 0 5px 0px var(--success) !important;
-        }
+.final-score{
+font-size: 2.5rem;
+font-weight: 800;
+color: #1a1a1a;
+margin: 15px 0 10px 0;
+}
 
-        .wrong-state {
-            background: #FEF2F2 !important;
-            border-color: var(--primary) !important;
-            color: #991B1B !important;
-            box-shadow: 0 5px 0px var(--primary) !important;
-            animation: cardShake 0.4s ease-in-out;
-        }
+.message{
+font-size: 1.1rem;
+line-height: 1.6;
+color: #555555;
+margin-bottom: 20px;
+padding: 0 10px;
+}
 
-        @keyframes cardShake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-6px); }
-            75% { transform: translateX(6px); }
-        }
+/* Absolute Floating FX Components */
+.confetti{
+position:fixed;
+width:14px;
+height:14px;
+border-radius: 50%;
+animation:fall 2s linear forwards;
+z-index:999;
+}
 
-        /* Explanations & Dynamic Feedback Blocks */
-        .feedback-msg-box {
-            margin-top: 24px;
-            padding: 18px;
-            border-radius: 20px;
-            display: none;
-            line-height: 1.6;
-            font-size: 1.1rem;
-            text-align: left;
-        }
+@keyframes fall{
+0%{ transform:translateY(-20px) rotate(0deg); opacity:1; }
+100%{ transform:translateY(100vh) rotate(360deg); opacity:0; }
+}
 
-        .feedback-msg-box.success {
-            background: #F0FDF4;
-            border: 3px dashed var(--success);
-            color: #166534;
-        }
+.cross{
+position:fixed;
+font-size:60px;
+color:#ef4444;
+animation:fade 1s forwards;
+z-index:999;
+font-weight:bold;
+pointer-events:none;
+}
 
-        .feedback-msg-box.error {
-            background: #FEF2F2;
-            border: 3px dashed var(--primary);
-            color: #991B1B;
-        }
+@keyframes fade{
+0%{ opacity:1; transform:scale(1); }
+100%{ opacity:0; transform:scale(1.6); }
+}
 
-        /* Results Display Dashboard */
-        .results-dashboard {
-            text-align: center;
-        }
-
-        .results-dashboard h1 {
-            font-size: 2.4rem;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-
-        .trophy-container {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            margin: 24px auto;
-            background: linear-gradient(135deg, var(--warning), #FFA41B);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.8rem;
-            font-weight: bold;
-            color: var(--dark);
-            box-shadow: 0 8px 0px #D87D00, 0 12px 24px rgba(0,0,0,0.12);
-            border: 5px solid #FFFFFF;
-        }
-
-        .final-summary-text {
-            font-size: 1.2rem;
-            line-height: 1.7;
-            color: #4A5568;
-            margin-bottom: 12px;
-        }
-
-        /* Particle Particle Effect Sprites */
-        .falling-star-fx {
-            position: fixed;
-            font-size: 26px;
-            pointer-events: none;
-            z-index: 9999;
-            animation: particleFall 2.2s linear forwards;
-        }
-
-        @keyframes particleFall {
-            0% { transform: translateY(-40px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(115vh) rotate(720deg); opacity: 0; }
-        }
-
-        @media(max-width: 680px) {
-            .container {
-                padding: 24px 16px;
-                border-radius: 24px;
-            }
-            .question-prompt {
-                font-size: 1.15rem;
-            }
-            .option-card {
-                font-size: 1rem;
-                padding: 14px;
-            }
-            button {
-                width: 100%;
-            }
-        }
-    </style>
+/* Screen Size Adaptive Media Breakpoints */
+@media(max-width:600px){
+body {
+padding: 10px;
+}
+.card {
+padding: 25px 15px;
+border-radius: 24px;
+}
+h1 {
+font-size: 1.7rem;
+}
+.chapter {
+font-size: 1.15rem;
+}
+.topic {
+font-size: 1rem;
+margin-bottom: 15px;
+}
+.question{
+font-size: 1.15rem;
+margin-bottom: 20px;
+}
+.option-btn{
+font-size: .95rem;
+padding: 14px 16px;
+}
+.topbar{
+gap: 8px;
+margin-bottom: 15px;
+}
+.box {
+padding: 10px;
+font-size: 0.85rem;
+min-width: 95px;
+}
+.logo-screen img{
+width:180px;
+}
+.badge-box {
+width: 120px;
+height: 120px;
+}
+.badge-icon {
+font-size: 3.5rem;
+}
+.main-btn {
+margin-top: 20px;
+padding: 12px 30px;
+font-size: 1.05rem;
+width: 100%;
+}
+}
+</style>
 </head>
 
 <body>
 
-<div class="bg-decorations" id="bgDecorations"></div>
-
-<div id="splashScreen">
-    <img src="assets/innovine-logo.png" alt="Innovine Logo" id="brandLogo">
+<div class="screen active logo-screen" id="logoScreen">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
 </div>
 
-<div class="container hidden" id="appMainWrapper">
-
-    <div id="introScreen" class="intro-block">
-        <h1>Controlling Electricity Flow 🔌</h1>
-        <h2>Grade 3 ICT Challenge</h2>
+<div class="screen" id="introScreen">
+    <div class="card">
+        <h1>ICT CHALLENGE</h1>
+        <div class="chapter">Chapter 2: Controlling the Flow of Electricity</div>
+        <div class="topic">Competency-Based Question (CBQ) Workspace</div>
         
-        <div class="kids-instructions">
+        <div class="instructions">
             <ol>
-                <li>☀️ Read each puzzle connection layout carefully!</li>
-                <li>🎈 You have <strong>2 attempts</strong> for each circuit level.</li>
-                <li>🤖 If you miss twice, we will reveal the answer to learn together!</li>
-                <li>⏳ Each puzzle screen has a <strong>60-second</strong> countdown clock.</li>
-                <li>🏆 Look at pictures carefully to match up open and closed circuit links!</li>
+                <li>Read each logical circuit scenario carefully.</li>
+                <li>You have 2 attempts for every scenario before moving ahead.</li>
+                <li>After 2 incorrect attempts, the correct circuit insight is displayed.</li>
+                <li>You have a comfortable limit of 45 seconds per puzzle.</li>
+                <li>Score high to achieve the ultimate Circuit Engineering Badge!</li>
             </ol>
         </div>
-        <button onclick="launchQuizSession()">Start Challenge 🚀</button>
-    </div>
 
-    <div id="quizScreen" class="hidden">
+        <button class="main-btn" onclick="startQuiz()">Start Challenge</button>
+    </div>
+</div>
+
+<div class="screen" id="quizScreen">
+    <div class="card">
         <div class="topbar">
-            <div class="topbox">⭐ Score: <span id="scoreTrackerBox">0</span></div>
-            <div class="topbox">⏳ Time: <span id="timerCountdownText">60</span>s</div>
+            <div class="box" id="scoreText">Score: 0</div>
+            <div class="box" id="questionCounter">Question 1</div>
+            <div class="box" id="timerText">Time: 45</div>
         </div>
 
-        <div class="progress-container">
-            <div class="progress-fill-bar" id="progressFillElement"></div>
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <div class="level-indicator" id="levelIndicatorBox"></div>
-        <div class="question-prompt" id="questionPromptBox"></div>
+        <div class="question" id="questionText"></div>
         
-        <div class="image-host-frame" id="imageHostFrame">
-            <img id="graphicAssetNode" src="" alt="Circuit Diagram Context">
+        <div class="q-image-container" id="qImageContainer" style="display: none;">
+            <img id="questionImage" src="" alt="Circuit Diagram">
         </div>
 
-        <div class="options-matrix" id="optionsMatrixContainer"></div>
-        <div class="feedback-msg-box" id="feedbackMessageBox"></div>
+        <div class="options" id="optionsContainer"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="explanation" id="explanation"></div>
 
-        <div style="text-align: right;">
-            <button id="nextBtn" class="hidden" onclick="advanceNextLevel()">Next Level ➡️</button>
-        </div>
+        <button class="main-btn next-btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
     </div>
-
-    <div id="resultScreen" class="hidden results-dashboard">
-        <h1>Challenge Completed! 🎉</h1>
-        <div class="trophy-container">
-            <span id="trophyEmojiSlot">🏆</span>
-        </div>
-        <div class="topbox" style="display:inline-block; margin-bottom:20px;">Final Score: <span id="finalScore">0 / 15</span></div>
-        <div class="final-summary-text" id="finalSummaryMessageSlot"></div>
-        <button onclick="location.reload()">Play Again 🔄</button>
-    </div>
-
 </div>
 
-<div class="hidden">
-    <audio id="audioCorrect" src="assets/correct.mp3" preload="auto"></audio>
-    <audio id="audioWrong" src="assets/wrong.mp3" preload="auto"></audio>
-    <audio id="audioClap" src="assets/clap.mp3" preload="auto"></audio>
+<div class="screen" id="resultScreen">
+    <div class="card">
+        <h1>Challenge Completed!</h1>
+        
+        <div class="badge-box">
+            <div class="badge-icon" id="badgeIcon">🔌</div>
+        </div>
+        <div class="badge-title" id="badgeTitle">Circuit Apprentice</div>
+
+        <div class="final-score" id="finalScore"></div>
+        <div class="message" id="message"></div>
+        <button class="main-btn" onclick="restartQuiz()">Play Again</button>
+    </div>
 </div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/clap.mp3"></audio>
 
 <script>
-/* Build Floating Decorative Ambient Circles */
-const bgDecorations = document.getElementById("bgDecorations");
-const elementsArray = ["🔌", "💡", "🔋", "⚙️", "🎈", "⭐️"];
-for (let i = 0; i < 24; i++) {
-    let bubble = document.createElement("div");
-    bubble.className = "bg-bubble";
-    bubble.innerText = elementsArray[Math.floor(Math.random() * elementsArray.length)];
-    bubble.style.left = Math.random() * 100 + "%";
-    bubble.style.animationDuration = (Math.random() * 8 + 10) + "s";
-    bubble.style.animationDelay = Math.random() * 5 + "s";
-    let dimensions = (Math.random() * 16 + 14) + "px";
-    bubble.style.fontSize = dimensions;
-    bgDecorations.appendChild(bubble);
-}
-
-/* Clear Splash Cover completely when 5 seconds elapse */
-setTimeout(() => {
-    const splash = document.getElementById("splashScreen");
-    splash.style.opacity = "0";
-    setTimeout(() => {
-        splash.style.display = "none";
-        document.getElementById("appMainWrapper").classList.remove("hidden");
-    }, 500);
-}, 5000);
-
-function shuffleItems(targetArray) {
-    let items = [...targetArray];
-    for (let i = items.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [items[i], items[j]] = [items[j], items[i]];
+/* Question Matrix Pool for Chapter 2: Electricity */
+let rawQuestions = [
+    {
+        question: "Mihika presses a switch and a bulb starts glowing. What happened?",
+        options: ["The circuit opened", "The circuit closed", "The battery disappeared", "The wire broke"],
+        answer: "The circuit closed",
+        explanation: "When the switch is pressed to turn a device ON, it closes the path, completing the loop so electricity can flow."
+    },
+    {
+        question: "Arjun wants to stop a lamp without removing the bulb. What should he do?",
+        options: ["Open the switch", "Add another bulb", "Remove the wire", "Change the battery"],
+        answer: "Open the switch",
+        explanation: "Opening the switch safely breaks the circuit path, instantly stopping the electric current without damaging components."
+    },
+    {
+        question: "Kabir notices one wire is disconnected. Which type of circuit is formed?",
+        options: ["Closed circuit", "Complete circuit", "Open circuit", "Strong circuit"],
+        answer: "Open circuit",
+        explanation: "A broken wire or a loose path creates an open circuit loop through which electricity cannot move."
+    },
+    {
+        question: "Anaya wants a fan to work only when needed. Which component helps?",
+        options: ["Switch", "Bulb", "Wire", "Cell"],
+        answer: "Switch",
+        explanation: "A switch acts as a control key that lets you open or close a loop manually whenever needed."
+    },
+    {
+        question: "Vivaan turns ON a switch and the toy car starts moving. Why?",
+        options: ["The circuit became complete", "Battery removed", "Wire disappeared", "Switch broke"],
+        answer: "The circuit became complete",
+        explanation: "Turning a switch ON closes any gap in the connections, completing the circuit to transmit power instantly."
+    },
+    {
+        question: "Dev builds a circuit with a cell, bulb, wires and switch. What does the switch do?",
+        options: ["Decorates the circuit", "Controls electricity flow", "Stores electricity", "Produces light"],
+        answer: "Controls electricity flow",
+        explanation: "The core job of a switch inside any project is to control the dynamic delivery and flow of current safely."
+    },
+    {
+        question: "Siya sees a gap in the circuit. What should she do first?",
+        options: ["Complete the connection", "Remove the bulb", "Turn off the cell", "Add colours"],
+        answer: "Complete the connection",
+        explanation: "Any gap forms an open breakpoint. Closing or completing that physical connection is required to make it work."
+    },
+    {
+        question: "Switch ON &rarr; Electricity Flows; Switch OFF &rarr; Electricity Stops. Which action stops the flow?",
+        options: ["Switch ON", "Switch OFF", "Add a wire", "Add a bulb"],
+        answer: "Switch OFF",
+        explanation: "Turning the switch OFF cuts the path loop apart, cleanly terminating the movement of current."
+    },
+    {
+        question: "Closed Circuit &rarr; Bulb Glows; Open Circuit &rarr; Bulb Does Not Glow. Which circuit allows a bulb to glow?",
+        options: ["Broken", "Open", "Closed", "Loose"],
+        answer: "Closed",
+        explanation: "A completely unbroken, closed circuit path is required for electricity to run and illuminate a light source."
+    },
+    {
+        question: "A switch is ON and the bulb is glowing. What type of circuit is shown?",
+        options: ["Open", "Closed", "Broken", "Empty"],
+        answer: "Closed",
+        explanation: "An active glowing light directly implies that a continuous, closed path loop is currently engaged."
+    },
+    {
+        question: "A gap is visible between two wires. What is this called?",
+        options: ["Closed circuit", "Working circuit", "Open circuit", "Fast circuit"],
+        answer: "Open circuit",
+        explanation: "Any missing link, disconnected wire terminal, or open physical gap acts as an open circuit loop."
+    },
+    {
+        question: "Error Detection: Rohan says a bulb glows best in an open circuit. What is the mistake?",
+        options: ["A bulb glows in a closed circuit", "Bulbs need no wires", "Open circuits are stronger", "Switches produce power"],
+        answer: "A bulb glows in a closed circuit",
+        explanation: "Rohan is mistaken because electric current cannot leap over breaks. It requires an unbroken, closed loop to function."
+    },
+    {
+        question: "Two students make circuits. One checks all connections carefully. Which circuit is more likely to work?",
+        options: ["Second student's", "Both", "First student's", "Neither"],
+        answer: "First student's",
+        explanation: "Checking paths guarantees that no accidental open wire errors exist, ensuring a operational framework."
+    },
+    {
+        question: "Ishita wants a bedside lamp that can be turned ON and OFF easily. Why include a switch?",
+        options: ["Control electricity flow", "Make it colourful", "Increase bulb size", "Replace wire"],
+        answer: "Control electricity flow",
+        explanation: "Switches provide structural control to regulate the flow of electricity at will without pulling connections apart."
+    },
+    {
+        question: "Which statement is NOT correct?",
+        options: ["A switch controls flow", "A closed circuit can work", "An open circuit has a break", "A switch produces electricity"],
+        answer: "A switch produces electricity",
+        explanation: "A switch only steers or gates electricity; cells or power cells produce electricity."
+    },
+    {
+        question: "Aarohi is making a simple electric circuit for her science activity. She moves the switch to the position shown in the picture. What is most likely to happen?",
+        options: [
+            "The bulb will stop glowing.",
+            "The circuit will break.",
+            "Electricity will flow and the bulb may glow.",
+            "The battery will be removed."
+        ],
+        answer: "Electricity will flow and the bulb may glow.",
+        explanation: "The picture shows the switch moving into a closed connection layout, establishing an active circuit bridge.",
+        image: "image_bf6bbe.png"
+    },
+    {
+        question: "Vihaan observes the switch shown in the picture while checking a table lamp. What can he conclude?",
+        options: [
+            "Electricity can flow through the circuit.",
+            "The circuit is complete.",
+            "The bulb will glow brighter.",
+            "The flow of electricity is interrupted."
+        ],
+        answer: "The flow of electricity is interrupted.",
+        explanation: "The picture demonstrates an upward open switch safety state, creating a clean gap that stops the flow.",
+        image: "image_bf6bfe.png"
     }
-    return items;
-}
-
-/* Master Comprehensive Dataset Including Concepts Picture Maps */
-const comprehensiveDatasetPool = [
-    { q: "Mihika presses a switch and a bulb starts glowing. What happened?", o: ["The circuit opened", "The circuit closed", "The battery disappeared", "The wire broke"], a: 1, e: "When a bulb glows, it means the switch has successfully closed the loop so electricity can run continuously!", image: "closed.png" },
-    { q: "Arjun wants to stop a lamp without removing the bulb. What should he do?", o: ["Open the switch", "Add another bulb", "Remove the wire", "Change the battery"], a: 0, e: "Opening a switch breaks the current line flow, turning off the lamps instantly and safely." , image: "open.png"},
-    { q: "Kabir notices one wire is disconnected. Which type of circuit is formed?", o: ["Closed circuit", "Complete circuit", "Open circuit", "Strong circuit"], a: 2, e: "A loose or broken line creates an open circuit loop where energy currents cannot pass." , image: "open.png"},
-    { q: "Anaya wants a fan to work only when needed. Which component helps?", o: ["Switch", "Bulb", "Wire", "Cell"], a: 0, e: "Switches are building components used to control whether electricity flows or cuts out safely." },
-    { q: "Vivaan turns ON a switch and the toy car starts moving. Why?", o: ["The circuit became complete", "Battery removed", "Wire disappeared", "Switch broke"], a: 0, e: "Flipping the switch ON creates a complete, continuous loop that powers the engine right away!", image: "closed.png" },
-    { q: "Dev builds a circuit with a cell, bulb, wires and switch. What does the switch do?", o: ["Decorates the circuit", "Controls electricity flow", "Stores electricity", "Produces light"], a: 1, e: "The switch regulates the power layout, closing it to pass current or opening it to stop it." },
-    { q: "Siya sees a gap in the circuit. What should she do first?", o: ["Complete the connection", "Remove the bulb", "Turn off the cell", "Add colours"], a: 0, e: "To let electrical signals move around, you must reconnect the loose path parts to bridge the gap.", image: "open.png" },
-    { q: "Switch ON → Electricity Flows; Switch OFF → Electricity Stops. Which action stops the flow?", o: ["Switch ON", "Switch OFF", "Add a wire", "Add a bulb"], a: 1, e: "According to the rules, flipping to a Switch OFF configuration immediately acts to stop the flowing energy." },
-    { q: "Closed Circuit → Bulb Glows; Open Circuit → Bulb Does Not Glow. Which circuit allows a bulb to glow?", o: ["Broken", "Open", "Closed", "Loose"], a: 2, e: "A fully closed circuit has no gaps, so power loops safely to make the bulbs glow light." },
-    { q: "A switch is ON and the bulb is glowing. What type of circuit is shown?", o: ["Open", "Closed", "Broken", "Empty"], a: 1, e: "Active working signals and shining lamps mean you are dealing with a closed system connection.", image: "closed.png" },
-    { q: "A gap is visible between two wires. What is this called?", o: ["Closed circuit", "Working circuit", "Open circuit", "Fast circuit"], a: 2, e: "Any visible gap creates an interruption break line, giving us an open circuit design.", image: "open.png" },
-    { q: "Error Detection: Rohan says a bulb glows best in an open circuit. What is the mistake?", o: ["A bulb glows in a closed circuit", "Bulbs need no wires", "Open circuits are stronger", "Switches produce power"], a: 0, e: "Open tracks block power moving forward. Bulbs always require a fully closed circuit layout to work!" },
-    { q: "Two students make circuits. One checks all connections carefully. Which circuit is more likely to work?", o: ["Second student's", "Both", "First student's", "Neither"], a: 2, e: "Checking loops removes random wire gaps and ensures a smooth closed track is completed properly." },
-    { q: "Ishita wants a bedside lamp that can be turned ON and OFF easily. Why include a switch?", o: ["Control electricity flow", "Make it colourful", "Increase bulb size", "Replace wire"], a: 0, e: "Switches allow simple choice operations to instantly link or decouple your wires inside home devices." },
-    { q: "Which statement is NOT correct?", o: ["A switch controls flow", "A closed circuit can work", "An open circuit has a break", "A switch produces electricity"], a: 3, e: "Switches handle connection paths but do not create energy. Chemical cells or power points generate it." },
-    { q: "Aarohi is making a simple electric circuit for her science activity. She moves the switch to the position shown in the picture. What is most likely to happen?", o: ["The bulb will stop glowing.", "The circuit will break.", "Electricity will flow and the bulb may glow.", "The battery will be removed."], a: 2, e: "An ON setting bridges current paths, forming a closed loop so energy reaches components smoothly.", image: "ON.png" },
-    { q: "Vihaan observes the switch shown in the picture while checking a table lamp. What can he conclude?", o: ["Electricity can flow through the circuit.", "The circuit is complete.", "The bulb will glow brighter.", "The flow of electricity is interrupted."], a: 3, e: "An OFF placement disconnects elements, instantly forming a break that blocks current movement.", image: "OFF.png" }
 ];
 
-let compiledActiveQuestions = [];
-let operationalLevelIndex = 0;
-let userTotalScore = 0;
-let countClockTimer;
-let cycleCountSeconds = 60;
-let levelAttemptTally = 0;
+let questions = [];
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 45;
+let retryUsed = false;
 
-/* Select and Prepare Quiz Deck */
-function launchQuizSession() {
-    // Select exactly 15 randomized questions out from dataset pool mix
-    let randomizedSelection = shuffleItems(comprehensiveDatasetPool).slice(0, 15);
-    compiledActiveQuestions = randomizedSelection;
+const logoScreen = document.getElementById("logoScreen");
+const introScreen = document.getElementById("introScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
 
-    // Shuffle choice positions internally to bypass static layout memorization
-    compiledActiveQuestions.forEach(item => {
-        let accurateTextContent = item.o[item.a];
-        item.o = shuffleItems(item.o);
-        item.a = item.o.indexOf(accurateTextContent);
-    });
+const questionText = document.getElementById("questionText");
+const qImageContainer = document.getElementById("qImageContainer");
+const questionImage = document.getElementById("questionImage");
+const optionsContainer = document.getElementById("optionsContainer");
+const scoreText = document.getElementById("scoreText");
+const timerText = document.getElementById("timerText");
+const feedback = document.getElementById("feedback");
+const explanation = document.getElementById("explanation");
+const nextBtn = document.getElementById("nextBtn");
 
-    document.getElementById("introScreen").classList.add("hidden");
-    document.getElementById("quizScreen").classList.remove("hidden");
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const clapSound = document.getElementById("clapSound");
 
-    operationalLevelIndex = 0;
-    userTotalScore = 0;
-    renderCurrentLevelTask();
+/* 5-Seconds Splash Screen Hold */
+window.onload = function(){
+    logoScreen.style.display = "flex";
+    setTimeout(() => {
+        logoScreen.style.display = "none";
+        introScreen.style.display = "flex";
+    }, 5000);
+};
+
+/* Linear Shuffle utility mapping function */
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
 
-/* Render Active Question Core Card Layout */
-function renderCurrentLevelTask() {
-    clearInterval(countClockTimer);
-    levelAttemptTally = 0;
-
-    document.getElementById("feedbackMessageBox").style.display = "none";
-    document.getElementById("nextBtn").classList.add("hidden");
-
-    const activeQuestionObj = compiledActiveQuestions[operationalLevelIndex];
-
-    // Compute progress track fill metric bar percentage
-    let trackRatio = (operationalLevelIndex / compiledActiveQuestions.length) * 100;
-    document.getElementById("progressFillElement").style.width = trackRatio + "%";
-
-    document.getElementById("levelIndicatorBox").innerText = `Level Challenge ${operationalLevelIndex + 1} of ${compiledActiveQuestions.length}`;
-    document.getElementById("questionPromptBox").innerHTML = activeQuestionObj.q;
-
-    // Handle Picture Assets Integration dynamically 
-    const frameBox = document.getElementById("imageHostFrame");
-    const structuralImageNode = document.getElementById("graphicAssetNode");
-    
-    if (activeQuestionObj.image) {
-        structuralImageNode.src = `assets/${activeQuestionObj.image}`;
-        frameBox.style.display = "flex";
-        structuralImageNode.onerror = function() {
-            frameBox.style.display = "none";
+/* Question Matrix Randomization Module */
+function prepareQuestions() {
+    let shuffledPool = shuffle([...rawQuestions]);
+    questions = shuffledPool.map(q => {
+        let optionsCopy = shuffle([...q.options]);
+        let correctIndex = optionsCopy.indexOf(q.answer);
+        return {
+            question: q.question,
+            options: optionsCopy,
+            answer: correctIndex,
+            explanation: q.explanation,
+            image: q.image || null
         };
+    });
+}
+
+function startQuiz(){
+    prepareQuestions();
+    introScreen.style.display = "none";
+    quizScreen.style.display = "flex";
+    loadQuestion();
+}
+
+/* Build Interactive Question Elements */
+function loadQuestion(){
+    clearInterval(timer);
+    retryUsed = false;
+    feedback.innerHTML = "";
+    explanation.style.display = "none";
+    nextBtn.style.display = "none";
+
+    const q = questions[currentQuestion];
+
+    questionText.innerHTML = `Q${currentQuestion + 1}. ${q.question}`;
+    document.getElementById("questionCounter").innerHTML = `Question ${currentQuestion + 1} of ${questions.length}`;
+    document.getElementById("progressFill").style.width = ((currentQuestion) / questions.length) * 100 + "%";
+
+    if(q.image) {
+        questionImage.src = q.image;
+        qImageContainer.style.display = "flex";
     } else {
-        frameBox.style.display = "none";
-        structuralImageNode.src = "";
+        qImageContainer.style.display = "none";
+        questionImage.src = "";
     }
 
-    // Build choice option cells structures
-    const selectionGrid = document.getElementById("optionsMatrixContainer");
-    selectionGrid.innerHTML = "";
+    optionsContainer.innerHTML = "";
 
-    activeQuestionObj.o.forEach((optionString, targetIdx) => {
-        const optionCardNode = document.createElement("div");
-        optionCardNode.className = "option-card";
-        optionCardNode.innerHTML = optionString;
-        optionCardNode.onclick = () => processSelectedAnswer(targetIdx, optionCardNode);
-        selectionGrid.appendChild(optionCardNode);
+    q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.classList.add("option-btn");
+        btn.innerHTML = option;
+        btn.onclick = () => checkAnswer(index, btn);
+        optionsContainer.appendChild(btn);
     });
 
-    document.getElementById("scoreTrackerBox").innerText = userTotalScore;
-    cycleCountSeconds = 60;
-    document.getElementById("timerCountdownText").innerText = cycleCountSeconds;
+    scoreText.innerHTML = `Score: ${score}`;
+    timeLeft = 45;
+    timerText.innerHTML = `Time: ${timeLeft}`;
 
-    // Run active countdown loops
-    countClockTimer = setInterval(() => {
-        cycleCountSeconds--;
-        document.getElementById("timerCountdownText").innerText = cycleCountSeconds;
-        if (cycleCountSeconds <= 0) {
-            clearInterval(countClockTimer);
-            revealCorrectAnswerSequence();
+    timer = setInterval(() => {
+        timeLeft--;
+        timerText.innerHTML = `Time: ${timeLeft}`;
+        if(timeLeft <= 0){
+            clearInterval(timer);
+            showCorrectAnswer();
         }
     }, 1000);
 }
 
-/* Process and Evaluate Chosen Option Responses */
-function processSelectedAnswer(clickedIdx, clickedCardDOMElement) {
-    if (clickedCardDOMElement.classList.contains("correct-state") || clickedCardDOMElement.classList.contains("wrong-state")) return;
+/* User Selection Validation Routing */
+function checkAnswer(selected, button){
+    const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll(".option-btn");
 
-    const currentLevelData = compiledActiveQuestions[operationalLevelIndex];
-    const feedbackMsgBox = document.getElementById("feedbackMessageBox");
-
-    if (clickedIdx === currentLevelData.a) {
-        clearInterval(countClockTimer);
-        clickedCardDOMElement.classList.add("correct-state");
+    if(selected === q.answer){
+        clearInterval(timer);
+        button.classList.add("correct");
+        feedback.innerHTML = "🎉 Correct! Super job!";
+        feedback.style.color = "#10b981";
         
-        // Multi-channel sensory response loop execution
-        playSoundAsset("audioCorrect");
-        setTimeout(() => playSoundAsset("audioClap"), 350);
-        triggerStarsConfettiExplosion();
-        
-        userTotalScore++;
-        document.getElementById("scoreTrackerBox").innerText = userTotalScore;
+        correctSound.play().catch(() => {});
+        setTimeout(() => { clapSound.play().catch(() => {}); }, 200);
 
-        feedbackMsgBox.className = "feedback-msg-box success";
-        feedbackMsgBox.innerHTML = `🌟 <b>Super Job!</b> That is absolutely right! <br><br> ${currentLevelData.e}`;
-        feedbackMsgBox.style.display = "block";
-
-        freezeInteractiveOptionsClick();
-        document.getElementById("nextBtn").classList.remove("hidden");
+        score++;
+        createConfetti();
+        buttons.forEach(btn => btn.disabled = true);
+        nextBtn.style.display = "inline-block";
     } else {
-        clickedCardDOMElement.classList.add("wrong-state");
-        playSoundAsset("wrong");
-        levelAttemptTally++;
-
-        if (levelAttemptTally < 2) {
-            feedbackMsgBox.className = "feedback-msg-box error";
-            feedbackMsgBox.innerHTML = `🌤️ <b>Oh, close one!</b> Check out the picture context layout or rules and try your final attempt!`;
-            feedbackMsgBox.style.display = "block";
+        button.classList.add("wrong");
+        wrongSound.play().catch(() => {});
+        showCross();
+        
+        if(!retryUsed){
+            retryUsed = true;
+            feedback.innerHTML = "⏳ Try again! You have one more attempt.";
+            feedback.style.color = "#ea580c";
+            button.disabled = true;
         } else {
-            clearInterval(countClockTimer);
-            feedbackMsgBox.className = "feedback-msg-box error";
-            feedbackMsgBox.innerHTML = `🤖 <b>Attempts Used!</b> Let's check the solution layout rules together.`;
-            feedbackMsgBox.style.display = "block";
-            revealCorrectAnswerSequence();
+            clearInterval(timer);
+            showCorrectAnswer();
         }
     }
 }
 
-/* Force Highlight Correction Paths */
-function revealCorrectAnswerSequence() {
-    clearInterval(countClockTimer);
-    freezeInteractiveOptionsClick();
+/* Fallback Explanation UI */
+function showCorrectAnswer(){
+    const q = questions[currentQuestion];
+    const buttons = document.querySelectorAll(".option-btn");
     
-    const targetSolutionIdx = compiledActiveQuestions[operationalLevelIndex].a;
-    const itemCards = document.getElementById("optionsMatrixContainer").getElementsByClassName("option-card");
-
-    for (let i = 0; i < itemCards.length; i++) {
-        if (i === targetSolutionIdx) {
-            itemCards[i].classList.add("correct-state");
+    buttons.forEach((btn, index) => {
+        btn.disabled = true;
+        if(index === q.answer){ 
+            btn.classList.add("correct"); 
         }
-    }
+    });
 
-    const explanatoryBox = document.getElementById("feedbackMessageBox");
-    explanatoryBox.innerHTML = `💡 <b>Learning Fact:</b> ${compiledActiveQuestions[operationalLevelIndex].e}`;
-    explanatoryBox.className = "feedback-msg-box success";
-    explanatoryBox.style.display = "block";
-
-    document.getElementById("nextBtn").classList.remove("hidden");
+    feedback.innerHTML = "🔍 Let's learn the concept:";
+    feedback.style.color = "#631bfb";
+    explanation.style.display = "block";
+    explanation.innerHTML = q.explanation;
+    nextBtn.style.display = "inline-block";
 }
 
-function freezeInteractiveOptionsClick() {
-    const activeCards = document.getElementById("optionsMatrixContainer").getElementsByClassName("option-card");
-    for (let i = 0; i < activeCards.length; i++) {
-        activeCards[i].classList.add("disabled");
-        activeCards[i].style.pointerEvents = "none";
-    }
-}
-
-function advanceNextLevel() {
-    operationalLevelIndex++;
-    if (operationalLevelIndex < compiledActiveQuestions.length) {
-        renderCurrentLevelTask();
+function nextQuestion(){
+    currentQuestion++;
+    if(currentQuestion < questions.length){
+        loadQuestion();
     } else {
-        compileFinalOutcomes();
+        showResult();
     }
 }
 
-/* Generate Evaluation Results Viewport Data */
-function compileFinalOutcomes() {
-    document.getElementById("quizScreen").classList.add("hidden");
-    document.getElementById("resultScreen").classList.remove("hidden");
+/* Badge distribution and calculation module */
+function showResult(){
+    quizScreen.style.display = "none";
+    resultScreen.style.display = "flex";
+    document.getElementById("finalScore").innerHTML = score + " / " + questions.length;
     
-    playSoundAsset("audioClap");
+    let badgeIcon = document.getElementById("badgeIcon");
+    let badgeTitle = document.getElementById("badgeTitle");
+    let msg = "";
 
-    document.getElementById("finalScore").innerText = `${userTotalScore} / ${compiledActiveQuestions.length}`;
-    
-    let descriptiveMessage = "";
-    const slotEmoji = document.getElementById("trophyEmojiSlot");
-
-    if (userTotalScore === 15) {
-        descriptiveMessage = "🏆 <b>Ultimate Master Circuit Architect!</b> Incredible performance! You understand continuous loops, open links, and switch positions flawlessly.";
-        slotEmoji.innerText = "👑🏆🥇";
-    } else if (userTotalScore >= 11) {
-        descriptiveMessage = "🌟 <b>Brilliant Circuit Engineer!</b> You showed exceptional analytical skills with our picture challenges and flow puzzles.";
-        slotEmoji.innerText = "⭐🥈✨";
-    } else if (userTotalScore >= 7) {
-        descriptiveMessage = "🔋 <b>Good Effort!</b> You understand the core behaviors of switches and energy lines. Review open connection zones to perfect your rating.";
-        slotEmoji.innerText = "🔋⚡💡";
-    } else {
-        descriptiveMessage = "🚀 <b>Keep Learning!</b> Remember, current only runs when wire connections are closed without empty gaps. Give it another play to win a trophy!";
-        slotEmoji.innerText = "📚🔄🔌";
+    if(score >= 14){ 
+        badgeIcon.innerHTML = "👑";
+        badgeTitle.innerHTML = "Circuit Master";
+        msg = "Incredible engineering! You have complete mastery over current flow, switch logistics, and complete circuit design!"; 
+        clapSound.play().catch(() => {});
+    } else if(score >= 9){ 
+        badgeIcon.innerHTML = "⚡";
+        badgeTitle.innerHTML = "Power Specialist";
+        msg = "Wonderful job! You can easily fix structural gaps and safely control electric currents.";
+        clapSound.play().catch(() => {});
+    } else { 
+        badgeIcon.innerHTML = "🎯";
+        badgeTitle.innerHTML = "Circuit Spark";
+        msg = "Good effort! Play once more to secure a perfect score and unlock the ultimate Master Badge!"; 
     }
-
-    document.getElementById("finalSummaryMessageSlot").innerHTML = descriptiveMessage;
-    triggerStarsConfettiExplosion();
+    document.getElementById("message").innerHTML = msg;
 }
 
-/* Confetti System Particle Spawner */
-function triggerStarsConfettiExplosion() {
-    const childEmotes = ["⭐️", "🔌", "✨", "🎉", "⚡️", "💡"];
-    for (let i = 0; i < 35; i++) {
-        const starNode = document.createElement("div");
-        starNode.className = "falling-star-fx";
-        starNode.innerHTML = childEmotes[Math.floor(Math.random() * childEmotes.length)];
-        starNode.style.left = Math.random() * 100 + "vw";
-        starNode.style.top = "-30px";
-        starNode.style.animationDuration = (Math.random() * 1 + 1.2) + "s";
-        starNode.style.fontSize = (Math.random() * 14 + 18) + "px";
-        document.body.appendChild(starNode);
-        
-        setTimeout(() => {
-            starNode.remove();
-        }, 2200);
+function restartQuiz(){
+    currentQuestion = 0;
+    score = 0;
+    resultScreen.style.display = "none";
+    startQuiz();
+}
+
+/* FX Part: Confetti Particle Generator */
+function createConfetti(){
+    for(let i = 0; i < 20; i++){
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.top = "-20px";
+        const colors = ["#0082ff", "#7800ff", "#10b981", "#ffeb3b", "#ff2a6d"];
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
     }
 }
 
-/* Safe Browser Audio Asset Invocation Wrap */
-function playSoundAsset(nodeId) {
-    try {
-        const audioElement = document.getElementById(nodeId);
-        if (audioElement) {
-            audioElement.currentTime = 0;
-            audioElement.play().catch(error => {
-                console.log("Auto-playback deferred safely until user gesture registration event.", error);
-            });
-        }
-    } catch (e) {
-        console.log("Audio node tracking block warning: ", e);
-    }
+/* FX Part: Translucent Shake Cross Overlay */
+function showCross(){
+    const cross = document.createElement("div");
+    cross.classList.add("cross");
+    cross.innerHTML = "✕";
+    cross.style.left = (Math.random() * (window.innerWidth - 60)) + "px";
+    cross.style.top = (Math.random() * (window.innerHeight - 60)) + "px";
+    document.body.appendChild(cross);
+    setTimeout(() => cross.remove(), 1000);
 }
 </script>
-
 </body>
 </html>
