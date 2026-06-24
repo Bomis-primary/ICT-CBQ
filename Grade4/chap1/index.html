@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CBQ - Customising the Desktop</title>
+    <title>Grade 4 ICT - Customising the Desktop</title>
     <style>
         :root {
-            --primary-bg: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --primary-bg: linear-gradient(135deg, #5c54e5 0%, #7036ed 100%);
             --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --accent-purple: #7c3aed;
+            --text-main: #2d3748;
+            --accent-purple: #7036ed;
             --correct-green: #10b981;
             --wrong-red: #ef4444;
-            --hint-blue: #3b82f6;
         }
 
         * {
@@ -29,32 +28,32 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 20px;
             overflow-x: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             background: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            padding: 35px;
             position: relative;
-            min-height: 520px;
+            min-height: 540px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        /* Screen States */
+        /* Screen Management */
         .screen {
             display: none;
             width: 100%;
             flex-direction: column;
             align-items: center;
-            animation: fadeIn 0.4s ease-in-out forwards;
+            animation: fadeIn 0.4s ease-out forwards;
         }
 
         .screen.active {
@@ -62,49 +61,55 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Branding Screen */
+        /* Logo Branding Screen */
         #logo-screen {
             text-align: center;
+            justify-content: center;
         }
 
         .logo-img {
-            max-width: 240px;
+            max-width: 260px;
             height: auto;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        /* Instruction Screen */
+        .loader-text {
+            font-size: 1.15rem;
+            color: #718096;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Instructions Screen */
         .header-title {
             color: var(--accent-purple);
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 800;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             text-transform: uppercase;
-            letter-spacing: 1px;
             text-align: center;
         }
 
         .header-subtitle {
-            font-size: 1.15rem;
-            color: #4b5563;
-            margin-bottom: 25px;
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 30px;
             font-weight: 600;
             text-align: center;
         }
 
         .instruction-box {
-            background: #f9fafb;
-            border-radius: 16px;
-            padding: 20px 25px;
+            background: #f7fafc;
+            border: 1px solid #edf2f7;
+            border-radius: 18px;
+            padding: 25px 30px;
             width: 100%;
-            max-width: 620px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-            margin-bottom: 30px;
-            border: 1px solid #f3f4f6;
+            max-width: 650px;
+            margin-bottom: 35px;
         }
 
         .instruction-list {
@@ -112,11 +117,11 @@
         }
 
         .instruction-list li {
-            font-size: 1rem;
-            color: #374151;
-            margin-bottom: 14px;
+            font-size: 1.05rem;
+            color: #4a5568;
+            margin-bottom: 16px;
             position: relative;
-            padding-left: 28px;
+            padding-left: 30px;
             line-height: 1.5;
         }
 
@@ -127,52 +132,52 @@
             top: 0;
             color: var(--accent-purple);
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
 
-        /* General Buttons */
+        /* Buttons styling */
         .btn {
             background: var(--accent-purple);
-            color: #fff;
+            color: #ffffff;
             border: none;
-            padding: 14px 40px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 30px;
+            padding: 15px 45px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border-radius: 35px;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 18px rgba(112, 54, 237, 0.35);
         }
 
         .btn:hover {
             transform: scale(1.03);
-            background: #6d28d9;
-            box-shadow: 0 7px 20px rgba(124, 58, 237, 0.45);
+            background: #5d2bcf;
+            box-shadow: 0 8px 22px rgba(112, 54, 237, 0.45);
         }
 
         .btn:active {
             transform: scale(0.98);
         }
 
-        /* Gameplay Area */
+        /* Main Game Layout */
         .hud {
             display: flex;
             justify-content: space-between;
             width: 100%;
             font-weight: 700;
             margin-bottom: 15px;
-            border-bottom: 2px solid #f3f4f6;
+            border-bottom: 2px solid #edf2f7;
             padding-bottom: 12px;
-            font-size: 1rem;
-            color: #4b5563;
+            font-size: 1.05rem;
+            color: #4a5568;
         }
 
         .timer-bar {
             width: 100%;
             height: 8px;
-            background: #e5e7eb;
+            background: #e2e8f0;
             border-radius: 4px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             overflow: hidden;
         }
 
@@ -185,39 +190,39 @@
 
         .question-container {
             width: 100%;
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             font-weight: 600;
             color: var(--text-main);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: center;
-            line-height: 1.45;
+            line-height: 1.5;
         }
 
-        /* Dynamic Asset Images Without White Backgrounds */
         .asset-image-wrapper {
-            background-color: #f3f4f6;
-            border-radius: 12px;
-            padding: 8px;
-            margin-bottom: 20px;
+            background-color: #f7fafc;
+            border-radius: 14px;
+            padding: 10px;
+            margin-bottom: 25px;
             max-width: 100%;
             display: flex;
             justify-content: center;
+            border: 1px solid #edf2f7;
         }
 
         .asset-image {
             max-width: 100%;
             height: auto;
-            max-height: 180px;
-            border-radius: 8px;
+            max-height: 190px;
+            border-radius: 10px;
             object-fit: contain;
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
+            gap: 14px;
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         @media(min-width: 600px) {
@@ -227,22 +232,22 @@
         }
 
         .option-card {
-            background: #f9fafb;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 16px 20px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 18px 22px;
             font-size: 1.05rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            color: #374151;
+            color: #4a5568;
         }
 
         .option-card:hover {
-            background: #f3f4f6;
-            border-color: #d1d5db;
+            background: #f1f5f9;
+            border-color: #cbd5e1;
         }
 
         .option-card.correct {
@@ -259,14 +264,13 @@
         }
 
         .feedback-message {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 20px;
-            min-height: 28px;
+            margin-bottom: 25px;
+            min-height: 30px;
             text-align: center;
         }
 
-        /* Celebration Animation Overlay */
         canvas#celebration-canvas {
             position: absolute;
             top: 0;
@@ -274,13 +278,13 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            border-radius: 20px;
+            border-radius: 24px;
             z-index: 10;
         }
 
         .badge {
             font-size: 4.5rem;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             animation: float 1.5s infinite alternate ease-in-out;
         }
 
@@ -288,22 +292,10 @@
             from { transform: translateY(0); }
             to { transform: translateY(-12px); }
         }
-
-        .loading-dots::after {
-            content: '.';
-            animation: dots 1.5s steps(5, end) infinite;
-        }
-        @keyframes dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60% { content: '...'; }
-            80%, 100% { content: ''; }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Native Audio Players referencing files from your exact folder structure context (image_cd7532.png) -->
     <audio id="snd-correct" src="assets/correct.mp3" preload="auto"></audio>
     <audio id="snd-clap" src="assets/clap.mp3" preload="auto"></audio>
     <audio id="snd-wrong" src="assets/wrong.mp3" preload="auto"></audio>
@@ -311,30 +303,27 @@
     <div class="container">
         <canvas id="celebration-canvas"></canvas>
 
-        <!-- SCREEN 1: BRANDING LOGO SCREEN (Displays for 5 seconds exactly) -->
         <div id="logo-screen" class="screen active">
-            <!-- Referencing innovine-logo.png as shown in assets folder list -->
             <img class="logo-img" src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.src='https://placehold.co/250x100?text=INNOVINE+SOLUTIONS'">
-            <div style="font-size:1.2rem; color:#4b5563; font-weight:600; margin-top:10px;" class="loading-dots">Initializing Workspace</div>
+            <div class="loader-text">Loading Workspace Component Content...</div>
         </div>
 
-        <!-- SCREEN 2: INSTRUCTIONS SCREEN (Displays only after Logo screen) -->
         <div id="instruction-screen" class="screen">
-            <h2 class="header-subtitle">Logical Thinking & Competency-Based Questions</h2>
+            <h1 class="header-title">ICT Challenge</h1>
+            <h2 class="header-subtitle">Competency-Based Question (CBQ) Workspace</h2>
             
             <div class="instruction-box">
                 <ul class="instruction-list">
-                    <li>Analyze the logical patterns, desktop structures, and interface assets carefully[cite: 1].</li>
-                    <li>You get up to <b>2 attempts</b> for each randomized question before answers are revealed[cite: 1].</li>
-                    <li>Correct answers trigger celebratory animations, tracking claps, and audio sounds[cite: 1].</li>
-                    <li>Each task is bound to an active <b>45-second</b> workspace countdown timer[cite: 1].</li>
-                    <li>Score maximum points to earn the Logic Thinker Master Badge![cite: 1]</li>
+                    <li>Analyze the logical desktop patterns and layout configurations carefully.</li>
+                    <li>You get up to <b>2 attempts</b> for each randomized question before answers reveal.</li>
+                    <li>Correct selections trigger immediate animations, claps, and sound track events.</li>
+                    <li>Each challenge question features a strictly timed <b>45-second</b> count.</li>
+                    <li>Earn the maximum score to claim the master rank title!</li>
                 </ul>
             </div>
             <button class="btn" onclick="startChallenge()">Start Challenge</button>
         </div>
 
-        <!-- SCREEN 3: GAMEPLAY INTERACTION -->
         <div id="game-screen" class="screen">
             <div class="hud">
                 <span id="hud-question-num">Question: 1/15</span>
@@ -353,21 +342,19 @@
             <button id="next-btn" class="btn" style="display: none;" onclick="loadNextQuestion()">Next Question</button>
         </div>
 
-        <!-- SCREEN 4: EVALUATION & RESULTS -->
         <div id="result-screen" class="screen">
             <div class="badge">🏆</div>
-            <h1 class="header-title" id="result-title">Excellent Score!</h1>
+            <h1 class="header-title" id="result-title">Excellent Job!</h1>
             <h2 class="header-subtitle" id="result-score-text">You scored 15 out of 15 points!</h2>
             <div class="instruction-box" style="text-align: center; margin-bottom: 25px;">
-                <p id="result-evaluation" style="font-size: 1.1rem; color: #374151; font-weight: 500;"></p>
+                <p id="result-evaluation" style="font-size: 1.15rem; color: #4a5568; font-weight: 500;"></p>
             </div>
             <button class="btn" onclick="restartChallenge()">Play Again</button>
         </div>
     </div>
 
     <script>
-        // Media Players Manager calling assets elements directly from image_cd7532.png schema
-        const MediaController = {
+        const Sounds = {
             playCorrect() {
                 const s = document.getElementById('snd-correct');
                 if (s) { s.currentTime = 0; s.play().catch(() => {}); }
@@ -382,33 +369,33 @@
             }
         };
 
-        // All 15 competency-based questions mapping exact assets image parameters where matching[cite: 1]
-        const questionPool = [
-            { q: "Aarohi switches on the computer. Which screen appears first?[cite: 1]", o: ["Taskbar", "Desktop", "Folder", "Window"], a: 1 },
-            { q: "Vihaan wants to make his screen attractive. Which feature should he change?[cite: 1]", o: ["Wallpaper", "Printer", "Keyboard", "CPU"], a: 0 },
-            { q: "Kabir sees small pictures that open programs. What are they called?[cite: 1]", o: ["Menus", "Tabs", "Icons", "Files"], a: 2 },
-            { q: "Anaya wants to use her own photo as the desktop background. Which setting should she open?[cite: 1]", o: ["Personalize", "Insert", "Tools", "Edit"], a: 0, img: "assets/personalize.png" },
-            { q: "Myra right-clicks on the desktop. Why?[cite: 1]", o: ["Open shortcut menu", "Shut down computer", "Print file", "Open Paint"], a: 0 },
-            { q: "Dev wants icons to arrange automatically. Which option should he use?[cite: 1]", o: ["Design", "Arrange/View", "Font", "Layout"], a: 1 },
-            { q: "Samaira leaves the computer idle. What may appear?[cite: 1]", o: ["Folder", "Screen Saver", "Calculator", "Browser"], a: 1, img: "assets/bubble.png" },
-            { q: "Wallpaper → Background Picture, Screen Saver → Appears When Idle. Which appears when the computer is not used?[cite: 1]", o: ["Wallpaper", "Theme", "Screen Saver", "Icon"], a: 2 },
-            { q: "Icons → Open Programs, Taskbar → Shows Running Apps. Which helps start a program?[cite: 1]", o: ["Icon", "Taskbar", "Printer", "Folder"], a: 0 },
-            { q: "Picture-Based: A picture shows Recycle Bin and This PC on the desktop. What are they?[cite: 1]", o: ["Themes", "Icons", "Wallpapers", "Windows"], a: 1, img: "assets/lockscreen.png" },
-            { q: "Picture-Based: A colourful image is displayed behind desktop icons. What is it called?[cite: 1]", o: ["Taskbar", "Menu", "Wallpaper", "Screen Saver"], a: 2, img: "assets/bubble.png" },
-            { q: "Error Detection: Rohan says a screen saver appears immediately when the computer starts. What is incorrect?[cite: 1]", o: ["It appears after the computer is idle", "It is a wallpaper", "It opens programs", "It changes files"], a: 0 },
-            { q: "Two students customise desktops. One keeps it organised and one cluttered. Which is easier to use?[cite: 1]", o: ["Second", "Both", "First", "Neither"], a: 2 },
-            { q: "Ishita wants a plain blue background instead of a picture. Which option should she choose?[cite: 1]", o: ["Solid Colour", "Printer Settings", "Sound Settings", "Browser"], a: 0 },
-            { q: "Which statement is NOT correct?[cite: 1]", o: ["Wallpaper changes background", "Icons represent programs", "Screen savers appear when idle", "Icons print documents automatically"], a: 3 }
+        // Fully parsed and clean text database from Chapter 1 (No raw markdown document citations)
+        const database = [
+            { q: "Aarohi switches on the computer. Which screen appears first?", o: ["Taskbar", "Desktop", "Folder", "Window"], a: 1 },
+            { q: "Vihaan wants to make his screen attractive. Which feature should he change?", o: ["Wallpaper", "Printer", "Keyboard", "CPU"], a: 0 },
+            { q: "Kabir sees small pictures that open programs. What are they called?", o: ["Menus", "Tabs", "Icons", "Files"], a: 2 },
+            { q: "Anaya wants to use her own photo as the desktop background. Which setting should she open?", o: ["Personalize", "Insert", "Tools", "Edit"], a: 0, img: "assets/personalize.png" },
+            { q: "Myra right-clicks on the desktop. Why?", o: ["Open shortcut menu", "Shut down computer", "Print file", "Open Paint"], a: 0 },
+            { q: "Dev wants icons to arrange automatically. Which option should he use?", o: ["Design", "Arrange/View", "Font", "Layout"], a: 1 },
+            { q: "Samaira leaves the computer idle. What may appear?", o: ["Folder", "Screen Saver", "Calculator", "Browser"], a: 1, img: "assets/bubble.png" },
+            { q: "Wallpaper → Background Picture, Screen Saver → Appears When Idle. Which appears when the computer is not used?", o: ["Wallpaper", "Theme", "Screen Saver", "Icon"], a: 2 },
+            { q: "Icons → Open Programs, Taskbar → Shows Running Apps. Which helps start a program?", o: ["Icon", "Taskbar", "Printer", "Folder"], a: 0 },
+            { q: "Picture-Based: A picture shows Recycle Bin and This PC on the desktop. What are they?", o: ["Themes", "Icons", "Wallpapers", "Windows"], a: 1, img: "assets/lockscreen.png" },
+            { q: "Picture-Based: A colourful image is displayed behind desktop icons. What is it called?", o: ["Taskbar", "Menu", "Wallpaper", "Screen Saver"], a: 2, img: "assets/bubble.png" },
+            { q: "Error Detection: Rohan says a screen saver appears immediately when the computer starts. What is incorrect?", o: ["It appears after the computer is idle", "It is a wallpaper", "It opens programs", "It changes files"], a: 0 },
+            { q: "Two students customise desktops. One keeps it organised and one cluttered. Which is easier to use?", o: ["Second", "Both", "First", "Neither"], a: 2 },
+            { q: "Ishita wants a plain blue background instead of a picture. Which option should she choose?", o: ["Solid Colour", "Printer Settings", "Sound Settings", "Browser"], a: 0 },
+            { q: "Which statement is NOT correct?", o: ["Wallpaper changes background", "Icons represent programs", "Screen savers appear when idle", "Icons print documents automatically"], a: 3 }
         ];
 
-        let activeQuestions = [];
-        let currentQuestionIdx = 0;
-        let score = 0;
-        let attempts = 0;
+        let challengeQuestions = [];
+        let currentIdx = 0;
+        let currentScore = 0;
+        let currentAttempts = 0;
         let countdownTimer = null;
-        let timeLeft = 45;
+        let timeRemaining = 45;
 
-        // Auto transition Branding Logo Screen -> Instruction screen after exactly 5000ms (5 seconds)
+        // Hold branding logo layer active exactly for 5 seconds (5000ms)
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 showScreen('instruction-screen');
@@ -421,197 +408,191 @@
         }
 
         function startChallenge() {
-            // Randomise layout structure for non-repetitive play cycles
-            activeQuestions = [...questionPool].sort(() => Math.random() - 0.5);
-            currentQuestionIdx = 0;
-            score = 0;
+            challengeQuestions = [...database].sort(() => Math.random() - 0.5);
+            currentIdx = 0;
+            currentScore = 0;
             showScreen('game-screen');
             loadQuestion();
         }
 
         function loadQuestion() {
-            attempts = 0;
-            timeLeft = 45;
+            currentAttempts = 0;
+            timeRemaining = 45;
             document.getElementById('next-btn').style.display = 'none';
             document.getElementById('feedback-message').textContent = '';
             
-            let qData = activeQuestions[currentQuestionIdx];
+            let currentData = challengeQuestions[currentIdx];
             
-            document.getElementById('hud-question-num').textContent = `Question: ${currentQuestionIdx + 1}/${activeQuestions.length}`;
-            document.getElementById('hud-score').textContent = `Score: ${score}`;
-            document.getElementById('question-text').textContent = qData.q;
+            document.getElementById('hud-question-num').textContent = `Question: ${currentIdx + 1}/${challengeQuestions.length}`;
+            document.getElementById('hud-score').textContent = `Score: ${currentScore}`;
+            document.getElementById('question-text').textContent = currentData.q;
 
-            // Load contextual asset picture inside container
             const imgContainer = document.getElementById('image-container');
             imgContainer.innerHTML = '';
-            if (qData.img) {
+            if (currentData.img) {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'asset-image-wrapper';
                 
                 const img = document.createElement('img');
                 img.className = 'asset-image';
-                img.src = qData.img;
-                img.alt = "Question Visual Asset";
+                img.src = currentData.img;
+                img.alt = "Reference Asset Component";
                 img.onerror = function() { wrapper.style.display = 'none'; };
                 
                 wrapper.appendChild(img);
                 imgContainer.appendChild(wrapper);
             }
 
-            // Standardize multiple choice fields
             const grid = document.getElementById('options-grid');
             grid.innerHTML = '';
-            qData.o.forEach((option, idx) => {
+            currentData.o.forEach((option, idx) => {
                 const card = document.createElement('div');
                 card.className = 'option-card';
                 card.textContent = option;
-                card.onclick = () => handleSelection(idx, card);
+                card.onclick = () => verifyChoice(idx, card);
                 grid.appendChild(card);
             });
 
-            startTimer();
+            initiateTimer();
         }
 
-        function startTimer() {
+        function initiateTimer() {
             clearInterval(countdownTimer);
             const fill = document.getElementById('timer-fill');
             fill.style.backgroundColor = 'var(--accent-purple)';
             fill.style.width = '100%';
             
             countdownTimer = setInterval(() => {
-                timeLeft--;
-                let percent = (timeLeft / 45) * 100;
+                timeRemaining--;
+                let percent = (timeRemaining / 45) * 100;
                 fill.style.width = `${percent}%`;
 
-                if (timeLeft <= 10) {
+                if (timeRemaining <= 10) {
                     fill.style.backgroundColor = 'var(--wrong-red)';
                 }
 
-                if (timeLeft <= 0) {
+                if (timeRemaining <= 0) {
                     clearInterval(countdownTimer);
-                    revealCorrect("Time's Up!");
+                    exposeAnswer("Time is up!");
                 }
             }, 1000);
         }
 
-        function handleSelection(selectedIdx, cardElement) {
-            if (attempts >= 2 || cardElement.classList.contains('correct') || cardElement.classList.contains('wrong')) return;
+        function verifyChoice(selectedIdx, cardElement) {
+            if (currentAttempts >= 2 || cardElement.classList.contains('correct') || cardElement.classList.contains('wrong')) return;
 
-            let qData = activeQuestions[currentQuestionIdx];
+            let currentData = challengeQuestions[currentIdx];
 
-            if (selectedIdx === qData.a) {
-                // Correct path handling
+            if (selectedIdx === currentData.a) {
                 clearInterval(countdownTimer);
                 cardElement.classList.add('correct');
-                MediaController.playCorrect();
-                MediaController.playClap();
-                triggerConfetti();
+                Sounds.playCorrect();
+                Sounds.playClap();
+                triggerConfettiEffect();
                 
                 document.getElementById('feedback-message').style.color = 'var(--correct-green)';
-                document.getElementById('feedback-message').textContent = "Excellent! Correct Answer 🎉";
-                score++;
-                document.getElementById('hud-score').textContent = `Score: ${score}`;
-                disableOptions();
+                document.getElementById('feedback-message').textContent = "Brilliant! Correct Answer 🎉";
+                currentScore++;
+                document.getElementById('hud-score').textContent = `Score: ${currentScore}`;
+                disableGridInteraction();
                 document.getElementById('next-btn').style.display = 'block';
             } else {
-                // Wrong path handling
-                attempts++;
+                currentAttempts++;
                 cardElement.classList.add('wrong');
-                MediaController.playWrong();
+                Sounds.playWrong();
 
-                if (attempts === 1) {
+                if (currentAttempts === 1) {
                     document.getElementById('feedback-message').style.color = 'var(--wrong-red)';
-                    document.getElementById('feedback-message').textContent = "Incorrect! Try your 2nd attempt carefully.";
+                    document.getElementById('feedback-message').textContent = "Incorrect choice. Use your final attempt thoughtfully!";
                 } else {
                     clearInterval(countdownTimer);
-                    revealCorrect("Incorrect choice out of attempts.");
+                    exposeAnswer("Incorrect selection.");
                 }
             }
         }
 
-        function revealCorrect(message) {
-            disableOptions();
-            let qData = activeQuestions[currentQuestionIdx];
+        function exposeAnswer(statusMessage) {
+            disableGridInteraction();
+            let currentData = challengeQuestions[currentIdx];
             const cards = document.querySelectorAll('.option-card');
-            cards[qData.a].classList.add('correct');
+            cards[currentData.a].classList.add('correct');
             
             document.getElementById('feedback-message').style.color = 'var(--wrong-red)';
-            document.getElementById('feedback-message').textContent = `${message} The correct answer is: ${qData.o[qData.a]}`;
+            document.getElementById('feedback-message').textContent = `${statusMessage} Correct option: ${currentData.o[currentData.a]}`;
             document.getElementById('next-btn').style.display = 'block';
         }
 
-        function disableOptions() {
+        function disableGridInteraction() {
             document.querySelectorAll('.option-card').forEach(c => {
                 c.style.cursor = 'default';
             });
         }
 
         function loadNextQuestion() {
-            currentQuestionIdx++;
-            if (currentQuestionIdx < activeQuestions.length) {
+            currentIdx++;
+            if (currentIdx < challengeQuestions.length) {
                 loadQuestion();
             } else {
-                showResults();
+                displayFinalResults();
             }
         }
 
-        function showResults() {
+        function displayFinalResults() {
             showScreen('result-screen');
-            document.getElementById('result-score-text').textContent = `You scored ${score} out of ${activeQuestions.length} points!`;
+            document.getElementById('result-score-text').textContent = `You scored ${currentScore} out of ${challengeQuestions.length} points!`;
             
-            let evaluation = "";
-            let title = "";
-            if (score === activeQuestions.length) {
-                title = "Logic Master Accomplished!";
-                evaluation = "Outstanding achievement! You've successfully locked in a perfect score and won the premium Logic Thinker Master Badge! 🎖️";
-                MediaController.playClap();
-                triggerConfetti();
-            } else if (score >= activeQuestions.length * 0.7) {
-                title = "Terrific Job!";
-                evaluation = "Fantastic performance on Customising the Desktop interface rules. Excellent work! 👍";
+            let messageText = "";
+            let titleText = "";
+            if (currentScore === challengeQuestions.length) {
+                titleText = "Perfect Mastery!";
+                messageText = "Incredible tracking skills! You've successfully finished with zero mistakes. 🎖️";
+                Sounds.playClap();
+                triggerConfettiEffect();
+            } else if (currentScore >= challengeQuestions.length * 0.7) {
+                titleText = "Great Performance!";
+                messageText = "Excellent configuration metrics. You have a very clear grasp of layout properties. 👍";
             } else {
-                title = "Keep Practicing!";
-                evaluation = "Good try! Test your desktop customisation interface definitions again to boost your score. 🚀";
+                titleText = "Keep Trying!";
+                messageText = "Good challenge effort! Refresh your knowledge of desktop options and run through again. 🚀";
             }
-            document.getElementById('result-title').textContent = title;
-            document.getElementById('result-evaluation').textContent = evaluation;
+            document.getElementById('result-title').textContent = titleText;
+            document.getElementById('result-evaluation').textContent = messageText;
         }
 
         function restartChallenge() {
             startChallenge();
         }
 
-        // Canvas Particle Engine for Feedback Animations
-        function triggerConfetti() {
+        function triggerConfettiEffect() {
             const canvas = document.getElementById('celebration-canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = canvas.parentElement.offsetWidth;
             canvas.height = canvas.parentElement.offsetHeight;
 
             let particles = [];
-            for (let i = 0; i < 65; i++) {
+            for (let i = 0; i < 60; i++) {
                 particles.push({
                     x: canvas.width / 2,
-                    y: canvas.height / 2,
+                    y: canvas.height / 3,
                     radius: Math.random() * 4 + 2.5,
-                    color: `hsl(${Math.random() * 360}, 95%, 65%)`,
-                    vx: (Math.random() - 0.5) * 9,
-                    vy: (Math.random() - 0.5) * 9 - 2.5,
-                    gravity: 0.16,
+                    color: `hsl(${Math.random() * 360}, 90%, 60%)`,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 0.5) * 10 - 2,
+                    gravity: 0.18,
                     alpha: 1
                 });
             }
 
-            function frame() {
+            function animateFrame() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                let active = false;
+                let continuing = false;
                 particles.forEach(p => {
                     p.x += p.vx;
                     p.y += p.vy;
                     p.vy += p.gravity;
-                    p.alpha -= 0.016;
+                    p.alpha -= 0.015;
                     if (p.alpha > 0) {
-                        active = true;
+                        continuing = true;
                         ctx.beginPath();
                         ctx.globalAlpha = p.alpha;
                         ctx.fillStyle = p.color;
@@ -620,9 +601,9 @@
                     }
                 });
                 ctx.globalAlpha = 1.0;
-                if (active) requestAnimationFrame(frame);
+                if (continuing) requestAnimationFrame(animateFrame);
             }
-            frame();
+            animateFrame();
         }
     </script>
 </body>
