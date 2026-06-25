@@ -1,1 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spreadsheet Master Challenge - Grade 4</title>
 
+<style>
+:root {
+    --primary: #2563eb;
+    --secondary: #7c3aed;
+    --success: #10b981;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --light: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.96);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 15px;
+    transition: background 0.3s ease;
+}
+
+body.game-mode {
+    background: linear-gradient(135deg, #0ea5e9, #2563eb, #7c3aed);
+}
+
+.bg-stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+    display: none;
+}
+
+body.game-mode .bg-stars {
+    display: block;
+}
+
+.bg-star {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.25);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatStar linear infinite;
+}
+
+@keyframes floatStar {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+#splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#splash img {
+    width: 280px;
+    max-width: 80%;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
+
+.container {
+    width: 100%;
+    max-width: 780px;
+    background: transparent;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+body.game-mode .container {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    padding: 36px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.intro {
+    text-align: center;
+}
+
+.intro h1 {
+    font-size: 2.3rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.intro h1 span {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.intro h2 {
+    font-size: 1.2rem;
+    color: #475569;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.instructions {
+    background: rgba(241, 245, 249, 0.8);
+    padding: 24px;
+    border-radius: 20px;
+    line-height: 1.8;
+    color: #334155;
+    font-size: 1.05rem;
+    text-align: left;
+    margin: 24px 0;
+    border: 1px solid #e2e8f0;
+}
+
+.instructions ol {
+    margin-left: 20px;
+}
+
+.instructions li {
+    margin-bottom: 10px;
+}
+
+button.main-action-btn {
+    padding: 16px 42px;
+    border: none;
+    border-radius: 35px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.35);
+}
+
+button.main-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.45);
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.topbox {
+    background: #ffffff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.question-number {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.question {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--dark);
+    margin-bottom: 22px;
+    text-align: left;
+}
+
+.question-image-box {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto 20px auto;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    display: none;
+    padding: 8px;
+}
+
+.question-image-box img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+@media(min-width: 600px) {
+    .options {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.option {
+    background: #ffffff;
+    padding: 18px 22px;
+    border-radius: 16px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    color: #334155;
+    display: flex;
+    align-items: center;
+}
+
+.option:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background-color: #f8fafc;
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.08);
+}
+
+.correct {
+    background: #ecfdf5 !important;
+    border-color: var(--success) !important;
+    color: #065f46 !important;
+    font-weight: 700;
+}
+
+.wrong {
+    background: #fef2f2 !important;
+    border-color: var(--danger) !important;
+    color: #991b1b !important;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.feedback {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 16px;
+    display: none;
+    line-height: 1.7;
+    text-align: left;
+    font-size: 1rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.feedback.success {
+    background: #ecfdf5;
+    border-left: 6px solid var(--success);
+    color: #065f46;
+}
+
+.feedback.error {
+    background: #fef2f2;
+    border-left: 6px solid var(--danger);
+    color: #991b1b;
+}
+
+.result h1 {
+    font-size: 2.4rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+}
+
+.score-circle {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin: 24px auto;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
+}
+
+.result-message {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 0 10px;
+}
+
+.celebration-star {
+    position: fixed;
+    font-size: 24px;
+    animation: fallStarAnimation 2.5s linear forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes fallStarAnimation {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@media(max-width:600px) {
+    body.game-mode .container { padding: 28px 20px; border-radius: 24px; }
+    .question { font-size: 1.15rem; }
+    .option { font-size: 0.95rem; padding: 14px 18px; }
+    .intro h1 { font-size: 1.8rem; }
+    button.main-action-btn { width: 100%; padding: 15px 30px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-stars" id="bgStars"></div>
+
+<div id="splash">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="container hidden" id="app">
+
+    <div id="introScreen" class="intro">
+        <img src="assets/innovine-logo.png" alt="Logo" style="max-width:160px; margin-bottom:15px;">
+        <h1><span>ICT CHALLENGE</span></h1>
+        <h2>Spreadsheets: Organising School Data</h2>
+        
+        <div class="instructions">
+            <ol>
+                <li>Help Riya calculate and organise student marks step-by-step.</li>
+                <li>Analyze references, formula rules, cell names, and AutoSum logic.</li>
+                <li>You get up to 2 attempts for each randomized challenge question.</li>
+                <li>Correct answers play success melodies and applause; wrong choices log a bounce note.</li>
+                <li>The interface automatically refits perfectly across desktops, tablets, and mobile screens.</li>
+            </ol>
+        </div>
+
+        <button class="main-action-btn" onclick="startChallenge()">Start Challenge</button>
+    </div>
+
+    <div id="quizScreen" class="hidden">
+        <div class="topbar">
+            <div class="topbox">⭐ Score: <span id="score">0</span></div>
+            <div class="topbox">⏳ Time: <span id="timer">45</span>s</div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="question-number" id="questionNumber"></div>
+        <div class="question" id="questionText"></div>
+        
+        <div class="question-image-box" id="imageContainer">
+            <img id="questionImage" src="" alt="Spreadsheet Asset State">
+        </div>
+
+        <div class="options" id="optionsBox"></div>
+        <div class="feedback" id="feedbackBox"></div>
+
+        <button id="nextBtn" class="main-action-btn hidden" style="margin-top: 20px;" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div id="resultScreen" class="hidden result">
+        <h1>🎉 Challenge Completed! 🎉</h1>
+        <div class="score-circle">
+            <span id="finalScore"></span>
+        </div>
+        <div class="result-message" id="resultMessage"></div>
+        <button class="main-action-btn" onclick="startChallengeAgain()">Try Again</button>
+    </div>
+
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/clap.mp3" preload="auto"></audio>
+
+<script>
+/* Particle Layer Matrix Background Elements */
+const bg = document.getElementById("bgStars");
+for(let i=0; i<25; i++) {
+    let star = document.createElement("div");
+    star.classList.add("bg-star");
+    star.style.left = Math.random()*100 + "%";
+    star.style.animationDuration = (Math.random()*8+10) + "s";
+    star.style.animationDelay = Math.random()*6 + "s";
+    star.style.width = (Math.random()*16+8) + "px";
+    star.style.height = star.style.width;
+    bg.appendChild(star);
+}
+
+/* 5-Second White Flash Screen Splash Control */
+setTimeout(() => {
+    document.getElementById("splash").style.setProperty("display", "none", "important");
+    document.body.classList.add("game-mode");
+    document.getElementById("app").classList.remove("hidden");
+}, 5000);
+
+/* Chapter Questions Bank - Assertion-Reasoning Replaced */
+const coreQuestions = [
+    {
+        q: "Siya wants to organise a long list of students and their event marks neatly in rows and columns. Which software tool is best suited for this task?",
+        o: ["Paint", "Spreadsheet", "Calculator", "Notepad"],
+        a: 1,
+        e: "Spreadsheet software (like Microsoft Excel) is purposely designed to store, manage, and calculate data organized in rows and columns.",
+        img: null
+    },
+    {
+        q: "What is a spreadsheet workspace mainly utilized for in school and business activities?",
+        o: ["Drawing complex pictures", "Playing video games", "Working with numbers and calculating data", "Watching movie clips"],
+        a: 2,
+        e: "A spreadsheet is an electronic grid used for calculating, sorting, analyzing, and organizing numerical values.",
+        img: null
+    },
+    {
+        q: "In a spreadsheet interface, what structural element is created when a horizontal row intersects with a vertical column?",
+        o: ["Chart", "Cell", "Slide", "Icon"],
+        a: 1,
+        e: "The individual box formed by the intersection of a column and a row is called a Cell.",
+        img: null
+    },
+    {
+        q: "Riya wants to enter the names and scores of participants into her layout. Where exactly should she click to type the data?",
+        o: ["Menu bar", "Cells", "Toolbar", "Status bar"],
+        a: 1,
+        e: "Data can only be written or edited directly inside individual cell blocks within the spreadsheet matrix.",
+        img: null
+    },
+    {
+        q: "Why is a single cell box considered the foundational building block of an active spreadsheet worksheet?",
+        o: ["It stores external system files", "It runs operating programs", "It holds text, numbers, or formula data", "It directly prints documents"],
+        a: 2,
+        e: "Every cell is an independent data holder that can store numeric entries, string labels, or operational formulas.",
+        img: null
+    },
+    {
+        q: "How does a spreadsheet uniquely identify every single cell box across its workspace grid?",
+        o: ["By giving it a unique row name only", "By giving it a unique column letter only", "By combining its column letter and row number together", "By assigning a random symbol to it"],
+        a: 2,
+        e: "Each cell has a distinct address or reference derived by listing its column header letter followed immediately by its row index number.",
+        img: null
+    },
+    {
+        q: "If Riya selects a cell located exactly in column B and row 3, what will its unique cell address look like?",
+        o: ["3B", "B3", "BB3", "33"],
+        a: 1,
+        e: "A cell reference always states the column letter first, followed by the row number (e.g., B3).",
+        img:"assets/cell.png"
+    },
+    {
+        q: "Riya notices a specific box display reading 'A1' on the top-left area while she modifies data. What is this component called?",
+        o: ["Formula bar", "Name box", "Toolbar", "Ribbon"],
+        a: 1,
+        e: "The Name Box displays the address reference of the currently active cell in the spreadsheet workspace.",
+        img: "assets/name box.png"
+    },
+    {
+        q: "What constitutes a 'Workbook' file inside a spreadsheet program?",
+        o: ["A single cell block", "A collection of one or more worksheets saved together", "A single horizontal row", "A single vertical column"],
+        a: 1,
+        e: "A workbook is the actual file container that houses multiple worksheet pages, much like a book contains sheets of paper.",
+        img: null
+    },
+    {
+        q: "Look at the highlighted element in the image. What spreadsheet feature group does this represent?",
+        o: ["Horizontal Rows", "Vertical Columns", "Formula Indicators", "Status Indicators"],
+        a: 1,
+        e: "The lettered bars running vertically from top to bottom represent Columns in the spreadsheet layout.",
+        img: "assets/Row-column.png"
+    },
+    {
+        q: "Look closely at the active data cell selection in the workspace image. What is the correct address reference for this cell?",
+        o: ["4C", "C4", "CC4", "44"],
+        a: 1,
+        e: "Locating the active cell shows it sits under Column C, on Row 4, giving it a cell reference of C4.",
+        img: "assets/cell-reference.png"
+    },
+    {
+        q: "Riya wants to calculate the grand total of scores from a long column of numbers instantly without writing manual arithmetic addition steps. Which tool should she select?",
+        o: ["Delete Key", "AutoSum Button", "Paint Brush", "Insert Shapes"],
+        a: 1,
+        e: "The AutoSum command automatically inserts a mathematical addition formula to calculate selected numbers instantly.",
+        img: "assets/formula.png"
+    },
+    {
+        q: "Why is using built-in features like AutoSum highly recommended when managing large tables of student marks?",
+        o: ["It clears data records from your screen", "It changes font styling themes", "It performs mathematical calculations quickly and avoids errors", "It plays ambient audio loops"],
+        a: 2,
+        e: "AutoSum computes totals instantly, saving valuable time and removing manual calculation mistakes.",
+        img: null
+    },
+    {
+        q: "If Riya enters numbers in cell A1 through cell A5 and triggers the AutoSum command, where will the calculation output automatically appear by default?",
+        o: ["A5", "A6", "A1", "B1"],
+        a: 1,
+        e: "AutoSum appends its total value box directly in the empty slot immediately beneath the targeted numerical range (A6).",
+        img: "assets/formula.png"
+    },
+    {
+        q: "Which element does not share a logical identity with the native structural components of a spreadsheet sheet workspace?",
+        o: ["Row", "Column", "Cell", "Slide"],
+        a: 3,
+        e: "Rows, columns, and cells are fundamental spreadsheet elements. A Slide belongs specifically to presentation tools like PowerPoint.",
+        img: null
+    }
+];
+
+/* Control States */
+let questions = [];
+let current = 0;
+let score = 0;
+let attempts = 0;
+let timer;
+let timeLeft = 45;
+
+/* Shuffling Engine */
+function shuffleQuestions() {
+    let arr = [...coreQuestions];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    questions = arr;
+}
+
+function startChallenge() {
+    document.getElementById("introScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    shuffleQuestions();
+    loadQuestion();
+}
+
+function startChallengeAgain() {
+    document.getElementById("resultScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    shuffleQuestions();
+    loadQuestion();
+}
+
+function loadQuestion() {
+    attempts = 0;
+    timeLeft = 45;
+    startTimer();
+
+    document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+    const q = questions[current];
+
+    document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById("questionText").innerHTML = q.q;
+
+    const imgContainer = document.getElementById("imageContainer");
+    const imgElem = document.getElementById("questionImage");
+    if(q.img) {
+        imgElem.src = q.img;
+        imgContainer.style.display = "block";
+    } else {
+        imgContainer.style.display = "none";
+        imgElem.src = "";
+    }
+
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
+
+    q.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkAnswer(div, index);
+        box.appendChild(div);
+    });
+
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
+}
+
+function startTimer() {
+    clearInterval(timer);
+    document.getElementById("timer").innerText = timeLeft;
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+        if(timeLeft <= 0) {
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }, 1000);
+}
+
+function checkAnswer(element, index) {
+    if(element.classList.contains("correct") || element.classList.contains("wrong")) return;
+
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+
+    if(index === q.a) {
+        clearInterval(timer);
+        element.classList.add("correct");
+        
+        try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
+        try { 
+            setTimeout(() => {
+                document.getElementById("clapSound").play().catch(()=>{});
+            }, 300);
+        } catch(e){}
+
+        score++;
+        document.getElementById("score").innerText = score;
+        feedback.className = "feedback success";
+        feedback.innerHTML = `<strong>✨ Correct! Brilliant Spreadsheet Work!</strong><br>💡 ${q.e}`;
+        feedback.style.display = "block";
+        disableAllOptions();
+        createCelebrationStars();
+        document.getElementById("nextBtn").classList.remove("hidden");
+    } else {
+        element.classList.add("wrong");
+        try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
+        attempts++;
+        
+        if(attempts >= 2) {
+            clearInterval(timer);
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Attempts Used! Let's check the spreadsheet rule:</strong><br>💡 ${q.e}`;
+            feedback.style.display = "block";
+            showCorrectAnswerInline();
+            disableAllOptions();
+            document.getElementById("nextBtn").classList.remove("hidden");
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ That choice is incorrect.</strong> Pay close attention to row numbers, column letters, or functional goals. Try again!`;
+            feedback.style.display = "block";
+        }
+    }
+}
+
+function showCorrectAnswerInline() {
+    const q = questions[current];
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        if(i === q.a) {
+            options[i].classList.add("correct");
+        }
+    }
+}
+
+function showCorrectAnswer() {
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+    feedback.className = "feedback error";
+    feedback.innerHTML = `<strong>⏳ Time's Up! Here is the foundational rule:</strong><br>💡 ${q.e}`;
+    feedback.style.display = "block";
+    showCorrectAnswerInline();
+    disableAllOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function disableAllOptions() {
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        options[i].style.pointerEvents = "none";
+    }
+}
+
+function nextQuestion() {
+    current++;
+    if(current < questions.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    clearInterval(timer);
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("finalScore").innerText = `${score} / ${questions.length}`;
+
+    let msg = "";
+    if(score >= 13) {
+        msg = "🌟 Spreadsheet Grandmaster! You completely mastered cells, workbook mechanics, column addressing, and AutoSum logic formulas!";
+    } else if(score >= 9) {
+        msg = "👍 Great Job! You hold a very strong operational knowledge of grid structures, name boxes, and basic calculation tools.";
+    } else {
+        msg = "😊 Good Attempt! Remember, spreadsheets store information inside lettered columns and numbered rows to make working with numbers easy. Give it another try!";
+    }
+    document.getElementById("resultMessage").innerText = msg;
+}
+
+function createCelebrationStars() {
+    const emojis = ["⭐", "✨", "📊", "📈", "🟢", "🧩", "💎"];
+    for(let i=0; i<20; i++) {
+        const star = document.createElement("div");
+        star.classList.add("celebration-star");
+        star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+        star.style.animationDelay = Math.random() * 0.2 + "s";
+        star.style.fontSize = Math.random() * 16 + 20 + "px";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2500);
+    }
+}
+</script>
+</body>
+</html>
