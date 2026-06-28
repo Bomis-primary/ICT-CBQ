@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scratch Code Lab - Fun with Scratch</title>
+<title>Scratch Code Lab - Chapter 7</title>
 
 <style>
 :root {
@@ -393,13 +393,13 @@ button.main-action-btn:hover {
 <div class="bg-stars" id="bgStars"></div>
 
 <div id="splash">
-    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.style.display='none'">
 </div>
 
 <div class="container hidden" id="app">
 
     <div id="introScreen" class="intro">
-        <img src="assets/innovine-logo.png" alt="Logo" style="max-width:160px; margin-bottom:15px;">
+        <img src="assets/innovine-logo.png" alt="Logo" style="max-width:160px; margin-bottom:15px;" onerror="this.style.display='none'">
         <h1><span>ICT INTUITIVE CHALLENGE</span></h1>
         <h2>Chapter 7: Visual Programming in Scratch</h2>
         
@@ -430,7 +430,7 @@ button.main-action-btn:hover {
         <div class="question" id="questionText"></div>
         
         <div class="question-image-box" id="imageContainer">
-            <img id="questionImage" src="" alt="Scratch Interface Asset">
+            <img id="questionImage" src="" alt="Scratch Interface Asset" onerror="this.parentElement.style.display='none';">
         </div>
 
         <div class="options" id="optionsBox"></div>
@@ -455,27 +455,29 @@ button.main-action-btn:hover {
 <audio id="clapSound" src="assets/clap.mp3" preload="auto"></audio>
 
 <script>
-/* Particle Layer Construction Engine */
-const bg = document.getElementById("bgStars");
-for(let i=0; i<25; i++) {
-    let star = document.createElement("div");
-    star.classList.add("bg-star");
-    star.style.left = Math.random()*100 + "%";
-    star.style.animationDuration = (Math.random()*8+10) + "s";
-    star.style.animationDelay = Math.random()*6 + "s";
-    star.style.width = (Math.random()*16+8) + "px";
-    star.style.height = star.style.width;
-    bg.appendChild(star);
-}
+/* Background Particle Generator */
+try {
+    const bg = document.getElementById("bgStars");
+    for(let i=0; i<25; i++) {
+        let star = document.createElement("div");
+        star.classList.add("bg-star");
+        star.style.left = Math.random()*100 + "%";
+        star.style.animationDuration = (Math.random()*8+10) + "s";
+        star.style.animationDelay = Math.random()*6 + "s";
+        star.style.width = (Math.random()*16+8) + "px";
+        star.style.height = star.style.width;
+        bg.appendChild(star);
+    }
+} catch(e) { console.log("Background effects loaded with adjustments."); }
 
-/* 5-Second Pure White Splash Screen Controller */
+/* 5-Second Pure White Splash Screen Timeout */
 setTimeout(() => {
     document.getElementById("splash").style.setProperty("display", "none", "important");
     document.body.classList.add("game-mode");
     document.getElementById("app").classList.remove("hidden");
 }, 5000);
 
-/* Chapter 7 Screened Database Questions (Cleaned of Assertion-Reasoning Formats) */
+/* Chapter 7 Filtered Core Competency Dataset */
 const databaseQuestions = [
     {
         q: "What is Scratch mainly used for by creators and young developers?",
@@ -545,7 +547,7 @@ const databaseQuestions = [
         o: ["The sprite model", "The Stage Backdrop", "The code block size", "The script name"],
         a: 1,
         e: "The Backdrop defines the background graphics mapped onto the Stage canvas behind your sprites.",
-        img: null
+        img: "assets/backdrop1.png"
     },
     {
         q: "Which block color group contains the 'when green flag clicked' block used to initiate a program script?",
@@ -560,8 +562,9 @@ const databaseQuestions = [
         a: 1,
         e: "The 'forever' loop block runs its nested instructions continuously until you press the red stop sign.",
         img: "assets/forever.png"
+    },
     {
-        q: "Review the coordinate system layout grid. What are the specific positional values of the exact center point of the Scratch stage?",
+        q: "Picture-Based: Review the coordinate system layout grid. What are the specific positional values of the exact center point of the Scratch stage?",
         o: ["X: 100, Y: 100", "X: 0, Y: 0", "X: 240, Y: 180", "X: -240, Y: -180"],
         a: 1,
         e: "The center point of the Scratch stage coordinates is positioned at exactly X: 0 and Y: 0.",
@@ -572,7 +575,7 @@ const databaseQuestions = [
         o: ["No logical blocks were added to the script area", "The project has too many characters", "The character is the wrong color", "The file was not saved to a local folder"],
         a: 0,
         e: "Sprites require motion and execution blocks attached to a script trigger to create physical movement on the stage.",
-        img:  "assets/green flag.png"
+        img: null
     },
     {
         q: "When compiling a Scratch layout, how do sprites, scripts, and stage backdrops relate to one another?",
@@ -583,7 +586,6 @@ const databaseQuestions = [
     }
 ];
 
-/* Module State Records */
 let questions = [];
 let current = 0;
 let score = 0;
@@ -591,7 +593,6 @@ let attempts = 0;
 let timer;
 let timeLeft = 45;
 
-/* Randomization Shuffling Engine */
 function shuffleQuestions() {
     let arr = [...databaseQuestions];
     for (let i = arr.length - 1; i > 0; i--) {
@@ -670,6 +671,18 @@ function startTimer() {
     }, 1000);
 }
 
+function playAudioSafely(id) {
+    try {
+        const audio = document.getElementById(id);
+        if (audio) {
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log("Audio play blocked until interaction. Continuing game workflow..."));
+        }
+    } catch(e) {
+        console.log("Audio asset bypassed cleanly.");
+    }
+}
+
 function checkAnswer(element, index) {
     if(element.classList.contains("correct") || element.classList.contains("wrong")) return;
 
@@ -680,12 +693,8 @@ function checkAnswer(element, index) {
         clearInterval(timer);
         element.classList.add("correct");
         
-        try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
-        try { 
-            setTimeout(() => {
-                document.getElementById("clapSound").play().catch(()=>{});
-            }, 300);
-        } catch(e){}
+        playAudioSafely("correctSound");
+        setTimeout(() => { playAudioSafely("clapSound"); }, 250);
 
         score++;
         document.getElementById("score").innerText = score;
@@ -697,7 +706,7 @@ function checkAnswer(element, index) {
         document.getElementById("nextBtn").classList.remove("hidden");
     } else {
         element.classList.add("wrong");
-        try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
+        playAudioSafely("wrongSound");
         attempts++;
         
         if(attempts >= 2) {
@@ -771,18 +780,20 @@ function showResults() {
 }
 
 function createCelebrationStars() {
-    const emojis = ["⭐", "✨", "🧩", "🚀", "💻", "🎨"];
-    for(let i=0; i<20; i++) {
-        const star = document.createElement("div");
-        star.classList.add("celebration-star");
-        star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        star.style.left = Math.random() * 100 + "vw";
-        star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
-        star.style.animationDelay = Math.random() * 0.2 + "s";
-        star.style.fontSize = Math.random() * 16 + 20 + "px";
-        document.body.appendChild(star);
-        setTimeout(() => star.remove(), 2500);
-    }
+    try {
+        const emojis = ["⭐", "✨", "🧩", "🚀", "💻", "🎨"];
+        for(let i=0; i<15; i++) {
+            const star = document.createElement("div");
+            star.classList.add("celebration-star");
+            star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            star.style.left = Math.random() * 100 + "vw";
+            star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+            star.style.animationDelay = Math.random() * 0.1 + "s";
+            star.style.fontSize = Math.random() * 16 + 20 + "px";
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 2500);
+        }
+    } catch(e) {}
 }
 </script>
 </body>
