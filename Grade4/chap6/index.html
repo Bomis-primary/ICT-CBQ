@@ -1,1 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pivot Animator Challenge - Grade 3</title>
 
+<style>
+:root {
+    --primary: #2563eb;
+    --secondary: #7c3aed;
+    --success: #10b981;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --light: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.96);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 15px;
+    transition: background 0.3s ease;
+}
+
+body.game-mode {
+    background: linear-gradient(135deg, #0ea5e9, #2563eb, #7c3aed);
+}
+
+.bg-stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+    display: none;
+}
+
+body.game-mode .bg-stars {
+    display: block;
+}
+
+.bg-star {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.25);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatStar linear infinite;
+}
+
+@keyframes floatStar {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+#splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#splash img {
+    width: 280px;
+    max-width: 80%;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
+
+.container {
+    width: 100%;
+    max-width: 780px;
+    background: transparent;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+body.game-mode .container {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    padding: 36px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.intro {
+    text-align: center;
+}
+
+.intro h1 {
+    font-size: 2.3rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.intro h1 span {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.intro h2 {
+    font-size: 1.2rem;
+    color: #475569;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.instructions {
+    background: rgba(241, 245, 249, 0.8);
+    padding: 24px;
+    border-radius: 20px;
+    line-height: 1.8;
+    color: #334155;
+    font-size: 1.05rem;
+    text-align: left;
+    margin: 24px 0;
+    border: 1px solid #e2e8f0;
+}
+
+.instructions ol {
+    margin-left: 20px;
+}
+
+.instructions li {
+    margin-bottom: 10px;
+}
+
+button.main-action-btn {
+    padding: 16px 42px;
+    border: none;
+    border-radius: 35px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.35);
+}
+
+button.main-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.45);
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.topbox {
+    background: #ffffff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.question-number {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.question {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--dark);
+    margin-bottom: 22px;
+    text-align: left;
+}
+
+.question-image-box {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto 20px auto;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    display: none;
+    padding: 8px;
+}
+
+.question-image-box img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+@media(min-width: 600px) {
+    .options {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.option {
+    background: #ffffff;
+    padding: 18px 22px;
+    border-radius: 16px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    color: #334155;
+    display: flex;
+    align-items: center;
+}
+
+.option:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background-color: #f8fafc;
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.08);
+}
+
+.correct {
+    background: #ecfdf5 !important;
+    border-color: var(--success) !important;
+    color: #065f46 !important;
+    font-weight: 700;
+}
+
+.wrong {
+    background: #fef2f2 !important;
+    border-color: var(--danger) !important;
+    color: #991b1b !important;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.feedback {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 16px;
+    display: none;
+    line-height: 1.7;
+    text-align: left;
+    font-size: 1rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.feedback.success {
+    background: #ecfdf5;
+    border-left: 6px solid var(--success);
+    color: #065f46;
+}
+
+.feedback.error {
+    background: #fef2f2;
+    border-left: 6px solid var(--danger);
+    color: #991b1b;
+}
+
+.result h1 {
+    font-size: 2.4rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+}
+
+.score-circle {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin: 24px auto;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
+}
+
+.result-message {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 0 10px;
+}
+
+.celebration-star {
+    position: fixed;
+    font-size: 24px;
+    animation: fallStarAnimation 2.5s linear forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes fallStarAnimation {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@media(max-width:600px) {
+    body.game-mode .container { padding: 28px 20px; border-radius: 24px; }
+    .question { font-size: 1.15rem; }
+    .option { font-size: 0.95rem; padding: 14px 18px; }
+    .intro h1 { font-size: 1.8rem; }
+    button.main-action-btn { width: 100%; padding: 15px 30px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-stars" id="bgStars"></div>
+
+<div id="splash">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo">
+</div>
+
+<div class="container hidden" id="app">
+
+    <div id="introScreen" class="intro">
+        <img src="assets/innovine-logo.png" alt="Logo" style="max-width:160px; margin-bottom:15px;">
+        <h1><span>ICT CHALLENGE</span></h1>
+        <h2>Chapter 6: Pivot Animator Masterclass</h2>
+        
+        <div class="instructions">
+            <ol>
+                <li>Master stick figure properties, frame manipulation, joint colors, and timeline control.</li>
+                <li>Analyze handles: Orange shifts positions, Red pivots structural joints.</li>
+                <li>You get a maximum of 2 attempts per question before explanations unlock.</li>
+                <li>Correct selections activate applause overlays; wrong choices click a single bounce tone.</li>
+                <li>Fully responsive layout works seamlessly on mobile devices, tablets, and laptops!</li>
+            </ol>
+        </div>
+
+        <button class="main-action-btn" onclick="startChallenge()">Start Challenge</button>
+    </div>
+
+    <div id="quizScreen" class="hidden">
+        <div class="topbar">
+            <div class="topbox">⭐ Score: <span id="score">0</span></div>
+            <div class="topbox">⏳ Time: <span id="timer">45</span>s</div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="question-number" id="questionNumber"></div>
+        <div class="question" id="questionText"></div>
+        
+        <div class="question-image-box" id="imageContainer">
+            <img id="questionImage" src="" alt="Pivot Animator State Screen">
+        </div>
+
+        <div class="options" id="optionsBox"></div>
+        <div class="feedback" id="feedbackBox"></div>
+
+        <button id="nextBtn" class="main-action-btn hidden" style="margin-top: 20px;" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div id="resultScreen" class="hidden result">
+        <h1>🎉 Challenge Completed! 🎉</h1>
+        <div class="score-circle">
+            <span id="finalScore"></span>
+        </div>
+        <div class="result-message" id="resultMessage"></div>
+        <button class="main-action-btn" onclick="startChallengeAgain()">Play Again</button>
+    </div>
+
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+<audio id="clapSound" src="assets/clap.mp3" preload="auto"></audio>
+
+<script>
+/* Particle Node Assembly Logic */
+const bg = document.getElementById("bgStars");
+for(let i=0; i<25; i++) {
+    let star = document.createElement("div");
+    star.classList.add("bg-star");
+    star.style.left = Math.random()*100 + "%";
+    star.style.animationDuration = (Math.random()*8+10) + "s";
+    star.style.animationDelay = Math.random()*6 + "s";
+    star.style.width = (Math.random()*16+8) + "px";
+    star.style.height = star.style.width;
+    bg.appendChild(star);
+}
+
+/* Splash Screen Timing Transition Engine (5-Seconds Strict) */
+setTimeout(() => {
+    document.getElementById("splash").style.setProperty("display", "none", "important");
+    document.body.classList.add("game-mode");
+    document.getElementById("app").classList.remove("hidden");
+}, 5000);
+
+/* Complete Chapter 6 Randomized Question Collection */
+const databaseQuestions = [
+    {
+        q: "Rohan wants to create a funny moving stick figure illustration for a school digital arts show. Which application should he use?",
+        o: ["MS Paint", "Pivot Animator", "MS Word", "Calculator"],
+        a: 1,
+        e: "Pivot Animator is specifically designed to create frame-by-frame vector animations using custom geometric stick figures.",
+        img: null
+    },
+    {
+        q: "Meera wants to make her stick figure appear as if it is waving its hand smooth down the timeline. What action sequence must she take?",
+        o: ["Add multiple frames with slight joint changes in each", "Type long descriptive text sentences", "Increase font styling dimensions", "Insert a complex math data table"],
+        a: 0,
+        e: "Waving or walking motions are built by combining multiple sequential frames, each capturing tiny adjustments to the joints.",
+        img: null
+    },
+    {
+        q: "Anaya wants to rotate only one arm of her stick figure on the canvas workspace. Which specific joint handle color must she click and drag?",
+        o: ["Orange handle", "Blue handle", "Red handle", "Green handle"],
+        a: 2,
+        e: "Red handles are structural pivot joints used to turn individual limbs or segments of a stick figure model.",
+        img: null
+    },
+    {
+        q: "Kabir has finished adding twelve animation frames. He wants to see how his project plays out before exporting it. Which control key helps?",
+        o: ["Delete button", "Play button", "Copy command", "Background tool"],
+        a: 1,
+        e: "The Play button cycles through your current saved timeline frames sequentially to preview how the final animation moves.",
+        img: null
+    },
+    {
+        q: "Frames 1 to 4 show an illustration of a football advancing tiny spaces across the screen. What core animation principle makes it appear to roll smoothly?",
+        o: ["Vibrant color swaps", "Small, progressive adjustments between frames", "Static plain text tags", "Erasing the timeline rows entirely"],
+        a: 1,
+        e: "When small, continuous variations across frames are played back quickly, our eyes interpret it as natural motion.",
+        img: null
+    },
+    {
+        q: "Ishita deleted an essential frame from her timeline panel layout by mistake. What action should she apply to get it back?",
+        o: ["Click Undo button option", "Close out the file frame instantly", "Print out the work page", "Zoom directly into the canvas grid"],
+        a: 0,
+        e: "The Undo tool reverts your last action, restoring mistakenly deleted objects or timeline frames safely.",
+        img: null
+    },
+    {
+        q: "Vivaan wishes to translate his entire stick figure model to a completely new area on the canvas without bending its knees or arms. Which key element does he drag?",
+        o: ["The central Orange origin handle", "The outer Blue bounding line", "Any peripheral Red limb point", "The canvas scroll slider"],
+        a: 0,
+        e: "Every stick figure has exactly one central orange handle that moves the entire object around the frame without affecting its pose.",
+        img: null
+    },
+    {
+        q: "A student reviews a text statement: 'An animation sequence uses only a single image file from start to finish.' What error exists in this statement?",
+        o: ["Animation relies on many frames loaded in sequence", "It requires external audio audio loops only", "It requires spreadsheet cell grids", "It requires rich word-processor text formatting"],
+        a: 0,
+        e: "An animation cannot be made from just one static shot; it needs multiple frames to establish a visual progression over time.",
+        img: null
+    },
+    {
+        q: "Sana runs her timeline loop and notices her character jumping abruptly and looking jerky. How can she optimize the smoothness of this movement?",
+        o: ["By introducing more intermediate frames with minor updates", "By clearing out half her current frames", "By resizing the canvas font", "By shutting down the app layout"],
+        a: 0,
+        e: "Adding intermediate frames with tiny adjustments fills in missing gaps, making the final motion appear much smoother.",
+        img: null
+    },
+    {
+        q: "What do we call an individual static snapshot page within an active Pivot Animator timeline tracking system?",
+        o: ["Frame", "Slide", "Page", "Cell"],
+        a: 0,
+        e: "Each separate captured step or picture lined up along the top track workspace is called a Frame.",
+        img: null
+    },
+    {
+        q: "Picture-Based: Review the active user interface control element highlighted in the image block. What is the explicit purpose of this button tool?",
+        o: ["To add a brand new frame to the timeline", "To erase the chosen stick figure shape", "To open up historical animation files", "To print out work frames onto paper sheets"],
+        a: 0,
+        e: "The 'Add Frame' command captures your current workspace setup and saves it as a new block on the timeline track.",
+        img: "assets/image_30a38c.png"
+    },
+    {
+        q: "Dev wants to store his stick figure project securely so he can continue adding features tomorrow. What option should he trigger?",
+        o: ["Save project from menu", "Undo past edits", "Delete current actor", "Zoom view parameters"],
+        a: 0,
+        e: "Saving keeps your configuration structure intact as an editable project file for later sessions.",
+        img: null
+    },
+    {
+        q: "Which specific setting makes a short stick figure action clip repeat over and over automatically without manually pressing play again?",
+        o: ["Loop check option", "Shape definition manager", "Clipboard workspace", "Font family selector"],
+        a: 0,
+        e: "Checking the Loop feature tells the player engine to jump straight back to frame 1 once it hits the end of your timeline.",
+        img: null
+    },
+    {
+        q: "If an animator populates a timeline track with more frames of a character falling down, how will the final playback change?",
+        o: ["The action sequence becomes smoother and more realistic", "The character gets deleted automatically", "The playback stops instantly", "The output changes colors randomly"],
+        a: 0,
+        e: "Using more frames to capture an action reduces jerky gaps, yielding a highly fluid and lifelike visual speed.",
+        img: null
+    },
+    {
+        q: "Aarohi wants to add an image of a sunny park behind her stick figure character instead of a blank white background. Which command should she choose?",
+        o: ["Load Background option", "Copy command tool", "Cut command segment", "Print page setup file"],
+        a: 0,
+        e: "The 'Load Background' command imports an external picture file and sets it as the backdrop behind your characters.",
+        img: null
+    },
+    {
+        q: "What is the true operational definition of digital computer animation?",
+        o: ["Displaying a series of slightly altered pictures rapidly in sequence", "Typing long documents in word processors", "Sketching a single master drawing file", "Playing back digital music files on a speaker system"],
+        a: 0,
+        e: "Animation functions by displaying a fast sequence of static pictures, tricks the mind into seeing movement.",
+        img: null
+    },
+    {
+        q: "Which action clip will appear most natural and realistic to an audience?",
+        o: ["One with small, steady changes across frames", "One with huge, chaotic jumps between positions", "One that shows only a single static image frame", "One that contains no frames at all"],
+        a: 0,
+        e: "Keeping changes small and steady from one frame to the next replicates the fluid physics of real-world objects.",
+        img: null
+    },
+    {
+        q: "What happens on your canvas space when you accidentally hit the 'Clear' or 'Delete' button with a figure selected?",
+        o: ["The active stick figure structure is removed from the canvas", "The application window shuts down completely", "A new character enters the frame", "The background changes colors"],
+        a: 0,
+        e: "The Delete command removes the selected object or figure cleanly from your active canvas workspace.",
+        img: null
+    },
+    {
+        q: "Where in the Pivot interface can an animator look to see a horizontal list of all the frames they have saved so far?",
+        o: ["The Timeline strip running across the top", "The status line at the bottom", "The tool layout on the right side", "The main color palette menu"],
+        a: 0,
+        e: "The Timeline displays thumbnails of all your saved frames in chronological order from left to right.",
+        img: null
+    },
+    {
+        q: "Which item does not belong in a list of core structural components of a standard stick figure in Pivot Animator?",
+        o: ["Pivot joint dots", "Connecting lines or segments", "An orange origin handle", "A web browser search tab"],
+        a: 3,
+        e: "Joints, segments, and handles are core parts of a figure asset. A web browser tab is a completely separate internet program.",
+        img: null
+    }
+];
+
+/* Application Control States */
+let questions = [];
+let current = 0;
+let score = 0;
+let attempts = 0;
+let timer;
+let timeLeft = 45;
+
+/* Shuffling Engine */
+function shuffleQuestions() {
+    let arr = [...databaseQuestions];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    questions = arr;
+}
+
+function startChallenge() {
+    document.getElementById("introScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    shuffleQuestions();
+    loadQuestion();
+}
+
+function startChallengeAgain() {
+    document.getElementById("resultScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    shuffleQuestions();
+    loadQuestion();
+}
+
+function loadQuestion() {
+    attempts = 0;
+    timeLeft = 45;
+    startTimer();
+
+    document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+    const q = questions[current];
+
+    document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById("questionText").innerHTML = q.q;
+
+    const imgContainer = document.getElementById("imageContainer");
+    const imgElem = document.getElementById("questionImage");
+    if(q.img) {
+        imgElem.src = q.img;
+        imgContainer.style.display = "block";
+    } else {
+        imgContainer.style.display = "none";
+        imgElem.src = "";
+    }
+
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
+
+    q.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkAnswer(div, index);
+        box.appendChild(div);
+    });
+
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
+}
+
+function startTimer() {
+    clearInterval(timer);
+    document.getElementById("timer").innerText = timeLeft;
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+        if(timeLeft <= 0) {
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }, 1000);
+}
+
+function checkAnswer(element, index) {
+    if(element.classList.contains("correct") || element.classList.contains("wrong")) return;
+
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+
+    if(index === q.a) {
+        clearInterval(timer);
+        element.classList.add("correct");
+        
+        try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
+        try { 
+            setTimeout(() => {
+                document.getElementById("clapSound").play().catch(()=>{});
+            }, 300);
+        } catch(e){}
+
+        score++;
+        document.getElementById("score").innerText = score;
+        feedback.className = "feedback success";
+        feedback.innerHTML = `<strong>✨ Fantastic! Perfect Animation Insight!</strong><br>💡 ${q.e}`;
+        feedback.style.display = "block";
+        disableAllOptions();
+        createCelebrationStars();
+        document.getElementById("nextBtn").classList.remove("hidden");
+    } else {
+        element.classList.add("wrong");
+        try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
+        attempts++;
+        
+        if(attempts >= 2) {
+            clearInterval(timer);
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Out of Attempts! Let's check the animator guide rules:</strong><br>💡 ${q.e}`;
+            feedback.style.display = "block";
+            showCorrectAnswerInline();
+            disableAllOptions();
+            document.getElementById("nextBtn").classList.remove("hidden");
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ That answer is incorrect.</strong> Think about joint dots, frame properties, or layout navigation loops. Try your second attempt!`;
+            feedback.style.display = "block";
+        }
+    }
+}
+
+function showCorrectAnswerInline() {
+    const q = questions[current];
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        if(i === q.a) {
+            options[i].classList.add("correct");
+        }
+    }
+}
+
+function showCorrectAnswer() {
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+    feedback.className = "feedback error";
+    feedback.innerHTML = `<strong>⏳ Time's Up! Here is the foundational design rule:</strong><br>💡 ${q.e}`;
+    feedback.style.display = "block";
+    showCorrectAnswerInline();
+    disableAllOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function disableAllOptions() {
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        options[i].style.pointerEvents = "none";
+    }
+}
+
+function nextQuestion() {
+    current++;
+    if(current < questions.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    clearInterval(timer);
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("finalScore").innerText = `${score} / ${questions.length}`;
+
+    let msg = "";
+    if(score >= 17) {
+        msg = "🌟 Animation Director! You have perfectly mastered frames, pivot properties, timeline adjustments, and handle logic parameters!";
+    } else if(score >= 11) {
+        msg = "👍 Creative Animator! You possess a very clear understanding of joint controls, onion skin logic, and vector sequence updates.";
+    } else {
+        msg = "😊 Good Try! Remember, Pivot animations are constructed frame by frame using red handles for bending joints and orange for shifting positions. Try again to boost your score!";
+    }
+    document.getElementById("resultMessage").innerText = msg;
+}
+
+function createCelebrationStars() {
+    const emojis = ["⭐", "✨", "🎬", "🚶", "🏃", "🧩", "💎"];
+    for(let i=0; i<20; i++) {
+        const star = document.createElement("div");
+        star.classList.add("celebration-star");
+        star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+        star.style.animationDelay = Math.random() * 0.2 + "s";
+        star.style.fontSize = Math.random() * 16 + 20 + "px";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2500);
+    }
+}
+</script>
+</body>
+</html>
