@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pivot Animator Challenge - Grade 3</title>
+<title>Pivot Animator Master Challenge</title>
 
 <style>
 :root {
@@ -401,15 +401,15 @@ button.main-action-btn:hover {
     <div id="introScreen" class="intro">
         <img src="assets/innovine-logo.png" alt="Logo" style="max-width:160px; margin-bottom:15px;">
         <h1><span>ICT CHALLENGE</span></h1>
-        <h2>Chapter 6: Pivot Animator Masterclass</h2>
+        <h2>Pivot Animator Space</h2>
         
         <div class="instructions">
             <ol>
-                <li>Master stick figure properties, frame manipulation, joint colors, and timeline control.</li>
-                <li>Analyze handles: Orange shifts positions, Red pivots structural joints.</li>
-                <li>You get a maximum of 2 attempts per question before explanations unlock.</li>
-                <li>Correct selections activate applause overlays; wrong choices click a single bounce tone.</li>
-                <li>Fully responsive layout works seamlessly on mobile devices, tablets, and laptops!</li>
+                <li>Master stick figure mechanics, multi-frame panels, joint behaviors, and timeline features.</li>
+                <li>Analyze control handles: Orange shifts global coordinate placement; Red handles rotate limbs.</li>
+                <li>Maximum 2 attempts allowed per challenge card before system explanations trigger.</li>
+                <li>Correct answers play instant victory chords and applause; incorrect inputs track bounce notes.</li>
+                <li>Fully responsive grid design matches mobile displays, workspace tablets, and laptop screens!</li>
             </ol>
         </div>
 
@@ -430,7 +430,7 @@ button.main-action-btn:hover {
         <div class="question" id="questionText"></div>
         
         <div class="question-image-box" id="imageContainer">
-            <img id="questionImage" src="" alt="Pivot Animator State Screen">
+            <img id="questionImage" src="" alt="Pivot Animator Interface Component">
         </div>
 
         <div class="options" id="optionsBox"></div>
@@ -445,7 +445,7 @@ button.main-action-btn:hover {
             <span id="finalScore"></span>
         </div>
         <div class="result-message" id="resultMessage"></div>
-        <button class="main-action-btn" onclick="startChallengeAgain()">Play Again</button>
+        <button class="main-action-btn" onclick="startChallengeAgain()">Try Again</button>
     </div>
 
 </div>
@@ -455,7 +455,7 @@ button.main-action-btn:hover {
 <audio id="clapSound" src="assets/clap.mp3" preload="auto"></audio>
 
 <script>
-/* Particle Node Assembly Logic */
+/* Floating Particle Node Layer Generator */
 const bg = document.getElementById("bgStars");
 for(let i=0; i<25; i++) {
     let star = document.createElement("div");
@@ -468,67 +468,81 @@ for(let i=0; i<25; i++) {
     bg.appendChild(star);
 }
 
-/* Splash Screen Timing Transition Engine (5-Seconds Strict) */
+/* 5-Second Pure White Splash Screen Controller */
 setTimeout(() => {
     document.getElementById("splash").style.setProperty("display", "none", "important");
     document.body.classList.add("game-mode");
     document.getElementById("app").classList.remove("hidden");
 }, 5000);
 
-/* Complete Chapter 6 Randomized Question Collection */
+/* Complete Chapter 6 Multi-Option Database Matrix */
 const databaseQuestions = [
     {
-        q: "Rohan wants to create a funny moving stick figure illustration for a school digital arts show. Which application should he use?",
+        q: "Rohan wants to create a moving stick figure animation loop for his computer class project. Which software application should he use?",
         o: ["MS Paint", "Pivot Animator", "MS Word", "Calculator"],
         a: 1,
-        e: "Pivot Animator is specifically designed to create frame-by-frame vector animations using custom geometric stick figures.",
+        e: "Pivot Animator is specifically optimized to build frame-by-frame vector 2D animations using adjustable stick models.",
         img: null
     },
     {
-        q: "Meera wants to make her stick figure appear as if it is waving its hand smooth down the timeline. What action sequence must she take?",
-        o: ["Add multiple frames with slight joint changes in each", "Type long descriptive text sentences", "Increase font styling dimensions", "Insert a complex math data table"],
+        q: "Meera wants to show a stick figure jumping and kicking smoothly across the screen workspace. What workflow should she follow?",
+        o: ["Add multiple frames with tiny joint position changes in each", "Type long text labels on the drawing page", "Increase system text font dimensions", "Insert a data-driven spreadsheet matrix table"],
         a: 0,
-        e: "Waving or walking motions are built by combining multiple sequential frames, each capturing tiny adjustments to the joints.",
+        e: "Smooth motion requires generating a series of sequential frames, with small alterations made to character joints on each one.",
         img: null
     },
     {
-        q: "Anaya wants to rotate only one arm of her stick figure on the canvas workspace. Which specific joint handle color must she click and drag?",
+        q: "Picture-Based: Review the active user interface control element highlighted in the image panel. What is the explicit function of this button?",
+        o: ["To add a new frame to the timeline row", "To clear out the selected model shape", "To open up folder project directories", "To print active frames onto physical paper sheets"],
+        a: 0,
+        e: "The 'Add Frame' command captures the current status of your workspace layout and updates it onto the tracking timeline.",
+        img: "assets/image_30a38c.png"
+    },
+    {
+        q: "Anaya wants to bend or rotate only one specific arm segment of her stick figure character. Which colored joint dot handle should she select and drag?",
         o: ["Orange handle", "Blue handle", "Red handle", "Green handle"],
         a: 2,
-        e: "Red handles are structural pivot joints used to turn individual limbs or segments of a stick figure model.",
+        e: "Red handles function as pivot points, allowing individual limbs or geometric segment structures to turn independently.",
         img: null
     },
     {
-        q: "Kabir has finished adding twelve animation frames. He wants to see how his project plays out before exporting it. Which control key helps?",
+        q: "Kabir has finished adding twelve animation frames. He wants to review how the continuous sequence plays out before exporting it. What button should he press?",
         o: ["Delete button", "Play button", "Copy command", "Background tool"],
         a: 1,
-        e: "The Play button cycles through your current saved timeline frames sequentially to preview how the final animation moves.",
+        e: "The Play button launches rapid frame-by-frame cycling, allowing you to preview the fluidity of your final animation.",
         img: null
     },
     {
-        q: "Frames 1 to 4 show an illustration of a football advancing tiny spaces across the screen. What core animation principle makes it appear to roll smoothly?",
-        o: ["Vibrant color swaps", "Small, progressive adjustments between frames", "Static plain text tags", "Erasing the timeline rows entirely"],
+        q: "Frames 1 to 4 show an illustration of a ball advancing tiny equal steps across the display. What essential animation logic creates the movement?",
+        o: ["Vibrant background color swaps", "Small, progressive adjustments between frames", "Static plain text tags", "Erasing the timeline rows entirely"],
         a: 1,
-        e: "When small, continuous variations across frames are played back quickly, our eyes interpret it as natural motion.",
+        e: "When small, continuous positional changes across sequential frames play back rapidly, our eyes interpret it as motion.",
         img: null
     },
     {
-        q: "Ishita deleted an essential frame from her timeline panel layout by mistake. What action should she apply to get it back?",
+        q: "Picture-Based: Analyze the user interface component displayed below. Which key function does this controller regulate within your animation file workflow?",
+        o: ["Starts and previews the saved frame cycle", "Deletes active timeline frames", "Changes limb line thickness properties", "Imports text blocks onto the canvas"],
+        a: 0,
+        e: "The Play control button runs your built sequence of timeline frames continuously, previewing the motion loop directly.",
+        img: "assets/image_409b1f.png"
+    },
+    {
+        q: "Ishita deleted an essential frame from her timeline strip layout by mistake. What tool option can help restore it?",
         o: ["Click Undo button option", "Close out the file frame instantly", "Print out the work page", "Zoom directly into the canvas grid"],
         a: 0,
         e: "The Undo tool reverts your last action, restoring mistakenly deleted objects or timeline frames safely.",
         img: null
     },
     {
-        q: "Vivaan wishes to translate his entire stick figure model to a completely new area on the canvas without bending its knees or arms. Which key element does he drag?",
+        q: "Vivaan wishes to change the location of his entire stick figure model on the canvas window without bending its arms or torso lines. Which handle should he drag?",
         o: ["The central Orange origin handle", "The outer Blue bounding line", "Any peripheral Red limb point", "The canvas scroll slider"],
         a: 0,
-        e: "Every stick figure has exactly one central orange handle that moves the entire object around the frame without affecting its pose.",
+        e: "Every stick figure has a single central orange handle that moves the entire object around the frame without modifying its pose.",
         img: null
     },
     {
-        q: "A student reviews a text statement: 'An animation sequence uses only a single image file from start to finish.' What error exists in this statement?",
-        o: ["Animation relies on many frames loaded in sequence", "It requires external audio audio loops only", "It requires spreadsheet cell grids", "It requires rich word-processor text formatting"],
+        q: "A student states: 'An animation sequence uses only a single, unchanged picture file from start to finish.' What correction should be applied?",
+        o: ["Animation relies on many frames loaded in sequence", "It requires external audio loops only", "It requires spreadsheet cell grids", "It requires word-processor text formatting"],
         a: 0,
         e: "An animation cannot be made from just one static shot; it needs multiple frames to establish a visual progression over time.",
         img: null
@@ -546,13 +560,6 @@ const databaseQuestions = [
         a: 0,
         e: "Each separate captured step or picture lined up along the top track workspace is called a Frame.",
         img: null
-    },
-    {
-        q: "Picture-Based: Review the active user interface control element highlighted in the image block. What is the explicit purpose of this button tool?",
-        o: ["To add a brand new frame to the timeline", "To erase the chosen stick figure shape", "To open up historical animation files", "To print out work frames onto paper sheets"],
-        a: 0,
-        e: "The 'Add Frame' command captures your current workspace setup and saves it as a new block on the timeline track.",
-        img: "assets/image_30a38c.png"
     },
     {
         q: "Dev wants to store his stick figure project securely so he can continue adding features tomorrow. What option should he trigger?",
@@ -609,17 +616,10 @@ const databaseQuestions = [
         a: 0,
         e: "The Timeline displays thumbnails of all your saved frames in chronological order from left to right.",
         img: null
-    },
-    {
-        q: "Which item does not belong in a list of core structural components of a standard stick figure in Pivot Animator?",
-        o: ["Pivot joint dots", "Connecting lines or segments", "An orange origin handle", "A web browser search tab"],
-        a: 3,
-        e: "Joints, segments, and handles are core parts of a figure asset. A web browser tab is a completely separate internet program.",
-        img: null
     }
 ];
 
-/* Application Control States */
+/* Module State Records */
 let questions = [];
 let current = 0;
 let score = 0;
@@ -627,7 +627,7 @@ let attempts = 0;
 let timer;
 let timeLeft = 45;
 
-/* Shuffling Engine */
+/* Shuffling Optimization Logic */
 function shuffleQuestions() {
     let arr = [...databaseQuestions];
     for (let i = arr.length - 1; i > 0; i--) {
@@ -726,7 +726,7 @@ function checkAnswer(element, index) {
         score++;
         document.getElementById("score").innerText = score;
         feedback.className = "feedback success";
-        feedback.innerHTML = `<strong>✨ Fantastic! Perfect Animation Insight!</strong><br>💡 ${q.e}`;
+        feedback.innerHTML = `<strong>✨ Correct! Outstanding Animation Control!</strong><br>💡 ${q.e}`;
         feedback.style.display = "block";
         disableAllOptions();
         createCelebrationStars();
@@ -739,14 +739,14 @@ function checkAnswer(element, index) {
         if(attempts >= 2) {
             clearInterval(timer);
             feedback.className = "feedback error";
-            feedback.innerHTML = `<strong>❌ Out of Attempts! Let's check the animator guide rules:</strong><br>💡 ${q.e}`;
+            feedback.innerHTML = `<strong>❌ Out of Attempts! Let's check the core design rule:</strong><br>💡 ${q.e}`;
             feedback.style.display = "block";
             showCorrectAnswerInline();
             disableAllOptions();
             document.getElementById("nextBtn").classList.remove("hidden");
         } else {
             feedback.className = "feedback error";
-            feedback.innerHTML = `<strong>❌ That answer is incorrect.</strong> Think about joint dots, frame properties, or layout navigation loops. Try your second attempt!`;
+            feedback.innerHTML = `<strong>❌ Incorrect.</strong> Review stick figure physics, tool buttons, or timeline controls. Give it your final try!`;
             feedback.style.display = "block";
         }
     }
@@ -766,7 +766,7 @@ function showCorrectAnswer() {
     const q = questions[current];
     const feedback = document.getElementById("feedbackBox");
     feedback.className = "feedback error";
-    feedback.innerHTML = `<strong>⏳ Time's Up! Here is the foundational design rule:</strong><br>💡 ${q.e}`;
+    feedback.innerHTML = `<strong>⏳ Time's Up! Here is the foundational rule:</strong><br>💡 ${q.e}`;
     feedback.style.display = "block";
     showCorrectAnswerInline();
     disableAllOptions();
@@ -807,7 +807,7 @@ function showResults() {
 }
 
 function createCelebrationStars() {
-    const emojis = ["⭐", "✨", "🎬", "🚶", "🏃", "🧩", "💎"];
+    const emojis = ["⭐", "✨", "🎬", "🎨", "🚀", "💎"];
     for(let i=0; i<20; i++) {
         const star = document.createElement("div");
         star.classList.add("celebration-star");
