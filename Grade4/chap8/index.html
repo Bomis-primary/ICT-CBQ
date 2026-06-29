@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Internet Explorer Lab - Chapter 8</title>
+<title>Internet Explorer Lab </title>
 
 <style>
 :root {
@@ -409,7 +409,7 @@ button.main-action-btn:hover {
                 <li>Every challenge card gives you 2 separate attempts before displaying the master solution.</li>
                 <li>Answering successfully triggers audio confirmation loops and points metrics.</li>
                 <li>Keep an eye on the 45-second countdown timeline for each active dashboard question.</li>
-                <li>This application handles all image errors gracefully to prevent freeze states!</li>
+                <li>This application handles all image and audio exceptions safely to prevent freezes!</li>
             </ol>
         </div>
 
@@ -516,7 +516,7 @@ const databaseQuestions = [
         img: null
     },
     {
-        q: "Identify the structural item that is completely incorrect concerning internet assets:",
+        q: "Identify the claim that is completely incorrect concerning internet assets:",
         o: ["The internet links nodes together globally", "Browsers are used to parse website paths", "The internet is a physical hardware storage box", "Search engines extract online data matching input keywords"],
         a: 2,
         e: "The Internet is a global network ecosystem, not an individual hardware device or simple storage container.",
@@ -537,7 +537,7 @@ const databaseQuestions = [
         img: null
     },
     {
-        q: "Look at the address entry bar shown in the visual area. What is the very first step required to access this portal?",
+        q: "Picture-Based Challenge: Look at the address entry bar shown in the visual area. What is the very first step required to access this portal?",
         o: ["Open a web browser on the device", "Print the graphic layout out onto paper", "Delete the operational cache file", "Save the presentation file format"],
         a: 0,
         e: "To enter an online address link or browse keywords, you must first launch a web browser window application.",
@@ -665,15 +665,16 @@ function startTimer() {
     }, 1000);
 }
 
+/* 100% Fail-Safe Audio Engine Integration */
 function playAudioSafely(id) {
     try {
         const audio = document.getElementById(id);
         if (audio) {
             audio.currentTime = 0;
-            audio.play().catch(e => console.log("Audio block bypass active. Progressing game..."));
+            audio.play().catch(e => console.log("Browser audio restriction bypassed gracefully. App moving forward."));
         }
     } catch(e) {
-        console.log("Audio engine bypass triggered safely.");
+        console.log("Audio handler exception managed safely.");
     }
 }
 
@@ -737,3 +738,58 @@ function showCorrectAnswer() {
     feedback.style.display = "block";
     showCorrectAnswerInline();
     disableAllOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function disableAllOptions() {
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        options[i].style.pointerEvents = "none";
+    }
+}
+
+function nextQuestion() {
+    current++;
+    if(current < questions.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    clearInterval(timer);
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("finalScore").innerText = `${score} / ${questions.length}`;
+
+    let msg = "";
+    if(score >= 12) {
+        msg = "🌐 Chief Network Administrator! Your mastery over network nodes, URL pathways, web protocols, and protective firewalls is exceptional!";
+    } else if(score >= 8) {
+        msg = "👍 Certified Cyber Operator! You have a solid grasp on searching records, configuring address fields, and defending digital identities.";
+    } else {
+        msg = "😊 Internet Cadet Status! Keep browsing the digital manuals: remember that search engines query indexes, browsers open web pages, and password assets should always remain strictly private. Launch again to optimize your terminal stats!";
+    }
+    document.getElementById("resultMessage").innerText = msg;
+}
+
+function createCelebrationStars() {
+    try {
+        const emojis = ["⭐", "🌐", "💻", "🔒", "🚀", "✨"];
+        for(let i=0; i<15; i++) {
+            const star = document.createElement("div");
+            star.classList.add("celebration-star");
+            star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            star.style.left = Math.random() * 100 + "vw";
+            star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+            star.style.animationDelay = Math.random() * 0.1 + "s";
+            star.style.fontSize = Math.random() * 16 + 20 + "px";
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 2500);
+        }
+    } catch(e) {}
+}
+</script>
+</body>
+</html>
