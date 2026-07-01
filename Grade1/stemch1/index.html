@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grade 1 ICT:Introduction to STEM Learning</title>
+<title>Grade 1 STEM: Introduction to STEM Learning</title>
 
 <style>
 :root {
-    --primary: #0ea5e9;
-    --secondary: #2563eb;
+    --primary: #38bdf8;
+    --secondary: #3b82f6;
     --success: #10b981;
     --danger: #ef4444;
     --dark: #0f172a;
     --light: #ffffff;
-    --card-bg: rgba(255, 255, 255, 0.96);
+    --card-bg: #1e293b;
+    --border-color: #334155;
 }
 
 * {
@@ -28,76 +29,20 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #0f172a, #1e3a8a, #3b82f6);
+    background: #0f172a;
     overflow-x: hidden;
-    position: relative;
     padding: 15px;
 }
 
-/* Cosmic Background Stars */
-.bg-stars {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.bg-star {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.15);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    animation: floatStar linear infinite;
-}
-
-@keyframes floatStar {
-    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
-}
-
-/* Splash Shield (5 Seconds) */
-#splash {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-#splash img {
-    width: 260px;
-    max-width: 80%;
-    animation: pulse 2s infinite ease-in-out;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-/* App Container Card */
 .container {
     width: 100%;
-    max-width: 780px;
+    max-width: 840px;
     background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
+    border-radius: 20px;
     padding: 32px;
     position: relative;
-    z-index: 2;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    transition: transform 0.3s ease;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
 }
 
 .hidden {
@@ -106,83 +51,56 @@ body {
 
 .intro {
     text-align: center;
+    color: var(--light);
 }
 
 .intro h1 {
     font-size: 2.2rem;
-    color: var(--dark);
-    margin-bottom: 8px;
+    margin-bottom: 16px;
     font-weight: 800;
-}
-
-.intro h1 span {
-    background: linear-gradient(135deg, var(--secondary), #7c3aed);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--primary);
 }
 
 .instructions {
-    background: rgba(241, 245, 249, 0.9);
+    background: #0f172a;
     padding: 24px;
-    border-radius: 16px;
+    border-radius: 12px;
     line-height: 1.8;
-    color: #334155;
+    color: #94a3b8;
     font-size: 1rem;
     text-align: left;
     margin: 20px 0;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color);
 }
 
 .instructions ol {
     margin-left: 20px;
 }
 
-.instructions li {
-    margin-bottom: 8px;
-}
-
-button.main-action-btn {
-    padding: 16px 36px;
-    border: none;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--secondary), #7c3aed);
-    color: white;
-    font-size: 1.05rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
-}
-
-button.main-action-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.4);
-}
-
-/* Stats Panel */
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    background: #0f172a;
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border-color);
 }
 
 .topbox {
-    background: #ffffff;
-    padding: 10px 18px;
-    border-radius: 12px;
     font-weight: 700;
-    color: #334155;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border: 1px solid #e2e8f0;
+    color: var(--light);
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* Progress System */
-.progress {
+.progress-container {
     width: 100%;
-    height: 10px;
-    background: #e2e8f0;
+    height: 6px;
+    background: #334155;
     border-radius: 999px;
     overflow: hidden;
     margin-bottom: 24px;
@@ -191,39 +109,37 @@ button.main-action-btn:hover {
 .progress-fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--success), #059669);
-    transition: width 0.4s ease;
+    background: var(--secondary);
+    transition: width 0.3s ease;
 }
 
-.question-number {
-    color: var(--secondary);
-    margin-bottom: 8px;
+.competency-tag {
+    color: var(--primary);
+    margin-bottom: 12px;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
 .question {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 700;
     line-height: 1.5;
-    color: var(--dark);
-    margin-bottom: 20px;
+    color: var(--light);
+    margin-bottom: 24px;
     text-align: left;
 }
 
-/* Graphic Asset Container Layout */
 .question-image-box {
     width: 100%;
-    max-width: 380px;
-    margin: 0 auto 20px auto;
-    border-radius: 16px;
+    max-width: 440px;
+    margin: 0 auto 24px auto;
+    border-radius: 12px;
     overflow: hidden;
-    border: 3px solid #e2e8f0;
-    background: #f8fafc;
+    border: 2px solid var(--border-color);
+    background: #0f172a;
     display: none;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.06);
 }
 
 .question-image-box img {
@@ -232,44 +148,41 @@ button.main-action-btn:hover {
     display: block;
 }
 
-/* Interactive Options Layout Grid */
 .options {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 20px;
+    gap: 16px;
+    margin-bottom: 24px;
 }
 
 .option {
-    background: #ffffff;
-    padding: 18px 20px;
-    border-radius: 14px;
-    border: 2px solid #e2e8f0;
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
     cursor: pointer;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 600;
     transition: all 0.2s ease;
     text-align: left;
-    color: #334155;
+    color: #cbd5e1;
 }
 
 .option:hover {
-    transform: translateY(-2px);
-    border-color: var(--secondary);
-    background-color: #f8fafc;
-    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.08);
+    background-color: #334155;
+    border-color: #475569;
 }
 
 .correct {
-    background: #ecfdf5 !important;
+    background: rgba(16, 185, 129, 0.15) !important;
     border-color: var(--success) !important;
-    color: #065f46 !important;
+    color: #34d399 !important;
 }
 
 .wrong {
-    background: #fef2f2 !important;
+    background: rgba(239, 68, 68, 0.15) !important;
     border-color: var(--danger) !important;
-    color: #991b1b !important;
+    color: #f87171 !important;
     animation: shake 0.4s ease-in-out;
 }
 
@@ -281,132 +194,119 @@ button.main-action-btn:hover {
 
 .feedback {
     margin-top: 20px;
-    padding: 20px;
-    border-radius: 14px;
+    padding: 18px;
+    border-radius: 12px;
     display: none;
-    line-height: 1.7;
+    line-height: 1.6;
     text-align: left;
     font-size: 1rem;
 }
 
 .feedback.success {
-    background: #ecfdf5;
-    border-left: 6px solid var(--success);
-    color: #065f46;
+    background: rgba(16, 185, 129, 0.1);
+    border-left: 4px solid var(--success);
+    color: #34d399;
 }
 
 .feedback.error {
-    background: #fef2f2;
-    border-left: 6px solid var(--danger);
-    color: #991b1b;
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 4px solid var(--danger);
+    color: #f87171;
 }
 
-.result h1 {
-    font-size: 2.4rem;
-    color: var(--dark);
-    margin-bottom: 12px;
+button.main-action-btn {
+    padding: 16px 32px;
+    border: none;
+    border-radius: 12px;
+    background: var(--secondary);
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    width: 100%;
+}
+
+button.main-action-btn:hover {
+    background: #2563eb;
+}
+
+.result {
+    text-align: center;
+    color: var(--light);
 }
 
 .score-circle {
-    width: 170px;
-    height: 170px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     margin: 24px auto;
-    background: linear-gradient(135deg, var(--secondary), #7c3aed);
+    background: #0f172a;
+    border: 4px solid var(--primary);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.6rem;
+    font-size: 2.5rem;
     font-weight: 800;
-    color: white;
-    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
-}
-
-.result-message {
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: #475569;
-    font-weight: 600;
-    margin-bottom: 24px;
-}
-
-.celebration-star {
-    position: fixed;
-    font-size: 24px;
-    animation: fallStarAnimation 2.5s linear forwards;
-    pointer-events: none;
-    z-index: 999;
-}
-
-@keyframes fallStarAnimation {
-    0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    color: var(--primary);
 }
 
 @media(max-width:600px) {
     .options { grid-template-columns: 1fr; }
-    .container { padding: 24px 16px; }
-    .intro h1 { font-size: 1.8rem; }
+    .container { padding: 20px 16px; }
+    .question { font-size: 1.2rem; }
 }
 </style>
 </head>
 <body>
 
-<div class="bg-stars" id="bgStars"></div>
-
-<div id="splash">
-    <img src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.style.display='none'; document.getElementById('splashText').style.display='block';">
-    <h2 id="splashText" style="display:none; color:#1e3a8a; font-weight:800;">STEM Learning Dashboard</h2>
-</div>
-
-<div class="container hidden" id="app">
+<div class="container" id="app">
 
     <div id="introScreen" class="intro">
-        <h1><span>Introduction to STEM Learning</span></h1>
-        
+        <h1>Introduction to STEM Learning</h1>
         <div class="instructions">
-            <p><strong>Welcome to your Stem Assessment Activity!</strong></p>
-            <p>Read each question carefully. This worksheet evaluates critical competency benchmarks[cite: 2]:</p>
+            <p><strong>Welcome Student! Let's explore your Chapter 1 Assessment Activity.</strong></p>
+            <br>
             <ol>
-                <li>Observation & Creative Design Execution [cite: 2]</li>
-                <li>Logical Engineering Problem Solving [cite: 2]</li>
-                <li>Scientific Collaboration and Evaluation Habits [cite: 2]</li>
+                <li>Read each real-world activity question carefully.</li>
+                <li>Observe the picture carefully when one appears on the screen.</li>
+                <li>Answer all 15 questions to find your final STEM evaluation score.</li>
             </ol>
         </div>
-
         <button class="main-action-btn" onclick="startGame()">Start Quiz</button>
     </div>
 
     <div id="quizScreen" class="hidden">
         <div class="topbar">
+            <div class="topbox">📋 <span id="questionNumber">Question 1 / 15</span></div>
             <div class="topbox">⭐ Score: <span id="score">0</span></div>
-            <div class="topbox">⏳ Time: <span id="timer">60</span>s</div>
+            <div class="topbox">⏱️ <span id="timer">60</span>s</div>
         </div>
 
-        <div class="progress">
+        <div class="progress-container">
             <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <div class="question-number" id="questionNumber"></div>
+        <div class="competency-tag" id="competencyTag">STEM SKILLS TRACKER</div>
         <div class="question" id="questionText"></div>
         
         <div class="question-image-box" id="imageContainer">
-            <img id="questionImage" src="" alt="STEM Activity Context Layout">
+            <img id="questionImage" src="" alt="STEM Practical Illustration">
         </div>
 
         <div class="options" id="optionsBox"></div>
         <div class="feedback" id="feedbackBox"></div>
 
-        <button id="nextBtn" class="main-action-btn hidden" style="margin-top: 20px; width:100%;" onclick="nextQuestion()">Next Question</button>
+        <button id="nextBtn" class="main-action-btn hidden" style="margin-top: 12px;" onclick="nextQuestion()">Next Question</button>
     </div>
 
-    <div id="resultScreen" class="hidden result" style="text-align: center;">
-        <h1>🎉 Chapter Complete! 🎉</h1>
+    <div id="resultScreen" class="hidden result">
+        <h2>🎉 Quiz Completed! 🎉</h2>
         <div class="score-circle">
-            <span id="finalScore"></span>
+            <span id="finalScore">0 / 15</span>
         </div>
-        <div class="result-message" id="resultMessage"></div>
-        <button class="main-action-btn" onclick="startGameAgain()">Restart Module</button>
+        <p id="resultMessage" style="margin-bottom: 24px; color: #94a3b8; font-size: 1.1rem;"></p>
+        <button class="main-action-btn" onclick="startGameAgain()">Try Again</button>
     </div>
 
 </div>
@@ -416,166 +316,136 @@ button.main-action-btn:hover {
 <audio id="victorySound" src="assets/clap.mp3"></audio>
 
 <script>
-// Star Background generation
-const bg = document.getElementById("bgStars");
-for(let i=0; i<25; i++) {
-    let star = document.createElement("div");
-    star.classList.add("bg-star");
-    star.style.left = Math.random()*100 + "%";
-    star.style.animationDuration = (Math.random()*8+10) + "s";
-    star.style.animationDelay = Math.random()*6 + "s";
-    star.style.width = (Math.random()*16+8) + "px";
-    star.style.height = star.style.width;
-    bg.appendChild(star);
-}
-
-// Fade splash out after 5 seconds
-setTimeout(() => {
-    document.getElementById("splash").style.setProperty("display", "none", "important");
-    document.getElementById("app").classList.remove("hidden");
-}, 5000);
-
-/* Official Database Array compiled directly from your uploaded Word File[cite: 1].
-  Images match filenames found inside your repo assets map screenshot exactly.
-*/
+// Cleaned, citation-free code with simple grade-1 appropriate scenario questions
 const questions = [
     {
-        q: "Aarav used building blocks to make a strong bridge during STEM activity. What skill is he mainly using? [cite: 3]",
+        q: "Aarav used building blocks to make a strong bridge during STEM activity. What skill is he mainly using?",
         o: ["Problem solving", "Painting", "Typing", "Printing"],
         a: 0,
-        e: "Building blocks to assemble a structurally functional bridge requires engineering reasoning and problem-solving skills[cite: 3, 4].",
+        e: "Building blocks to assemble a strong model bridge exercises engineering problem solving.",
+        tag: "PROBLEM SOLVING COMPETENCY",
         img: null
     },
     {
-        q: "Meera tested different paper airplane designs to see which one flies farther. What is she learning? [cite: 5]",
+        q: "Meera tested different paper airplane designs to see which one flies farther. What is she learning?",
         o: ["Experimenting and observing", "File saving", "Keyboard repair", "Music playing"],
         a: 0,
-        e: "Modifying and testing custom aerodynamic models directly exercises scientific experimentation and careful real-time observation[cite: 5, 6].",
+        e: "Changing airplane wings and testing performance develops experimenting and observing skills.",
+        tag: "SCIENTIFIC EXPERIMENTATION",
         img: null
     },
     {
-        q: "Kabir’s tower kept falling during a STEM challenge. What should he do? [cite: 7]",
+        q: "Kabir’s tower kept falling during a STEM challenge. What should he do?",
         o: ["Try a stronger design", "Throw the blocks", "Stop learning", "Delete files"],
         a: 0,
-        e: "Iterative testing means assessing structure failures and redesigning a more balanced foundation system[cite: 7, 8].",
+        e: "When a structure fails, a good builder tests a stronger foundation design.",
+        tag: "ENGINEERING OPTIMIZATION",
         img: null
     },
     {
-        q: "Riya worked with her classmates to build a model windmill. What important skill is she showing? [cite: 9]",
+        q: "Riya worked with her classmates to build a model windmill. What important skill is she showing?",
         o: ["Teamwork", "Random guessing", "Screen cleaning", "Typing speed"],
         a: 0,
-        e: "Coordinating physical model assembly steps with peer groups develops interpersonal collaboration and team-building properties[cite: 9, 10].",
-        img: "assets/communication.PNG"
+        e: "Building models together as a unified group develops peer teamwork skills.",
+        tag: "COLLABORATION PRACTICE",
+        img: null
     },
     {
-        q: "Aarav carefully followed steps while making a robot model in class. Why is following steps important? [cite: 11]",
+        q: "Aarav carefully followed steps while making a robot model in class. Why is following steps important?",
         o: ["It helps complete the task correctly", "It changes wallpaper", "It increases sound", "It closes programs"],
         a: 0,
-        e: "Algorithmic thinking and sequenced progression guarantee mechanisms are built securely and optimally[cite: 11, 12].",
+        e: "Following assembly guides in order ensures complex models operate correctly.",
+        tag: "LOGICAL TASK SEQUENCING",
         img: "assets/education.PNG"
     },
     {
-        q: "Meera observed that bigger wheels made her toy car move faster. What STEM habit is she using? [cite: 13]",
+        q: "Meera observed that bigger wheels made her toy car move faster. What STEM habit is she using?",
         o: ["Observation", "Coloring", "Copying", "Printing"],
         a: 0,
-        e: "Noticing empirical size relationships and mapping variance outputs outlines data observation steps[cite: 13, 14].",
+        e: "Watching and noticing changes in physical properties is part of scientific observation.",
+        tag: "OBSERVATION MATRIX",
         img: null
     },
     {
-        q: "Case Study: Kabir and Riya built a paper bridge in class and tested how many coins it could hold. What learning skill is mainly developed in this activity? [cite: 15]",
+        q: "Case Study: Kabir and Riya built a paper bridge in class and tested how many coins it could hold. What learning skill is mainly developed in this activity?",
         o: ["Scientific thinking", "Fast typing", "Folder management", "Desktop editing"],
         a: 0,
-        e: "Testing physical capacities using discrete variables trains structural validation and core scientific logic models[cite: 15, 16].",
+        e: "Counting capacities using control weights systematically trains basic scientific thinking.",
+        tag: "INTEGRATED CASE STUDY",
         img: null
     },
     {
-        q: "Case Study: Aarav made changes to his toy car model after it moved too slowly. Why is improving designs important in STEM learning? [cite: 17]",
+        q: "Case Study: Aarav made changes to his toy car model after it moved too slowly. Why is improving designs important in STEM learning?",
         o: ["It helps solve problems better", "It removes files", "It changes monitors", "It controls speakers"],
         a: 0,
-        e: "Refinement steps loop back through optimization logs to produce targeted solutions over initial attempts[cite: 17, 18].",
+        e: "Modifying structures helps students understand how mechanical systems adjust to clear design issues.",
+        tag: "DESIGN REFINEMENT STUDY",
         img: null
     },
     {
-        q: "Data Based Lookup:<br><br>Activity &rarr; Skill<br>Building blocks &rarr; Creativity<br>Testing models &rarr; Observation<br>Working in groups &rarr; Teamwork<br><br>Which activity mainly develops teamwork? [cite: 19]",
+        q: "Data Based Lookup:<br><br>Activity &rarr; Skill Matrix<br>Building blocks &rarr; Creativity<br>Testing models &rarr; Observation<br>Working in groups &rarr; Teamwork<br><br>Which activity mainly develops teamwork?",
         o: ["Testing models", "Working in groups", "Building blocks", "Coloring pictures"],
         a: 1,
-        e: "The relational array map directly defines grouping/collaborative activities under Teamwork[cite: 19, 20].",
+        e: "The data matrix aligns group project work directly with peer teamwork growth.",
+        tag: "DATA DATASET ANALYSIS",
         img: "assets/entertainment.PNG"
     },
     {
-        q: "Data Based Lookup:<br><br>STEM Letter &rarr; Meaning<br>S &rarr; Science<br>T &rarr; Technology<br>E &rarr; Engineering<br>M &rarr; Mathematics<br><br>Which word is represented by the letter E? [cite: 21]",
+        q: "Data Based Lookup:<br><br>STEM Letter &rarr; Core Subject<br>S &rarr; Science<br>T &rarr; Technology<br>E &rarr; Engineering<br>M &rarr; Mathematics<br><br>Which word is represented by the letter E?",
         o: ["Energy", "Engineering", "Experiment", "Education"],
         a: 1,
-        e: "In core academic integration, the letter 'E' strictly represents the Engineering discipline structural vertical[cite: 21, 22].",
+        e: "The letter 'E' in the core academic STEM framework stands for Engineering.",
+        tag: "ACADEMIC LOOKUP REFERENCE",
         img: "assets/engineering.PNG"
     },
     {
-        q: "A picture shows children building a tall tower using blocks together. Which STEM skill is mainly shown? [cite: 23]",
+        q: "Look closely at this image panel. Which activity is shown here that teaches how groups combine efforts?",
         o: ["Teamwork", "File deletion", "Painting", "Printing"],
         a: 0,
-        e: "Joint construction of physical structures matches clear cooperative peer teamwork metrics[cite: 23, 24].",
+        e: "Assembling structural frameworks together directly outlines community teamwork metrics.",
+        tag: "VISUAL EVALUATION TRACK",
         img: "assets/exploration-robot.PNG"
     },
     {
-        q: "A picture shows a child testing different paper planes to check which flies farthest. What skill is shown? [cite: 25]",
+        q: "Look at the active test scenario image. What step is the student conducting by testing multiple options?",
         o: ["Experimenting", "Typing", "Saving files", "Drawing"],
         a: 0,
-        e: "Varying mechanical layouts to assess flight distances constitutes structural design experimentation[cite: 25, 26].",
+        e: "Changing models systematically to monitor flight distances is known as experimenting.",
+        tag: "GRAPHICAL METHOD VERIFICATION",
         img: "assets/factory-robot.PNG"
     },
     {
-        q: "Assertion: STEM activities help children solve problems. [cite: 27]<br>Reason: STEM learning encourages thinking and experimenting. [cite: 27]",
-        o: [
-            "Both are true and reason explains assertion", 
-            "Both are true but reason does not explain assertion", 
-            "Assertion is true but reason is false", 
-            "Both are false"
-        ],
+        q: "Why is careful observation helpful when you are working on a science experiment?",
+        o: ["It helps us understand results better", "It makes the room quieter", "It lets us play games", "It changes the lights"],
         a: 0,
-        e: "Experimentation yields conceptual validation patterns, which natively expand student cognitive problem-solving workflows[cite: 27, 28].",
+        e: "Looking carefully and recording notes helps us discover how things truly work.",
+        tag: "OBSERVATION HABITS",
         img: null
     },
     {
-        q: "Assertion: Teamwork is important in STEM projects. [cite: 30]<br>Reason: Students can share ideas and complete tasks together. [cite: 30]",
-        o: [
-            "Both are true and reason explains assertion", 
-            "Both are true but reason does not explain assertion", 
-            "Assertion is true but reason is false", 
-            "Both are false"
-        ],
+        q: "Why is working together as a team helpful during a big classroom activity?",
+        o: ["We can share ideas and solve things together", "We can finish our lunch faster", "It lets us sleep in class", "It cleans our school books"],
         a: 0,
-        e: "Sharing decentralized perspective streams within design tasks accelerates optimization loop times[cite: 30, 31].",
+        e: "Teamwork combines different viewpoints to make solving problems much easier.",
+        tag: "TEAMWORK SKILLS",
         img: null
     },
     {
-        q: "Assertion: Observation is useful during experiments. [cite: 33]<br>Reason: Careful observation helps students understand results better. [cite: 33]",
-        o: [
-            "Both are true and reason explains assertion", 
-            "Both are true but reason does not explain assertion", 
-            "Assertion is true but reason is false", 
-            "Both are false"
-        ],
+        q: "How do activities like building and testing items help children learn?",
+        o: ["They encourage us to think and experiment", "They teach us how to delete folders", "They show us how to use a printer", "They change our computer wallpaper"],
         a: 0,
-        e: "Empirical focus and monitoring system changes record clean baseline data points to formulate true analytical insights[cite: 33, 34].",
+        e: "Hands-on projects train our brain to discover solutions through testing and creative thought.",
+        tag: "CRITICAL THINKING",
         img: null
     }
 ];
 
 let current = 0;
 let score = 0;
-let attempts = 0;
 let timer;
 let timeLeft = 60;
 
-function shuffleQuestions() {
-    for(let i = questions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [questions[i], questions[j]] = [questions[j], questions[i]];
-    }
-}
-
 function startGame() {
-    shuffleQuestions();
     document.getElementById("introScreen").classList.add("hidden");
     document.getElementById("quizScreen").classList.remove("hidden");
     current = 0;
@@ -587,7 +457,6 @@ function startGame() {
 function startGameAgain() {
     document.getElementById("resultScreen").classList.add("hidden");
     document.getElementById("quizScreen").classList.remove("hidden");
-    shuffleQuestions();
     current = 0;
     score = 0;
     document.getElementById("score").innerText = score;
@@ -595,19 +464,18 @@ function startGameAgain() {
 }
 
 function loadQuestion() {
-    attempts = 0;
     timeLeft = 60;
     startTimer();
 
     document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+    
     const q = questions[current];
-
-    document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById("questionNumber").innerText = `Question ${current + 1} / ${questions.length}`;
+    document.getElementById("competencyTag").innerText = q.tag;
     document.getElementById("questionText").innerHTML = q.q;
 
     const imgContainer = document.getElementById("imageContainer");
     const imgElem = document.getElementById("questionImage");
-    
     if(q.img) {
         imgElem.src = q.img;
         imgContainer.style.display = "block";
@@ -618,7 +486,6 @@ function loadQuestion() {
 
     const box = document.getElementById("optionsBox");
     box.innerHTML = "";
-
     q.o.forEach((opt, index) => {
         const div = document.createElement("div");
         div.classList.add("option");
@@ -639,47 +506,37 @@ function startTimer() {
         document.getElementById("timer").innerText = timeLeft;
         if(timeLeft <= 0) {
             clearInterval(timer);
-            showCorrectAnswer();
+            timeoutHandling();
         }
     }, 1000);
 }
 
 function checkAnswer(element, index) {
-    if(element.classList.contains("correct") || element.classList.contains("wrong")) return;
+    const options = document.getElementsByClassName("option");
+    if(options[0].style.pointerEvents === "none") return;
 
     const q = questions[current];
     const feedback = document.getElementById("feedbackBox");
+    clearInterval(timer);
+    disableAllOptions();
 
     if(index === q.a) {
-        clearInterval(timer);
         element.classList.add("correct");
         try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
         score++;
         document.getElementById("score").innerText = score;
         feedback.className = "feedback success";
-        feedback.innerHTML = `<strong>✨ Correct!</strong><br>💡 ${q.e}`;
-        feedback.style.display = "block";
-        disableAllOptions();
-        createCelebrationStars();
-        document.getElementById("nextBtn").classList.remove("hidden");
+        feedback.innerHTML = `<strong>✨ Correct Answer!</strong><br> ${q.e}`;
     } else {
         element.classList.add("wrong");
+        showCorrectAnswerInline();
         try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
-        attempts++;
-        if(attempts >= 2) {
-            clearInterval(timer);
-            feedback.className = "feedback error";
-            feedback.innerHTML = `<strong>❌ Incorrect! Let's examine the target choice:</strong><br>💡 ${q.e}`;
-            feedback.style.display = "block";
-            showCorrectAnswerInline();
-            disableAllOptions();
-            document.getElementById("nextBtn").classList.remove("hidden");
-        } else {
-            feedback.className = "feedback error";
-            feedback.innerHTML = `<strong>❌ Try Again!</strong> That isn't quite right. You have one attempt remaining.`;
-            feedback.style.display = "block";
-        }
+        feedback.className = "feedback error";
+        feedback.innerHTML = `<strong>❌ Incorrect Choice</strong><br> ${q.e}`;
     }
+    
+    feedback.style.display = "block";
+    document.getElementById("nextBtn").classList.remove("hidden");
 }
 
 function showCorrectAnswerInline() {
@@ -692,14 +549,14 @@ function showCorrectAnswerInline() {
     }
 }
 
-function showCorrectAnswer() {
+function timeoutHandling() {
+    disableAllOptions();
     const q = questions[current];
     const feedback = document.getElementById("feedbackBox");
     feedback.className = "feedback error";
-    feedback.innerHTML = `<strong>⏳ Time's Up! Here is the correct concept breakdown:</strong><br>💡 ${q.e}`;
-    feedback.style.display = "block";
+    feedback.innerHTML = `<strong>⏳ Time expired!</strong><br> ${q.e}`;
     showCorrectAnswerInline();
-    disableAllOptions();
+    feedback.style.display = "block";
     document.getElementById("nextBtn").classList.remove("hidden");
 }
 
@@ -729,28 +586,13 @@ function showResults() {
 
     let msg = "";
     if(score >= 13) {
-        msg = "🌟 Outstanding! You have developed amazing skills in observation, structural testing, and problem solving!";
+        msg = "Excellent work! You show incredible proficiency in real-world observations and analytical design models!";
     } else if(score >= 9) {
-        msg = "👍 Well done! Great conceptual understanding of teamwork, scientific models, and structured steps.";
+        msg = "Great effort! You clearly grasp structural design models and situational observation habits.";
     } else {
-        msg = "😊 Good effort! Keep practicing your observation loops and structural evaluation patterns, then try again!";
+        msg = "Nice attempt! Keep reviewing your engineering processes and try running this module once more!";
     }
     document.getElementById("resultMessage").innerText = msg;
-}
-
-function createCelebrationStars() {
-    const emojis = ["⭐", "✨", "🤖", "⚙️", "🚀", "💡"];
-    for(let i=0; i<25; i++) {
-        const star = document.createElement("div");
-        star.classList.add("celebration-star");
-        star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        star.style.left = Math.random() * 100 + "vw";
-        star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
-        star.style.animationDelay = Math.random() * 0.2 + "s";
-        star.style.fontSize = Math.random() * 16 + 20 + "px";
-        document.body.appendChild(star);
-        setTimeout(() => star.remove(), 2500);
-    }
 }
 </script>
 </body>
