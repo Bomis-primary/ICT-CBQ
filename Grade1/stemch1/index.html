@@ -34,6 +34,7 @@ body {
     padding: 15px;
 }
 
+/* App Container Card */
 .container {
     width: 100%;
     max-width: 840px;
@@ -49,6 +50,24 @@ body {
     display: none !important;
 }
 
+/* Splash Screen Styling */
+.splash-screen {
+    text-align: center;
+    color: var(--light);
+    padding: 40px 20px;
+}
+
+.logo-placeholder {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(to right, #38bdf8, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+/* Intro Setup */
 .intro {
     text-align: center;
     color: var(--light);
@@ -77,6 +96,7 @@ body {
     margin-left: 20px;
 }
 
+/* Top Navigation Bar Panel */
 .topbar {
     display: flex;
     justify-content: space-between;
@@ -97,6 +117,7 @@ body {
     gap: 8px;
 }
 
+/* Micro Progress Bar */
 .progress-container {
     width: 100%;
     height: 6px;
@@ -131,6 +152,7 @@ body {
     text-align: left;
 }
 
+/* Conditional Graphics Asset Panel */
 .question-image-box {
     width: 100%;
     max-width: 440px;
@@ -148,6 +170,7 @@ body {
     display: block;
 }
 
+/* Two-by-Two Grid Layout for Answers */
 .options {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -262,7 +285,13 @@ button.main-action-btn:hover {
 
 <div class="container" id="app">
 
-    <div id="introScreen" class="intro">
+    <div id="splashScreen" class="splash-screen">
+        <div class="logo-placeholder">INNOVINE</div>
+        <p style="color: #94a3b8; font-size: 1.2rem; margin-bottom: 10px;">Loading STEM Learning Environment...</p>
+        <p style="color: #64748b; font-size: 0.9rem;">Please wait five seconds.</p>
+    </div>
+
+    <div id="introScreen" class="intro hidden">
         <h1>Introduction to STEM Learning</h1>
         <div class="instructions">
             <p><strong>Welcome Student! Let's explore your Chapter 1 Assessment Activity.</strong></p>
@@ -316,7 +345,11 @@ button.main-action-btn:hover {
 <audio id="victorySound" src="assets/clap.mp3"></audio>
 
 <script>
-// Cleaned, citation-free code with simple grade-1 appropriate scenario questions
+/* Official Data Pool:
+   - All references to CITE have been removed completely.
+   - The three Assertion-Reasoning questions have been replaced with clear, 
+     Grade 1 level problem-solving scenarios related to the same core STEM skills.
+*/
 const questions = [
     {
         q: "Aarav used building blocks to make a strong bridge during STEM activity. What skill is he mainly using?",
@@ -348,7 +381,7 @@ const questions = [
         a: 0,
         e: "Building models together as a unified group develops peer teamwork skills.",
         tag: "COLLABORATION PRACTICE",
-        img: null
+        img: "assets/communication.PNG"
     },
     {
         q: "Aarav carefully followed steps while making a robot model in class. Why is following steps important?",
@@ -415,27 +448,27 @@ const questions = [
         img: "assets/factory-robot.PNG"
     },
     {
-        q: "Why is careful observation helpful when you are working on a science experiment?",
-        o: ["It helps us understand results better", "It makes the room quieter", "It lets us play games", "It changes the lights"],
+        q: "How do STEM activities help children learn to solve difficult problems?",
+        o: ["By encouraging them to think and experiment", "By letting them watch cartoons", "By showing them how to use a keyboard", "By coloring standard templates"],
         a: 0,
-        e: "Looking carefully and recording notes helps us discover how things truly work.",
-        tag: "OBSERVATION HABITS",
+        e: "STEM learning provides children with practical tools to test, experiment, and logically solve physical challenges.",
+        tag: "PROBLEM SOLVING",
         img: null
     },
     {
-        q: "Why is working together as a team helpful during a big classroom activity?",
-        o: ["We can share ideas and solve things together", "We can finish our lunch faster", "It lets us sleep in class", "It cleans our school books"],
+        q: "Why do we share ideas and work together as a group during a classroom STEM challenge?",
+        o: ["Teamwork makes it easier to complete big tasks", "To find out who can shout the loudest", "To trade our school supplies", "To finish lunch early"],
         a: 0,
-        e: "Teamwork combines different viewpoints to make solving problems much easier.",
-        tag: "TEAMWORK SKILLS",
+        e: "Teamwork combines different student viewpoints, making structural problems faster and easier to solve.",
+        tag: "TEAMWORK BENEFIT",
         img: null
     },
     {
-        q: "How do activities like building and testing items help children learn?",
-        o: ["They encourage us to think and experiment", "They teach us how to delete folders", "They show us how to use a printer", "They change our computer wallpaper"],
+        q: "Why is it important to carefully look and observe things during a science experiment?",
+        o: ["It helps us understand results and learn facts", "It makes the classroom look cleaner", "It makes the time pass quickly", "It changes our computer background"],
         a: 0,
-        e: "Hands-on projects train our brain to discover solutions through testing and creative thought.",
-        tag: "CRITICAL THINKING",
+        e: "Careful visual checking and notation are important observational traits that unlock correct scientific answers.",
+        tag: "OBSERVATIONAL LEARNING",
         img: null
     }
 ];
@@ -444,6 +477,14 @@ let current = 0;
 let score = 0;
 let timer;
 let timeLeft = 60;
+
+// Dynamic Entry Splash Controller
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        document.getElementById("splashScreen").classList.add("hidden");
+        document.getElementById("introScreen").classList.remove("hidden");
+    }, 5000); // 5000 milliseconds = 5 seconds
+});
 
 function startGame() {
     document.getElementById("introScreen").classList.add("hidden");
@@ -467,6 +508,7 @@ function loadQuestion() {
     timeLeft = 60;
     startTimer();
 
+    // Progress bar tracker
     document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
     
     const q = questions[current];
@@ -474,6 +516,7 @@ function loadQuestion() {
     document.getElementById("competencyTag").innerText = q.tag;
     document.getElementById("questionText").innerHTML = q.q;
 
+    // Image Deployment Check
     const imgContainer = document.getElementById("imageContainer");
     const imgElem = document.getElementById("questionImage");
     if(q.img) {
@@ -484,6 +527,7 @@ function loadQuestion() {
         imgElem.src = "";
     }
 
+    // Load Option Grids
     const box = document.getElementById("optionsBox");
     box.innerHTML = "";
     q.o.forEach((opt, index) => {
