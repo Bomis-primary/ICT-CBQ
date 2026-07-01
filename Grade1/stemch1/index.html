@@ -1,1 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> STEM:Interactive CBQ Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Comic Sans MS', sans-serif; }
+        
+        body { 
+            background: #0f172a; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            color: white; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        /* STRICT INNOVINE BRAND OVERLAY - VISIBLE FOR EXACTLY 5 SECONDS */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        #splash-screen img {
+            max-width: 280px;
+            margin-bottom: 25px;
+            animation: bouncePulse 1.6s infinite ease-in-out;
+        }
+
+        @keyframes bouncePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        .loading-bar {
+            width: 220px;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: #2563eb;
+            animation: fillBar 5s linear forwards;
+        }
+
+        @keyframes fillBar {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* WORKSPACE INTERFACE */
+        .overlay { 
+            width: 100%;
+            min-height: 100vh; 
+            padding: 20px; 
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
+            display: none; /* Initialized post 5-second brand sequence hook */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container { width: 100%; max-width: 850px; margin: auto; padding-bottom: 60px;}
+        
+        .header-block {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .mini-logo { width: 110px; margin-bottom: 5px; }
+        h1 { font-size: 34px; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+        .subtitle { font-size: 16px; color: #cbd5e1; margin-top: 5px; }
+
+        .topbar { 
+            display: flex; 
+            justify-content: space-around; 
+            background: rgba(255, 255, 255, 0.08); 
+            padding: 14px; 
+            border-radius: 16px; 
+            font-size: 20px; 
+            font-weight: bold;
+            margin-bottom: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-box { 
+            width: 100%; 
+            height: 14px; 
+            background: #1e293b; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            margin-bottom: 25px; 
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #38bdf8, #34d399); transition: width 0.3s ease; }
+
+        .card { 
+            background: rgba(30, 41, 59, 0.8); 
+            padding: 30px; 
+            border-radius: 24px; 
+            backdrop-filter: blur(12px); 
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        #question-context {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #38bdf8;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        #question { font-size: 24px; margin-bottom: 25px; line-height: 1.5; color: #f8fafc; text-align: left; }
+        
+        #options { 
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px; 
+        }
+
+        @media(min-width: 640px) {
+            #options { grid-template-columns: 1fr 1fr; }
+        }
+
+        .optionBtn { 
+            padding: 16px 20px; 
+            font-size: 18px; 
+            border: 2px solid rgba(255,255,255,0.1); 
+            border-radius: 14px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            background: rgba(255, 255, 255, 0.05);
+            color: #f1f5f9; 
+            transition: all 0.2s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+        .optionBtn:hover:not(:disabled) { 
+            background: linear-gradient(135deg, #ffeb3b, #ff9800); 
+            color: #0f172a; 
+            transform: translateY(-2px);
+            border-color: transparent;
+        }
+
+        .optionBtn:disabled { cursor: not-allowed; opacity: 0.6; }
+
+        /* Assessment States styling */
+        .optionBtn.correct-state { background: #10b981 !important; color: white !important; border-color: #10b981 !important; }
+        .optionBtn.wrong-state { background: #ef4444 !important; color: white !important; border-color: #ef4444 !important; }
+
+        .feedback { font-size: 24px; font-weight: bold; margin-top: 25px; min-height: 35px; text-align: center; }
+
+        .nextArea { margin-top: 25px; display: flex; justify-content: center; }
+        #nextBtn { padding: 14px 45px; font-size: 20px; border: none; border-radius: 14px; background: #2563eb; color: white; display: none; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        #nextBtn:hover { background: #1d4ed8; }
+
+        .finalScreen { display: none; text-align: center; background: #ffffff; color: #0f172a; padding: 40px; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .finalScreen h2 { margin-bottom: 12px; font-size: 26px; }
+        .metric-pill { display: inline-block; padding: 8px 16px; background: #f1f5f9; border-radius: 20px; font-weight: bold; margin: 5px; color: #475569;}
+        .playBtn { padding: 14px 35px; font-size: 18px; background: #10b981; color: white; border: none; border-radius: 12px; cursor: pointer; margin-top: 25px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen">
+        <img src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.src='https://via.placeholder.com/260x90?text=Innovine';">
+        <div class="loading-bar"><div class="loading-progress"></div></div>
+    </div>
+
+    <div class="overlay" id="mainGameContainer">
+        <div class="container">
+            <div class="header-block">
+                <img src="assets/innovine-logo.png" class="mini-logo" onerror="this.style.display='none'">
+                <h1>STEM Competency Assessment</h1>
+                <p class="subtitle">Introduction to STEM Learning (Advanced CBQ Sheet)</p>
+            </div>
+            
+            <div id="quizWorkspace">
+                <div class="topbar">
+                    <div>📋 Question: <span id="qNum">1</span> / 15</div>
+                    <div>⭐ Score: <span id="score">0</span></div>
+                    <div>⏰ Timer: <span id="timer">40</span>s</div>
+                </div>
+                
+                <div class="progress-box"><div class="progress-fill" id="progressFill"></div></div>
+                
+                <div class="card" id="gameCard">
+                    <span id="question-context">Competency Challenge</span>
+                    <h2 id="question">Loading Worksheet Challenge Vector...</h2>
+                    <div id="options"></div>
+                    <div class="feedback" id="feedback"></div>
+                    <div class="nextArea"><button id="nextBtn" onclick="moveToNext()">Next Question ➜</button></div>
+                </div>
+            </div>
+
+            <div class="finalScreen" id="finalScreen">
+                <h1 style="color: #2563eb; font-size: 36px; margin-bottom: 15px;">🎉 Sheet Completed!</h1>
+                <h2 id="finalScore">Your Score: 0/15</h2>
+                <div style="margin: 20px 0;">
+                    <span class="metric-pill" id="badgeCount">🏅 Badges: 0</span>
+                    <span class="metric-pill" id="accuracyRate">Accuracy: 0%</span>
+                </div>
+                <h2 id="rank" style="color: #10b981; font-weight: bold; margin-top: 10px;">Analyzing Performance...</h2>
+                <button onclick="location.reload()" class="playBtn">Restart Worksheet 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
+    <audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
+    <audio id="clapSound" src="assets/clap.mp3" preload="auto"></audio>
+
+    <script>
+        // FULL 15 QUANTIFIABLE QUESTIONS EXTRACTED FROM DOCUMENT CONTENT
+        const cbqQuestions = [
+            {
+                context: "Problem Solving Competency",
+                question: "Aarav used building blocks to make a strong bridge during STEM activity. What skill is he mainly using?",
+                options: ["Problem solving", "Painting", "Typing", "Printing"],
+                answer: "Problem solving"
+            },
+            {
+                context: "Observation & Experimentation Mindset",
+                question: "Meera tested different paper airplane designs to see which one flies farther. What is she learning?",
+                options: ["Experimenting and observing", "File saving", "Keyboard repair", "Music playing"],
+                answer: "Experimenting and observing"
+            },
+            {
+                context: "Engineering Iteration Challenge",
+                question: "Kabir’s tower kept falling during a STEM challenge. What should he do?",
+                options: ["Try a stronger design", "Throw the blocks", "Stop learning", "Delete files"],
+                answer: "Try a stronger design"
+            },
+            {
+                context: "Collaboration & Soft Skills",
+                question: "Riya worked with her classmates to build a model windmill. What important skill is she showing?",
+                options: ["Teamwork", "Random guessing", "Screen cleaning", "Typing speed"],
+                answer: "Teamwork"
+            },
+            {
+                context: "Algorithmic Logic Sequence",
+                question: "Aarav carefully followed steps while making a robot model in class. Why is following steps important?",
+                options: ["It helps complete the task correctly", "It changes wallpaper", "It increases sound", "It closes programs"],
+                answer: "It helps complete the task correctly"
+            },
+            {
+                context: "STEM Observation Habit",
+                question: "Meera observed that bigger wheels made her toy car move faster. What STEM habit is she using?",
+                options: ["Observation", "Coloring", "Copying", "Printing"],
+                answer: "Observation"
+            },
+            {
+                context: "Case Study Analysis",
+                question: "Case Study: Kabir and Riya built a paper bridge in class and tested how many coins it could hold. What learning skill is mainly developed in this activity?",
+                options: ["Scientific thinking", "Fast typing", "Folder management", "Desktop editing"],
+                answer: "Scientific thinking"
+            },
+            {
+                context: "Case Study Design Optimization",
+                question: "Case Study: Aarav made changes to his toy car model after it moved too slowly. Why is improving designs important in STEM learning?",
+                options: ["It helps solve problems better", "It removes files", "It changes monitors", "It controls speakers"],
+                answer: "It helps solve problems better"
+            },
+            {
+                context: "Data Based Categorization",
+                question: "Data Based:\n• Building blocks → Creativity\n• Testing models → Observation\n• Working in groups → Teamwork\n\nWhich activity mainly develops teamwork?",
+                options: ["Testing models", "Working in groups", "Building blocks", "Coloring pictures"],
+                answer: "Working in groups"
+            },
+            {
+                context: "Data Based Acronym Check",
+                question: "Data Based:\n• S → Science\n• T → Technology\n• E → Engineering\n• M → Mathematics\n\nWhich word is represented by the letter E?",
+                options: ["Energy", "Engineering", "Experiment", "Education"],
+                answer: "Engineering"
+            },
+            {
+                context: "Visual Comprehension: Collaboration",
+                question: "A picture shows children building a tall tower using blocks together. Which STEM skill is mainly shown?",
+                options: ["Teamwork", "File deletion", "Painting", "Printing"],
+                answer: "Teamwork"
+            },
+            {
+                context: "Visual Comprehension: Scientific Inquiry",
+                question: "A picture shows a child testing different paper planes to check which flies farthest. What skill is shown?",
+                options: ["Experimenting", "Typing", "Saving files", "Drawing"],
+                answer: "Experimenting"
+            },
+            {
+                context:  "Logical Evaluation: Assertion & Reason",
+                question: "STEM activities help children solve problems.\nReason: STEM learning encourages thinking and experimenting.",
+                options: [
+                    "Both are true and reason explains assertion", 
+                    "Both are true but reason does not explain assertion", 
+                    "Assertion is true but reason is false", 
+                    "Both are false"
+                ],
+                answer: "Both are true and reason explains assertion"
+            },
+            {
+                context: "Logical Evaluation: Collaboration Structure",
+                question: "Teamwork is important in STEM projects.\nReason: Students can share ideas and complete tasks together.",
+                options: [
+                    "Both are true and reason explains assertion", 
+                    "Both are true but reason does not explain assertion", 
+                    "Assertion is true but reason is false", 
+                    "Both are false"
+                ],
+                answer: "Both are true and reason explains assertion"
+            },
+            {
+                context: "Logical Evaluation: Observation Parameters",
+                question: "Observation is useful during experiments.\nReason: Careful observation helps students understand results better.",
+                options: [
+                    "Both are true and reason explains assertion", 
+                    "Both are true but reason does not explain assertion", 
+                    "Assertion is true but reason is false", 
+                    "Both are false"
+                ],
+                answer: "Both are true and reason explains assertion"
+            }
+        ];
+
+        let currentIndex = 0;
+        let finalScore = 0;
+        let clockInterval;
+        let secondsLeft = 40;
+
+        // INITIALIZATION HOOK - 5 SECONDS TIMER DELAY
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.opacity = '0';
+                document.getElementById('splash-screen').style.visibility = 'hidden';
+                document.getElementById('mainGameContainer').style.display = 'flex';
+                loadQuestionBlock();
+            }, 5000);
+        });
+
+        function playSound(audioId) {
+            const soundElement = document.getElementById(audioId);
+            if (soundElement) {
+                soundElement.currentTime = 0;
+                soundElement.play().catch(() => {});
+            }
+        }
+
+        function runTimerCounter() {
+            clearInterval(clockInterval);
+            secondsLeft = 40;
+            document.getElementById('timer').innerText = secondsLeft;
+            
+            clockInterval = setInterval(() => {
+                secondsLeft--;
+                document.getElementById('timer').innerText = secondsLeft;
+                if (secondsLeft <= 0) {
+                    clearInterval(clockInterval);
+                    processTimeoutState();
+                }
+            }, 1000);
+        }
+
+        function loadQuestionBlock() {
+            runTimerCounter();
+            
+            const txtContext = document.getElementById('question-context');
+            const txtQuestion = document.getElementById('question');
+            const boxOptions = document.getElementById('options');
+            const txtFeedback = document.getElementById('feedback');
+            const btnNext = document.getElementById('nextBtn');
+
+            txtFeedback.innerText = "";
+            btnNext.style.display = "none";
+            boxOptions.innerHTML = "";
+
+            let currentItem = cbqQuestions[currentIndex];
+            
+            document.getElementById('qNum').innerText = currentIndex + 1;
+            txtContext.innerText = currentItem.context;
+            txtQuestion.innerText = currentItem.question;
+            
+            // Bar Calculation Adjuster Matrix
+            document.getElementById('progressFill').style.width = ((currentIndex) / cbqQuestions.length) * 100 + '%';
+
+            currentItem.options.forEach(optString => {
+                const btn = document.createElement('button');
+                btn.className = 'optionBtn';
+                btn.innerText = optString;
+                btn.onclick = () => evaluateAnswer(btn, optString, currentItem.answer);
+                boxOptions.appendChild(btn);
+            });
+        }
+
+        function evaluateAnswer(selectedBtn, selectedText, correctText) {
+            clearInterval(clockInterval);
+            disableAllOptionButtons();
+
+            const txtFeedback = document.getElementById('feedback');
+            const btnNext = document.getElementById('nextBtn');
+
+            if (selectedText === correctText) {
+                selectedBtn.classList.add('correct-state');
+                txtFeedback.innerText = "✅ Correct! Great Job.";
+                txtFeedback.style.color = "#34d399";
+                finalScore++;
+                document.getElementById('score').innerText = finalScore;
+                playSound('correctSound');
+                confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+            } else {
+                selectedBtn.classList.add('wrong-state');
+                highlightCorrectAnswer(correctText);
+                txtFeedback.innerText = "❌ Incorrect Answer.";
+                txtFeedback.style.color = "#f87171";
+                playSound('wrongSound');
+            }
+
+            btnNext.style.display = "inline-block";
+        }
+
+        function processTimeoutState() {
+            disableAllOptionButtons();
+            let currentItem = cbqQuestions[currentIndex];
+            highlightCorrectAnswer(currentItem.answer);
+            
+            const txtFeedback = document.getElementById('feedback');
+            txtFeedback.innerText = "⏰ Time Out!";
+            txtFeedback.style.color = "#fbbf24";
+            playSound('wrongSound');
+            
+            document.getElementById('nextBtn').style.display = "inline-block";
+        }
+
+        function disableAllOptionButtons() {
+            const buttons = document.querySelectorAll('.optionBtn');
+            buttons.forEach(b => b.disabled = true);
+        }
+
+        function highlightCorrectAnswer(correctText) {
+            const buttons = document.querySelectorAll('.optionBtn');
+            buttons.forEach(b => {
+                if (b.innerText === correctText) {
+                    b.classList.add('correct-state');
+                }
+            });
+        }
+
+        function moveToNext() {
+            currentIndex++;
+            if (currentIndex < cbqQuestions.length) {
+                loadQuestionBlock();
+            } else {
+                showFinalReportMatrix();
+            }
+        }
+
+        function showFinalReportMatrix() {
+            clearInterval(clockInterval);
+            document.getElementById('progressFill').style.width = '100%';
+            document.getElementById('quizWorkspace').style.display = 'none';
+            
+            const resultsPanel = document.getElementById('finalScreen');
+            resultsPanel.style.display = 'block';
+            
+            document.getElementById('finalScore').innerText = `Worksheet Score: ${finalScore} / ${cbqQuestions.length}`;
+            
+            // Generate analytics parameters
+            let accuracy = Math.round((finalScore / cbqQuestions.length) * 100);
+            document.getElementById('accuracyRate').innerText = `Accuracy: ${accuracy}%`;
+            document.getElementById('badgeCount').innerText = `🏅 Badges Earned: ${finalScore}`;
+
+            let rankLabel = "";
+            if (finalScore === cbqQuestions.length) {
+                rankLabel = "🏆 STEM CHAMPION WIZARD";
+                playSound('clapSound');
+                confetti({ particleCount: 300, spread: 120 });
+            } else if (finalScore >= 11) {
+                rankLabel = "👍 EXCELLENT CONCEPT COMPREHENSION";
+                playSound('clapSound');
+            } else if (finalScore >= 6) {
+                rankLabel = "📘 DEVELOPING STEM HABITS";
+            } else {
+                rankLabel = "📕 BEGINNER PROFILE - NEEDS PRACTICE";
+            }
+            document.getElementById('rank').innerText = rankLabel;
+        }
+    </script>
+</body>
+</html>
