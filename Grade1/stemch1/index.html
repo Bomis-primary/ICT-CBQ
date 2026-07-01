@@ -1,508 +1,757 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> STEM:Interactive CBQ Platform</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Comic Sans MS', sans-serif; }
-        
-        body { 
-            background: #0f172a; 
-            min-height: 100vh; 
-            overflow-x: hidden; 
-            color: white; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 1 ICT: Chapter 1 - Introduction to STEM Learning</title>
 
-        /* STRICT INNOVINE BRAND OVERLAY - VISIBLE FOR EXACTLY 5 SECONDS */
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
+<style>
+:root {
+    --primary: #0ea5e9;
+    --secondary: #2563eb;
+    --success: #10b981;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --light: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.96);
+}
 
-        #splash-screen img {
-            max-width: 280px;
-            margin-bottom: 25px;
-            animation: bouncePulse 1.6s infinite ease-in-out;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        @keyframes bouncePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.06); }
-        }
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e3a8a, #3b82f6);
+    overflow-x: hidden;
+    position: relative;
+    padding: 15px;
+}
 
-        .loading-bar {
-            width: 220px;
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+/* Cosmic Background Stars */
+.bg-stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
 
-        .loading-progress {
-            height: 100%;
-            width: 0%;
-            background: #2563eb;
-            animation: fillBar 5s linear forwards;
-        }
+.bg-star {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatStar linear infinite;
+}
 
-        @keyframes fillBar {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
+@keyframes floatStar {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
 
-        /* WORKSPACE INTERFACE */
-        .overlay { 
-            width: 100%;
-            min-height: 100vh; 
-            padding: 20px; 
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
-            display: none; /* Initialized post 5-second brand sequence hook */
-            align-items: center;
-            justify-content: center;
-        }
+/* Splash Shield (5 Seconds) */
+#splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
 
-        .container { width: 100%; max-width: 850px; margin: auto; padding-bottom: 60px;}
-        
-        .header-block {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+#splash img {
+    width: 260px;
+    max-width: 80%;
+    animation: pulse 2s infinite ease-in-out;
+}
 
-        .mini-logo { width: 110px; margin-bottom: 5px; }
-        h1 { font-size: 34px; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
-        .subtitle { font-size: 16px; color: #cbd5e1; margin-top: 5px; }
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
 
-        .topbar { 
-            display: flex; 
-            justify-content: space-around; 
-            background: rgba(255, 255, 255, 0.08); 
-            padding: 14px; 
-            border-radius: 16px; 
-            font-size: 20px; 
-            font-weight: bold;
-            margin-bottom: 15px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+/* App Container Card */
+.container {
+    width: 100%;
+    max-width: 780px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 32px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transition: transform 0.3s ease;
+}
 
-        .progress-box { 
-            width: 100%; 
-            height: 14px; 
-            background: #1e293b; 
-            border-radius: 10px; 
-            overflow: hidden; 
-            margin-bottom: 25px; 
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #38bdf8, #34d399); transition: width 0.3s ease; }
+.hidden {
+    display: none !important;
+}
 
-        .card { 
-            background: rgba(30, 41, 59, 0.8); 
-            padding: 30px; 
-            border-radius: 24px; 
-            backdrop-filter: blur(12px); 
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-        }
+.intro {
+    text-align: center;
+}
 
-        #question-context {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #38bdf8;
-            font-weight: bold;
-            margin-bottom: 8px;
-            display: block;
-        }
+.intro h1 {
+    font-size: 2.2rem;
+    color: var(--dark);
+    margin-bottom: 8px;
+    font-weight: 800;
+}
 
-        #question { font-size: 24px; margin-bottom: 25px; line-height: 1.5; color: #f8fafc; text-align: left; }
-        
-        #options { 
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-top: 20px; 
-        }
+.intro h1 span {
+    background: linear-gradient(135deg, var(--secondary), #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-        @media(min-width: 640px) {
-            #options { grid-template-columns: 1fr 1fr; }
-        }
+.instructions {
+    background: rgba(241, 245, 249, 0.9);
+    padding: 24px;
+    border-radius: 16px;
+    line-height: 1.8;
+    color: #334155;
+    font-size: 1rem;
+    text-align: left;
+    margin: 20px 0;
+    border: 1px solid #e2e8f0;
+}
 
-        .optionBtn { 
-            padding: 16px 20px; 
-            font-size: 18px; 
-            border: 2px solid rgba(255,255,255,0.1); 
-            border-radius: 14px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            background: rgba(255, 255, 255, 0.05);
-            color: #f1f5f9; 
-            transition: all 0.2s ease;
-            text-align: left;
-            display: flex;
-            align-items: center;
-        }
-        .optionBtn:hover:not(:disabled) { 
-            background: linear-gradient(135deg, #ffeb3b, #ff9800); 
-            color: #0f172a; 
-            transform: translateY(-2px);
-            border-color: transparent;
-        }
+.instructions ol {
+    margin-left: 20px;
+}
 
-        .optionBtn:disabled { cursor: not-allowed; opacity: 0.6; }
+.instructions li {
+    margin-bottom: 8px;
+}
 
-        /* Assessment States styling */
-        .optionBtn.correct-state { background: #10b981 !important; color: white !important; border-color: #10b981 !important; }
-        .optionBtn.wrong-state { background: #ef4444 !important; color: white !important; border-color: #ef4444 !important; }
+button.main-action-btn {
+    padding: 16px 36px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--secondary), #7c3aed);
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
 
-        .feedback { font-size: 24px; font-weight: bold; margin-top: 25px; min-height: 35px; text-align: center; }
+button.main-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.4);
+}
 
-        .nextArea { margin-top: 25px; display: flex; justify-content: center; }
-        #nextBtn { padding: 14px 45px; font-size: 20px; border: none; border-radius: 14px; background: #2563eb; color: white; display: none; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        #nextBtn:hover { background: #1d4ed8; }
+/* Stats Panel */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
 
-        .finalScreen { display: none; text-align: center; background: #ffffff; color: #0f172a; padding: 40px; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
-        .finalScreen h2 { margin-bottom: 12px; font-size: 26px; }
-        .metric-pill { display: inline-block; padding: 8px 16px; background: #f1f5f9; border-radius: 20px; font-weight: bold; margin: 5px; color: #475569;}
-        .playBtn { padding: 14px 35px; font-size: 18px; background: #10b981; color: white; border: none; border-radius: 12px; cursor: pointer; margin-top: 25px; font-weight: bold; }
-    </style>
+.topbox {
+    background: #ffffff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #334155;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+}
+
+/* Progress System */
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--success), #059669);
+    transition: width 0.4s ease;
+}
+
+.question-number {
+    color: var(--secondary);
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.question {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--dark);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Graphic Asset Container Layout */
+.question-image-box {
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto 20px auto;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 3px solid #e2e8f0;
+    background: #f8fafc;
+    display: none;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+}
+
+.question-image-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Interactive Options Layout Grid */
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.option {
+    background: #ffffff;
+    padding: 18px 20px;
+    border-radius: 14px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-align: left;
+    color: #334155;
+}
+
+.option:hover {
+    transform: translateY(-2px);
+    border-color: var(--secondary);
+    background-color: #f8fafc;
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.08);
+}
+
+.correct {
+    background: #ecfdf5 !important;
+    border-color: var(--success) !important;
+    color: #065f46 !important;
+}
+
+.wrong {
+    background: #fef2f2 !important;
+    border-color: var(--danger) !important;
+    color: #991b1b !important;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.feedback {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 14px;
+    display: none;
+    line-height: 1.7;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.feedback.success {
+    background: #ecfdf5;
+    border-left: 6px solid var(--success);
+    color: #065f46;
+}
+
+.feedback.error {
+    background: #fef2f2;
+    border-left: 6px solid var(--danger);
+    color: #991b1b;
+}
+
+.result h1 {
+    font-size: 2.4rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+}
+
+.score-circle {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin: 24px auto;
+    background: linear-gradient(135deg, var(--secondary), #7c3aed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
+}
+
+.result-message {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.celebration-star {
+    position: fixed;
+    font-size: 24px;
+    animation: fallStarAnimation 2.5s linear forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes fallStarAnimation {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@media(max-width:600px) {
+    .options { grid-template-columns: 1fr; }
+    .container { padding: 24px 16px; }
+    .intro h1 { font-size: 1.8rem; }
+}
+</style>
 </head>
 <body>
 
-    <div id="splash-screen">
-        <img src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.src='https://via.placeholder.com/260x90?text=Innovine';">
-        <div class="loading-bar"><div class="loading-progress"></div></div>
-    </div>
+<div class="bg-stars" id="bgStars"></div>
 
-    <div class="overlay" id="mainGameContainer">
-        <div class="container">
-            <div class="header-block">
-                <img src="assets/innovine-logo.png" class="mini-logo" onerror="this.style.display='none'">
-                <h1>STEM Competency Assessment</h1>
-                <p class="subtitle">Introduction to STEM Learning (Advanced CBQ Sheet)</p>
-            </div>
-            
-            <div id="quizWorkspace">
-                <div class="topbar">
-                    <div>📋 Question: <span id="qNum">1</span> / 15</div>
-                    <div>⭐ Score: <span id="score">0</span></div>
-                    <div>⏰ Timer: <span id="timer">40</span>s</div>
-                </div>
-                
-                <div class="progress-box"><div class="progress-fill" id="progressFill"></div></div>
-                
-                <div class="card" id="gameCard">
-                    <span id="question-context">Competency Challenge</span>
-                    <h2 id="question">Loading Worksheet Challenge Vector...</h2>
-                    <div id="options"></div>
-                    <div class="feedback" id="feedback"></div>
-                    <div class="nextArea"><button id="nextBtn" onclick="moveToNext()">Next Question ➜</button></div>
-                </div>
-            </div>
+<div id="splash">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.style.display='none'; document.getElementById('splashText').style.display='block';">
+    <h2 id="splashText" style="display:none; color:#1e3a8a; font-weight:800;">STEM Learning Dashboard</h2>
+</div>
 
-            <div class="finalScreen" id="finalScreen">
-                <h1 style="color: #2563eb; font-size: 36px; margin-bottom: 15px;">🎉 Sheet Completed!</h1>
-                <h2 id="finalScore">Your Score: 0/15</h2>
-                <div style="margin: 20px 0;">
-                    <span class="metric-pill" id="badgeCount">🏅 Badges: 0</span>
-                    <span class="metric-pill" id="accuracyRate">Accuracy: 0%</span>
-                </div>
-                <h2 id="rank" style="color: #10b981; font-weight: bold; margin-top: 10px;">Analyzing Performance...</h2>
-                <button onclick="location.reload()" class="playBtn">Restart Worksheet 🔄</button>
-            </div>
+<div class="container hidden" id="app">
+
+    <div id="introScreen" class="intro">
+        <h1><span>Introduction to STEM Learning</span></h1>
+        
+        <div class="instructions">
+            <p><strong>Welcome to your Stem Assessment Activity!</strong></p>
+            <p>Read each question carefully. This worksheet evaluates critical competency benchmarks[cite: 2]:</p>
+            <ol>
+                <li>Observation & Creative Design Execution [cite: 2]</li>
+                <li>Logical Engineering Problem Solving [cite: 2]</li>
+                <li>Scientific Collaboration and Evaluation Habits [cite: 2]</li>
+            </ol>
         </div>
+
+        <button class="main-action-btn" onclick="startGame()">Start Quiz</button>
     </div>
 
-    <audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
-    <audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
-    <audio id="clapSound" src="assets/clap.mp3" preload="auto"></audio>
+    <div id="quizScreen" class="hidden">
+        <div class="topbar">
+            <div class="topbox">⭐ Score: <span id="score">0</span></div>
+            <div class="topbox">⏳ Time: <span id="timer">60</span>s</div>
+        </div>
 
-    <script>
-        // FULL 15 QUANTIFIABLE QUESTIONS EXTRACTED FROM DOCUMENT CONTENT
-        const cbqQuestions = [
-            {
-                context: "Problem Solving Competency",
-                question: "Aarav used building blocks to make a strong bridge during STEM activity. What skill is he mainly using?",
-                options: ["Problem solving", "Painting", "Typing", "Printing"],
-                answer: "Problem solving"
-            },
-            {
-                context: "Observation & Experimentation Mindset",
-                question: "Meera tested different paper airplane designs to see which one flies farther. What is she learning?",
-                options: ["Experimenting and observing", "File saving", "Keyboard repair", "Music playing"],
-                answer: "Experimenting and observing"
-            },
-            {
-                context: "Engineering Iteration Challenge",
-                question: "Kabir’s tower kept falling during a STEM challenge. What should he do?",
-                options: ["Try a stronger design", "Throw the blocks", "Stop learning", "Delete files"],
-                answer: "Try a stronger design"
-            },
-            {
-                context: "Collaboration & Soft Skills",
-                question: "Riya worked with her classmates to build a model windmill. What important skill is she showing?",
-                options: ["Teamwork", "Random guessing", "Screen cleaning", "Typing speed"],
-                answer: "Teamwork"
-            },
-            {
-                context: "Algorithmic Logic Sequence",
-                question: "Aarav carefully followed steps while making a robot model in class. Why is following steps important?",
-                options: ["It helps complete the task correctly", "It changes wallpaper", "It increases sound", "It closes programs"],
-                answer: "It helps complete the task correctly"
-            },
-            {
-                context: "STEM Observation Habit",
-                question: "Meera observed that bigger wheels made her toy car move faster. What STEM habit is she using?",
-                options: ["Observation", "Coloring", "Copying", "Printing"],
-                answer: "Observation"
-            },
-            {
-                context: "Case Study Analysis",
-                question: "Case Study: Kabir and Riya built a paper bridge in class and tested how many coins it could hold. What learning skill is mainly developed in this activity?",
-                options: ["Scientific thinking", "Fast typing", "Folder management", "Desktop editing"],
-                answer: "Scientific thinking"
-            },
-            {
-                context: "Case Study Design Optimization",
-                question: "Case Study: Aarav made changes to his toy car model after it moved too slowly. Why is improving designs important in STEM learning?",
-                options: ["It helps solve problems better", "It removes files", "It changes monitors", "It controls speakers"],
-                answer: "It helps solve problems better"
-            },
-            {
-                context: "Data Based Categorization",
-                question: "Data Based:\n• Building blocks → Creativity\n• Testing models → Observation\n• Working in groups → Teamwork\n\nWhich activity mainly develops teamwork?",
-                options: ["Testing models", "Working in groups", "Building blocks", "Coloring pictures"],
-                answer: "Working in groups"
-            },
-            {
-                context: "Data Based Acronym Check",
-                question: "Data Based:\n• S → Science\n• T → Technology\n• E → Engineering\n• M → Mathematics\n\nWhich word is represented by the letter E?",
-                options: ["Energy", "Engineering", "Experiment", "Education"],
-                answer: "Engineering"
-            },
-            {
-                context: "Visual Comprehension: Collaboration",
-                question: "A picture shows children building a tall tower using blocks together. Which STEM skill is mainly shown?",
-                options: ["Teamwork", "File deletion", "Painting", "Printing"],
-                answer: "Teamwork"
-            },
-            {
-                context: "Visual Comprehension: Scientific Inquiry",
-                question: "A picture shows a child testing different paper planes to check which flies farthest. What skill is shown?",
-                options: ["Experimenting", "Typing", "Saving files", "Drawing"],
-                answer: "Experimenting"
-            },
-            {
-                context:  "Logical Evaluation: Assertion & Reason",
-                question: "STEM activities help children solve problems.\nReason: STEM learning encourages thinking and experimenting.",
-                options: [
-                    "Both are true and reason explains assertion", 
-                    "Both are true but reason does not explain assertion", 
-                    "Assertion is true but reason is false", 
-                    "Both are false"
-                ],
-                answer: "Both are true and reason explains assertion"
-            },
-            {
-                context: "Logical Evaluation: Collaboration Structure",
-                question: "Teamwork is important in STEM projects.\nReason: Students can share ideas and complete tasks together.",
-                options: [
-                    "Both are true and reason explains assertion", 
-                    "Both are true but reason does not explain assertion", 
-                    "Assertion is true but reason is false", 
-                    "Both are false"
-                ],
-                answer: "Both are true and reason explains assertion"
-            },
-            {
-                context: "Logical Evaluation: Observation Parameters",
-                question: "Observation is useful during experiments.\nReason: Careful observation helps students understand results better.",
-                options: [
-                    "Both are true and reason explains assertion", 
-                    "Both are true but reason does not explain assertion", 
-                    "Assertion is true but reason is false", 
-                    "Both are false"
-                ],
-                answer: "Both are true and reason explains assertion"
-            }
-        ];
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
 
-        let currentIndex = 0;
-        let finalScore = 0;
-        let clockInterval;
-        let secondsLeft = 40;
+        <div class="question-number" id="questionNumber"></div>
+        <div class="question" id="questionText"></div>
+        
+        <div class="question-image-box" id="imageContainer">
+            <img id="questionImage" src="" alt="STEM Activity Context Layout">
+        </div>
 
-        // INITIALIZATION HOOK - 5 SECONDS TIMER DELAY
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.opacity = '0';
-                document.getElementById('splash-screen').style.visibility = 'hidden';
-                document.getElementById('mainGameContainer').style.display = 'flex';
-                loadQuestionBlock();
-            }, 5000);
-        });
+        <div class="options" id="optionsBox"></div>
+        <div class="feedback" id="feedbackBox"></div>
 
-        function playSound(audioId) {
-            const soundElement = document.getElementById(audioId);
-            if (soundElement) {
-                soundElement.currentTime = 0;
-                soundElement.play().catch(() => {});
-            }
+        <button id="nextBtn" class="main-action-btn hidden" style="margin-top: 20px; width:100%;" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div id="resultScreen" class="hidden result" style="text-align: center;">
+        <h1>🎉 Chapter Complete! 🎉</h1>
+        <div class="score-circle">
+            <span id="finalScore"></span>
+        </div>
+        <div class="result-message" id="resultMessage"></div>
+        <button class="main-action-btn" onclick="startGameAgain()">Restart Module</button>
+    </div>
+
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="victorySound" src="assets/clap.mp3"></audio>
+
+<script>
+// Star Background generation
+const bg = document.getElementById("bgStars");
+for(let i=0; i<25; i++) {
+    let star = document.createElement("div");
+    star.classList.add("bg-star");
+    star.style.left = Math.random()*100 + "%";
+    star.style.animationDuration = (Math.random()*8+10) + "s";
+    star.style.animationDelay = Math.random()*6 + "s";
+    star.style.width = (Math.random()*16+8) + "px";
+    star.style.height = star.style.width;
+    bg.appendChild(star);
+}
+
+// Fade splash out after 5 seconds
+setTimeout(() => {
+    document.getElementById("splash").style.setProperty("display", "none", "important");
+    document.getElementById("app").classList.remove("hidden");
+}, 5000);
+
+/* Official Database Array compiled directly from your uploaded Word File[cite: 1].
+  Images match filenames found inside your repo assets map screenshot exactly.
+*/
+const questions = [
+    {
+        q: "Aarav used building blocks to make a strong bridge during STEM activity. What skill is he mainly using? [cite: 3]",
+        o: ["Problem solving", "Painting", "Typing", "Printing"],
+        a: 0,
+        e: "Building blocks to assemble a structurally functional bridge requires engineering reasoning and problem-solving skills[cite: 3, 4].",
+        img: null
+    },
+    {
+        q: "Meera tested different paper airplane designs to see which one flies farther. What is she learning? [cite: 5]",
+        o: ["Experimenting and observing", "File saving", "Keyboard repair", "Music playing"],
+        a: 0,
+        e: "Modifying and testing custom aerodynamic models directly exercises scientific experimentation and careful real-time observation[cite: 5, 6].",
+        img: null
+    },
+    {
+        q: "Kabir’s tower kept falling during a STEM challenge. What should he do? [cite: 7]",
+        o: ["Try a stronger design", "Throw the blocks", "Stop learning", "Delete files"],
+        a: 0,
+        e: "Iterative testing means assessing structure failures and redesigning a more balanced foundation system[cite: 7, 8].",
+        img: null
+    },
+    {
+        q: "Riya worked with her classmates to build a model windmill. What important skill is she showing? [cite: 9]",
+        o: ["Teamwork", "Random guessing", "Screen cleaning", "Typing speed"],
+        a: 0,
+        e: "Coordinating physical model assembly steps with peer groups develops interpersonal collaboration and team-building properties[cite: 9, 10].",
+        img: "assets/communication.PNG"
+    },
+    {
+        q: "Aarav carefully followed steps while making a robot model in class. Why is following steps important? [cite: 11]",
+        o: ["It helps complete the task correctly", "It changes wallpaper", "It increases sound", "It closes programs"],
+        a: 0,
+        e: "Algorithmic thinking and sequenced progression guarantee mechanisms are built securely and optimally[cite: 11, 12].",
+        img: "assets/education.PNG"
+    },
+    {
+        q: "Meera observed that bigger wheels made her toy car move faster. What STEM habit is she using? [cite: 13]",
+        o: ["Observation", "Coloring", "Copying", "Printing"],
+        a: 0,
+        e: "Noticing empirical size relationships and mapping variance outputs outlines data observation steps[cite: 13, 14].",
+        img: null
+    },
+    {
+        q: "Case Study: Kabir and Riya built a paper bridge in class and tested how many coins it could hold. What learning skill is mainly developed in this activity? [cite: 15]",
+        o: ["Scientific thinking", "Fast typing", "Folder management", "Desktop editing"],
+        a: 0,
+        e: "Testing physical capacities using discrete variables trains structural validation and core scientific logic models[cite: 15, 16].",
+        img: null
+    },
+    {
+        q: "Case Study: Aarav made changes to his toy car model after it moved too slowly. Why is improving designs important in STEM learning? [cite: 17]",
+        o: ["It helps solve problems better", "It removes files", "It changes monitors", "It controls speakers"],
+        a: 0,
+        e: "Refinement steps loop back through optimization logs to produce targeted solutions over initial attempts[cite: 17, 18].",
+        img: null
+    },
+    {
+        q: "Data Based Lookup:<br><br>Activity &rarr; Skill<br>Building blocks &rarr; Creativity<br>Testing models &rarr; Observation<br>Working in groups &rarr; Teamwork<br><br>Which activity mainly develops teamwork? [cite: 19]",
+        o: ["Testing models", "Working in groups", "Building blocks", "Coloring pictures"],
+        a: 1,
+        e: "The relational array map directly defines grouping/collaborative activities under Teamwork[cite: 19, 20].",
+        img: "assets/entertainment.PNG"
+    },
+    {
+        q: "Data Based Lookup:<br><br>STEM Letter &rarr; Meaning<br>S &rarr; Science<br>T &rarr; Technology<br>E &rarr; Engineering<br>M &rarr; Mathematics<br><br>Which word is represented by the letter E? [cite: 21]",
+        o: ["Energy", "Engineering", "Experiment", "Education"],
+        a: 1,
+        e: "In core academic integration, the letter 'E' strictly represents the Engineering discipline structural vertical[cite: 21, 22].",
+        img: "assets/engineering.PNG"
+    },
+    {
+        q: "A picture shows children building a tall tower using blocks together. Which STEM skill is mainly shown? [cite: 23]",
+        o: ["Teamwork", "File deletion", "Painting", "Printing"],
+        a: 0,
+        e: "Joint construction of physical structures matches clear cooperative peer teamwork metrics[cite: 23, 24].",
+        img: "assets/exploration-robot.PNG"
+    },
+    {
+        q: "A picture shows a child testing different paper planes to check which flies farthest. What skill is shown? [cite: 25]",
+        o: ["Experimenting", "Typing", "Saving files", "Drawing"],
+        a: 0,
+        e: "Varying mechanical layouts to assess flight distances constitutes structural design experimentation[cite: 25, 26].",
+        img: "assets/factory-robot.PNG"
+    },
+    {
+        q: "Assertion: STEM activities help children solve problems. [cite: 27]<br>Reason: STEM learning encourages thinking and experimenting. [cite: 27]",
+        o: [
+            "Both are true and reason explains assertion", 
+            "Both are true but reason does not explain assertion", 
+            "Assertion is true but reason is false", 
+            "Both are false"
+        ],
+        a: 0,
+        e: "Experimentation yields conceptual validation patterns, which natively expand student cognitive problem-solving workflows[cite: 27, 28].",
+        img: null
+    },
+    {
+        q: "Assertion: Teamwork is important in STEM projects. [cite: 30]<br>Reason: Students can share ideas and complete tasks together. [cite: 30]",
+        o: [
+            "Both are true and reason explains assertion", 
+            "Both are true but reason does not explain assertion", 
+            "Assertion is true but reason is false", 
+            "Both are false"
+        ],
+        a: 0,
+        e: "Sharing decentralized perspective streams within design tasks accelerates optimization loop times[cite: 30, 31].",
+        img: null
+    },
+    {
+        q: "Assertion: Observation is useful during experiments. [cite: 33]<br>Reason: Careful observation helps students understand results better. [cite: 33]",
+        o: [
+            "Both are true and reason explains assertion", 
+            "Both are true but reason does not explain assertion", 
+            "Assertion is true but reason is false", 
+            "Both are false"
+        ],
+        a: 0,
+        e: "Empirical focus and monitoring system changes record clean baseline data points to formulate true analytical insights[cite: 33, 34].",
+        img: null
+    }
+];
+
+let current = 0;
+let score = 0;
+let attempts = 0;
+let timer;
+let timeLeft = 60;
+
+function shuffleQuestions() {
+    for(let i = questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+}
+
+function startGame() {
+    shuffleQuestions();
+    document.getElementById("introScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    loadQuestion();
+}
+
+function startGameAgain() {
+    document.getElementById("resultScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    shuffleQuestions();
+    current = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    loadQuestion();
+}
+
+function loadQuestion() {
+    attempts = 0;
+    timeLeft = 60;
+    startTimer();
+
+    document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+    const q = questions[current];
+
+    document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById("questionText").innerHTML = q.q;
+
+    const imgContainer = document.getElementById("imageContainer");
+    const imgElem = document.getElementById("questionImage");
+    
+    if(q.img) {
+        imgElem.src = q.img;
+        imgContainer.style.display = "block";
+    } else {
+        imgContainer.style.display = "none";
+        imgElem.src = "";
+    }
+
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
+
+    q.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkAnswer(div, index);
+        box.appendChild(div);
+    });
+
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
+}
+
+function startTimer() {
+    clearInterval(timer);
+    document.getElementById("timer").innerText = timeLeft;
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+        if(timeLeft <= 0) {
+            clearInterval(timer);
+            showCorrectAnswer();
         }
+    }, 1000);
+}
 
-        function runTimerCounter() {
-            clearInterval(clockInterval);
-            secondsLeft = 40;
-            document.getElementById('timer').innerText = secondsLeft;
-            
-            clockInterval = setInterval(() => {
-                secondsLeft--;
-                document.getElementById('timer').innerText = secondsLeft;
-                if (secondsLeft <= 0) {
-                    clearInterval(clockInterval);
-                    processTimeoutState();
-                }
-            }, 1000);
+function checkAnswer(element, index) {
+    if(element.classList.contains("correct") || element.classList.contains("wrong")) return;
+
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+
+    if(index === q.a) {
+        clearInterval(timer);
+        element.classList.add("correct");
+        try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
+        score++;
+        document.getElementById("score").innerText = score;
+        feedback.className = "feedback success";
+        feedback.innerHTML = `<strong>✨ Correct!</strong><br>💡 ${q.e}`;
+        feedback.style.display = "block";
+        disableAllOptions();
+        createCelebrationStars();
+        document.getElementById("nextBtn").classList.remove("hidden");
+    } else {
+        element.classList.add("wrong");
+        try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
+        attempts++;
+        if(attempts >= 2) {
+            clearInterval(timer);
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Incorrect! Let's examine the target choice:</strong><br>💡 ${q.e}`;
+            feedback.style.display = "block";
+            showCorrectAnswerInline();
+            disableAllOptions();
+            document.getElementById("nextBtn").classList.remove("hidden");
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = `<strong>❌ Try Again!</strong> That isn't quite right. You have one attempt remaining.`;
+            feedback.style.display = "block";
         }
+    }
+}
 
-        function loadQuestionBlock() {
-            runTimerCounter();
-            
-            const txtContext = document.getElementById('question-context');
-            const txtQuestion = document.getElementById('question');
-            const boxOptions = document.getElementById('options');
-            const txtFeedback = document.getElementById('feedback');
-            const btnNext = document.getElementById('nextBtn');
-
-            txtFeedback.innerText = "";
-            btnNext.style.display = "none";
-            boxOptions.innerHTML = "";
-
-            let currentItem = cbqQuestions[currentIndex];
-            
-            document.getElementById('qNum').innerText = currentIndex + 1;
-            txtContext.innerText = currentItem.context;
-            txtQuestion.innerText = currentItem.question;
-            
-            // Bar Calculation Adjuster Matrix
-            document.getElementById('progressFill').style.width = ((currentIndex) / cbqQuestions.length) * 100 + '%';
-
-            currentItem.options.forEach(optString => {
-                const btn = document.createElement('button');
-                btn.className = 'optionBtn';
-                btn.innerText = optString;
-                btn.onclick = () => evaluateAnswer(btn, optString, currentItem.answer);
-                boxOptions.appendChild(btn);
-            });
+function showCorrectAnswerInline() {
+    const q = questions[current];
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        if(i === q.a) {
+            options[i].classList.add("correct");
         }
+    }
+}
 
-        function evaluateAnswer(selectedBtn, selectedText, correctText) {
-            clearInterval(clockInterval);
-            disableAllOptionButtons();
+function showCorrectAnswer() {
+    const q = questions[current];
+    const feedback = document.getElementById("feedbackBox");
+    feedback.className = "feedback error";
+    feedback.innerHTML = `<strong>⏳ Time's Up! Here is the correct concept breakdown:</strong><br>💡 ${q.e}`;
+    feedback.style.display = "block";
+    showCorrectAnswerInline();
+    disableAllOptions();
+    document.getElementById("nextBtn").classList.remove("hidden");
+}
 
-            const txtFeedback = document.getElementById('feedback');
-            const btnNext = document.getElementById('nextBtn');
+function disableAllOptions() {
+    const options = document.getElementsByClassName("option");
+    for(let i=0; i<options.length; i++) {
+        options[i].style.pointerEvents = "none";
+    }
+}
 
-            if (selectedText === correctText) {
-                selectedBtn.classList.add('correct-state');
-                txtFeedback.innerText = "✅ Correct! Great Job.";
-                txtFeedback.style.color = "#34d399";
-                finalScore++;
-                document.getElementById('score').innerText = finalScore;
-                playSound('correctSound');
-                confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
-            } else {
-                selectedBtn.classList.add('wrong-state');
-                highlightCorrectAnswer(correctText);
-                txtFeedback.innerText = "❌ Incorrect Answer.";
-                txtFeedback.style.color = "#f87171";
-                playSound('wrongSound');
-            }
+function nextQuestion() {
+    current++;
+    if(current < questions.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+}
 
-            btnNext.style.display = "inline-block";
-        }
+function showResults() {
+    clearInterval(timer);
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("finalScore").innerText = `${score} / ${questions.length}`;
 
-        function processTimeoutState() {
-            disableAllOptionButtons();
-            let currentItem = cbqQuestions[currentIndex];
-            highlightCorrectAnswer(currentItem.answer);
-            
-            const txtFeedback = document.getElementById('feedback');
-            txtFeedback.innerText = "⏰ Time Out!";
-            txtFeedback.style.color = "#fbbf24";
-            playSound('wrongSound');
-            
-            document.getElementById('nextBtn').style.display = "inline-block";
-        }
+    try { document.getElementById("victorySound").play().catch(()=>{}); } catch(e){}
 
-        function disableAllOptionButtons() {
-            const buttons = document.querySelectorAll('.optionBtn');
-            buttons.forEach(b => b.disabled = true);
-        }
+    let msg = "";
+    if(score >= 13) {
+        msg = "🌟 Outstanding! You have developed amazing skills in observation, structural testing, and problem solving!";
+    } else if(score >= 9) {
+        msg = "👍 Well done! Great conceptual understanding of teamwork, scientific models, and structured steps.";
+    } else {
+        msg = "😊 Good effort! Keep practicing your observation loops and structural evaluation patterns, then try again!";
+    }
+    document.getElementById("resultMessage").innerText = msg;
+}
 
-        function highlightCorrectAnswer(correctText) {
-            const buttons = document.querySelectorAll('.optionBtn');
-            buttons.forEach(b => {
-                if (b.innerText === correctText) {
-                    b.classList.add('correct-state');
-                }
-            });
-        }
-
-        function moveToNext() {
-            currentIndex++;
-            if (currentIndex < cbqQuestions.length) {
-                loadQuestionBlock();
-            } else {
-                showFinalReportMatrix();
-            }
-        }
-
-        function showFinalReportMatrix() {
-            clearInterval(clockInterval);
-            document.getElementById('progressFill').style.width = '100%';
-            document.getElementById('quizWorkspace').style.display = 'none';
-            
-            const resultsPanel = document.getElementById('finalScreen');
-            resultsPanel.style.display = 'block';
-            
-            document.getElementById('finalScore').innerText = `Worksheet Score: ${finalScore} / ${cbqQuestions.length}`;
-            
-            // Generate analytics parameters
-            let accuracy = Math.round((finalScore / cbqQuestions.length) * 100);
-            document.getElementById('accuracyRate').innerText = `Accuracy: ${accuracy}%`;
-            document.getElementById('badgeCount').innerText = `🏅 Badges Earned: ${finalScore}`;
-
-            let rankLabel = "";
-            if (finalScore === cbqQuestions.length) {
-                rankLabel = "🏆 STEM CHAMPION WIZARD";
-                playSound('clapSound');
-                confetti({ particleCount: 300, spread: 120 });
-            } else if (finalScore >= 11) {
-                rankLabel = "👍 EXCELLENT CONCEPT COMPREHENSION";
-                playSound('clapSound');
-            } else if (finalScore >= 6) {
-                rankLabel = "📘 DEVELOPING STEM HABITS";
-            } else {
-                rankLabel = "📕 BEGINNER PROFILE - NEEDS PRACTICE";
-            }
-            document.getElementById('rank').innerText = rankLabel;
-        }
-    </script>
+function createCelebrationStars() {
+    const emojis = ["⭐", "✨", "🤖", "⚙️", "🚀", "💡"];
+    for(let i=0; i<25; i++) {
+        const star = document.createElement("div");
+        star.classList.add("celebration-star");
+        star.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.animationDuration = (Math.random() * 1.5 + 1) + "s";
+        star.style.animationDelay = Math.random() * 0.2 + "s";
+        star.style.fontSize = Math.random() * 16 + 20 + "px";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2500);
+    }
+}
+</script>
 </body>
 </html>
