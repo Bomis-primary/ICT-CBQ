@@ -222,7 +222,7 @@ button.main-action-btn:hover {
 /* Visual Panel Asset Frame Slot */
 .question-image-box {
     width: 100%;
-    max-width: 400px;
+    max-width: 440px;
     margin: 0 auto 20px auto;
     border-radius: 16px;
     overflow: hidden;
@@ -425,8 +425,8 @@ button.main-action-btn:hover {
     </div>
 </div>
 
-<audio id="correctSound" src="assets/clap.mp3"></audio>
-<audio id="wrongSound" src="assets/clap.mp3"></audio>
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
 <audio id="clapSound" src="assets/clap.mp3"></audio>
 
 <script>
@@ -449,7 +449,7 @@ setTimeout(() => {
     document.getElementById("app").classList.remove("hidden");
 }, 5000);
 
-/* Master Competency-Based Dataset Object Pool for Chapter 2 - Types of Robots */
+/* Master Competency-Based Dataset with Correctly Balanced Question-by-Question Assets */
 const questions = [
     {
         q: "Anish sees a giant mechanical arm assembling cars swiftly in a car factory. What type of robot is he observing?",
@@ -484,35 +484,35 @@ const questions = [
         o: ["It safely explores hazardous spaces", "It looks more stylish", "It cleans the volcanic rocks", "It reduces computer network speed"],
         a: 0,
         e: "Exploration robots are built out of heat-resistant materials to execute field research securely inside high-risk areas.",
-        img: null
+        img: "assets/exploration-volcano.PNG"
     },
     {
         q: "An industrial factory switches from manual hand assembly to specialized stationary sorting robots. What is the main outcome of this change?",
         o: ["Production speed and precision increase", "Factory floors require more paint", "Workstations shut down completely", "Products lose structural values"],
         a: 0,
         e: "Deploying automated mechanical arms scales throughput performance metrics by making precision assembly operations much faster.",
-        img: "assets/factory-robot.PNG"
+        img: "assets/factory-assembly.PNG"
     },
     {
         q: "Case Study: Vihaan codes a small smart vehicle robot using computer blocks to follow a black electrical tape track laid out on the classroom tiles. What specific field assignment is he modeling?",
         o: ["Educational logic execution", "Deep-sea habitat exploration", "Automobile spray painting", "Industrial manufacturing assembly"],
         a: 0,
         e: "Using small programmable desktop rovers to visually trace shapes trains foundational computer logic and educational programming habits.",
-        img: "assets/education.PNG"
+        img: "assets/classroom- rover.PNG"
     },
     {
         q: "Case Study: An deep-ocean mechanical submersible submarine operates autonomously at the ocean floor where pressure is extremely high to collect water samples. What category does this match?",
         o: ["Exploration Robot", "Factory Robot", "Entertainment Robot", "Educational Robot"],
         a: 0,
         e: "Submersibles navigating uncharted underwater trenches to collect bio-samples operate within the domain of Exploration Robots.",
-        img: null
+        img: "assets/underwater-exploration.PNG"
     },
     {
         q: "Data Based Lookup:<br>Factory Robot &rarr; Heavy Welding / Lifting<br>Exploration Robot &rarr; Deep Space Tracking<br>Entertainment Robot &rarr; Interactive Companion Toys<br><br>Which robot class should a toy company develop to create an interactive singing robot companion?",
         o: ["Entertainment Robot", "Factory Robot", "Exploration Robot", "Industrial Arm"],
         a: 0,
         e: "The look-up matrix assigns companion tracking attributes and musical toys directly to the Entertainment Robot sector.",
-        img: "assets/entertainment.PNG"
+        img: "assets/toy-matrix.PNG"
     },
     {
         q: "Data Based Lookup:<br>Robot Task &rarr; Primary Benefit<br>Classroom Coding &rarr; Learning STEM Logic<br>Deep Sea Mapping &rarr; Environmental Data Collection<br>Automated Car Assembly &rarr; High Precision Production<br><br>What is the primary benefit of classroom coding?",
@@ -540,21 +540,21 @@ const questions = [
         o: ["A wheeled exploration drone with searchlights", "A stationary industrial paint-spraying arm", "A dancing toy puppy robot", "A coding kit screen simulation"],
         a: 0,
         e: "Mobile drones loaded with environment mapping arrays match exploration operations inside hazardous, tight spaces.",
-        img: "assets/exploration-robot.PNG"
+        img: "assets/rescue-drone.PNG"
     },
     {
         q: "Why do modern school science labs use small robotic kits with simple physical building blocks instead of full-scale factory machinery?",
         o: ["They are safe and teach core engineering logic", "They do not use electric batteries", "They look like actual cars", "They execute factory welding tasks"],
         a: 0,
         e: "Educational kits are size-calibrated for child safety while fully maintaining basic engineering logic rules.",
-        img: "assets/education.PNG"
+        img: "assets/education-kit.PNG"
     },
     {
         q: "A student observes a robotic pet responding to voice commands by barking and wagging its tail. What can we conclude about this robot?",
         o: ["It is designed for play and entertainment", "It is built for industrial car manufacturing", "It explores distant planets", "It requires no software program"],
         a: 0,
         e: "Simulating playful domestic responses like barking places the system completely within entertainment applications.",
-        img: "assets/entertainment.PNG"
+        img: "assets/robotic-pet.PNG"
     }
 ];
 
@@ -603,7 +603,7 @@ function loadQuestion() {
     document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
     document.getElementById("questionText").innerHTML = q.q;
 
-    // Viewport Visibility Asset Manager System
+    // Viewport Dynamic Visual Manager
     const imgContainer = document.getElementById("imageContainer");
     const imgElem = document.getElementById("questionImage");
     if(q.img) {
