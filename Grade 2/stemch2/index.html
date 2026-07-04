@@ -1,1 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEM Challenge - Electricity </title>
+<style>
+:root {
+    --primary: #2563eb;
+    --secondary: #7c3aed;
+    --success: #10b981;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --light: #ffffff;
+}
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0ea5e9, #2563eb, #7c3aed);
+    overflow-x: hidden;
+    position: relative;
+    padding: 15px;
+}
+
+/* Animated Background Stars */
+.bg-stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.bg-star {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatStar linear infinite;
+}
+
+@keyframes floatStar {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+/* Splash Screen (Exactly 5 Seconds) */
+#splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#splash img {
+    width: 240px;
+    max-width: 75%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* App Container Card */
+.container {
+    width: 100%;
+    max-width: 780px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    border-radius: 28px;
+    padding: 28px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Intro Interface */
+.intro {
+    text-align: center;
+}
+
+.intro h1 {
+    font-size: 2rem;
+    color: var(--secondary);
+    margin-bottom: 15px;
+}
+
+.instructions {
+    background: #f8fafc;
+    padding: 22px;
+    border-radius: 18px;
+    line-height: 1.9;
+    color: #334155;
+    font-size: 1rem;
+    text-align: left;
+    margin-top: 15px;
+}
+
+.instructions ol {
+    margin-left: 22px;
+}
+
+/* Actions Controls */
+button.main-action-btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+button.main-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(124,58,237,0.4);
+}
+
+/* Quiz Controls Header */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.topbox {
+    background: white;
+    padding: 12px 18px;
+    border-radius: 14px;
+    font-weight: bold;
+    color: #334155;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.progress {
+    width: 100%;
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    transition: 0.4s;
+}
+
+.question-number {
+    color: #64748b;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.question {
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1.6;
+    color: #0f172a;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.question-image {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto 20px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    display: none;
+}
+
+.options {
+    display: grid;
+    gap: 14px;
+}
+
+.option {
+    background: white;
+    padding: 16px;
+    border-radius: 16px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: 0.25s;
+    text-align: left;
+    color: #334155;
+}
+
+.option:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background-color: #fafafa;
+}
+
+.correct {
+    background: #ecfdf5!important;
+    border-color: #10b981!important;
+    color: #065f46!important;
+}
+
+.wrong {
+    background: #fef2f2!important;
+    border-color: #ef4444!important;
+    color: #991b1b!important;
+}
+
+.feedback {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 16px;
+    display: none;
+    line-height: 1.7;
+    text-align: left;
+}
+
+.feedback.success {
+    background: #ecfdf5;
+    border-left: 6px solid #10b981;
+    color: #065f46;
+}
+
+.feedback.error {
+    background: #fef2f2;
+    border-left: 6px solid #ef4444;
+    color: #991b1b;
+}
+
+/* Evaluation Screen Elements */
+.result {
+    text-align: center;
+}
+
+.result h1 {
+    font-size: 2.2rem;
+    color: var(--secondary);
+    margin-bottom: 10px;
+}
+
+.score-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    margin: 25px auto;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 10px 25px rgba(37,99,235,0.3);
+}
+
+.result-message {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #334155;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Celebration Stars System */
+.celebration-star {
+    position: fixed;
+    font-size: 24px;
+    animation: fallStarAnimation 2.5s linear forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes fallStarAnimation {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@media(max-width:600px) {
+    .container { padding: 20px 15px; }
+    .question { font-size: 1.05rem; }
+    .option { font-size: 0.95rem; }
+    button.main-action-btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-stars" id="bgStars"></div>
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
+
+<div class="container hidden" id="app">
+    <div id="introScreen" class="intro">
+        <h1>STEM Challenge: Electricity</h1>
+        <div class="instructions">
+            <ol>
+                <li>Read each real-world science scenario and safety question carefully.</li>
+                <li>You get two operational baseline attempts to answer each interactive question.</li>
+                <li>After two incorrect choices, the system updates with the true correct explanation.</li>
+                <li>A countdown buffer window of 60 seconds is active per question entry.</li>
+                <li>Score well across all 15 electrical tasks to claim your challenge badge!</li>
+            </ol>
+        </div>
+        <button class="main-action-btn" onclick="startGame()">Start Challenge</button>
+    </div>
+
+    <div id="quizScreen" class="hidden">
+        <div class="topbar">
+            <div class="topbox">⭐ Score: <span id="score">0</span></div>
+            <div class="topbox">⏳ Time: <span id="timer">60</span>s</div>
+        </div>
+        <div class="progress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="question-number" id="questionNumber"></div>
+        <img id="questionImage" class="question-image" src="" alt="Question Task Reference">
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsBox"></div>
+        <div class="feedback" id="feedbackBox"></div>
+        <button id="nextBtn" class="main-action-btn hidden" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div id="resultScreen" class="hidden result">
+        <h1>🎉 Challenge Completed 🎉</h1>
+        <div class="score-circle"><span id="finalScore"></span></div>
+        <div class="result-message" id="resultMessage"></div>
+        <button class="main-action-btn" onclick="location.reload()">Play Again</button>
+    </div>
+</div>
+
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/clap.mp3"></audio>
+
+<script>
+/* Dynamic Background Decoration Generation */
+const bg = document.getElementById("bgStars");
+for(let i=0; i<20; i++) {
+    let star = document.createElement("div");
+    star.classList.add("bg-star");
+    star.style.left = Math.random()*100 + "%";
+    star.style.animationDuration = (Math.random()*10+10) + "s";
+    star.style.animationDelay = Math.random()*5 + "s";
+    star.style.width = (Math.random()*18+10) + "px";
+    star.style.height = star.style.width;
+    bg.appendChild(star);
+}
+
+/* Splash Shield Removal Timeline (Exactly 5 Seconds) */
+setTimeout(() => {
+    document.getElementById("splash").style.display = "none";
+    document.getElementById("app").classList.remove("hidden");
+}, 5000);
+
+/* Grade 2 STEM - Electricity Question Pool Map Matrix */
+const questions = [
+    {
+        q: "Riya connects a battery, bulb and wires. The bulb glows. Why?",
+        o: ["Electricity flows through a complete circuit", "Bulb is colourful", "Wire is long", "Battery is heavy"],
+        a: 0,
+        e: "The bulb glows because a continuous path is formed, allowing electricity to flow through a complete circuit."
+    },
+    {
+        q: "Tarun wants to touch an electric switch after washing his hands. What should he do first?",
+        o: ["Switch on immediately", "Dry his hands", "Pour more water", "Use metal objects"],
+        a: 1,
+        e: "Water can safely carry electrical currents to your body. You should always dry your hands completely to prevent severe electric shocks."
+    },
+    {
+        q: "A toy car stops moving when its battery is removed. What does this show?",
+        o: ["Electricity helps devices work", "Batteries are toys", "Wires make sound", "Bulbs store power"],
+        a: 0,
+        e: "Batteries act as power sources. Removing them proves electricity is necessary to produce active motion in target devices."
+    },
+    {
+        q: "Meera chooses copper wire for a circuit. Why?",
+        o: ["Copper is a conductor", "Copper is an insulator", "Copper is soft", "Copper is transparent"],
+        a: 0,
+        e: "Copper is a highly efficient conductor, meaning it easily allows electrical currents to move through it."
+    },
+    {
+        q: "A child wears rubber slippers near electrical equipment. Why?",
+        o: ["Rubber is colourful", "Rubber is an insulator", "Rubber stores electricity", "Rubber glows"],
+        a: 1,
+        e: "Rubber is an insulating material that blocks electricity, keeping dangerous currents from passing through you."
+    },
+    {
+        q: "An LED glows when connected properly. What does this indicate?",
+        o: ["Circuit is complete", "Battery is empty", "Wire is broken", "Switch is damaged"],
+        a: 0,
+        e: "A working, illuminated light source acts as confirmation that the electrical circuit loop is completely connected."
+    },
+    {
+        q: "Aman notices a damaged electric cord at home. What should be done?",
+        o: ["Continue using it", "Replace it safely", "Put it in water", "Ignore it"],
+        a: 1,
+        e: "Exposed lines inside damaged wires can leak current. They must be safely replaced or repaired immediately by an adult."
+    },
+    {
+        q: "Sara finds a complex electrical fault at home. What is the safest action?",
+        o: ["Repair it alone", "Ignore it", "Call an electrician", "Touch the wires"],
+        a: 2,
+        e: "Complex internal issues demand professional maintenance. Call a licensed electrician to evaluate the problem safely."
+    },
+    {
+        q: "Look at the material data table:<br><br>• Copper — Conductor<br>• Plastic — Insulator<br>• Steel — Conductor<br><br>Which material is an insulator?",
+        o: ["Copper", "Plastic", "Steel", "Aluminium"],
+        a: 1,
+        e: "As documented in the reference chart, plastic acts as an insulator because it restricts electric charges from flowing freely."
+    },
+    {
+        q: "Look at the appliance requirement table:<br><br>• Bulb — Needs Electricity<br>• Computer — Needs Electricity<br>• Notebook — Does Not Need Electricity<br><br>Which item does not need electricity?",
+        o: ["Bulb", "Computer", "Notebook", "LED"],
+        a: 2,
+        e: "Notebooks are pure physical reading materials that operate without requiring any mechanical battery power or electrical currents."
+    },
+    {
+        q: "A picture shows a battery connected to a bulb with wires and the bulb is glowing. What is shown?",
+        o: ["Open circuit", "Electric circuit", "Water cycle", "Network"],
+        a: 1,
+        e: "An organized system that links power sources, routes, and output components to cycle power is an electric circuit.",
+        image: "assets/Q11.png"
+    },
+    {
+        q: "A picture shows a person wearing protective rubber gloves while handling complex electrical equipment. Why?",
+        o: ["Decoration", "Safety from electricity", "Fashion", "To increase power"],
+        a: 1,
+        e: "Rubber acts as an electrical block. Protective gloves provide insulation, ensuring absolute safety from electric shock hazards.",
+        image: "assets/Q12.png"
+    },
+    {
+        q: "Assertion: Conductors allow electricity to pass through them.<br>Reason: Copper and aluminium are conductors.",
+        o: ["Both true and reason explains", "Both true but not explanation", "Assertion true reason false", "Both false"],
+        a: 0,
+        e: "Both statements are completely accurate. Since copper and aluminium allow electricity to pass through, they serve as excellent practical examples of conductors."
+    },
+    {
+        q: "Assertion: Water should be kept away from electrical devices.<br>Reason: Water can cause electric shock.",
+        o: ["Both true and reason explains", "Both true but not explanation", "Assertion true reason false", "Both false"],
+        a: 0,
+        e: "Water conducts electricity remarkably well. Keeping it away from live outlets prevents lethal shocks, making the reasoning completely correct."
+    },
+    {
+        q: "Assertion: Rubber is used in electrical safety equipment.<br>Reason: Rubber is an insulator and does not allow electricity to pass through easily.",
+        o: ["Both true and reason explains", "Both true but not explanation", "Assertion true reason false", "Both false"],
+        a: 0,
+        e: "The assertion stands true because rubber is an outstanding insulator that safely wraps paths to keep users protected from active current lines."
+    }
+];
+
+/* App Logic Controllers */
+let current = 0;
+let score = 0;
+let attempts = 0;
+let timer;
+let timeLeft = 60;
+
+function startGame() {
+    document.getElementById("introScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    loadQuestion();
+}
+
+function loadQuestion() {
+    attempts = 0;
+    timeLeft = 60;
+    startTimer();
+
+    document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";
+    const q = questions[current];
+
+    document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById("questionText").innerHTML = q.q;
+
+    const imgElement = document.getElementById("questionImage");
+    if(q.image) {
+        imgElement.src = q.image;
+        imgElement.style.display = "block";
+    } else {
+        imgElement.style.display = "none";
+    }
+
+    const box = document.getElementById("optionsBox");
+    box.innerHTML = "";
+
+    q.o.forEach((opt, index) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerHTML = opt;
+        div.onclick = () => checkAnswer(div, index);
+        box.appendChild(div);
+    });
+
+    document.getElementById("feedbackBox").style.display = "none";
+    document.getElementById("nextBtn").classList.add("hidden");
+}
+
+function startTimer() {
+    clearInterval(timer);
+    document.getElementById("timer").innerText = timeLeft;
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = timeLeft;
+        if(timeLeft <= 0) {
+            clearInterval(timer);
+            showCorrectAnswer();
+        }
+    }, 1000);
+}
+
+function checkAnswer(element, index) {
+    const q = questions[current];
+
+    if(index === q.a) {
+        element.classList.add("correct");
+        try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
+        createCelebrationStars();
+        score++;
+        showFeedback(true, "✅ Excellent!", q.e);
+        disableOptions();
+        clearInterval(timer);
+        document.getElementById("nextBtn").classList.remove("hidden");
+    } else {
+        attempts++;
+        element.classList.add("wrong");
+        try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}
+        element.style.pointerEvents = "none";
+
+        if(attempts < 2) {
+            showFeedback(false, "❌ Try Again!", "One operational safety chance remaining in your buffer.");
+        } else {
+            showCorrectAnswer();
+        }
+    }
+}
+
+function showCorrectAnswer() {
+    clearInterval(timer);
+    disableOptions();
+    const q = questions[current];
+
+    document.querySelectorAll(".option").forEach((opt, index) => {
+        if(index === q.a) {
+            opt.classList.add("correct");
+        }
+    });
+
+    showFeedback(false, "📘 Correct Answer Shown", q.e);
+    document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function disableOptions() {
+    document.querySelectorAll(".option").forEach(opt => {
+        opt.style.pointerEvents = "none";
+    });
+}
+
+function showFeedback(success, title, text) {
+    const box = document.getElementById("feedbackBox");
+    box.style.display = "block";
+    box.className = "feedback " + (success ? "success" : "error");
+    box.innerHTML = `<strong style="font-size:1.1rem;">${title}</strong><br><br>${text}`;
+}
+
+function nextQuestion() {
+    current++;
+    if(current < questions.length) {
+        loadQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("finalScore").innerHTML = `${score}/${questions.length}`;
+
+    // Play victory sound setup
+    try { document.getElementById("clapSound").play().catch(()=>{}); } catch(e){}
+
+    let message = "";
+    if(score >= 13) {
+        message = "🏆 Electrical Engineer Prodigy! Outstanding performance. You have thoroughly mastered open/closed circuits, insulation materials, and safety guidelines.";
+    } else if(score >= 9) {
+        message = "⭐ Great Work! You have established a solid functional understanding of conductors, circuits, and household safety steps.";
+    } else {
+        message = "🚀 Keep Practicing! Refresh your core safety concepts, review the behavior of insulators, and try the module again.";
+    }
+
+    document.getElementById("resultMessage").innerHTML = message;
+    createCelebrationStars();
+}
+
+function createCelebrationStars() {
+    for(let i=0; i<35; i++) {
+        const star = document.createElement("div");
+        star.classList.add("celebration-star");
+        star.innerHTML = "⚡";
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.top = "-30px";
+        star.style.fontSize = (Math.random() * 20 + 15) + "px";
+        document.body.appendChild(star);
+        setTimeout(() => { star.remove(); }, 2500);
+    }
+}
+</script>
+</body>
+</html>
