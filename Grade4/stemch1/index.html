@@ -348,11 +348,11 @@ button.main-action-btn:hover {
         <div class="stage-badge">STEM Exploration Chapter 1</div>
         <div class="instructions">
             <ol>
-                <li>Explore how simple electronic components connect and perform together inside a virtual simulation workspace[cite: 125, 126].</li>
-                <li>An active tracking boundary countdown of <strong>60 seconds</strong> is applied per query window[cite: 156].</li>
-                <li>You receive exactly <strong>2 operational attempts</strong> per interactive problem question[cite: 156].</li>
-                <li>If both selections clear incorrectly, the core system updates to reveal the true answer[cite: 156].</li>
-                <li>Clear all foundational challenges successfully to test your skills in the final stage[cite: 150]!</li>
+                <li>Explore how simple electronic components connect and perform together inside a virtual simulation workspace.</li>
+                <li>An active tracking boundary countdown of <strong>60 seconds</strong> is applied per query window.</li>
+                <li>You receive exactly <strong>2 operational attempts</strong> per interactive problem question.</li>
+                <li>If both selections clear incorrectly, the core system updates to reveal the true answer.</li>
+                <li>Clear all foundational challenges successfully to test your skills in the final stage!</li>
             </ol>
         </div>
         <button class="main-action-btn" onclick="startGame()">Start Challenge</button>
@@ -383,7 +383,7 @@ button.main-action-btn:hover {
 </div>
 
 <audio id="correctSound" src="assets/correct.mp3" preload="auto"></audio>
-<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></preload>
+<audio id="wrongSound" src="assets/wrong.mp3" preload="auto"></audio>
 <audio id="clapSound" src="assets/clap.mp3" preload="auto"></audio>
 
 <script>
@@ -406,114 +406,113 @@ setTimeout(()=>{
     document.getElementById("app").classList.remove("hidden");
 }, 5000);
 
-/* Main Game Matrix Mapping From Provided Word Assets */
+/* Main Game Matrix Mapping */
 const questions = [
     {
-        q: "A student wants to design and test electronic circuits on a computer. Which tool should be used? [cite: 128]",
+        q: "A student wants to design and test electronic circuits on a computer. Which tool should be used?",
         o: ["Scratch", "Tinkercad", "Excel", "Word"],
         a: 1,
-        e: "Tinkercad is a dedicated online browser-based workspace tool used to build, wire, and safely test electronics circuits virtually[cite: 128]."
+        e: "Tinkercad is a dedicated online browser-based workspace tool used to build, wire, and safely test electronics circuits virtually."
     },
     {
-        q: "Tinkercad is mainly used for: [cite: 130]",
+        q: "Tinkercad is mainly used for:",
         o: ["Writing documents", "Designing and simulating circuits", "Playing games", "Drawing pictures"],
         a: 1,
-        e: "Tinkercad provides accurate virtual simulation panels to arrange electronics components and verify their behaviors safely[cite: 130]."
+        e: "Tinkercad provides accurate virtual simulation panels to arrange electronics components and verify their behaviors safely."
     },
     {
-        q: "Assertion: Circuits can be tested in Tinkercad without real components. <br>Reason: It provides a simulation environment. [cite: 131]",
+        q: "Assertion: Circuits can be tested in Tinkercad without real components. <br>Reason: It provides a simulation environment.",
         o: ["Both true and reason explains assertion", "Both true but unrelated", "Assertion true, reason false", "Assertion false, reason true"],
         a: 0,
-        e: "Both statements stand perfectly true. Tinkercad's robust simulation sandbox allows testing schematic ideas safely without physical elements[cite: 131]."
+        e: "Both statements stand perfectly true. Tinkercad's robust simulation sandbox allows testing schematic ideas safely without physical elements."
     },
     {
-        q: "Which component is used to give power to a circuit? [cite: 133]",
+        q: "Which component is used to give power to a circuit?",
         o: ["LED", "Battery", "Switch", "Resistor"],
         a: 1,
-        e: "A battery acts as the primary voltage supplier that drives electrical current throughout the circuit loop[cite: 133]."
+        e: "A battery acts as the primary voltage supplier that drives electrical current throughout the circuit loop."
     },
     {
-        q: "Which component produces light in a circuit? [cite: 134]",
+        q: "Which component produces light in a circuit?",
         o: ["Breadboard", "LED", "Wire", "Switch"],
         a: 1,
-        e: "An LED (Light Emitting Diode) is a semiconductor output component designed to convert electrical currents directly into bright visual light energy[cite: 134].",
-        image: "assets/image_b977cc.png"
+        e: "An LED (Light Emitting Diode) is a semiconductor output component designed to convert electrical currents directly into bright visual light energy."
     },
     {
-        q: "A student wants to turn an LED on and off manually. Which component should be used? [cite: 135]",
+        q: "A student wants to turn an LED on and off manually. Which component should be used?",
         o: ["Battery", "Switch", "Resistor", "Wire"],
         a: 1,
-        e: "A mechanical switch acts as a control gate to intentionally break or establish electrical track continuity inside a circuit[cite: 135]."
+        e: "A mechanical switch acts as a control gate to intentionally break or establish electrical track continuity inside a circuit."
     },
     {
-        q: "Why is a resistor used in a circuit? [cite: 137]",
+        q: "Why is a resistor used in a circuit?",
         o: ["To increase current", "To control current", "To store data", "To display output"],
         a: 1,
-        e: "Resistors act to oppose and safely control the volume of flowing electrical currents to protect delicate parts like LEDs from burning out[cite: 137]."
+        e: "Resistors act to oppose and safely control the volume of flowing electrical currents to protect delicate parts like LEDs from burning out."
     },
     {
-        q: "A breadboard is used to: [cite: 139]",
+        q: "A breadboard is used to:",
         o: ["Store files", "Connect circuit components", "Play sound", "Print output"],
         a: 1,
-        e: "A breadboard provides temporary columns of interconnected pin terminal lanes to test circuit component layouts solderlessly[cite: 139]."
+        e: "A breadboard provides temporary columns of interconnected pin terminal lanes to test circuit component layouts solderlessly."
     },
     {
-        q: "A student connects all components but the circuit does not work. What should be checked first? [cite: 140]",
+        q: "A student connects all components but the circuit does not work. What should be checked first?",
         o: ["Internet connection", "Proper connections", "File name", "Screen brightness"],
         a: 1,
-        e: "Misplaced terminals or loose wire links immediately disrupt current flow paths. Verify connection paths first when troubleshooting[cite: 140, 141]."
+        e: "Misplaced terminals or loose wire links immediately disrupt current flow paths. Verify connection paths first when troubleshooting."
     },
     {
-        q: "Which statement is incorrect? [cite: 142]",
+        q: "Which statement is incorrect?",
         o: ["LED produces light", "Battery provides power", "Switch stores data", "Resistor controls current"],
         a: 2,
-        e: "A switch is a manual hardware controller gate. It possesses no storage medium or logic capability to hold files or data entries[cite: 142]."
+        e: "A switch is a manual hardware controller gate. It possesses no storage medium or logic capability to hold files or data entries."
     },
     {
-        q: "When the switch is pressed in a circuit, what happens? [cite: 143]",
+        q: "When the switch is pressed in a circuit, what happens?",
         o: ["Circuit breaks", "Circuit completes", "Battery stops", "Wire disappears"],
         a: 1,
-        e: "Toggling the control switch downward bridges open spaces, allowing electrical current to circulate across a complete loop[cite: 143]."
+        e: "Toggling the control switch downward bridges open spaces, allowing electrical current to circulate across a complete loop."
     },
     {
-        q: "A student presses a push button and the LED glows. What does this show? [cite: 144]",
+        q: "A student presses a push button and the LED glows. What does this show?",
         o: ["Circuit is incomplete", "Circuit is working", "Battery is empty", "Wire is broken"],
         a: 1,
-        e: "Successful conversion into light output confirms current moves seamlessly along an uninterrupted operational path[cite: 144, 145]."
+        e: "Successful conversion into light output confirms current moves seamlessly along an uninterrupted operational path."
     },
     {
-        q: "Assertion: A complete circuit allows current to flow. <br>Reason: All components are properly connected. [cite: 146]",
+        q: "Assertion: A complete circuit allows current to flow. <br>Reason: All components are properly connected.",
         o: ["Both true and reason explains assertion", "Both true but unrelated", "Assertion true, reason false", "Assertion false, reason true"],
         a: 0,
-        e: "Both parts are accurate. When every electronic element connects perfectly from end-to-end, a complete path triggers current flow[cite: 146]."
+        e: "Both parts are accurate. When every electronic element connects perfectly from end-to-end, a complete path triggers current flow."
     },
     {
-        q: "Choose the odd one out: [cite: 148]",
+        q: "Choose the odd one out:",
         o: ["LED", "Battery", "Breadboard", "Spreadsheet"],
         a: 3,
-        e: "LEDs, batteries, and breadboards are electrical hardware items, whereas a spreadsheet is a computer office application[cite: 148]."
+        e: "LEDs, batteries, and breadboards are electrical hardware items, whereas a spreadsheet is a computer office application."
     },
     {
-        q: "What happens when the switch is not pressed? [cite: 149]",
+        q: "What happens when the switch is not pressed?",
         o: ["LED glows", "Circuit breaks", "Battery increases", "Wire melts"],
         a: 1,
-        e: "Leaving a switch unpressed forms an air gap that instantly breaks the circuit path loop, stopping any electrical propagation[cite: 149]."
+        e: "Leaving a switch unpressed forms an air gap that instantly breaks the circuit path loop, stopping any electrical propagation."
     }
 ];
 
-/* Locked Advanced Challenge Nodes */
+/* Advanced Challenge Nodes */
 const finalChallenge = [
     {
-        q: "A student wants to build a circuit where an LED glows only when a button is pressed. Which combination is correct? [cite: 151]",
+        q: "A student wants to build a circuit where an LED glows only when a button is pressed. Which combination is correct?",
         o: ["Battery + LED only", "Battery + LED + Switch", "LED + Wire only", "Switch only"],
         a: 1,
-        e: "This configuration requires a voltage source (Battery), an indicator (LED), and a continuous gating control mechanism (Switch)[cite: 151, 152]."
+        e: "This configuration requires a voltage source (Battery), an indicator (LED), and a continuous gating control mechanism (Switch)."
     },
     {
-        q: "A student runs a simulation in Tinkercad and observes no output. What should be done? [cite: 153]",
+        q: "A student runs a simulation in Tinkercad and observes no output. What should be done?",
         o: ["Close program", "Check connections and restart simulation", "Delete circuit", "Turn off computer"],
         a: 1,
-        e: "The logical troubleshooting method requires reviewing component placement alignment, fixing errors, and starting the test sequence again[cite: 153, 154]."
+        e: "The logical troubleshooting method requires reviewing component placement alignment, fixing errors, and starting the test sequence again."
     }
 ];
 
@@ -527,7 +526,6 @@ let timeLeft = 60;
 let isChallengeStage = false;
 
 function startGame(){
-    // Randomize primary scenario questions list
     const shuffledMain = [...questions].sort(() => Math.random() - 0.5);
     activeDataset = [...shuffledMain, ...finalChallenge];
     
@@ -545,7 +543,6 @@ function loadQuestion(){
     timeLeft = 60;
     startTimer();
     
-    // Manage dynamic indicator rules
     if (current >= questions.length) {
         isChallengeStage = true;
         document.getElementById("stageIndicator").innerHTML = "⚡ FINAL CHALLENGE";
@@ -606,7 +603,7 @@ function checkAnswer(element, index){
         clearInterval(timer);
         element.classList.add("correct");
         
-        // Trigger both standard correct alert chime and clap sound fx
+        // Play correct answer alert chime alongside clapping effect
         try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}
         try { document.getElementById("clapSound").play().catch(()=>{}); } catch(e){}
         
