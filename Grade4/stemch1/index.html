@@ -1,1 +1,115 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circuit Design Using Tinkercad</title>
+<style>
+:root{--primary:#2563eb;--secondary:#7c3aed;--success:#10b981;--danger:#ef4444;--dark:#0f172a;--light:#ffffff;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#0ea5e9,#2563eb,#7c3aed);overflow-x:hidden;position:relative;padding:15px;}
+/* Animated Background Stars */.bg-stars{position:absolute;width:100%;height:100%;overflow:hidden;z-index:1;pointer-events:none;}
+.bg-star{position:absolute;width:16px;height:16px;background:rgba(255,255,255,0.2);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:floatStar linear infinite;}
+@keyframes floatStar{0%{ transform:translateY(110vh) rotate(0deg); opacity:0; }10% { opacity:1; }100%{ transform:translateY(-20vh) rotate(360deg); opacity:0; }}
+/* Splash Screen (Exactly 5 Seconds) */#splash{position:fixed;top:0;left:0;width:100%;height:100%;background:white;display:flex;justify-content:center;align-items:center;z-index:9999;}
+#splash img{width:240px;max-width:75%;animation:pulse 2s infinite;}
+@keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
+/* App Container Card */.container{width:100%;max-width:780px;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-radius:28px;padding:28px;position:relative;z-index:2;box-shadow:0 20px 50px rgba(0,0,0,0.25);}
+.hidden{display:none;}
+/* Intro Interface */.intro{text-align:center;}
+.intro h1{font-size:2rem;color:var(--secondary);margin-bottom:15px;}
+.instructions{background:#f8fafc;padding:22px;border-radius:18px;line-height:1.9;color:#334155;font-size:1rem;text-align:left;margin-top:15px;}
+.instructions ol{margin-left:22px;}
+/* Actions Controls */button.main-action-btn{padding:15px 30px;border:none;border-radius:16px;background:linear-gradient(135deg, var(--primary), var(--secondary));color:white;font-size:1rem;font-weight:bold;cursor:pointer;margin-top:24px;transition:0.3s;display:inline-block;}
+button.main-action-btn:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(124,58,237,0.4);}
+/* Quiz Controls Header */.topbar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+.topbox{background:white;padding:12px 18px;border-radius:14px;font-weight:bold;color:#334155;box-shadow:0 4px 10px rgba(0,0,0,0.08);}
+.progress{width:100%;height:12px;background:#e2e8f0;border-radius999px;overflow:hidden;margin-bottom:24px;}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg, #10b981, #059669);transition:0.4s;}
+.question-number{color:#64748b;margin-bottom:10px;font-weight:bold;font-size:1rem;}
+.question{font-size:1.2rem;font-weight:bold;line-height:1.6;color:#0f172a;margin-bottom:20px;text-align:left;}
+.question-image{width:100%;max-width:350px;margin: 0 auto 20px;border-radius:20px;box-shadow:0 5px 15px rgba(0,0,0,0.12);display:none;}
+.options{display:grid;gap:14px;}
+.option {background:white;padding:16px;border-radius:16px;border:2px solid #e2e8f0;cursor:pointer;font-size:1rem;font-weight:600;transition:0.25s;text-align:left;color: #334155;}
+.option:hover{transform:translateY(-2px);border-color:var(--primary);background-color: #fafafa;}
+.correct{background:#ecfdf5!important;border-color:#10b981!important;color:#065f46!important;}
+.wrong{background:#fef2f2!important;border-color:#ef4444!important;color:#991b1b!important;}
+.feedback{margin-top:20px;padding:18px;border-radius:16px;display:none;line-height:1.7;text-align: left;}
+.feedback.success{background:#ecfdf5;border-left:6px solid #10b981;color: #065f46;}
+.feedback.error{background:#fef2f2;border-left:6px solid #ef4444;color: #991b1b;}
+/* Evaluation Screen Elements */.result{text-align:center;}
+.result h1{font-size:2.2rem;color:var(--secondary);margin-bottom:10px;}
+.score-circle{width:180px;height:180px;border-radius:50%;margin:25px auto;background:linear-gradient(135deg, #2563eb, #7c3aed);display:flex;justify-content:center;align-items:center;font-size:2.4rem;font-weight:bold;color:white;box-shadow: 0 10px 25px rgba(37,99,235,0.3);}
+.result-message{font-size:1.1rem;line-height:1.8;color:#334155;font-weight: 600;margin-bottom:10px;}
+/* Celebration Stars System */.celebration-star{position:fixed;font-size:24px;animation:fallStarAnimation 2.5s linear forwards;pointer-events:none;z-index:999;}
+@keyframes fallStarAnimation{0%{ transform:translateY(-30px) rotate(0deg); opacity:1; }100%{ transform:translateY(110vh) rotate(720deg); opacity:0; }}
+@media(max-width:600px){.container{ padding:20px 15px; }.question{ font-size:1.05rem; }.option{ font-size:0.95rem; }button.main-action-btn{ width:100%; }}
+</style>
+</head>
+<body>
+<div class="bg-stars" id="bgStars"></div>
+<div id="splash"><img src="assets/innovine-logo.png" alt="Innovine Logo"></div>
+<div class="container hidden" id="app">
+<div id="introScreen" class="intro"><h1>Circuit Design Using Tinkercad</h1>
+<div class="instructions"><ol><li>Read each circuit design and virtual simulation question carefully.</li><li>You get two operational baseline attempts to answer each interactive question.</li><li>After two incorrect tool responses, the system updates with the true correct choice.</li><li>A countdown buffer window of 60 seconds is active per question entry.</li><li>Score well across all 15 algorithmic tasks to reveal the final champion review card.</li></ol></div>
+<button class="main-action-btn" onclick="startGame()">Start Challenge</button></div>
+<div id="quizScreen" class="hidden"><div class="topbar"><div class="topbox">⭐ Score: <span id="score">0</span></div><div class="topbox">⏳ Time: <span id="timer">60</span>s</div></div>
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+<div class="question-number" id="questionNumber"></div><img id="questionImage" class="question-image" src="" alt="Question Task Reference"><div class="question" id="questionText"></div><div class="options" id="optionsBox"></div><div class="feedback" id="feedbackBox"></div>
+<button id="nextBtn" class="main-action-btn hidden" onclick="nextQuestion()">Next Question</button></div>
+<div id="resultScreen" class="hidden result"><h1>🎉 Challenge Completed 🎉</h1><div class="score-circle"><span id="finalScore"></span></div><div class="result-message" id="resultMessage"></div><button class="main-action-btn" onclick="location.reload()">Play Again</button></div>
+</div>
+<audio id="correctSound" src="assets/correct.mp3"></audio>
+<audio id="wrongSound" src="assets/wrong.mp3"></audio>
+<audio id="clapSound" src="assets/clap.mp3"></audio>
+<script>
+/* Dynamic Layer Generation - Particles Backdrop */
+const bg = document.getElementById("bgStars");for(let i=0; i<20; i++){let star = document.createElement("div");star.classList.add("bg-star");star.style.left = Math.random()*100 + "%";star.style.animationDuration = (Math.random()*10+10) + "s";star.style.animationDelay = Math.random()*5 + "s";star.style.width = (Math.random()*18+10) + "px";star.style.height = star.style.width;bg.appendChild(star);}
+/* Splash Shield Removal Setup */
+setTimeout(()=>{document.getElementById("splash").style.display = "none";document.getElementById("app").classList.remove("hidden");}, 5000);
+/* Circuit Design Using Tinkercad - Question Pool (Precisely 15 Items) */
+const questions=[
+  {q:"A student wants to design and test electronic circuits on a computer. Which tool should be used?",o:["Scratch","Tinkercad","Excel","Word"],a:1,e:"Tinkercad is an excellent online simulator tool used to model, wire, and safely test electronics components virtually."},
+  {q:"Tinkercad is mainly used for:",o:["Writing documents","Designing and simulating circuits","Playing games","Drawing pictures"],a:1,e:"Tinkercad specializes in creating accurate schematic environments and simulating hardware output behaviors smoothly."},
+  {q:"Assertion: Circuits can be tested in Tinkercad without real components. Reason: It provides a simulation environment.",o:["Both true and reason explains assertion","Both true but unrelated","Assertion true, reason false","Assertion false, reason true"],a:0,e:"Because Tinkercad hosts virtual representation systems, it gives engineers access to prototype without requiring physical elements."},
+  {q:"Which component is used to give power to a circuit?",o:["LED","Battery","Switch","Resistor"],a:1,e:"The battery provides the voltage potential needed to move charges and deliver operating power throughout the setup."},
+  {q:"Which component produces light in a circuit?",o:["Breadboard","LED","Wire","Switch"],a:1,e:"An LED (Light Emitting Diode) is a semiconductor unit that successfully radiates bright light when current flows through it."},
+  {q:"A student wants to turn an LED on and off manually. Which component should be used?",o:["Battery","Switch","Resistor","Wire"],a:1,e:"A switch functions as a physical hardware gate that manually breaks or opens circuit continuity on command."},
+  {q:"Why is a resistor used in a circuit?",o:["To increase current","To control current","To store data","To display output"],a:1,e:"Resistors restrict the volume of electrical current flow to guard fragile active components like LEDs from burnout."},
+  {q:"A breadboard is used to:",o:["Store files","Connect circuit components","Play sound","Print output"],a:1,e:"Breadboards offer columns of internal connection pins that make solderless component linking fast and clean."},
+  {q:"A student connects all components but the circuit does not work. What should be checked first?",o:["Internet connection","Proper connections","File name","Screen brightness"],a:1,e:"Loose or incorrectly placed wires disrupt the path loop, meaning pin connections should be evaluated first during debug steps."},
+  {q:"Which statement is incorrect?",o:["LED produces light","Battery provides power","Switch stores data","Resistor controls current"],a:2,e:"Switches are mechanical connection gates; they possess no memory or storage capability to hold files or data sets."},
+  {q:"When the switch is pressed in a circuit, what happens?",o:["Circuit breaks","Circuit completes","Battery stops","Wire disappears"],a:1,e:"Pressing a closed switch completes the conducting loop path, immediately allowing electric charges to travel around the layout."},
+  {q:"A student presses a push button and the LED glows. What does this show?",o:["Circuit is incomplete","Circuit is working","Battery is empty","Wire is broken"],a:1,e:"Active light delivery signals successful connection paths, proving the hardware pipeline is fully intact and working properly."},
+  {q:"Assertion: A complete circuit allows current to flow. Reason: All components are properly connected.",o:["Both true and reason explains assertion","Both true but unrelated","Assertion true, reason false","Assertion false, reason true"],a:0,e:"A system functions only when continuous paths connect seamlessly, matching both assertion and explanation logic."},
+  {q:"Choose the odd one out:",o:["LED","Battery","Breadboard","Spreadsheet"],a:3,e:"LEDs, batteries, and breadboards represent structural electronic circuit assets, while a spreadsheet is a software data-handling utility."},
+  {q:"What happens when the switch is not pressed?",o:["LED glows","Circuit breaks","Battery increases","Wire melts"],a:1,e:"Leaving a switch open breaks the functional track continuity, instantly bringing current propagation loops to a complete stop."}
+];
+/* App Logic Controllers */
+let current = 0;let score = 0;let attempts = 0;let timer;let timeLeft = 60;
+function startGame(){questions.sort(() => Math.random() - 0.5);document.getElementById("introScreen").classList.add("hidden");document.getElementById("quizScreen").classList.remove("hidden");loadQuestion();}
+function loadQuestion(){attempts = 0;timeLeft = 60;startTimer();
+document.getElementById("progressFill").style.width = (current / questions.length) * 100 + "%";const q = questions[current];
+document.getElementById("questionNumber").innerHTML = `Question ${current + 1} of ${questions.length}`;document.getElementById("questionText").innerHTML = q.q.replace(/\n/g, "<br>");
+const imgElement = document.getElementById("questionImage");if(q.image){imgElement.src = q.image;imgElement.style.display = "block";} else {imgElement.style.display = "none";}
+const box = document.getElementById("optionsBox");box.innerHTML = "";
+q.o.forEach((opt, index) => {const div = document.createElement("div");div.classList.add("option");div.innerHTML = opt;div.onclick = () => checkAnswer(div, index);box.appendChild(div);});
+document.getElementById("feedbackBox").style.display = "none";document.getElementById("nextBtn").classList.add("hidden");}
+function startTimer(){clearInterval(timer);document.getElementById("timer").innerText = timeLeft;timer = setInterval(() => {timeLeft--;document.getElementById("timer").innerText = timeLeft;if(timeLeft <= 0){clearInterval(timer);showCorrectAnswer();}}, 1000);}
+function checkAnswer(element, index){const q = questions[current];
+if(index === q.a){element.classList.add("correct");try { document.getElementById("correctSound").play().catch(()=>{}); } catch(e){}createCelebrationStars();score++;document.getElementById("score").innerText = score;showFeedback(true, "✅ Excellent!", q.e);disableOptions();clearInterval(timer);document.getElementById("nextBtn").classList.remove("hidden");} else {attempts++;element.classList.add("wrong");try { document.getElementById("wrongSound").play().catch(()=>{}); } catch(e){}element.style.pointerEvents = "none";
+if(attempts < 2){showFeedback(false, "❌ Try Again!", "One operational safety chance remaining in your buffer.");} else {showCorrectAnswer();}}}
+function showCorrectAnswer(){clearInterval(timer);disableOptions();const q = questions[current];
+document.querySelectorAll(".option").forEach((opt, index) => {if(index === q.a){opt.classList.add("correct");}});
+showFeedback(false, "📘 Correct Answer Shown", q.e);document.getElementById("nextBtn").classList.remove("hidden");}
+function disableOptions(){document.querySelectorAll(".option").forEach(opt => {opt.style.pointerEvents = "none";});}
+function showFeedback(success, title, text){const box = document.getElementById("feedbackBox");box.style.display = "block";box.className = "feedback " + (success ? "success" : "error");box.innerHTML = `<strong style="font-size:1.1rem;">${title}</strong><br><br>${text}`;}
+function nextQuestion(){current++;if(current < questions.length){loadQuestion();} else {showResult();}}
+function showResult(){document.getElementById("quizScreen").classList.add("hidden");document.getElementById("resultScreen").classList.remove("hidden");document.getElementById("finalScore").innerHTML = `${score}/${questions.length}`;
+try { document.getElementById("clapSound").play().catch(()=>{}); } catch(e){}
+let message = "";if(score >= 13){message = "🏆 Circuit Master! Outstanding performance. You have thoroughly mastered component layout tracking, breadboard nodes, and Tinkercad workspace simulations.";} else if(score >= 9){message = "⭐ Great Work! You have established a solid functional understanding of simple closed networks and dynamic hardware components.";} else {message = "🚀 Keep Practicing! Refresh your engineering simulations, track your paths carefully, and re-run the operational framework.";}
+document.getElementById("resultMessage").innerHTML = message;createCelebrationStars();}
+function createCelebrationStars(){for(let i=0; i<35; i++){const star = document.createElement("div");star.classList.add("celebration-star");star.innerHTML = "⚡";star.style.left = Math.random() * 100 + "vw";star.style.top = "-30px";star.style.fontSize = (Math.random() * 20 + 15) + "px";document.body.appendChild(star);setTimeout(() => { star.remove(); }, 2500);}}
+</script>
+</body>
+</html>
