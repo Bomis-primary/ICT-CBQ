@@ -2,24 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Computer Hardware & Software - Fun CBQ Challenge</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Computer Hardware & Software - CBQ Challenge</title>
 
 <style>
-:root {
-    --primary: #FF6B6B;      /* Playful Soft Coral */
-    --secondary: #4D96FF;    /* Kid-Friendly Sky Blue */
-    --success: #6BCB77;      /* Vibrant Mint Green */
-    --warning: #FFD93D;      /* Cheerful Sunny Yellow */
-    --dark: #2C3E50;         /* Deep Soft Charcoal */
-    --card-bg: rgba(255, 255, 255, 0.96);
-}
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Comic Sans MS', 'Ubuntu', Arial, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 body {
@@ -27,397 +22,339 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #E8F0FE 0%, #F3E8FF 50%, #E6FFFA 100%);
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #7c3aed 100%);
     overflow-x: hidden;
     position: relative;
-    padding: 15px;
-    color: var(--dark);
+    padding: 16px;
+    color: #1e293b;
 }
 
-/* Floating Space Background Elements */
+/* Subtle Star Background Overlay */
 .bg-decorations {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    position: fixed;
     top: 0;
     left: 0;
-    overflow: hidden;
-    z-index: 1;
+    width: 100vw;
+    height: 100vh;
     pointer-events: none;
+    z-index: 1;
 }
 
-.bg-bubble {
+.star {
     position: absolute;
-    background: rgba(77, 150, 255, 0.12);
-    border-radius: 50%;
-    animation: floatUp linear infinite;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 14px;
+    animation: twinkle 3s infinite ease-in-out alternate;
 }
 
-@keyframes floatUp {
-    0% {
-        transform: translateY(110vh) scale(0.6) rotate(0deg);
-        opacity: 0;
-    }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% {
-        transform: translateY(-20vh) scale(1.3) rotate(360deg);
-        opacity: 0;
-    }
+@keyframes twinkle {
+    0% { opacity: 0.2; transform: scale(0.8); }
+    100% { opacity: 0.8; transform: scale(1.2); }
 }
 
-/* Splash Branding Screen */
+/* 5-Second Clean White Splash Branding Screen */
 #splashScreen {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: #FFFFFF;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 #splashScreen img {
-    width: 260px;
-    max-width: 75vw;
+    max-width: 300px;
+    width: 75vw;
     height: auto;
     object-fit: contain;
-    animation: bouncePulse 2s infinite ease-in-out;
 }
 
-#splashScreen h2 {
-    margin-top: 24px;
-    color: var(--secondary);
-    font-size: 1.6rem;
-    font-weight: bold;
-}
-
-@keyframes bouncePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-/* Main Layout Framework Wrapper */
+/* Main Container Frame */
 .container {
     width: 100%;
-    max-width: 760px;
-    background: var(--card-bg);
-    border: 4px solid #FFFFFF;
-    border-radius: 32px;
+    max-width: 720px;
+    background: #f1f5f9;
+    border-radius: 28px;
     padding: 32px;
     position: relative;
     z-index: 2;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .hidden {
     display: none !important;
 }
 
-/* Intro UI Display Block */
+/* Intro Screen */
 .intro-block {
     text-align: center;
+    margin: auto 0;
 }
 
 .intro-block h1 {
-    font-size: 2.2rem;
-    color: var(--primary);
+    font-size: 2rem;
+    color: #1e293b;
     margin-bottom: 12px;
-    text-shadow: 2px 2px 0px #FFFFFF, 4px 4px 0px rgba(0,0,0,0.04);
-}
-
-.intro-block .meta-info {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--secondary);
-    margin-bottom: 20px;
+    font-weight: 800;
 }
 
 .kids-instructions {
-    background: #F0F7FF;
-    border: 3px dashed #B4D4FF;
-    padding: 24px;
-    border-radius: 24px;
-    line-height: 1.8;
-    color: #4A5568;
-    font-size: 1.1rem;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px 24px;
+    line-height: 1.7;
+    color: #475569;
+    font-size: 1rem;
     text-align: left;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    margin-bottom: 20px;
 }
 
 .kids-instructions ol {
-    margin-left: 24px;
+    margin-left: 20px;
 }
 
 .kids-instructions li {
     margin-bottom: 6px;
 }
 
-/* Playful Core Action Buttons */
-button {
-    padding: 16px 36px;
+/* Primary Action Buttons */
+.btn-primary {
+    padding: 14px 28px;
     border: none;
-    border-radius: 20px;
-    background: linear-gradient(135deg, var(--secondary), #3A82EE);
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 700;
     cursor: pointer;
-    margin-top: 24px;
-    box-shadow: 0 8px 0px #2563EB, 0 12px 20px rgba(0,0,0,0.12);
-    transition: all 0.15s ease;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
     display: inline-flex;
     align-items: center;
     gap: 8px;
 }
 
-button:hover {
-    transform: translateY(2px);
-    box-shadow: 0 6px 0px #2563EB, 0 8px 15px rgba(0,0,0,0.12);
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
 }
 
-button:active {
-    transform: translateY(6px);
-    box-shadow: 0 2px 0px #2563EB, 0 4px 10px rgba(0,0,0,0.12);
+.btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
 }
 
-#nextBtn {
-    background: linear-gradient(135deg, var(--success), #58B364);
-    box-shadow: 0 8px 0px #3D8B47, 0 12px 20px rgba(0,0,0,0.12);
-}
-
-#nextBtn:hover {
-    box-shadow: 0 6px 0px #3D8B47, 0 8px 15px rgba(0,0,0,0.12);
-}
-
-#nextBtn:active {
-    box-shadow: 0 2px 0px #3D8B47, 0 4px 10px rgba(0,0,0,0.12);
-}
-
-/* Top Stats Panel */
+/* Header Status Bar */
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .topbox {
-    background: #FFFFFF;
-    border: 3px solid #E2E8F0;
-    padding: 10px 18px;
-    border-radius: 16px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: var(--dark);
-    box-shadow: 0 4px 0px #E2E8F0;
+    background: #ffffff;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1e293b;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-/* Playful Progress Bar Tracker */
+/* Progress Bar Track */
 .progress-container {
     width: 100%;
-    height: 16px;
-    background: #EDF2F7;
+    height: 8px;
+    background: #e2e8f0;
     border-radius: 999px;
     overflow: hidden;
-    margin-bottom: 24px;
-    border: 2px solid #E2E8F0;
+    margin-bottom: 20px;
 }
 
 .progress-fill-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #6BCB77, #4D96FF);
+    background: #cbd5e1;
     border-radius: 999px;
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.3s ease;
 }
 
+/* Question Header Section */
 .level-indicator {
-    color: #A0AEC0;
-    font-size: 0.95rem;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: bold;
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    font-weight: 700;
     text-align: left;
 }
 
 .question-prompt {
-    font-size: 1.35rem;
-    font-weight: bold;
-    line-height: 1.5;
-    color: var(--dark);
-    margin-bottom: 24px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    line-height: 1.4;
+    color: #0f172a;
+    margin-bottom: 20px;
     text-align: left;
 }
 
-/* Image Container Module */
+/* Image Container Frame */
 .image-host-frame {
     width: 100%;
-    max-height: 200px;
-    margin: 0 auto 24px;
-    border-radius: 20px;
-    background: #F7FAFC;
-    border: 3px dashed #CBD5E0;
-    padding: 10px;
+    max-height: 180px;
+    margin: 0 auto 20px;
+    border-radius: 16px;
+    background: #ffffff;
+    padding: 8px;
     display: none;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .image-host-frame img {
     max-width: 100%;
-    max-height: 180px;
+    max-height: 160px;
     object-fit: contain;
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
-/* Option Cards Matrix Layout */
+/* Option List Layout */
 .options-matrix {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .option-card {
-    background: #FFFFFF;
-    padding: 16px 20px;
-    border-radius: 18px;
-    border: 3px solid #E2E8F0;
+    background: #ffffff;
+    padding: 14px 20px;
+    border-radius: 14px;
+    border: 2px solid transparent;
     cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: bold;
-    box-shadow: 0 5px 0px #E2E8F0;
-    transition: all 0.1s ease;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
     text-align: left;
 }
 
 .option-card:hover:not(.disabled) {
-    border-color: var(--secondary);
-    box-shadow: 0 5px 0px var(--secondary);
-    background-color: #F8FAFC;
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
 }
 
 .option-card:active:not(.disabled) {
-    transform: translateY(3px);
-    box-shadow: 0 2px 0px var(--secondary);
+    transform: scale(0.99);
 }
 
 .correct-state {
-    background: #F0FDF4 !important;
-    border-color: var(--success) !important;
-    color: #166534 !important;
-    box-shadow: 0 5px 0px var(--success) !important;
+    background: #dcfce7 !important;
+    border-color: #22c55e !important;
+    color: #15803d !important;
 }
 
 .wrong-state {
-    background: #FEF2F2 !important;
-    border-color: var(--primary) !important;
-    color: #991B1B !important;
-    box-shadow: 0 5px 0px var(--primary) !important;
-    animation: cardShake 0.4s ease-in-out;
+    background: #fee2e2 !important;
+    border-color: #ef4444 !important;
+    color: #b91c1c !important;
+    animation: shake 0.3s ease;
 }
 
-@keyframes cardShake {
+@keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
 }
 
-/* Explanations & Dynamic Feedback Blocks */
+/* Feedback & Explanation Box */
 .feedback-msg-box {
-    margin-top: 24px;
-    padding: 18px;
-    border-radius: 20px;
+    margin-bottom: 16px;
+    padding: 14px;
+    border-radius: 12px;
     display: none;
-    line-height: 1.6;
-    font-size: 1.1rem;
+    line-height: 1.5;
+    font-size: 0.95rem;
     text-align: left;
 }
 
 .feedback-msg-box.success {
-    background: #F0FDF4;
-    border: 3px dashed var(--success);
-    color: #166534;
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
 }
 
 .feedback-msg-box.error {
-    background: #FEF2F2;
-    border: 3px dashed var(--primary);
-    color: #991B1B;
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
 }
 
-/* Results Trophy Display Layout */
+/* Result Dashboard */
 .results-dashboard {
     text-align: center;
+    margin: auto 0;
 }
 
 .results-dashboard h1 {
-    font-size: 2.4rem;
-    color: var(--primary);
-    margin-bottom: 8px;
+    font-size: 2rem;
+    color: #1e293b;
+    margin-bottom: 10px;
+    font-weight: 800;
 }
 
 .trophy-container {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    margin: 24px auto;
-    background: linear-gradient(135deg, var(--warning), #FFA41B);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2.8rem;
-    font-weight: bold;
-    color: var(--dark);
-    box-shadow: 0 8px 0px #D87D00, 0 12px 24px rgba(0,0,0,0.12);
-    border: 5px solid #FFFFFF;
+    font-size: 4rem;
+    margin: 16px 0;
 }
 
 .final-summary-text {
-    font-size: 1.2rem;
-    line-height: 1.7;
-    color: #4A5568;
-    margin-bottom: 12px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #475569;
+    margin-bottom: 20px;
 }
 
-/* Falling Star FX Particle Sprites */
+/* Falling Star FX */
 .falling-star-fx {
     position: fixed;
-    font-size: 26px;
+    font-size: 22px;
     pointer-events: none;
     z-index: 9999;
-    animation: particleFall 2.2s linear forwards;
+    animation: particleFall 2s linear forwards;
 }
 
 @keyframes particleFall {
-    0% { transform: translateY(-40px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(115vh) rotate(720deg); opacity: 0; }
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
 }
 
-@media(max-width: 680px) {
+@media(max-width: 640px) {
     .container {
-        padding: 24px 16px;
-        border-radius: 24px;
+        padding: 20px;
+        border-radius: 20px;
     }
     .question-prompt {
-        font-size: 1.15rem;
+        font-size: 1.1rem;
     }
     .option-card {
-        font-size: 1rem;
-        padding: 14px;
-    }
-    button {
-        width: 100%;
+        font-size: 0.95rem;
+        padding: 12px 16px;
     }
 }
 </style>
@@ -425,96 +362,99 @@ button:active {
 
 <body>
 
+<!-- Background Star Decorations -->
 <div class="bg-decorations" id="bgDecorations"></div>
 
+<!-- 5-Second Clean White Splash Screen -->
 <div id="splashScreen">
-    <img src="assets/innovine-logo.png" alt="Innovine Logo" id="brandLogo">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo" id="brandLogo" onerror="this.src='https://via.placeholder.com/300x120?text=Innovine+Solutions';">
 </div>
 
+<!-- Main Game Wrapper Container -->
 <div class="container hidden" id="appMainWrapper">
 
+    <!-- Intro Screen -->
     <div id="introScreen" class="intro-block">
-        <h1>Computer Hardware & Software 🎮</h1>
-    
+        <h1>Computer Hardware & Software 💻</h1>
         <div class="kids-instructions">
             <ol>
                 <li>☀️ Read each puzzle question carefully!</li>
-                <li>🎈 You have <strong>2 attempts</strong> for each puzzle level.</li>
-                <li>🤖 If you miss twice, we will reveal the answer to learn together!</li>
-                <li>⏳ Each puzzle screen has a <strong>60-second</strong> countdown clock.</li>
-                <li>🏆 Complete the full matching set to unlock your champion trophy!</li>
+                <li>🎈 You have <strong>2 attempts</strong> for each question level.</li>
+                <li>🤖 If you miss twice, the correct answer will be revealed to help you learn!</li>
+                <li>⏳ Each question screen has a <strong>60-second</strong> countdown timer.</li>
+                <li>🏆 Complete all 15 questions to unlock your champion trophy!</li>
             </ol>
         </div>
-        <button onclick="launchQuizSession()">Start Challenge 🚀</button>
+        <button class="btn-primary" onclick="launchQuizSession()">Start Challenge 🚀</button>
     </div>
 
+    <!-- Quiz Screen -->
     <div id="quizScreen" class="hidden">
-        <div class="topbar">
-            <div class="topbox">⭐ Stars: <span id="scoreTrackerBox">0</span></div>
-            <div class="topbox">⏳ Time: <span id="timerCountdownText">60</span>s</div>
+        <div>
+            <div class="topbar">
+                <div class="topbox">⭐ Score: <span id="scoreTrackerBox">0</span></div>
+                <div class="topbox">⌛ Time: <span id="timerCountdownText">60</span>s</div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-fill-bar" id="progressFillElement"></div>
+            </div>
+
+            <div class="level-indicator" id="levelIndicatorBox">Question 1 of 15</div>
+            <div class="question-prompt" id="questionPromptBox"></div>
+            
+            <div class="image-host-frame" id="imageHostFrame">
+                <img id="graphicAssetNode" src="" alt="Quiz Question Context Image">
+            </div>
+
+            <div class="options-matrix" id="optionsMatrixContainer"></div>
+            <div class="feedback-msg-box" id="feedbackMessageBox"></div>
         </div>
 
-        <div class="progress-container">
-            <div class="progress-fill-bar" id="progressFillElement"></div>
-        </div>
-
-        <div class="level-indicator" id="levelIndicatorBox"></div>
-        <div class="question-prompt" id="questionPromptBox"></div>
-        
-        <div class="image-host-frame" id="imageHostFrame">
-            <img id="graphicAssetNode" src="" alt="Quiz Context Image">
-        </div>
-
-        <div class="options-matrix" id="optionsMatrixContainer"></div>
-        <div class="feedback-msg-box" id="feedbackMessageBox"></div>
-
-        <div style="text-align: right;">
-            <button id="nextBtn" class="hidden" onclick="advanceNextLevel()">Next Level ➡️</button>
+        <div style="text-align: left; margin-top: 10px;">
+            <button id="nextBtn" class="btn-primary hidden" onclick="advanceNextLevel()">Next Question</button>
         </div>
     </div>
 
+    <!-- Result Screen -->
     <div id="resultScreen" class="hidden results-dashboard">
         <h1>Challenge Completed! 🎉</h1>
         <div class="trophy-container">
             <span id="trophyEmojiSlot">🏆</span>
         </div>
         <div class="final-summary-text" id="finalSummaryMessageSlot"></div>
-        <button onclick="location.reload()">Play Again 🔄</button>
+        <button class="btn-primary" onclick="location.reload()">Play Again 🔄</button>
     </div>
 
 </div>
 
+<!-- Audio Elements -->
 <audio id="audioCorrect" src="assets/correct.mp3" preload="auto"></audio>
 <audio id="audioWrong" src="assets/wrong.mp3" preload="auto"></audio>
 <audio id="audioClap" src="assets/clap.mp3" preload="auto"></audio>
 
 <script>
-/* Build Soft Floating Ambient Circles */
+// Ambient Background Star Placement
 const bgDecorations = document.getElementById("bgDecorations");
-const elementsArray = ["💻", "🖱️", "💾", "🎨", "🎈", "⭐️"];
-for (let i = 0; i < 24; i++) {
-    let bubble = document.createElement("div");
-    bubble.className = "bg-bubble";
-    bubble.innerText = elementsArray[Math.floor(Math.random() * elementsArray.length)];
-    bubble.style.left = Math.random() * 100 + "%";
-    bubble.style.animationDuration = (Math.random() * 8 + 10) + "s";
-    bubble.style.animationDelay = Math.random() * 5 + "s";
-    let dimensions = (Math.random() * 16 + 14) + "px";
-    bubble.style.fontSize = dimensions;
-    bgDecorations.appendChild(bubble);
+for (let i = 0; i < 30; i++) {
+    let star = document.createElement("div");
+    star.className = "star";
+    star.innerText = "★";
+    star.style.left = Math.random() * 100 + "vw";
+    star.style.top = Math.random() * 100 + "vh";
+    star.style.animationDelay = Math.random() * 3 + "s";
+    star.style.fontSize = (Math.random() * 10 + 10) + "px";
+    bgDecorations.appendChild(star);
 }
 
-/* Dismiss Splash Cover strictly on 5 Seconds expiration */
+// 5-Second Splash Screen Delay
 setTimeout(() => {
     const splash = document.getElementById("splashScreen");
     splash.style.opacity = "0";
-    setTimeout(() => {
-        splash.style.display = "none";
-        document.getElementById("appMainWrapper").classList.remove("hidden");
-    }, 500);
+    splash.style.visibility = "hidden";
+    document.getElementById("appMainWrapper").classList.remove("hidden");
 }, 5000);
 
-/* Utility Array Shuffler */
 function shuffleItems(targetArray) {
     let items = [...targetArray];
     for (let i = items.length - 1; i > 0; i--) {
@@ -524,130 +464,113 @@ function shuffleItems(targetArray) {
     return items;
 }
 
-/* Master Question Bank Setup for Grade 2 */
+// Question Bank
 const primaryQuestionsPool = [
     {
         q: "Riya types her name using a physical keyboard unit. What operational step is this action representing?",
-        o: ["📟 Output Action", "📥 Input Action", "⚙️ Processing Action", "💾 Storage Action"],
+        o: ["Output Action", "Input Action", "Processing Action", "Storage Action"],
         a: 1,
-        e: "Typing letters using a keyboard sends instructions inside the machine, which means it is an Input Action!",
-        type: "Scenario Task"
+        e: "Typing letters using a keyboard sends instructions inside the computer, which represents an Input Action."
     },
     {
         q: "Aarav clicks the mouse buttons to launch an educational puzzle game. What is this interaction?",
-        o: ["📟 Output Action", "📥 Input Action", "⚙️ Processing Action", "📺 Display Action"],
+        o: ["Output Action", "Input Action", "Processing Action", "Display Action"],
         a: 1,
-        e: "Clicking a mouse transmits choice selections inside the system setup. That makes it an Input Action!",
-        type: "Scenario Task"
+        e: "Clicking a mouse transmits choice selections inside the system setup. That makes it an Input Action."
     },
     {
-        q: "The computer central processing unit adds two input integers and finds the answer. What operation step is this?",
-        o: ["📥 Input Action", "📟 Output Action", "⚙️ Processing Action", "⌨️ Typing Action"],
+        q: "The computer central processing unit adds two input numbers and finds the answer. What operation step is this?",
+        o: ["Input Action", "Output Action", "Processing Action", "Typing Action"],
         a: 2,
-        e: "The computer is running instructions and calculating solutions. That represents a Processing Action!",
-        type: "Scenario Task"
+        e: "The computer is running instructions and calculating solutions. That represents a Processing Action."
     },
     {
-        q: "A connected desktop printer prints out your colorful drawing onto real physical paper. What action step is this?",
-        o: ["📥 Input Action", "⚙️ Processing Action", "📟 Output Action", "💾 Saving Action"],
+        q: "A connected desktop printer prints out your colorful drawing onto physical paper. What action step is this?",
+        o: ["Input Action", "Processing Action", "Output Action", "Saving Action"],
         a: 2,
-        e: "The printer creates concrete physical materials for you to pull out. That makes it an Output Action!",
-        type: "Scenario Task"
+        e: "The printer creates physical printed sheets for you. That makes it an Output Action."
     },
     {
         q: "Meera speaks into a microphone accessory to record her poem voice. What computer step is happening?",
-        o: ["📟 Output Action", "📥 Input Action", "⚙️ Processing Action", "👀 Show Action"],
+        o: ["Output Action", "Input Action", "Processing Action", "Show Action"],
         a: 1,
-        e: "A microphone captures sound vibrations from the outside environment and passes them inside the computer as Input!",
-        type: "Scenario Task"
+        e: "A microphone captures voice sounds and passes them inside the computer as Input."
     },
     {
-        q: "The desktop screen shows an illustration picture right after you double-click the file link. What step is this?",
-        o: ["📥 Input Action", "⚙️ Processing Action", "📟 Output Action", "⌨️ Typing Action"],
+        q: "The desktop screen shows an illustration picture right after you double-click the file. What step is this?",
+        o: ["Input Action", "Processing Action", "Output Action", "Typing Action"],
         a: 2,
-        e: "Displaying images, texts, or video matrices on a glass display screen is a core Output Action!",
-        type: "Scenario Task"
+        e: "Displaying images or texts on a glass screen is a core Output Action."
     },
     {
         q: "Review these steps carefully: Click Link → Computer Works → Picture Appears. What is the correct sequence order?",
         o: [
-            "📟 Output &rarr; 📥 Input &rarr; ⚙️ Process",
-            "📥 Input &rarr; ⚙️ Process &rarr; 📟 Output",
-            "⚙️ Process &rarr; 📥 Input &rarr; 📟 Output",
-            "📥 Input &rarr; 📟 Output &rarr; ⚙️ Process"
+            "Output ➔ Input ➔ Process",
+            "Input ➔ Process ➔ Output",
+            "Process ➔ Input ➔ Output",
+            "Input ➔ Output ➔ Process"
         ],
         a: 1,
-        e: "Computers consistently process calculations using the structured pipeline sequence of Input &rarr; Process &rarr; Output!",
-        type: "Scenario Task"
+        e: "Computers consistently process calculations using the structured sequence of Input ➔ Process ➔ Output."
     },
     {
-        /* Transformed Assertion Question and Options for Grade 2 Competencies */
-        q: "🌟 True or False Teamwork Challenge! 🌟<br><br><b>Statement Fact:</b> The mouse is an input device family tool.<br><b>Reason Fact:</b> It helps us point at objects and send choice clicks into the machine framework.",
+        q: "Statement: The mouse is an input device family tool.<br>Reason: It helps us point at objects and send clicks into the machine.",
         o: [
-            "👍 Both facts are perfectly correct! The second fact tells us exactly why the first fact is true.",
-            "🙃 Both facts are correct alone, but they are speaking about different computing concepts.",
-            "🌤️ The Statement Fact is true, but the Reason Fact is completely false text lines.",
-            "❌ Both of these matching facts are fully incorrect."
+            "Both statement and reason are correct!",
+            "Both statement and reason are speaking about different concepts.",
+            "The statement is true, but the reason is false.",
+            "Both statement and reason are fully incorrect."
         ],
         a: 0,
-        e: "The mouse is an input hardware peripheral explicitly because it translates hand movements into system navigation directives!",
-        type: "True-False Teamwork Challenge"
+        e: "The mouse is an input hardware peripheral because it translates hand movements into system commands."
     },
     {
-        q: "Which hardware device family member does NOT belong in the same core category as the other options?",
-        o: ["⌨️ Keyboard Tool", " resellers 🖱️ Optical Mouse", "📺 Monitor Screen", "🎙️ Desktop Microphone"],
+        q: "Which hardware device does NOT belong in the same category as the other options?",
+        o: ["Keyboard Tool", "Optical Mouse", "Monitor Screen", "Desktop Microphone"],
         a: 2,
-        e: "The monitor screen presents physical light outputs, whereas the other three appliances are exclusively data entry Input tools!",
-        type: "Category Detective"
+        e: "The monitor screen presents visual output, whereas the other three appliances are exclusively Input tools."
     },
     {
         q: "Rohan keys in mathematical numbers and gets a final balance figure on screen. Which stage is the keying-in action?",
-        o: ["📥 Input Action", "⚙️ Processing Action", "📟 Output Action", "🏆 Final Result"],
+        o: ["Input Action", "Processing Action", "Output Action", "Final Result"],
         a: 0,
-        e: "Typing codes or feeding numbers directly into system interfaces represents the Input action block.",
-        type: "Scenario Task"
+        e: "Typing codes or feeding numbers directly into system interfaces represents the Input action."
     },
     {
-        q: "Sia captures a digital photo, the computer applies visual filters to fix colors, then it shows the result. What is the processing block?",
-        o: ["📸 Clicking the photo frame", "🎨 Applying color modifications internally", "📺 Displaying the finished result on screen", "💾 Archiving the asset to disk memory"],
+        q: "Sia captures a digital photo, the computer applies visual filters, then shows the result. What is the processing block?",
+        o: ["Clicking the photo frame", "Applying color modifications internally", "Displaying the finished result on screen", "Archiving the asset to disk memory"],
         a: 1,
-        e: "Running internal algorithms to adjust pixel coloring values is the execution work of the system processor. That is Processing!",
-        type: "Scenario Task"
+        e: "Running internal operations to adjust pixel values is the execution work of the system processor (Processing)."
     },
     {
-        q: "A student states that the desktop monitor is an input hardware device. What is the error in their statement?",
-        o: ["📺 The monitor visualizes processing states out to us (Output)", "📥 The monitor pulls physical commands from our touch (Input)", "💾 The monitor retains files safely over long durations (Storage)", "🧮 The monitor carries out computing math computations"],
+        q: "A student states that the desktop monitor is an input hardware device. What is incorrect about their statement?",
+        o: ["The monitor visualizes processing results out to us (Output)", "The monitor pulls physical commands from our touch (Input)", "The monitor retains files safely over long durations (Storage)", "The monitor carries out computing math computations"],
         a: 0,
-        e: "Monitors function exclusively as output components by visualizing machine signals into viewable graphical layouts.",
-        type: "Error-Detection Quest"
+        e: "Monitors function exclusively as output components by visualizing machine signals into viewable screens."
     }
 ];
 
-/* Asset Images Graphic Task Matrix Section */
 const graphicQuestionsPool = [
     {
-        q: "Examine the provided image asset layout. The students are interacting with an entertainment educational game application on the system display monitor. This game software code structure represents an example of:",
+        q: "Examine the provided image asset layout. The students are interacting with an educational game application. This game software represents an example of:",
         image: "assets/Q16.png",
-        o: ["⚙️ Internal Software Architecture", "💻 Physical Hardware Device Assembly", "🔋 External Power Source Interface", "💾 System Hard Drive Storage Medium"],
+        o: ["Internal Software Architecture", "Physical Hardware Device Assembly", "External Power Source Interface", "System Hard Drive Storage Medium"],
         a: 0,
-        e: "The operating game and logical levels represent programming logic structures, which are categorized under computer software layers!",
-        type: "Picture Analysis"
+        e: "Games represent programming logic structures, which are categorized under computer software."
     },
     {
-        q: "Which specific hardware container component displayed in the illustration matrix must be picked by users to transfer files cleanly across separate computers?",
+        q: "Which specific hardware component displayed in the illustration matrix must be picked by users to transfer files across separate computers?",
         image: "assets/Q17.png",
-        o: ["💾 Portable Flash Pen Drive", "📺 Main Desktop Monitor Monitor", "⌨️ Desktop Button Keyboard Apparatus", "🔊 Multi-Channel Audio Speakers"],
+        o: ["Portable Flash Pen Drive", "Main Desktop Monitor", "Desktop Button Keyboard", "Multi-Channel Audio Speakers"],
         a: 0,
-        e: "The pen drive is a compact, highly portable hardware storage device built explicitly for swapping records securely across computers.",
-        type: "Picture Analysis"
+        e: "The pen drive is a compact hardware storage device built explicitly for swapping records securely across computers."
     },
     {
-        q: "Observe the context elements showcased in the illustration. Select the option that specifies a system application software suite rather than a physical hardware component.",
+        q: "Observe the context elements shown in the illustration. Select the option that specifies a software program rather than a physical hardware component.",
         image: "assets/Q18.png",
-        o: ["🎨 The Digital Paint Application Screen", "🖱️ The Ergonomic Hand Mouse Peripheral", "⌨️ The Mechanical QWERTY Button Layout", "🖨️ The Inkjet Paper Printer Unit Assembly"],
+        o: ["The Digital Paint Application Screen", "The Ergonomic Hand Mouse Peripheral", "The Mechanical QWERTY Button Layout", "The Inkjet Paper Printer Unit Assembly"],
         a: 0,
-        e: "The Interactive Paint App frame runs virtual layout commands via programming scripts, making it a software utility package.",
-        type: "Picture Analysis"
+        e: "The Interactive Paint App frame runs via programming scripts, making it a software application."
     }
 ];
 
@@ -658,16 +581,13 @@ let countClockTimer;
 let cycleCountSeconds = 60;
 let levelAttemptTally = 0;
 
-/* Initialize and Launch Quiz State */
 function launchQuizSession() {
-    // Mix and select 12 foundational items + attach the 3 non-negotiable image levels
     let mixedBase = shuffleItems(primaryQuestionsPool);
     let chosenGraphicSteps = shuffleItems(graphicQuestionsPool);
     
     compiledActiveQuestions = [...mixedBase.slice(0, 12), ...chosenGraphicSteps];
     compiledActiveQuestions = shuffleItems(compiledActiveQuestions);
 
-    // Shuffle options internal indexing dynamically to bypass static structural memorization
     compiledActiveQuestions.forEach(item => {
         let accurateTextContent = item.o[item.a];
         item.o = shuffleItems(item.o);
@@ -682,7 +602,6 @@ function launchQuizSession() {
     renderCurrentLevelTask();
 }
 
-/* Render Active Level Interface Context */
 function renderCurrentLevelTask() {
     clearInterval(countClockTimer);
     levelAttemptTally = 0;
@@ -692,14 +611,12 @@ function renderCurrentLevelTask() {
 
     const activeQuestionObj = compiledActiveQuestions[operationalLevelIndex];
 
-    // Progress Bar percentage handling
-    let trackRatio = (operationalLevelIndex / compiledActiveQuestions.length) * 100;
+    let trackRatio = ((operationalLevelIndex + 1) / compiledActiveQuestions.length) * 100;
     document.getElementById("progressFillElement").style.width = trackRatio + "%";
 
-    document.getElementById("levelIndicatorBox").innerText = `Level Challenge ${operationalLevelIndex + 1} of ${compiledActiveQuestions.length} (${activeQuestionObj.type})`;
+    document.getElementById("levelIndicatorBox").innerText = `Question ${operationalLevelIndex + 1} of ${compiledActiveQuestions.length}`;
     document.getElementById("questionPromptBox").innerHTML = activeQuestionObj.q;
 
-    // Direct Image verification node binding
     const frameBox = document.getElementById("imageHostFrame");
     const structuralImageNode = document.getElementById("graphicAssetNode");
     
@@ -714,7 +631,6 @@ function renderCurrentLevelTask() {
         structuralImageNode.src = "";
     }
 
-    // Dom compilation of option interactive matrices
     const selectionGrid = document.getElementById("optionsMatrixContainer");
     selectionGrid.innerHTML = "";
 
@@ -740,7 +656,6 @@ function renderCurrentLevelTask() {
     }, 1000);
 }
 
-/* Evaluate Clicked Choices */
 function processSelectedAnswer(clickedIdx, clickedCardDOMElement) {
     if (clickedCardDOMElement.classList.contains("correct-state") || clickedCardDOMElement.classList.contains("wrong-state")) return;
 
@@ -751,7 +666,6 @@ function processSelectedAnswer(clickedIdx, clickedCardDOMElement) {
         clearInterval(countClockTimer);
         clickedCardDOMElement.classList.add("correct-state");
         
-        // Success Chain - Animation, Sound, Clapping triggered simultaneously
         playSoundAsset("audioCorrect");
         playSoundAsset("audioClap");
         triggerStarsConfettiExplosion();
@@ -760,31 +674,27 @@ function processSelectedAnswer(clickedIdx, clickedCardDOMElement) {
         document.getElementById("scoreTrackerBox").innerText = userTotalScore;
 
         feedbackMsgBox.className = "feedback-msg-box success";
-        feedbackMsgBox.innerHTML = `🌟 <b>Super Job!</b> That is absolutely right! <br><br> ${currentLevelData.e}`;
+        feedbackMsgBox.innerHTML = `🌟 <b>Super Job!</b> That is correct!<br>${currentLevelData.e}`;
         feedbackMsgBox.style.display = "block";
 
         freezeInteractiveOptionsClick();
         document.getElementById("nextBtn").classList.remove("hidden");
     } else {
         clickedCardDOMElement.classList.add("wrong-state");
-        playSoundAsset("audioWrong"); // Buzzer sound on incorrect attempts
+        playSoundAsset("audioWrong");
         levelAttemptTally++;
 
         if (levelAttemptTally < 2) {
             feedbackMsgBox.className = "feedback-msg-box error";
-            feedbackMsgBox.innerHTML = `🌤️ <b>Oh, close one!</b> Let's use your final attempt on this question puzzle. You can do it!`;
+            feedbackMsgBox.innerHTML = `🌤️ <b>Try Again!</b> You have 1 attempt remaining for this question.`;
             feedbackMsgBox.style.display = "block";
         } else {
             clearInterval(countClockTimer);
-            feedbackMsgBox.className = "feedback-msg-box error";
-            feedbackMsgBox.innerHTML = `🤖 <b>Attempts Used!</b> Let's review the learning fact together below.`;
-            feedbackMsgBox.style.display = "block";
             revealCorrectAnswerSequence();
         }
     }
 }
 
-/* Force Reveal of Solution upon Expirations or Failed Attempts */
 function revealCorrectAnswerSequence() {
     clearInterval(countClockTimer);
     freezeInteractiveOptionsClick();
@@ -799,7 +709,7 @@ function revealCorrectAnswerSequence() {
     }
 
     const explanatoryBox = document.getElementById("feedbackMessageBox");
-    explanatoryBox.innerHTML = `💡 <b>Learning Fact:</b> ${compiledActiveQuestions[operationalLevelIndex].e}`;
+    explanatoryBox.innerHTML = `💡 <b>Correct Answer:</b> ${compiledActiveQuestions[operationalLevelIndex].o[targetSolutionIdx]}<br>${compiledActiveQuestions[operationalLevelIndex].e}`;
     explanatoryBox.className = "feedback-msg-box success";
     explanatoryBox.style.display = "block";
 
@@ -814,7 +724,6 @@ function freezeInteractiveOptionsClick() {
     }
 }
 
-/* Step Level Index Forward */
 function advanceNextLevel() {
     operationalLevelIndex++;
     if (operationalLevelIndex < compiledActiveQuestions.length) {
@@ -824,65 +733,55 @@ function advanceNextLevel() {
     }
 }
 
-/* Gather Data for Score Display */
 function compileFinalOutcomes() {
     document.getElementById("quizScreen").classList.add("hidden");
     document.getElementById("resultScreen").classList.remove("hidden");
     
     playSoundAsset("audioClap");
 
-    document.getElementById("finalScore").innerText = `${userTotalScore} / ${compiledActiveQuestions.length}`;
-    
-    let descriptiveMessage = "";
+    let descriptiveMessage = `You scored <b>${userTotalScore} out of ${compiledActiveQuestions.length}</b>!`;
     const slotEmoji = document.getElementById("trophyEmojiSlot");
 
     if (userTotalScore >= 13) {
-        descriptiveMessage = "🏆 <b>Ultimate ICT Superstar!</b> Outstanding performance. You have mastered the computer hardware and software systems chapter flawlessly!";
-        slotEmoji.innerText = "👑🏆🥇";
+        descriptiveMessage += "<br>🏆 <b>Outstanding!</b> You are a Computer Hardware & Software Master!";
+        slotEmoji.innerText = "🏆";
     } else if (userTotalScore >= 9) {
-        descriptiveMessage = "🌟 <b>Wonderful Work!</b> You possess an excellent grasp of computer structures and data processing flows.";
-        slotEmoji.innerText = "⭐🥈✨";
+        descriptiveMessage += "<br>🌟 <b>Great Job!</b> You have a solid understanding of computer concepts.";
+        slotEmoji.innerText = "🌟";
     } else {
-        descriptiveMessage = "🚀 <b>Good Attempt!</b> Run through the interactive level grids once more to unlock your top star performance rating!";
-        slotEmoji.innerText = "📚🔄💻";
+        descriptiveMessage += "<br>📚 <b>Good Effort!</b> Play again to improve your score!";
+        slotEmoji.innerText = "👍";
     }
 
     document.getElementById("finalSummaryMessageSlot").innerHTML = descriptiveMessage;
     triggerStarsConfettiExplosion();
 }
 
-/* Dynamic Particle Star Generation Generator */
 function triggerStarsConfettiExplosion() {
-    const childEmotes = ["⭐️", "🎈", "✨", "🎉", "🍬", "🍭"];
-    for (let i = 0; i < 35; i++) {
+    const childEmotes = ["⭐", "✨", "🎉", "🎈"];
+    for (let i = 0; i < 25; i++) {
         const starNode = document.createElement("div");
         starNode.className = "falling-star-fx";
         starNode.innerHTML = childEmotes[Math.floor(Math.random() * childEmotes.length)];
         starNode.style.left = Math.random() * 100 + "vw";
-        starNode.style.top = "-30px";
+        starNode.style.top = "-20px";
         starNode.style.animationDuration = (Math.random() * 1 + 1.2) + "s";
-        starNode.style.fontSize = (Math.random() * 14 + 18) + "px";
         document.body.appendChild(starNode);
         
         setTimeout(() => {
             starNode.remove();
-        }, 2200);
+        }, 2000);
     }
 }
 
-/* Safe and Reliable Sound Asset Trigger Helper */
 function playSoundAsset(nodeId) {
     try {
         const audioElement = document.getElementById(nodeId);
         if (audioElement) {
             audioElement.currentTime = 0;
-            audioElement.play().catch(error => {
-                console.log("Audio auto-playback deferred until explicit user gesture event mapping.", error);
-            });
+            audioElement.play().catch(error => {});
         }
-    } catch (e) {
-        console.log("Media channel initialization failure tracker note: ", e);
-    }
+    } catch (e) {}
 }
 </script>
 
