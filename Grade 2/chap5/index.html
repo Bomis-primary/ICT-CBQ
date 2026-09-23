@@ -2,168 +2,382 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title> ICT - Fun with Kid Pix 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>ICT - Fun with Kid Pix 2</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:url('./assets/bg.jpg') center/cover fixed;min-height:100vh}
-body:before{content:'';position:fixed;inset:0;background:rgba(255,255,255,.82);z-index:-1}
-.screen{display:none;min-height:100vh;justify-content:center;align-items:center;padding:20px}
-.active{display:flex;flex-direction:column}
-.card{background:#ffffffee;padding:24px;border-radius:20px;max-width:850px;width:100%;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.2)}
-.logo img{width:260px}
-h1{color:#1565c0;margin-bottom:10px}
-.btn{background:#1565c0;color:#fff;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;margin-top:15px}
-.top{display:flex;justify-content:space-between;margin-bottom:15px;font-weight:bold}
-.option{display:block;width:100%;margin:8px 0;padding:12px;border:none;border-radius:10px;background:#eef6ff;cursor:pointer}
-.correct{background:#c8f7c8!important}
-.wrong{background:#ffd2d2!important}
-#exp{display:none;margin-top:10px;background:#eef6ff;padding:10px;border-radius:10px}
-.confetti{position:fixed;width:10px;height:10px;background:gold;animation:fall 1.5s linear forwards}
-@keyframes fall{to{transform:translateY(500px) rotate(360deg);opacity:0}}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', Arial, sans-serif;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #075985 100%);
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    color: #1e293b;
+}
+
+.screen {
+    display: none;
+    width: 100%;
+    min-height: 100dvh;
+    justify-content: center;
+    align-items: center;
+}
+
+.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 5-Second Clean White Splash Screen */
+#logo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#logo img {
+    max-width: 280px;
+    width: 75%;
+    height: auto;
+    object-fit: contain;
+}
+
+.card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    border: 3px solid #38bdf8;
+}
+
+h1 {
+    color: #0369a1;
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+p {
+    font-size: 14px;
+    color: #334155;
+    line-height: 1.5;
+}
+
+.btn {
+    background: #16a34a;
+    color: #ffffff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 18px;
+    box-shadow: 0 4px 0 #15803d;
+    transition: transform 0.1s ease;
+}
+
+.btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #15803d;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-weight: bold;
+    background: #e0f2fe;
+    padding: 8px 14px;
+    border-radius: 10px;
+    color: #0369a1;
+    font-size: 14px;
+}
+
+#q {
+    font-size: 18px;
+    color: #0f172a;
+    margin-bottom: 16px;
+    text-align: left;
+    line-height: 1.4;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 14px;
+    border: 2px solid #38bdf8;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #0f172a;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.option:active {
+    transform: scale(0.98);
+}
+
+.correct {
+    background: #dcfce7 !important;
+    border-color: #16a34a !important;
+    color: #15803d !important;
+}
+
+.wrong {
+    background: #fee2e2 !important;
+    border-color: #dc2626 !important;
+    color: #b91c1c !important;
+}
+
+#msg {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #dc2626;
+    font-size: 14px;
+}
+
+#exp {
+    display: none;
+    margin-top: 14px;
+    background: #e0f2fe;
+    padding: 12px;
+    border-radius: 10px;
+    color: #0369a1;
+    font-size: 13px;
+    text-align: left;
+    border-left: 4px solid #0284c7;
+}
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: gold;
+    animation: fall 1.5s linear forwards;
+    z-index: 999;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
 </style>
 </head>
 <body>
 
+<!-- 5-Second Clean White Splash Screen -->
 <div id="logo" class="screen active logo">
-<img src="./assets/innovine-logo.png">
+    <img src="assets/innovine-logo.png" alt="Innovine Logo" onerror="this.src='https://via.placeholder.com/280x100?text=Innovine+Logo';">
 </div>
 
+<!-- Intro Screen -->
 <div id="intro" class="screen">
-<div class="card">
-<h1>Fun with Kid Pix - 2</h1>
-<p> ICT</p><br>
-<p>Instructions:</p>
-<p>Read each situation carefully. You get 2 attempts. Questions and options randomize every game.</p>
-<button class="btn" onclick="startQuiz()">Start Quiz</button>
-</div>
+    <div class="card">
+        <h1>Fun with Kid Pix - 2</h1>
+        <p><b>ICT - Grade 2 CBQ Quiz</b></p><br>
+        <p><b>Instructions:</b></p>
+        <p>Read each situation carefully. You get 2 attempts per question. Questions and options randomize every game.</p>
+        <button class="btn" onclick="startQuiz()">Start Quiz</button>
+    </div>
 </div>
 
+<!-- Quiz Screen -->
 <div id="quiz" class="screen">
-<div class="card">
-<div class="top">
-<span id="score">Score:0</span>
-<span id="counter"></span>
-<span id="timer">60</span>
-</div>
-<h3 id="q"></h3><br>
-<div id="opts"></div>
-<div id="msg"></div>
-<div id="exp"></div>
-</div>
+    <div class="card">
+        <div class="top">
+            <span id="score">Score: 0</span>
+            <span id="counter">Q 1/15</span>
+            <span id="timer">⏱ 60s</span>
+        </div>
+        <h3 id="q"></h3>
+        <div id="opts"></div>
+        <div id="msg"></div>
+        <div id="exp"></div>
+    </div>
 </div>
 
+<!-- Result Screen -->
 <div id="result" class="screen">
-<div class="card">
-<h1>Quiz Complete</h1>
-<h2 id="final"></h2>
-<h3 id="badge"></h3>
-<button class="btn" onclick="location.reload()">Play Again</button>
-</div>
+    <div class="card">
+        <h1>Quiz Complete!</h1>
+        <h2 id="final" style="color: #0369a1; margin: 12px 0;"></h2>
+        <h3 id="badge" style="color: #16a34a; margin-bottom: 12px;"></h3>
+        <button class="btn" onclick="location.reload()">Play Again 🔄</button>
+    </div>
 </div>
 
-<audio id="correct" src="./assets/correct-1.mp3"></audio>
-<audio id="wrong" src="./assets/wrong.mp3"></audio>
+<!-- Audio Assets -->
+<audio id="correct" src="assets/correct.mp3" preload="auto"></audio>
+<audio id="wrong" src="assets/wrong.mp3" preload="auto"></audio>
 
 <script>
-let questions=[
-{q:"A child makes a mistake while drawing and wants to go back to the previous step.",o:["Redo","Undo","Save","Print"],a:"Undo",e:"Undo removes the last action."},
-{q:"Riya removes a drawing by mistake and wants it back again.",o:["Undo","Redo","Eraser","Fill"],a:"Redo",e:"Redo restores the removed step."},
-{q:"Aarav finishes a drawing and wants to keep it for later use.",o:["Close","Save File","Delete","Undo"],a:"Save File",e:"Saving keeps work safe."},
-{q:"A student clicks Undo many times and loses work.",o:["Save","Redo","Fill","Brush"],a:"Redo",e:"Redo brings back removed steps."},
-{q:"Meera wants to open a saved drawing again.",o:["New","Open","Save","Print"],a:"Open",e:"Open saved files."},
-{q:"A child keeps drawing but does not save.",o:["Stays forever","May be lost","Prints","Nothing"],a:"May be lost",e:"Unsaved work can be lost."},
-{q:"Why is saving important?",o:["Delete drawing","Use later","Colour faster","Print"],a:"Use later",e:"Saved files can be used later."},
-{q:"Why are Undo and Redo useful together?",o:["Draw faster","Correct and restore","Colour shapes","Add text"],a:"Correct and restore",e:"They help fix mistakes."},
-{q:"Which action restores the last removed step?",o:["Undo","Redo","Save","Open"],a:"Redo",e:"Redo restores."},
-{q:"Which tool helps view a saved drawing?",o:["Save","Open","Undo","Redo"],a:"Open",e:"Open shows saved files."},
-{q:"Backward arrow removing last step shows which tool?",o:["Redo","Undo","Save","Open"],a:"Undo",e:"Undo removes last action."},
-{q:"Forward arrow bringing back removed step shows?",o:["Undo","Redo","Save","Print"],a:"Redo",e:"Redo restores action."},
-{q:"Undo helps correct mistakes because...",o:["Removes last action","Prints file","Colours drawing","Opens file"],a:"Removes last action",e:"Undo removes last action."},
-{q:"Saving a file is important because...",o:["Deletes work","Keeps work safe","Prints work","Closes app"],a:"Keeps work safe",e:"Saving stores work."},
-{q:"Which statement is incorrect?",o:["Undo removes step","Redo restores step","Save deletes drawing","Open shows file"],a:"Save deletes drawing",e:"Save never deletes work."}
+let questions = [
+    {q:"A child makes a mistake while drawing and wants to go back to the previous step.", o:["Redo","Undo","Save","Print"], a:"Undo", e:"Undo removes the last action."},
+    {q:"Riya removes a drawing by mistake and wants it back again.", o:["Undo","Redo","Eraser","Fill"], a:"Redo", e:"Redo restores the removed step."},
+    {q:"Aarav finishes a drawing and wants to keep it for later use.", o:["Close","Save File","Delete","Undo"], a:"Save File", e:"Saving keeps work safe."},
+    {q:"A student clicks Undo many times and loses work.", o:["Save","Redo","Fill","Brush"], a:"Redo", e:"Redo brings back removed steps."},
+    {q:"Meera wants to open a saved drawing again.", o:["New","Open","Save","Print"], a:"Open", e:"Open saved files."},
+    {q:"A child keeps drawing but does not save.", o:["Stays forever","May be lost","Prints","Nothing"], a:"May be lost", e:"Unsaved work can be lost."},
+    {q:"Why is saving important?", o:["Delete drawing","Use later","Colour faster","Print"], a:"Use later", e:"Saved files can be used later."},
+    {q:"Why are Undo and Redo useful together?", o:["Draw faster","Correct and restore","Colour shapes","Add text"], a:"Correct and restore", e:"They help fix mistakes."},
+    {q:"Which action restores the last removed step?", o:["Undo","Redo","Save","Open"], a:"Redo", e:"Redo restores."},
+    {q:"Which tool helps view a saved drawing?", o:["Save","Open","Undo","Redo"], a:"Open", e:"Open shows saved files."},
+    {q:"Backward arrow removing last step shows which tool?", o:["Redo","Undo","Save","Open"], a:"Undo", e:"Undo removes last action."},
+    {q:"Forward arrow bringing back removed step shows?", o:["Undo","Redo","Save","Print"], a:"Redo", e:"Redo restores action."},
+    {q:"Undo helps correct mistakes because...", o:["Removes last action","Prints file","Colours drawing","Opens file"], a:"Removes last action", e:"Undo removes last action."},
+    {q:"Saving a file is important because...", o:["Deletes work","Keeps work safe","Prints work","Closes app"], a:"Keeps work safe", e:"Saving stores work."},
+    {q:"Which statement is incorrect?", o:["Undo removes step","Redo restores step","Save deletes drawing","Open shows file"], a:"Save deletes drawing", e:"Save never deletes work."}
 ];
 
-let idx=0,score=0,attempt=0,timerInt,time=60;
+let idx = 0, score = 0, attempt = 0, timerInt, time = 60;
 
-function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}}
-setTimeout(()=>{logo.style.display='none';intro.classList.add('active');},5000);
-
-function startQuiz(){
-shuffle(questions);
-intro.style.display='none';
-quiz.classList.add('active');
-loadQ();
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
 }
 
-function loadQ(){
-attempt=0;
-document.getElementById('msg').innerHTML='';
-document.getElementById('exp').style.display='none';
-let q=questions[idx];
-let opts=[...q.o]; shuffle(opts);
-document.getElementById('q').innerText=q.q;
-document.getElementById('counter').innerText=`Q ${idx+1}/${questions.length}`;
-let div=document.getElementById('opts'); div.innerHTML='';
-opts.forEach(v=>{
-let b=document.createElement('button');
-b.className='option'; b.innerText=v;
-b.onclick=()=>check(v,b);
-div.appendChild(b);
-});
-time=60; document.getElementById('timer').innerText=time;
-clearInterval(timerInt);
-timerInt=setInterval(()=>{time--;timer.innerText=time;if(time<=0){clearInterval(timerInt);reveal();}},1000);
+// 5-Second Splash Delay
+setTimeout(() => {
+    document.getElementById('logo').style.display = 'none';
+    document.getElementById('intro').classList.add('active');
+}, 5000);
+
+function startQuiz() {
+    shuffle(questions);
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('quiz').classList.add('active');
+    loadQ();
 }
 
-function check(val,btn){
-let q=questions[idx];
-if(val===q.a){
-document.getElementById('correct').play();
-score++; scoreEl();
-btn.classList.add('correct');
-confetti();
-setTimeout(nextQ,1200);
-}else{
-document.getElementById('wrong').play();
-attempt++;
-btn.classList.add('wrong');
-if(attempt<2){msg.innerHTML='Try Again!';btn.disabled=true;}
-else reveal();
-}
+function loadQ() {
+    attempt = 0;
+    document.getElementById('msg').innerHTML = '';
+    document.getElementById('exp').style.display = 'none';
+    let q = questions[idx];
+    let opts = [...q.o];
+    shuffle(opts);
+
+    document.getElementById('q').innerText = q.q;
+    document.getElementById('counter').innerText = `Q ${idx + 1}/${questions.length}`;
+    let div = document.getElementById('opts');
+    div.innerHTML = '';
+
+    opts.forEach(v => {
+        let b = document.createElement('button');
+        b.className = 'option';
+        b.innerText = v;
+        b.onclick = () => check(v, b);
+        div.appendChild(b);
+    });
+
+    time = 60;
+    document.getElementById('timer').innerText = `⏱ ${time}s`;
+    clearInterval(timerInt);
+    timerInt = setInterval(() => {
+        time--;
+        document.getElementById('timer').innerText = `⏱ ${time}s`;
+        if (time <= 0) {
+            clearInterval(timerInt);
+            reveal();
+        }
+    }, 1000);
 }
 
-function reveal(){
-clearInterval(timerInt);
-let q=questions[idx];
-document.getElementById('exp').style.display='block';
-document.getElementById('exp').innerHTML='Answer: <b>'+q.a+'</b><br>'+q.e;
-setTimeout(nextQ,2500);
+function check(val, btn) {
+    let q = questions[idx];
+    if (val === q.a) {
+        playSound('correct');
+        score++;
+        scoreEl();
+        btn.classList.add('correct');
+        confetti();
+        setTimeout(nextQ, 1200);
+    } else {
+        playSound('wrong');
+        attempt++;
+        btn.classList.add('wrong');
+        if (attempt < 2) {
+            document.getElementById('msg').innerHTML = 'Try Again!';
+            btn.disabled = true;
+        } else {
+            reveal();
+        }
+    }
 }
 
-function nextQ(){
-idx++;
-if(idx<questions.length) loadQ(); else finish();
+function playSound(id) {
+    let audio = document.getElementById(id);
+    if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+    }
 }
 
-function finish(){
-quiz.style.display='none';
-result.classList.add('active');
-final.innerText=`Score: ${score}/${questions.length}`;
-let p=(score/questions.length)*100;
-badge.innerText=p>=90?'🏆 Champion':p>=75?'🌟 Excellent':p>=50?'👍 Good Job':'📚 Keep Practising';
+function reveal() {
+    clearInterval(timerInt);
+    let q = questions[idx];
+    document.getElementById('exp').style.display = 'block';
+    document.getElementById('exp').innerHTML = 'Answer: <b>' + q.a + '</b><br>' + q.e;
+    setTimeout(nextQ, 2500);
 }
 
-function scoreEl(){document.getElementById('score').innerText='Score:'+score;}
-
-function confetti(){
-for(let i=0;i<20;i++){
-let c=document.createElement('div');
-c.className='confetti';
-c.style.left=Math.random()*innerWidth+'px';
-document.body.appendChild(c);
-setTimeout(()=>c.remove(),1500);
+function nextQ() {
+    idx++;
+    if (idx < questions.length) loadQ();
+    else finish();
 }
+
+function finish() {
+    document.getElementById('quiz').style.display = 'none';
+    document.getElementById('result').classList.add('active');
+    document.getElementById('final').innerText = `Score: ${score} / ${questions.length}`;
+    let p = (score / questions.length) * 100;
+    document.getElementById('badge').innerText = p >= 90 ? '🏆 Champion' : p >= 75 ? '🌟 Excellent' : p >= 50 ? '👍 Good Job' : '📚 Keep Practising';
+}
+
+function scoreEl() {
+    document.getElementById('score').innerText = 'Score: ' + score;
+}
+
+function confetti() {
+    for (let i = 0; i < 20; i++) {
+        let c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * window.innerWidth + 'px';
+        c.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 1500);
+    }
 }
 </script>
 </body>
